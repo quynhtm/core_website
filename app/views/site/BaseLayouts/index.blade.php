@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@if(isset($title)){{$title}}@else {{CGlobal::web_name}} @endif</title>
+    <meta charset="utf-8">
+    <meta property="fb:app_id" content="11336688" />
+    <meta name="google-site-verification" content="ssdbfsdfsjfecncalnw" />
+    <meta property="og:title" content="@if(isset($title_seo)){{$title_seo}}@else {{CGlobal::web_name}}" @endif/>
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="@if(isset($url_seo)){{$url_seo}} @else {{Config::get('config.WEB_ROOT')}} @endif" />
+    <meta property="og:image" content="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/images/ava-share-plaza.png @endif" />
+    <meta property="og:site_name" content="{{CGlobal::web_name}}" />
+    <meta property="og:description" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
+    <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/images/ava-share-plaza.png @endif" />
+    <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
+
+    {{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
+    {{CGlobal::$extraHeaderCSS}}
+    <script type="text/javascript">
+        var WEB_ROOT = "{{url('', array(), Config::get('config.SECURE'))}}";
+        var DEVMODE = "{{Config::get('config.DEVMODE')}}";
+        var COOKIE_DOMAIN = "{{Config::get('config.DOMAIN_COOKIE_SERVER')}}";
+    </script>
+    {{ HTML::script('assets/v9/js/jquery-latest.min.js', array(), Config::get('config.SECURE')) }}
+
+    {{CGlobal::$extraHeaderJS}}
+    @if(Config::get('config.DEVMODE') == false)
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-16561602-19', 'auto');
+            ga('send', 'pageview');
+        </script>
+    @endif
+</head>
+<body>
+{{--<div class="alert-w"></div>--}}
+<div class="container-page">
+    <div class="mp-pusher" id="mp-pusher">
+        @if(isset($header))
+            {{$header}}
+        @endif
+        <div id="wrapper">
+            @if(isset($content))
+                {{$content}}
+            @endif
+            @if(isset($footer))
+                {{$footer}}
+            @endif
+        </div>
+    </div>
+</div>
+{{CGlobal::$extraFooterCSS}}
+{{CGlobal::$extraFooterJS}}
+</body>
+</html>
