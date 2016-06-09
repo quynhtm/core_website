@@ -6,11 +6,11 @@
  */
 class ProductController extends BaseAdminController
 {
-    private $permission_view = 'category_view';
-    private $permission_full = 'category_full';
-    private $permission_delete = 'category_delete';
-    private $permission_create = 'category_create';
-    private $permission_edit = 'category_edit';
+    private $permission_view = 'product_view';
+    private $permission_full = 'product_full';
+    private $permission_delete = 'product_delete';
+    private $permission_create = 'product_create';
+    private $permission_edit = 'product_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
 
     public function __construct()
@@ -30,7 +30,7 @@ class ProductController extends BaseAdminController
 
     public function view() {
         //Check phan quyen.
-        if(!$this->is_root && !in_array($this->permission_view,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
         $pageNo = (int) Request::get('page_no',1);

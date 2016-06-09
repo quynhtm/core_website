@@ -6,11 +6,11 @@
  */
 class NewsController extends BaseAdminController
 {
-    private $permission_view = 'category_view';
-    private $permission_full = 'category_full';
-    private $permission_delete = 'category_delete';
-    private $permission_create = 'category_create';
-    private $permission_edit = 'category_edit';
+    private $permission_view = 'news_view';
+    private $permission_full = 'news_full';
+    private $permission_delete = 'news_delete';
+    private $permission_create = 'news_create';
+    private $permission_edit = 'news_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
 
     public function __construct()
@@ -30,7 +30,7 @@ class NewsController extends BaseAdminController
 
     public function view() {
         //Check phan quyen.
-        if(!$this->is_root && !in_array($this->permission_view,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
         $pageNo = (int) Request::get('page_no',1);

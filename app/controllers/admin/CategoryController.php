@@ -30,7 +30,7 @@ class CategoryController extends BaseAdminController
 
     public function view() {
         //Check phan quyen.
-        if(!$this->is_root && !in_array($this->permission_view,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
         $pageNo = (int) Request::get('page_no',1);
