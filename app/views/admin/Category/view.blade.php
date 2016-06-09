@@ -49,8 +49,9 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
-                            <th width="65%">Danh mục</th>
-                            <th width="15%" class="text-center">Trạng thái</th>
+                            <th width="5%" class="text-center"><input type="checkbox" class="check" id="checkAll"></th>
+                            <th width="70%">Danh mục</th>
+                            <th width="10%" class="text-center">Trạng thái</th>
                             <th width="15%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
@@ -58,15 +59,17 @@
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center">{{ $stt + $key+1 }}</td>
+                                <td class="text-center"><input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item['category_id']}}"></td>
                                 <td>
                                     [<b>{{ $item['category_id'] }}</b>] {{ $item['category_name'] }}
                                 </td>
                                 <td class="text-center">
                                     @if($item['category_status'] == 1)
-                                        <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
+                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item['category_id']}},{{$item['category_status']}},1)"title="Hiện"><i class="fa fa-check fa-2x"></i></a>
                                     @else
-                                        <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
+                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item['category_id']}},{{$item['category_status']}},1)"style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
+                                    <span class="img_loading" id="img_loading_{{$item['category_id']}}"></span>
                                 </td>
                                 <td class="text-center">
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
@@ -74,9 +77,8 @@
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 1)
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['category_id']}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['category_id']}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
-                                    <span class="img_loading" id="img_loading_{{$item['category_id']}}"></span>
                                 </td>
                             </tr>
                         @endforeach
@@ -97,3 +99,10 @@
         <!-- /.row -->
     </div><!-- /.page-content -->
 </div>
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+    $(document).ready(function() {
+        $("#checkAll").click(function () {
+            $(".check").prop('checked', $(this).prop('checked'));
+        });
+    });
+</script>

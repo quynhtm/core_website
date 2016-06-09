@@ -3,17 +3,8 @@ var Admin = {
         if(confirm('Bạn có muốn xóa Item này không?')) {
             $('#img_loading_'+id).show();
 
-            if(type == 1){ //xoa NCC
-               var url_ajax = WEB_ROOT + '/admin/providers/deleteItem';
-            }
-            else if(type == 2){ //xoa san pham
-                var url_ajax = WEB_ROOT + '/admin/product/deleteItem';
-            }
-            else if(type == 3){ //xoa danh mục
-                var url_ajax = WEB_ROOT + '/admin/categories/deleteItem';
-            }
-            else if(type == 4){ //xoa nhan vien
-                var url_ajax = WEB_ROOT + '/admin/personnel/deleteItem';
+            if(type == 1){ //xoa danh mục
+                var url_ajax = WEB_ROOT + '/admin/category/deleteCategory';
             }
             $.ajax({
                 type: "post",
@@ -24,6 +15,29 @@ var Admin = {
                     $('#img_loading_'+id).hide();
                     if(res.isIntOk == 1){
                         alert('Bạn đã thực hiện thành công');
+                        window.location.reload();
+                    }else{
+                        alert('Không thể thực hiện được thao tác.');
+                    }
+                }
+            });
+        }
+    },
+    updateStatusItem: function(id,status,type) {
+        if(confirm('Bạn có muốn thay đổi trạng thái Item này không?')) {
+            $('#img_loading_'+id).show();
+            if(type == 1){ //cap nhat danh muc
+               var url_ajax = WEB_ROOT + '/admin/category/updateStatusCategory';
+            }
+
+            $.ajax({
+                type: "post",
+                url: url_ajax,
+                data: {id : id,status : status},
+                dataType: 'json',
+                success: function(res) {
+                    $('#img_loading_'+id).hide();
+                    if(res.isIntOk == 1){
                         window.location.reload();
                     }else{
                         alert('Không thể thực hiện được thao tác.');

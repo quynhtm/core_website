@@ -71,18 +71,19 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('category/view',array('as' => 'admin.category_list','uses' => 'CategoryController@view'));
     Route::get('category/getCategroy/{id?}', array('as' => 'admin.category_edit','uses' => 'CategoryController@getCategroy'))->where('id', '[0-9]+');
     Route::post('category/postCategory/{id?}', array('as' => 'admin.category_edit_post','uses' => 'CategoryController@postCategory'))->where('id', '[0-9]+');
-    Route::post('category/deleteItem', array('as' => 'admin.deltete_category_post','uses' => 'CategoryController@deleteItem'));
+    Route::post('category/deleteCategory', array('as' => 'admin.deltete_category_post','uses' => 'CategoryController@deleteCategory'));//ajax
+    Route::post('category/updateStatusCategory', array('as' => 'admin.status_category_post','uses' => 'CategoryController@updateStatusCategory'));//ajax
 
     /*Quản lý San Pham*/
     Route::get('product/view',array('as' => 'admin.product_list','uses' => 'ProductController@view'));
     Route::get('product/getProduct/{id?}', array('as' => 'admin.product_edit','uses' => 'ProductController@getProduct'))->where('id', '[0-9]+');
     Route::post('product/postProduct/{id?}', array('as' => 'admin.product_edit_post','uses' => 'ProductController@postProduct'))->where('id', '[0-9]+');
-    Route::post('product/deleteItem', array('as' => 'admin.deltete_product_post','uses' => 'ProductController@deleteItem'));
+    Route::post('product/deleteItem', array('as' => 'admin.deltete_product_post','uses' => 'ProductController@deleteItem'));//ajax
 
     /*Quản lý tin tức*/
     Route::get('news/view',array('as' => 'admin.news_list','uses' => 'NewsController@view'));
     Route::get('news/getNews/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@getNews'))->where('id', '[0-9]+');
     Route::post('news/postNews/{id?}', array('as' => 'admin.news_edit_post','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
-    Route::post('news/deleteItem', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteItem'));
+    Route::post('news/deleteItem', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteItem'));//ajax
 
 });

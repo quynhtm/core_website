@@ -141,19 +141,6 @@ class CategoryController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function deleteItem()
-    {
-        $data = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
-            return Response::json($data);
-        }
-        $id = (int)Request::get('id', 0);
-        if ($id > 0 && Category::deleteData($id)) {
-            $data['isIntOk'] = 1;
-        }
-        return Response::json($data);
-    }
-
     private function valid($data=array()) {
         if(!empty($data)) {
             if(isset($data['category_name']) && $data['category_name'] == '') {
@@ -166,5 +153,40 @@ class CategoryController extends BaseAdminController
         }
         return false;
     }
+
+    //ajax
+    public function deleteCategory()
+    {
+        $result = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+            return Response::json($result);
+        }
+        $id = (int)Request::get('id', 0);
+        if ($id > 0 && Category::deleteData($id)) {
+            $result['isIntOk'] = 1;
+        }
+        return Response::json($result);
+    }
+
+    //ajax
+    public function updateStatusCategory()
+    {
+        $id = (int)Request::get('id', 0);
+        $category_status = (int)Request::get('status', CGlobal::status_hide);
+        $result = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+            return Response::json($result);
+        }
+
+        if ($id > 0) {
+            $dataSave['category_status'] = ($category_status == CGlobal::status_hide)? CGlobal::status_show : CGlobal::status_hide;
+            if(Category::updateData($id, $dataSave)) {
+                $result['isIntOk'] = 1;
+            }
+        }
+        return Response::json($result);
+    }
+
+
 
 }
