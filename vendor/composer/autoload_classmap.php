@@ -1326,6 +1326,7 @@ return array(
     'QRcode' => $baseDir . '/app/library/PDF/qrcode.php',
     'Renderer' => $vendorDir . '/dompdf/dompdf/include/renderer.cls.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
+    'ShopController' => $baseDir . '/app/controllers/shop/ShopController.php',
     'SingularValueDecomposition' => $baseDir . '/app/library/class_phpexcel/PHPExcel/Shared/JAMA/SingularValueDecomposition.php',
     'SiteHomeController' => $baseDir . '/app/controllers/site/SiteHomeController.php',
     'Stack\\Builder' => $vendorDir . '/stack/builder/src/Stack/Builder.php',
