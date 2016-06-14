@@ -5,7 +5,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{URL::route('admin.dashboard')}}">Home</a>
             </li>
-            <li class="active">Danh mục sản phẩm</li>
+            <li class="active">Quản lý tin tức</li>
         </ul><!-- /.breadcrumb -->
     </div>
 
@@ -18,11 +18,11 @@
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
                             <label for="category_name">Tên danh mục</label>
-                            <input type="text" class="form-control input-sm" id="category_name" name="category_name" placeholder="Tên danh mục" @if(isset($search['category_name']) && $search['category_name'] != '')value="{{$search['category_name']}}"@endif>
+                            <input type="text" class="form-control input-sm" id="news_title" name="news_title" placeholder="Tiêu đề tin tức" @if(isset($search['news_title']) && $search['news_title'] != '')value="{{$search['news_title']}}"@endif>
                         </div>
                         <div class="form-group col-lg-3">
                             <label for="category_status">Trạng thái</label>
-                            <select name="category_status" id="category_status" class="form-control input-sm">
+                            <select name="news_status" id="news_status" class="form-control input-sm">
                                 {{$optionStatus}}
                             </select>
                         </div>
@@ -30,7 +30,7 @@
                     <div class="panel-footer text-right">
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
                         <span class="">
-                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.category_edit')}}">
+                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.news_edit')}}">
                                 <i class="ace-icon fa fa-plus-circle"></i>
                                 Thêm mới
                             </a>
@@ -43,7 +43,7 @@
                     {{ Form::close() }}
                 </div>
                 @if(sizeof($data) > 0)
-                    <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> danh mục @endif </div>
+                    <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> item @endif </div>
                     <br>
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">

@@ -5,40 +5,31 @@
  */
 class News extends Eloquent
 {
-    protected $table = 'category';
-    protected $primaryKey = 'category_id';
+    protected $table = 'web_news';
+    protected $primaryKey = 'news_id';
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('category_id','category_name', 'category_parent_id',
-        'category_content_front', 'category_content_front_order', 'category_status',
-        'category_image_background', 'category_icons', 'category_order');
+    protected $fillable = array('news_id','news_title', 'news_desc_sort',
+        'news_content', 'news_image', 'news_image_other','news_create',
+        'news_type', 'news_category', 'news_status');
 
     public static function getByID($id) {
-        $admin = News::where('category_id', $id)->first();
+        $admin = News::where('news_id', $id)->first();
         return $admin;
-    }
-
-    public static function getCategoriessAll() {
-        $categories = News::where('category_id', '>', 0)->get();
-        $data = array();
-        foreach($categories as $itm) {
-            $data[$itm['category_id']] = $itm['category_name'];
-        }
-        return $data;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
-            $query = News::where('category_id','>',0);
-            if (isset($dataSearch['category_name']) && $dataSearch['category_name'] != '') {
-                $query->where('category_name','LIKE', '%' . $dataSearch['category_name'] . '%');
+            $query = News::where('news_id','>',0);
+            if (isset($dataSearch['news_title']) && $dataSearch['news_title'] != '') {
+                $query->where('news_title','LIKE', '%' . $dataSearch['news_title'] . '%');
             }
-            if (isset($dataSearch['category_status']) && $dataSearch['category_status'] != -1) {
-                $query->where('category_status', $dataSearch['category_status']);
+            if (isset($dataSearch['news_status']) && $dataSearch['news_status'] != -1) {
+                $query->where('news_status', $dataSearch['news_status']);
             }
             $total = $query->count();
-            $query->orderBy('category_id', 'desc');
+            $query->orderBy('news_id', 'desc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
@@ -72,7 +63,7 @@ class News extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                return $data->category_id;
+                return $data->news_id;
             }
             DB::connection()->getPdo()->commit();
             return false;

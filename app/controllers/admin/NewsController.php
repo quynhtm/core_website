@@ -12,19 +12,28 @@ class NewsController extends BaseAdminController
     private $permission_create = 'news_create';
     private $permission_edit = 'news_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+    private $error = array();
+    private $arrCategoryNew = array();
+    private $arrTypeNew = array();
 
     public function __construct()
     {
         parent::__construct();
 
+        $this->arrCategoryNew = CGlobal::$arrCategoryNew;
+        $this->arrTypeNew = CGlobal::$arrTypeNew;
+
         //Include style.
         FunctionLib::link_css(array(
-            'lib/cssUpload.css',
+            'lib/upload/cssUpload.css',
         ));
 
         //Include javascript.
         FunctionLib::link_js(array(
-            'lib/jquery.uploadfile.js',
+            'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            'lib/ckeditor/jquery.dragsort.js',
         ));
     }
 
@@ -39,10 +48,9 @@ class NewsController extends BaseAdminController
         $search = $data = array();
         $total = 0;
 
-        $search['category_id'] = addslashes(Request::get('category_id',''));
-        $search['category_name'] = addslashes(Request::get('category_name',''));
-        $search['category_status'] = (int)Request::get('category_status',-1);
-        $search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
+        $search['news_title'] = addslashes(Request::get('news_title',''));
+        $search['news_status'] = (int)Request::get('news_status',-1);
+        //$search['field_get'] = 'category_id,news_title,news_status';//cac truong can lay
 
         $dataSearch = News::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
@@ -56,8 +64,8 @@ class NewsController extends BaseAdminController
             }
         }
         //FunctionLib::debug($dataSearch);
-        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['category_status']);
-        $this->layout->content = View::make('admin.Category.view')
+        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['news_status']);
+        $this->layout->content = View::make('admin.News.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
@@ -80,17 +88,22 @@ class NewsController extends BaseAdminController
         }
         $data = array();
         if($id > 0) {
-            $data = Category::find($id);
+            $data = News::find($id);
             if(isset($data['category_image_background']) && $data['category_image_background'] != ''){
                 $data['url_src_icon'] = URL::to('/').'/images/category/'.$data['category_image_background'];
             }
         }
 
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['category_status'])? $data['category_status'] : -1);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['news_status'])? $data['news_status'] : CGlobal::status_show);
+        $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['news_category'])? $data['news_category'] : CGlobal::NEW_CATEGORY_TIN_TUC_CHUNG);
+        $optionType = FunctionLib::getOption($this->arrTypeNew, isset($data['news_type'])? $data['news_type'] : CGlobal::NEW_TYPE_TIN_TUC);
+
         $this->layout->content = View::make('admin.News.add')
             ->with('id', $id)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
+            ->with('optionCategory', $optionCategory)
+            ->with('optionType', $optionType)
             ->with('arrStatus', $this->arrStatus);
     }
 
@@ -99,14 +112,14 @@ class NewsController extends BaseAdminController
             return Redirect::route('admin.dashboard');
         }
 
-        $dataSave['category_name'] = addslashes(Request::get('category_name'));
-        $dataSave['category_icons'] = addslashes(Request::get('category_icons'));
-        $dataSave['category_image_background'] = addslashes(Request::get('category_image_background'));
-        $dataSave['category_status'] = (int)Request::get('category_status', 0);
-        $dataSave['category_parent_id'] = (int)Request::get('category_parent_id', 0);
-        $dataSave['category_content_front'] = (int)Request::get('category_content_front', 0);
-        $dataSave['category_content_front_order'] = (int)Request::get('category_content_front_order', 0);
-        $dataSave['category_order'] = (int)Request::get('category_order', 0);
+        $dataSave['news_title'] = addslashes(Request::get('news_title'));
+        $dataSave['news_desc_sort'] = addslashes(Request::get('news_desc_sort'));
+        $dataSave['news_content'] = addslashes(Request::get('news_content'));
+        $dataSave['news_image'] = addslashes(Request::get('news_image'));
+        $dataSave['news_image_other'] = addslashes(Request::get('news_image_other'));
+        $dataSave['news_type'] = addslashes(Request::get('news_type'));
+        $dataSave['news_category'] = addslashes(Request::get('news_category'));
+        $dataSave['news_status'] = (int)Request::get('news_status', 0);
 
         $file = Input::file('image');
         if($file){
