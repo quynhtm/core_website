@@ -33,7 +33,8 @@ class NewsController extends BaseAdminController
             'lib/upload/jquery.uploadfile.js',
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
-            'lib/ckeditor/jquery.dragsort.js',
+            'lib/dragsort/jquery.dragsort.js',
+            'js/common.js',
         ));
     }
 

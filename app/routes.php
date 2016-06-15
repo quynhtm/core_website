@@ -29,6 +29,14 @@ Route::group(array('prefix' => '/', 'before' => ''), function () {
 });
 
 /*
+ * router cho Ajax
+ *
+ * */
+Route::group(array('prefix' => 'ajax', 'before' => ''), function () {
+    Route::get('uploadImage', array('as' => 'ajax.uploadImage','uses' => 'AjaxCommonController@uploadImage'));
+});
+
+/*
  * router cho phan Admin
  *
  * */

@@ -7,7 +7,7 @@
  */
 (function ($) {
     if($.fn.ajaxForm == undefined) {
-        $.getScript(BASEPARAMS.base_url + "/sites/all/modules/autoLoad/js/jquery.form.uploadfile.js");
+        $.getScript(("https:" == document.location.protocol ? "https://" : "http://") + "plaza.muachung.vn/assets/admin/js/jquery.form.uploadfile.js");
     }
     var feature = {};
     feature.fileapi = $("<input type='file'/>").get(0).files !== undefined;

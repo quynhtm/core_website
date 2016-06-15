@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                          <a href="javascript:;"class="btn btn-primary" onclick="Common_admin.uploadMultipleImages(1);">Upload ảnh </a>
+                          <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(1);">Upload ảnh </a>
                           <input name="image_primary" type="hidden" id="image_primary" value="<?php if(isset($arrItem->news_image)){ echo $arrItem->news_image; } ?>">
                     </div>
                 </div>
@@ -116,6 +116,7 @@
                 <div class="form-group col-sm-12 text-right">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
+                <input type="hidden" id="id_hiden" name="id" value="{{$id}}"/>
                 {{ Form::close() }}
                 <!-- PAGE CONTENT ENDS -->
             </div>

@@ -34,7 +34,6 @@
     {{ HTML::style('assets/css/ace-ie.min.css'); }}
     <![endif]-->
 
-
     {{--{{ HTML::style('assets/css/datepicker.min.css'); }}--}}
     {{ HTML::style('assets/admin/css/admin_css.css'); }}
     <!-- inline styles related to this page -->
@@ -56,33 +55,19 @@
     <!--[if !IE]> -->
     {{ HTML::script('assets/js/jquery.2.1.1.min.js'); }}
 
-    <!-- <![endif]-->
-
     <!--[if IE]>
     {{ HTML::script('assets/js/jquery.1.11.1.min.js'); }}
     <![endif]-->
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
 
-    <!-- page specific plugin scripts -->
-    <!--[if lte IE 8]>
-    <![endif]-->
-    {{--{{ HTML::script('assets/js/jquery-ui.custom.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.ui.touch-punch.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.easypiechart.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.sparkline.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.flot.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.flot.pie.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/jquery.flot.resize.min.js'); }}--}}
-    <!-- ace scripts -->
     {{ HTML::script('assets/js/ace-elements.min.js'); }}
     {{ HTML::script('assets/js/chosen.jquery.js'); }}
     {{ HTML::script('assets/js/jquery-ui.min.js'); }}
     {{ HTML::script('assets/js/jquery.ui.touch-punch.min.js'); }}
     {{ HTML::script('assets/js/ace.min.js'); }}
     {{ HTML::script('assets/js/ace-elements.min.js'); }}
-    {{--{{ HTML::script('assets/js/bootstrap-datepicker.min.js'); }}--}}
-    {{--{{ HTML::script('assets/js/bootstrap-timepicker.min.js'); }}--}}
+
     {{ HTML::script('assets/js/moment.min.js'); }}
     {{ HTML::script('assets/js/bootbox.min.js'); }}
 
