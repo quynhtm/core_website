@@ -50,6 +50,8 @@ class CGlobal{
         self::NEW_TYPE_QUANG_CAO => 'Tin quảng cáo',
     );
 
+    const IMAGE_ERROR = 133;
+    const FOLDER_NEWS = 'news';
 
 
 }

@@ -33,7 +33,7 @@ Route::group(array('prefix' => '/', 'before' => ''), function () {
  *
  * */
 Route::group(array('prefix' => 'ajax', 'before' => ''), function () {
-    Route::get('uploadImage', array('as' => 'ajax.uploadImage','uses' => 'AjaxCommonController@uploadImage'));
+    Route::post('uploadImage', array('as' => 'ajax.uploadImage','uses' => 'AjaxCommonController@uploadImage'));
 });
 
 /*

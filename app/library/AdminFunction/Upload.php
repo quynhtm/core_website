@@ -2,9 +2,8 @@
 
 class Upload{
 	
-	public static function uploadFile($_name='', $_file_ext='', $_max_file_size='50*1024*1024', $_folder='', $type_json=1){
-		global $base_url;
-		
+	public static function uploadFile($_name='', $_file_ext='', $_max_file_size='50*1024*1024', $_folder=''){
+
 		if($_file_ext != ''){
 			$_file_ext = explode(',', $_file_ext);
 		}else{
@@ -20,7 +19,6 @@ class Upload{
 			$file_name = strtolower($_FILES[$_name]['name']);
 			$file_tmp= $_FILES[$_name]["tmp_name"];
 			$file_size = $_FILES[$_name]['size'];
-			$file_type = $_FILES[$_name]['type'];
 			$file_ext = @end(explode('.',$file_name));
 			$ext=0;
 			$name = date('h-i-s-d-m-Y',time()).'-'.self::preg_replace_string_upload($file_name);
@@ -34,25 +32,19 @@ class Upload{
 			
 			if($file_name!='' && $ext==1 && $file_size <= $max_file_size){
 				if($_folder!=''){
-				 	$folder_upload = Config::get('config.WEB_ROOT').'/uploads/'.$_folder;
+				 	$folder_upload = Config::get('config.DIR_ROOT').'uploads/'.$_folder;
 				}else{
-				 	$folder_upload = Config::get('config.WEB_ROOT').'/uploads/';
+				 	$folder_upload = Config::get('config.DIR_ROOT').'uploads/';
 				}
 
 				if(!is_dir($folder_upload)){
 			        @mkdir($folder_upload,0777,true);
-			        chmod($folder_upload,0777);
+			        //chmod($folder_upload,0777);
 			    }
-
-				if(drupal_move_uploaded_file($file_tmp, $folder_upload.'/'.$name)){
-					$data = array('status' => t('Ok'), 'src' => $link);
-				}else{
-					$data = array('status' => t('Fail'), 'src' => '');
-				}
-				if($type_json){
-					echo json_encode($data);exit;
-				}else{
+				if (move_uploaded_file($file_tmp, $folder_upload.'/'.$file_name)) {
 					return $link;
+				} else {
+					return '';
 				}
 			}
 		}

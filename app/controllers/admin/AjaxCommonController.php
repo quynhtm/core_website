@@ -7,6 +7,8 @@
 class AjaxCommonController extends BaseAdminController
 {
     function uploadImage() {
+        //FunctionLib::debug($_SERVER);
+
         $id_hiden = Request::get('id', 0);
         $type = Request::get('type', 1);
         $dataImg = $_FILES["multipleFile"];
@@ -16,7 +18,7 @@ class AjaxCommonController extends BaseAdminController
         switch( $type ){
             case 1://img news
                 //$table_action = with(new News())->getTable();
-                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, FOLDER_NEWS, 'news_image_other',$type);
+                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_NEWS, 'news_image_other',$type);
                 break;
             default:
                 break;
@@ -35,7 +37,7 @@ class AjaxCommonController extends BaseAdminController
             if($id_hiden == 0){
                 if($field_img_other == 'news_image_other'){
                     $new_row['news_create'] = time();
-                    $new_row['news_status'] = IMAGE_ERROR;
+                    $new_row['news_status'] = CGlobal::IMAGE_ERROR;
                 }
                 if($type == 1){//news
                     $item_id = News::addData($new_row);
@@ -49,14 +51,15 @@ class AjaxCommonController extends BaseAdminController
             $file_name = Upload::uploadFile('multipleFile',
                 $_file_ext = 'jpg,jpeg,png,gif',
                 $_max_file_size = 10*1024*1024,
-                $_folder = $folder.'/'.$item_id,
-                $type_json=0);
+                $_folder = $folder.'/'.$item_id);
 
             if ($file_name != '' && empty($aryError)) {
                 $tmpImg['name_img'] = $file_name;
                 $tmpImg['id_key'] = rand(10000, 99999);
 
                 $tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
+                //FunctionLib::debug($tmpImg);
+
                 if($field_img_other != ''){
                     $inforItem = array();
                     //lay thong tin cua item

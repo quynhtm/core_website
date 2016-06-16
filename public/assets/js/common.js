@@ -21,7 +21,7 @@ var Common = {
         var id_hiden = document.getElementById('id_hiden').value;
 
         var settings = {
-            url: WEB_ROOT + 'shop/manageOrdersShop/ajaxGetInforCouponAction',
+            url: WEB_ROOT + '/ajax/uploadImage',
             method: "POST",
             allowedTypes:"jpg,png,jpeg",
             fileName: "multipleFile",
