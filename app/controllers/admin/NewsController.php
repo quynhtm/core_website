@@ -181,4 +181,14 @@ class NewsController extends BaseAdminController
         return false;
     }
 
+    function sendEmail(){
+         // test gửi email
+         Mail::send('emails.test_email', array('firstname'=>'Trương Mạnh Quỳnh'), function($message){
+             $message->to('manhquynh1984@gmail.com', 'Trương Mạnh Quỳnh')
+                 ->subject('Welcome to the Laravel 4 Auth App!');
+         });
+
+         die();
+    }
+
 }

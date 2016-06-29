@@ -83,6 +83,7 @@ class AjaxCommonController extends BaseAdminController
             $aryData['id_item'] = $item_id;
             $aryData['info'] = $tmpImg;
         }
+        FunctionLib::debug($aryData);
         return $aryData;
     }
 

@@ -41,8 +41,8 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <select name="news_status" id="news_status" class="form-control input-sm">
-                            {{$optionStatus}}
+                        <select class="form-control input-sm" name="news_category">
+                            <?php echo $optionCategory;?>
                         </select>
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <select class="form-control input-sm" name="news_category">
-                            <?php echo $optionCategory;?>
+                        <select name="news_status" id="news_status" class="form-control input-sm">
+                            {{$optionStatus}}
                         </select>
                     </div>
                 </div>
@@ -86,6 +86,47 @@
                           <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(1);">Upload ảnh </a>
                           <input name="image_primary" type="hidden" id="image_primary" value="<?php if(isset($arrItem->news_image)){ echo $arrItem->news_image; } ?>">
                     </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-3">
+                    <!--hien thi anh-->
+                    <ul id="sys_drag_sort" class="ul_drag_sort">
+                        @if(isset($arrViewImgOther))
+                            @foreach ($arrViewImgOther as $key => $imgNew)
+                                <li id="sys_div_img_other_{{$key}}" style="margin: 1px!important;">
+                                    <div class='block_img_upload'>
+                                        <img src="{{$imgNew['src_img_other']}}" style="height:120px;">
+                                        <input type="hidden" id="sys_img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
+                                        <div class='clear'></div>
+                                        <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] ) checked="checked" @endif onclick="Product.checkedImageProduct('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
+                                        <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
+
+                                        <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHotPro) && $imageHotPro == $imgNew['img_other'] ) checked="checked" @endif onclick="Product.checkedImageProductHoverDetail('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
+                                        <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
+
+                                        <a href="javascript:void(0);" onclick="Product.removeImageOtherProduct({{$key}});">Xóa ảnh</a>
+                                        <span style="display: none"><b>{{$key}}</b></span>
+                                    </div>
+                                </li>
+                                @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] )
+                                    <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="{{$key}}">
+                                @endif
+                            @endforeach
+                        @else
+                            <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="-1">
+                        @endif
+                    </ul>
+
+                    <input name="list1SortOrder" id ='list1SortOrder' type="hidden" />
+                    <script type="text/javascript">
+                        $("#sys_drag_sort").dragsort({ dragSelector: "div", dragBetween: true, dragEnd: saveOrder });
+                        function saveOrder() {
+                            var data = $("#sys_drag_sort li div span").map(function() { return $(this).children().html(); }).get();
+                            $("input[name=list1SortOrder]").val(data.join(","));
+                        };
+                    </script>
+                    <!--ket thuc hien thi anh-->
                 </div>
 
                 <div class="clearfix"></div>
@@ -113,7 +154,8 @@
                 </div>
 
                 <div class="clearfix"></div>
-                <div class="form-group col-sm-12 text-right">
+                <div class="form-group col-sm-2 text-left"></div>
+                <div class="form-group col-sm-10 text-left">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
                 <input type="hidden" id="id_hiden" name="id" value="{{$id}}"/>
