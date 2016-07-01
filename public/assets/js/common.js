@@ -31,8 +31,9 @@ var Common = {
                 jQuery( "#sys_show_button_upload").hide();
                 jQuery("#status").html("<font color='green'>Đang upload...</font>");
             },
-            onSuccess:function(files,xhr,data){
-                dataResult = JSON.parse(xhr);
+            onSuccess:function(files,dataResult,data){
+                //dataResult = JSON.parse(xhr);
+                alert(dataResult.intIsOK);
                 if(dataResult.intIsOK === 1){
                     //gan lai id item cho id hiden: dung cho them moi, sua item
                     jQuery('#id_hiden').val(dataResult.id_item);
@@ -52,8 +53,7 @@ var Common = {
                     html += delete_img;
                     html +="</div></li>";
                     jQuery('#sys_drag_sort').append(html);
-                    
-                    jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
+                    //jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
                     Common.getInsertImageContent(type);
                     
                     //thanh cong
