@@ -58,9 +58,9 @@ class NewsController extends BaseAdminController
 
         if(!empty($dataSearch)){
             foreach($dataSearch as $k=> $val){
-                $data[] = array('category_id'=>$val->category_id,
-                    'category_name'=>$val->category_name,
-                    'category_status'=>$val->category_status,
+                $data[] = array('news_id'=>$val->news_id,
+                    'news_title'=>$val->news_title,
+                    'news_status'=>$val->news_status,
                 );
             }
         }
@@ -122,7 +122,7 @@ class NewsController extends BaseAdminController
         $dataSave['news_category'] = addslashes(Request::get('news_category'));
         $dataSave['news_status'] = (int)Request::get('news_status', 0);
 
-        $file = Input::file('image');
+        /*$file = Input::file('image');
         if($file){
             $destinationPath = public_path().'/images/category/';
             $filename = $file->getClientOriginalName();
@@ -131,18 +131,18 @@ class NewsController extends BaseAdminController
             $dataSave['category_image_background'] = $filename;
         }else{
             $dataSave['category_image_background'] = Request::get('category_image_background', '');
-        }
+        }*/
 
         if($this->valid($dataSave) && empty($this->error)) {
             if($id > 0) {
                 //cap nhat
                 if(News::updateData($id, $dataSave)) {
-                    return Redirect::route('admin.category_list');
+                    return Redirect::route('admin.news_list');
                 }
             } else {
                 //them moi
                 if(News::addData($dataSave)) {
-                    return Redirect::route('admin.category_list');
+                    return Redirect::route('admin.news_list');
                 }
             }
         }

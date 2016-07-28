@@ -58,8 +58,9 @@ class AjaxCommonController extends BaseAdminController
                 $tmpImg['id_key'] = rand(10000, 99999);
 
                 //$tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
-                $tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
-                //$tmpImg['src'] = Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
+                //$tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
+                $tmpImg['src'] = Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
+                //Croppa::url(Constant::dir_group_category.$param['group_category_icon'], 30, 30
                 //'{{Croppa::url(Constant::dir_group_category.$group['group_category_icon_hover'], 30, 30)}}'
 
                 //FunctionLib::debug($tmpImg);
@@ -86,9 +87,11 @@ class AjaxCommonController extends BaseAdminController
             $aryData['intIsOK'] = 1;
             $aryData['id_item'] = $item_id;
             $aryData['info'] = $tmpImg;
+
         }
         //FunctionLib::debug($aryData);
-        return $aryData;
+        echo json_encode($aryData);
+        die();
     }
 
     function uploadImageToFolderOnce($dataImg, $id_hiden, $table_action, $folder, $field_img='', $primary_key){

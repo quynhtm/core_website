@@ -31,9 +31,8 @@ var Common = {
                 jQuery( "#sys_show_button_upload").hide();
                 jQuery("#status").html("<font color='green'>Đang upload...</font>");
             },
-            onSuccess:function(files,dataResult,data){
-                //dataResult = JSON.parse(xhr);
-                alert(dataResult.intIsOK);
+            onSuccess:function(files,xhr,data){
+                dataResult = JSON.parse(xhr);
                 if(dataResult.intIsOK === 1){
                     //gan lai id item cho id hiden: dung cho them moi, sua item
                     jQuery('#id_hiden').val(dataResult.id_item);
@@ -55,13 +54,12 @@ var Common = {
                     jQuery('#sys_drag_sort').append(html);
                     //jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
                     Common.getInsertImageContent(type);
-                    
+
                     //thanh cong
                     jQuery("#status").html("<font color='green'>Upload is success</font>");
                     setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
                     setTimeout( "jQuery('#status').hide();",1000 );
                     setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
-
                 }
             },
             onError: function(files,status,errMsg){
@@ -93,6 +91,8 @@ var Common = {
             },
             onSuccess:function(files,xhr,data){
                 dataResult = JSON.parse(xhr);
+                alert(dataResult.intIsOK);
+                //dataResult = xhr;
                 if(dataResult.intIsOK === 1){
                     //gan lai id item cho id hiden: dung cho them moi, sua item
                     jQuery('#id_hiden').val(dataResult.id_item);
