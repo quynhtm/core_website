@@ -60,30 +60,30 @@ class AjaxCommonController extends BaseAdminController
                 //$tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
-                $tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
+                $tmpImg['src'] = Config::get('config.WEB_ROOT').'uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //Croppa::url(Constant::dir_group_category.$param['group_category_icon'], 30, 30
                 //'{{Croppa::url(Constant::dir_group_category.$group['group_category_icon_hover'], 30, 30)}}'
 
                 //FunctionLib::debug($tmpImg);
 
-                if($field_img_other != ''){
-                    $inforItem = array();
-                    //lay thong tin cua item
-                    if($type == 1){//news
-                        $inforItem = News::find($item_id);
-                    }
+                // if($field_img_other != ''){
+                //     $inforItem = array();
+                //     //lay thong tin cua item
+                //     if($type == 1){//news
+                //         $inforItem = News::find($item_id);
+                //     }
 
-                    //gan them cho danh sach anh khac
-                    if(!empty($inforItem)){
-                        $aryTempImages = ($inforItem->$field_img_other !='') ? unserialize($inforItem->$field_img_other): array();
-                    }
-                    $aryTempImages[] = $file_name;
-                    $new_row[$field_img_other] = serialize($aryTempImages);
+                //     //gan them cho danh sach anh khac
+                //     if(!empty($inforItem)){
+                //         $aryTempImages = ($inforItem->$field_img_other !='') ? unserialize($inforItem->$field_img_other): array();
+                //     }
+                //     $aryTempImages[] = $file_name;
+                //     $new_row[$field_img_other] = serialize($aryTempImages);
 
-                    if($type == 1){//news
-                        News::updateData($item_id,$new_row);
-                    }
-                }
+                //     if($type == 1){//news
+                //         News::updateData($item_id,$new_row);
+                //     }
+                // }
             }
             $aryData['intIsOK'] = 1;
             $aryData['id_item'] = $item_id;
