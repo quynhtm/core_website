@@ -84,6 +84,7 @@ class NewsController extends BaseAdminController
     }
 
     public function getNews($id=0) {
+
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
