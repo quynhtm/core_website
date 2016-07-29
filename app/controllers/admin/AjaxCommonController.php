@@ -60,7 +60,12 @@ class AjaxCommonController extends BaseAdminController
                 //$tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
-                $tmpImg['src'] = Config::get('config.WEB_ROOT').'uploads/'.$folder.'/'.$item_id.'/'.$file_name;
+                
+                $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 80, 80, '', true, true);
+               
+                //$tmpImg['src'] = Config::get('config.WEB_ROOT').'uploads/'.$folder.'/'.$item_id.'/'.$file_name;
+                $tmpImg['src'] = $url_thumb;
+
                 //Croppa::url(Constant::dir_group_category.$param['group_category_icon'], 30, 30
                 //'{{Croppa::url(Constant::dir_group_category.$group['group_category_icon_hover'], 30, 30)}}'
 
