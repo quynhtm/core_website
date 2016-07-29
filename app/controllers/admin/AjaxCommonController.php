@@ -56,7 +56,7 @@ class AjaxCommonController extends BaseAdminController
             if ($file_name != '' && empty($aryError)) {
                 $tmpImg['name_img'] = $file_name;
                 $tmpImg['id_key'] = rand(10000, 99999);
-
+            
                 //$tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 //$tmpImg['src'] = URL::to('/').Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
