@@ -668,6 +668,8 @@ return array(
     'Null_Frame_Decorator' => $vendorDir . '/dompdf/dompdf/include/null_frame_decorator.cls.php',
     'Null_Frame_Reflower' => $vendorDir . '/dompdf/dompdf/include/null_frame_reflower.cls.php',
     'Null_Positioner' => $vendorDir . '/dompdf/dompdf/include/null_positioner.cls.php',
+    'Order' => $baseDir . '/app/models/Order.php',
+    'OrderController' => $baseDir . '/app/controllers/admin/OrderController.php',
     'PDF417' => $baseDir . '/app/library/PDF/pdf417.php',
     'PDFLib_Adapter' => $vendorDir . '/dompdf/dompdf/include/pdflib_adapter.cls.php',
     'PHPExcel' => $baseDir . '/app/library/class_phpexcel/PHPExcel.php',

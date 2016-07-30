@@ -226,6 +226,13 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
+                    <li class="@if(Route::currentRouteName() == 'admin.order_list')active @endif">
+                        <a href="{{URL::route('admin.order_list')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Quản lý đơn hàng
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
                 </ul>
             </li>
             <li class="@if(Route::currentRouteName() == 'admin.news_list')active @endif">

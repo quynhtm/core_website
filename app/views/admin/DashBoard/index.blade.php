@@ -37,6 +37,17 @@
                         </div>
                     </div>
                     @endif
+					
+					 @if($is_root || in_array('order_view',$aryPermission))
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail text-center">
+                            <a class="quick-btn" href="{{URL::route('admin.order_list')}}">
+                                <i class="fa fa-sitemap fa-5x"></i><br/>
+                                <span>Quản lý đơn hàng</span>
+                            </a>
+                        </div>
+                    </div>
+                    @endif
                  </div>
             </div><!-- /.col -->
         </div><!-- /.row -->
