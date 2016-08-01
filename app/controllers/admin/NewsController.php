@@ -117,24 +117,31 @@ class NewsController extends BaseAdminController
         $dataSave['news_title'] = addslashes(Request::get('news_title'));
         $dataSave['news_desc_sort'] = addslashes(Request::get('news_desc_sort'));
         $dataSave['news_content'] = addslashes(Request::get('news_content'));
-        $dataSave['news_image'] = addslashes(Request::get('news_image'));
-        $dataSave['news_image_other'] = addslashes(Request::get('news_image_other'));
         $dataSave['news_type'] = addslashes(Request::get('news_type'));
         $dataSave['news_category'] = addslashes(Request::get('news_category'));
         $dataSave['news_status'] = (int)Request::get('news_status', 0);
+        $id_hiden = (int)Request::get('id_hiden', 0);
 
-        /*$file = Input::file('image');
-        if($file){
-            $destinationPath = public_path().'/images/category/';
-            $filename = $file->getClientOriginalName();
-            $upload  = Input::file('image')->move($destinationPath, $filename);
-            //FunctionLib::debug($filename);
-            $dataSave['category_image_background'] = $filename;
-        }else{
-            $dataSave['category_image_background'] = Request::get('category_image_background', '');
-        }*/
+        //ảnh chính
+        $image_primary = addslashes(Request::get('image_primary'));
+        //ảnh khác
+        $getImgOther = $dataSave['news_image_other'] = Request::get('img_other',array());
+        if(!empty($getImgOther)){
+            foreach($getImgOther as $k=>$val){
+                if($val !=''){
+                    $arrInputImgOther[] = $val;
+                }
+            }
+        }
+        if (!empty($arrInputImgOther) && count($arrInputImgOther) > 0) {
+            //nếu không chọn ảnh chính, lấy ảnh chính là cái đầu tiên
+            $dataSave['news_image'] = ($image_primary != '')? $image_primary: $arrInputImgOther[0];
+            $dataSave['news_image_other'] = serialize($arrInputImgOther);
+        }
 
+        //FunctionLib::debug($dataSave);
         if($this->valid($dataSave) && empty($this->error)) {
+            $id = ($id == 0)?$id_hiden: $id;
             if($id > 0) {
                 //cap nhat
                 if(News::updateData($id, $dataSave)) {
@@ -156,7 +163,7 @@ class NewsController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function deleteItem()
+    public function deleteNews()
     {
         $data = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){

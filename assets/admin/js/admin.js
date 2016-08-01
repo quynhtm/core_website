@@ -2,9 +2,9 @@ var Admin = {
     deleteItem: function(id,type) {
         if(confirm('Bạn có muốn xóa Item này không?')) {
             $('#img_loading_'+id).show();
-
-            if(type == 1){ //xoa danh mục
-                var url_ajax = WEB_ROOT + '/admin/category/deleteCategory';
+            var url_ajax = '';
+            if(type == 1){ //xoa tin tức
+                url_ajax = 'deleteNews';
             }
             $.ajax({
                 type: "post",

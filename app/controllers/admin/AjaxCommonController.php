@@ -56,21 +56,9 @@ class AjaxCommonController extends BaseAdminController
             if ($file_name != '' && empty($aryError)) {
                 $tmpImg['name_img'] = $file_name;
                 $tmpImg['id_key'] = rand(10000, 99999);
-            
-                //$tmpImg['src'] = Config::get('config.WEB_ROOT').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
-                //$tmpImg['src'] = URL::to('/').'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
-                //$tmpImg['src'] = URL::to('/').Croppa::url('/uploads/'.$folder.'/'.$item_id.'/'.$file_name, 80, 80);
-                
+
                 $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 80, 80, '', true, true);
-               
-                //$tmpImg['src'] = Config::get('config.WEB_ROOT').'uploads/'.$folder.'/'.$item_id.'/'.$file_name;
                 $tmpImg['src'] = $url_thumb;
-
-                //Croppa::url(Constant::dir_group_category.$param['group_category_icon'], 30, 30
-                //'{{Croppa::url(Constant::dir_group_category.$group['group_category_icon_hover'], 30, 30)}}'
-
-                //FunctionLib::debug($tmpImg);
-
                 // if($field_img_other != ''){
                 //     $inforItem = array();
                 //     //lay thong tin cua item

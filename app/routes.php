@@ -92,7 +92,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('news/view',array('as' => 'admin.news_list','uses' => 'NewsController@view'));
     Route::get('news/getNews/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@getNews'))->where('id', '[0-9]+');
     Route::post('news/postNews/{id?}', array('as' => 'admin.news_edit_post','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
-    Route::post('news/deleteItem', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteItem'));//ajax
+    Route::post('news/deleteNews', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteNews'));//ajax
 
 
     /*Quan Ly Don Hang*/
