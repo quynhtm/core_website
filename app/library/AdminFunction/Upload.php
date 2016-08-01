@@ -21,7 +21,7 @@ class Upload{
 			$file_size = $_FILES[$_name]['size'];
 			$file_ext = @end(explode('.',$file_name));
 			$ext=0;
-			$name = date('h-i-s-d-m-Y',time()).'-'.self::preg_replace_string_upload($file_name);
+			$name = time().'-'.self::preg_replace_string_upload($file_name);
 			$link = $name ? $name : '';
 			
 			if(!in_array($file_ext, $_file_ext)){

@@ -84,18 +84,13 @@ class NewsController extends BaseAdminController
     }
 
     public function getNews($id=0) {
-
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
         $data = array();
         if($id > 0) {
             $data = News::find($id);
-            if(isset($data['category_image_background']) && $data['category_image_background'] != ''){
-                $data['url_src_icon'] = URL::to('/').'/images/category/'.$data['category_image_background'];
-            }
         }
-
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['news_status'])? $data['news_status'] : CGlobal::status_show);
         $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['news_category'])? $data['news_category'] : CGlobal::NEW_CATEGORY_TIN_TUC_CHUNG);
         $optionType = FunctionLib::getOption($this->arrTypeNew, isset($data['news_type'])? $data['news_type'] : CGlobal::NEW_TYPE_TIN_TUC);
@@ -108,12 +103,10 @@ class NewsController extends BaseAdminController
             ->with('optionType', $optionType)
             ->with('arrStatus', $this->arrStatus);
     }
-
     public function postNews($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
-
         $dataSave['news_title'] = addslashes(Request::get('news_title'));
         $dataSave['news_desc_sort'] = addslashes(Request::get('news_desc_sort'));
         $dataSave['news_content'] = addslashes(Request::get('news_content'));
@@ -125,7 +118,7 @@ class NewsController extends BaseAdminController
         //ảnh chính
         $image_primary = addslashes(Request::get('image_primary'));
         //ảnh khác
-        $getImgOther = $dataSave['news_image_other'] = Request::get('img_other',array());
+        $getImgOther = Request::get('img_other',array());
         if(!empty($getImgOther)){
             foreach($getImgOther as $k=>$val){
                 if($val !=''){
@@ -195,7 +188,6 @@ class NewsController extends BaseAdminController
              $message->to('manhquynh1984@gmail.com', 'Trương Mạnh Quỳnh')
                  ->subject('Welcome to the Laravel 4 Auth App!');
          });
-
          die();
     }
 

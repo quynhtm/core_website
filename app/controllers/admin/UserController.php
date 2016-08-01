@@ -63,25 +63,6 @@ class UserController extends BaseAdminController
         $this->layout->content = View::make('admin.User.create')
             ->with('arrGroupUser', $arrGroupUser);
     }
-
-    public function editInfo($id)
-    {
-        CGlobal::$pageTitle = "Sửa nhóm User | Admin Seo";
-//        //check permission
-        if (!$this->is_root && !in_array($this->permission_edit, $this->permission)) {
-            return Redirect::route('admin.dashboard');
-        }
-
-        $data = User::getUserById($id);
-        $data['user_group'] = explode(',', $data['user_group']);
-        $arrGroupUser = GroupUser::getListGroupUser();
-        $this->layout->content = View::make('admin.User.edit')
-            ->with('arrGroupUser', $arrGroupUser)
-            ->with('is_root', $this->is_root)
-            ->with('arrStatus', $this->arrStatus)
-            ->with('data', $data);
-    }
-
     public function create()
     {
         CGlobal::$pageAdminTitle = "Tạo mới User | Admin CMS";
@@ -136,6 +117,23 @@ class UserController extends BaseAdminController
             ->with('arrGroupUser', $arrGroupUser);
     }
 
+    public function editInfo($id)
+    {
+        CGlobal::$pageAdminTitle = "Sửa nhóm User | Admin Seo";
+//        //check permission
+        if (!$this->is_root && !in_array($this->permission_edit, $this->permission)) {
+            return Redirect::route('admin.dashboard');
+        }
+
+        $data = User::getUserById($id);
+        $data['user_group'] = explode(',', $data['user_group']);
+        $arrGroupUser = GroupUser::getListGroupUser();
+        $this->layout->content = View::make('admin.User.edit')
+            ->with('arrGroupUser', $arrGroupUser)
+            ->with('is_root', $this->is_root)
+            ->with('arrStatus', $this->arrStatus)
+            ->with('data', $data);
+    }
     public function edit($id){
         //check permission
         if (!$this->is_root && !in_array($this->permission_edit, $this->permission)) {

@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-                {{Form::open(array('role'=>'form','url' =>($id > 0)? "admin/news/postNews/$id" : 'admin/news/postNews','files' => true))}}
+                {{Form::open(array('method' => 'POST','role'=>'form','files' => true))}}
                 @if(isset($error))
                     <div class="alert alert-danger" role="alert">
                         @foreach($error as $itmError)
