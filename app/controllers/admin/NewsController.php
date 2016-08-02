@@ -90,6 +90,25 @@ class NewsController extends BaseAdminController
         $data = array();
         if($id > 0) {
             $data = News::find($id);
+            if(sizeof($data) > 0){
+                //lay ảnh khác của san phẩm
+                $arrViewImgOther = array();
+                if(!empty($data->news_image_other)){
+                    $arrImagOther = unserialize($data->news_image_other);
+                    if(sizeof($arrImagOther) > 0){
+                        FunctionLib::debug($arrImagOther);
+                        foreach($arrImagOther as $k=>$val){
+                            if($val['product_image_name'] != ''){
+                                $arrViewImgOther[] = array('img_other'=>$val['product_image_name'],'src_img_other'=>Image::buildUrlImage($val['product_image_name']));
+                            }
+                        }
+                    }
+                }
+                //ảnh sản phẩm chính
+               //$imageOrigin = $dataProduct['product_image'];
+               // $urlImageOrigin = ($imageOrigin !== '')? Image::buildUrlImageZoom($imageOrigin,'450_450') : Config::get('linkcommon.LINK_NO_IMAGE');
+
+            }
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['news_status'])? $data['news_status'] : CGlobal::status_show);
         $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['news_category'])? $data['news_category'] : CGlobal::NEW_CATEGORY_TIN_TUC_CHUNG);

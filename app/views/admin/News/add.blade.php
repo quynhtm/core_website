@@ -99,13 +99,13 @@
                                         <img src="{{$imgNew['src_img_other']}}" style="height:120px;">
                                         <input type="hidden" id="sys_img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
                                         <div class='clear'></div>
-                                        <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] ) checked="checked" @endif onclick="Product.checkedImageProduct('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
+                                        <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImageProduct('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
                                         <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
 
-                                        <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHotPro) && $imageHotPro == $imgNew['img_other'] ) checked="checked" @endif onclick="Product.checkedImageProductHoverDetail('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
+                                        <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHotPro) && $imageHotPro == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImageProductHoverDetail('{{$imgNew['img_other']}}','{{$imgNew['src_img_other']}}','{{$key}}');">
                                         <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
 
-                                        <a href="javascript:void(0);" onclick="Product.removeImageOtherProduct({{$key}});">Xóa ảnh</a>
+                                        <a href="javascript:void(0);" onclick="Common.removeImageOtherProduct({{$key}});">Xóa ảnh</a>
                                         <span style="display: none"><b>{{$key}}</b></span>
                                     </div>
                                 </li>

@@ -90,8 +90,8 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
     /*Quản lý tin tức*/
     Route::get('news/view',array('as' => 'admin.news_list','uses' => 'NewsController@view'));
-    Route::get('news/edit/{id}', array('as' => 'admin.news_edit','uses' => 'NewsController@getNews'))->where('id', '[0-9]+');
-    Route::post('news/edit/{id}', array('as' => 'admin.news_edit','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
+    Route::get('news/edit/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@getNews'))->where('id', '[0-9]+');
+    Route::post('news/edit/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
     Route::post('news/deleteNews', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteNews'));//ajax
 
     /*Quan Ly Don Hang*/
