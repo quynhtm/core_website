@@ -59,7 +59,7 @@
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center">{{ $stt + $key+1 }}</td>
-                                <td class="text-center">{{ $stt + $key+1 }}</td>
+                                <td class="text-center"><img src="{{$item['url_image']}}"></td>
                                 <td>
                                     [<b>{{ $item['news_id'] }}</b>] {{ $item['news_title'] }}
                                 </td>

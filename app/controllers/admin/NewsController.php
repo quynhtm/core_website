@@ -58,9 +58,11 @@ class NewsController extends BaseAdminController
 
         if(!empty($dataSearch)){
             foreach($dataSearch as $k=> $val){
+                $url_image = ($val->news_image != '')?ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $val->news_id, $val->news_image, 100, 100, '', true, true):'';
                 $data[] = array('news_id'=>$val->news_id,
                     'news_title'=>$val->news_title,
                     'news_status'=>$val->news_status,
+                    'url_image'=>$url_image,
                 );
             }
         }
@@ -88,6 +90,7 @@ class NewsController extends BaseAdminController
             return Redirect::route('admin.dashboard');
         }
         $data = array();
+        $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
             $data = News::find($id);
             if(sizeof($data) > 0){
@@ -96,18 +99,14 @@ class NewsController extends BaseAdminController
                 if(!empty($data->news_image_other)){
                     $arrImagOther = unserialize($data->news_image_other);
                     if(sizeof($arrImagOther) > 0){
-                        FunctionLib::debug($arrImagOther);
                         foreach($arrImagOther as $k=>$val){
-                            if($val['product_image_name'] != ''){
-                                $arrViewImgOther[] = array('img_other'=>$val['product_image_name'],'src_img_other'=>Image::buildUrlImage($val['product_image_name']));
-                            }
+                            $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $id, $val, 120, 120, '', true, true);
+                            $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                         }
                     }
                 }
                 //ảnh sản phẩm chính
-               //$imageOrigin = $dataProduct['product_image'];
-               // $urlImageOrigin = ($imageOrigin !== '')? Image::buildUrlImageZoom($imageOrigin,'450_450') : Config::get('linkcommon.LINK_NO_IMAGE');
-
+               $imageOrigin = $data->news_image;
             }
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['news_status'])? $data['news_status'] : CGlobal::status_show);
@@ -117,6 +116,9 @@ class NewsController extends BaseAdminController
         $this->layout->content = View::make('admin.News.add')
             ->with('id', $id)
             ->with('data', $data)
+            ->with('imageOrigin', $imageOrigin)
+            ->with('urlImageOrigin', $urlImageOrigin)
+            ->with('arrViewImgOther', $arrViewImgOther)
             ->with('optionStatus', $optionStatus)
             ->with('optionCategory', $optionCategory)
             ->with('optionType', $optionType)
