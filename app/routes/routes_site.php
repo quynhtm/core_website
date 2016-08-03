@@ -6,6 +6,7 @@
 /*
  * **********************************************************************************************************************************
  * Route site
+ * không cần đăng nhập vẫn xem đc
  * **********************************************************************************************************************************
  * */
 /*home*/
@@ -25,26 +26,28 @@ Route::get('site/search',array('as' => 'site.suggest_search','uses' => 'SiteHome
 Route::get('thong-bao.html',array('as' => 'home.eventNote','uses' =>'SiteHomeController@eventNote'));
 
 
-
+//trang chủ shop
+Route::get('gian-hang/s-{shop_id}/{name}.html',array('as' => 'shop.home','uses' =>'ShopController@index'))->where('shop_id', '[0-9]+');
+Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.ShopListProduct','uses' =>'ShopController@ShopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
 
 /*
  * **********************************************************************************************************************************
  * Route shop
+ * Phai login = account Shop với thao tác đc
  * **********************************************************************************************************************************
  * */
 //login
 Route::get('dang-nhap.html',array('as' => 'shop.login','uses' =>'ShopController@login'));
 Route::get('dang-xuat.html',array('as' => 'shop.logut','uses' =>'ShopController@logout'));
-
-//trang chủ shop
-Route::get('gian-hang/s-{shop_id}/{name}.html',array('as' => 'shop.home','uses' =>'ShopController@index'))->where('shop_id', '[0-9]+');
-Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.ShopListProduct','uses' =>'ShopController@ShopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
-
 //quan ly san pham
-Route::get('quan-ly-san-pham.html',array('as' => 'shopAdmin.listProduct','uses' =>'ShopController@ShopAdminListProduct'));
+Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@ShopListProduct'));
 
 //quan ly don hang
-Route::get('quan-ly-don-hang.html',array('as' => 'shopAdmin.listOrder','uses' =>'ShopController@ShopAdminOrder'));
+Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@ShopListOrder'));
+
+
+
+
 
 
 
