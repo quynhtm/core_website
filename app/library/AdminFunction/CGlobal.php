@@ -19,6 +19,7 @@ class CGlobal{
 
     const status_show = 1;
     const status_hide = 0;
+    const status_block = -2;
 
     //Tin tuc
     const NEW_CATEGORY_CUSTOMER = 1;
@@ -53,5 +54,13 @@ class CGlobal{
     const IMAGE_ERROR = 133;
     const FOLDER_NEWS = 'news';
 
-
+    //shop
+    const SHOP_FREE = 1;
+    const SHOP_NOMAL = 2;
+    const SHOP_VIP = 3;
+    const SHOP_ONLINE = 1;
+    const SHOP_OFFLINE = 0;
+    const SHOP_NUMBER_PRODUCT_FREE = 10;
+    const SHOP_NUMBER_PRODUCT_NOMAL = 100;
+    const SHOP_NUMBER_PRODUCT_VIP = 5000;
 }

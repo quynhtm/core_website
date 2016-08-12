@@ -5,6 +5,8 @@ var Admin = {
             var url_ajax = '';
             if(type == 1){ //xoa tin tức
                 url_ajax = 'deleteNews';
+            }else if(type == 2){
+                url_ajax = 'deleteUserShop';
             }
             $.ajax({
                 type: "post",
@@ -28,6 +30,8 @@ var Admin = {
             $('#img_loading_'+id).show();
             if(type == 1){ //cap nhat danh muc
                var url_ajax = WEB_ROOT + '/admin/category/updateStatusCategory';
+            }else if(type == 2){//user shop
+                var url_ajax = WEB_ROOT + '/admin/userShop/updateStatusUserShop';
             }
 
             $.ajax({
