@@ -29,43 +29,26 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <input type="text" placeholder="Tên danh mục" id="category_name" name="category_name" class="form-control input-sm" value="@if(isset($data['category_name'])){{$data['category_name']}}@endif">
+                        <input type="text" placeholder="Tên shop" id="shop_name" name="shop_name" class="form-control input-sm" value="@if(isset($data['shop_name'])){{$data['shop_name']}}@endif">
                     </div>
                 </div>
 
                 <div class="clearfix"></div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <i>Upload Icon </i>
+                        <i>Danh mục tin</i>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                      <input name="image" type="file"/>
-                      <input name="category_image_background" type="hidden" id="category_image_background" @if(isset($data['category_image_background']))value="{{$data['category_image_background']}}"@else value="" @endif>
-                    </div>
-                    @if(isset($data['url_src_icon']))
-                    <div class="form-group">
-                       <img src="{{$data['url_src_icon']}}" height="50" width="50">
-                    </div>
-                    @endif
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <i>Trạng thái</i>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <select name="category_status" id="category_status" class="form-control input-sm">
+                        <select name="shop_status" id="shop_status" class="form-control input-sm">
                             {{$optionStatus}}
                         </select>
                     </div>
                 </div>
+
                 <div class="clearfix"></div>
-                <div class="form-group col-sm-12 text-right">
+                <div class="form-group col-sm-12 text-left">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
                 {{ Form::close() }}

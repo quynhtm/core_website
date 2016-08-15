@@ -75,13 +75,23 @@ class UserShopController extends BaseAdminController
         }
         $data = array();
         if($id > 0) {
-            $data = UserShop::find($id);
-            if(isset($data['category_image_background']) && $data['category_image_background'] != ''){
-                $data['url_src_icon'] = URL::to('/').'/images/category/'.$data['category_image_background'];
+            $item = UserShop::find($id);
+            if($item){
+                $data['shop_name'] = $item->shop_name;
+                $data['user_shop'] = $item->user_shop;
+                $data['shop_phone'] = $item->shop_phone;
+                $data['shop_email'] = $item->shop_email;
+                $data['shop_address'] = $item->shop_address;
+                $data['shop_about'] = $item->shop_about;
+                $data['shop_transfer'] = $item->shop_transfer;
+                $data['shop_category'] = $item->shop_category;
+                $data['is_shop'] = $item->is_shop;
+                $data['shop_status'] = $item->shop_status;
             }
         }
+        //FunctionLib::debug($data);
 
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['category_status'])? $data['category_status'] : -1);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['shop_status'])? $data['shop_status'] : -1);
         $this->layout->content = View::make('admin.UserShop.add')
             ->with('id', $id)
             ->with('data', $data)
