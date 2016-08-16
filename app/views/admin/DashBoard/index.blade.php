@@ -26,7 +26,6 @@
                         </div>
                     </div>
                     @endif
-
                     @if($is_root || in_array('categories_view',$aryPermission))
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail text-center">
@@ -37,13 +36,35 @@
                         </div>
                     </div>
                     @endif
-					
-					 @if($is_root || in_array('order_view',$aryPermission))
+                    @if($is_root || in_array('order_view',$aryPermission))
+                        <div class="col-sm-6 col-md-3">
+                            <div class="thumbnail text-center">
+                                <a class="quick-btn" href="{{URL::route('admin.news_list')}}">
+                                    <i class="fa fa-book fa-5x"></i><br/>
+                                    <span>Quản lý tin tức</span>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+					@if($is_root || in_array('order_view',$aryPermission))
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail text-center">
                             <a class="quick-btn" href="{{URL::route('admin.order_list')}}">
-                                <i class="fa fa-sitemap fa-5x"></i><br/>
+                                <i class="fa fa-shopping-cart fa-5x"></i><br/>
                                 <span>Quản lý đơn hàng</span>
+                            </a>
+                        </div>
+                    </div>
+                    @endif
+
+
+                    <div class="clearfix"></div>
+                    @if($is_root || in_array('user_shop_view',$aryPermission))
+                    <div class="col-sm-6 col-md-3">
+                        <div class="thumbnail text-center">
+                            <a class="quick-btn" href="{{URL::route('admin.userShop_list')}}">
+                                <i class="fa fa-users fa-5x"></i><br/>
+                                <span>Danh sách Shop</span>
                             </a>
                         </div>
                     </div>

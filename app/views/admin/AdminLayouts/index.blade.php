@@ -252,6 +252,24 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="@if(Route::currentRouteName() == 'admin.userShop_list')active @endif">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-truck"></i>
+                    <span class="menu-text"> Quản trị Shop</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="@if(Route::currentRouteName() == 'admin.userShop_list')active @endif">
+                        <a href="{{URL::route('admin.userShop_list')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Danh sách Shop
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

@@ -13,6 +13,7 @@ class UserShopController extends BaseAdminController
     private $permission_edit = 'user_shop_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', CGlobal::status_block => 'Khóa');
     private $arrIsShop = array(-1 => 'Tất cả', CGlobal::SHOP_FREE => 'Shop Free', CGlobal::SHOP_NOMAL => 'Shop thường', CGlobal::SHOP_VIP => 'Shop Vip');
+    private $error = array();
 
     public function __construct()
     {
@@ -25,7 +26,7 @@ class UserShopController extends BaseAdminController
 
         //Include javascript.
         FunctionLib::link_js(array(
-            'lib/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
         ));
     }
 
@@ -91,11 +92,13 @@ class UserShopController extends BaseAdminController
         }
         //FunctionLib::debug($data);
 
+        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['is_shop'])? $data['is_shop'] : -1);
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['shop_status'])? $data['shop_status'] : -1);
         $this->layout->content = View::make('admin.UserShop.add')
             ->with('id', $id)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
+            ->with('optionIsShop', $optionIsShop)
             ->with('arrIsShop', $this->arrIsShop)
             ->with('arrStatus', $this->arrStatus);
     }
@@ -105,54 +108,48 @@ class UserShopController extends BaseAdminController
             return Redirect::route('admin.dashboard');
         }
 
-        $dataSave['category_name'] = addslashes(Request::get('category_name'));
-        $dataSave['category_icons'] = addslashes(Request::get('category_icons'));
-        $dataSave['category_image_background'] = addslashes(Request::get('category_image_background'));
-        $dataSave['category_status'] = (int)Request::get('category_status', 0);
-        $dataSave['category_parent_id'] = (int)Request::get('category_parent_id', 0);
-        $dataSave['category_content_front'] = (int)Request::get('category_content_front', 0);
-        $dataSave['category_content_front_order'] = (int)Request::get('category_content_front_order', 0);
-        $dataSave['category_order'] = (int)Request::get('category_order', 0);
+        $dataSave['shop_name'] = addslashes(Request::get('shop_name'));
+        $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
+        $dataSave['shop_phone'] = addslashes(Request::get('shop_phone'));
+        $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
+        $dataSave['shop_address'] = addslashes(Request::get('shop_address'));
+        $dataSave['shop_about'] = addslashes(Request::get('shop_about'));
+        $dataSave['shop_transfer'] = addslashes(Request::get('shop_transfer'));
 
-        $file = Input::file('image');
-        if($file){
-            $destinationPath = public_path().'/images/category/';
-            $filename = $file->getClientOriginalName();
-            $upload  = Input::file('image')->move($destinationPath, $filename);
-            //FunctionLib::debug($filename);
-            $dataSave['category_image_background'] = $filename;
-        }else{
-            $dataSave['category_image_background'] = Request::get('category_image_background', '');
-        }
+        $dataSave['is_shop'] = (int)Request::get('is_shop', 0);
+        $dataSave['shop_status'] = (int)Request::get('shop_status', 0);
 
         if($this->valid($dataSave) && empty($this->error)) {
             if($id > 0) {
                 //cap nhat
                 if(UserShop::updateData($id, $dataSave)) {
-                    return Redirect::route('admin.category_list');
+                    return Redirect::route('admin.userShop_list');
                 }
             } else {
                 //them moi
                 if(UserShop::addData($dataSave)) {
-                    return Redirect::route('admin.category_list');
+                    return Redirect::route('admin.userShop_list');
                 }
             }
         }
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['category_status'])? $dataSave['category_status'] : -1);
+        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($dataSave['is_shop'])? $dataSave['is_shop'] : -1);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['shop_status'])? $dataSave['shop_status'] : -1);
         $this->layout->content =  View::make('admin.UserShop.add')
             ->with('id', $id)
             ->with('data', $dataSave)
             ->with('optionStatus', $optionStatus)
+            ->with('optionIsShop', $optionIsShop)
             ->with('error', $this->error)
             ->with('arrStatus', $this->arrStatus);
     }
 
     private function valid($data=array()) {
+        return true;
         if(!empty($data)) {
-            if(isset($data['category_name']) && $data['category_name'] == '') {
+            if(isset($data['shop_name']) && $data['shop_name'] == '') {
                 $this->error[] = 'Tên danh mục không được trống';
             }
-            if(isset($data['category_status']) && $data['category_status'] == -1) {
+            if(isset($data['shop_status']) && $data['shop_status'] == -1) {
                 $this->error[] = 'Bạn chưa chọn trạng thái cho danh mục';
             }
             return true;
@@ -178,14 +175,14 @@ class UserShopController extends BaseAdminController
     public function updateStatusUserShop()
     {
         $id = (int)Request::get('id', 0);
-        $category_status = (int)Request::get('status', CGlobal::status_hide);
+        $shop_status = (int)Request::get('status', CGlobal::status_hide);
         $result = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($result);
         }
 
         if ($id > 0) {
-            $dataSave['category_status'] = ($category_status == CGlobal::status_hide)? CGlobal::status_show : CGlobal::status_hide;
+            $dataSave['shop_status'] = ($shop_status == CGlobal::status_hide)? CGlobal::status_show : CGlobal::status_hide;
             if(UserShop::updateData($id, $dataSave)) {
                 $result['isIntOk'] = 1;
             }
