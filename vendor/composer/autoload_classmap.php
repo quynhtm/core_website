@@ -574,6 +574,7 @@ return array(
     'LoginController' => $baseDir . '/app/controllers/admin/LoginController.php',
     'MYPDF' => $baseDir . '/app/library/AdminFunction/MYPDF.php',
     'Math_BigInteger' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Math/BigInteger.php',
+    'Memcache' => $baseDir . '/app/library/AdminFunction/Memcache.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',
     'Monolog\\Formatter\\ChromePHPFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ChromePHPFormatter.php',
     'Monolog\\Formatter\\ElasticaFormatter' => $vendorDir . '/monolog/monolog/src/Monolog/Formatter/ElasticaFormatter.php',

@@ -16,15 +16,27 @@ class UserShop extends Eloquent
         'shop_email', 'shop_status', 'shop_created');
 
     public static function getByID($id) {
-        $shop = UserShop::where('shop_id', $id)->first();
+        $shop = Cache::get(Memcache::CACHE_USER_SHOP_ID.$id);
+        if (!$shop) {
+            $shop = UserShop::where('shop_id', $id)->first();
+            if(!empty($shop)){
+                Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_5);
+            }
+        }
         return $shop;
     }
 
     public static function getShopAll() {
-        $shop = UserShop::where('shop_id', '>', 0)->get();
         $data = array();
-        foreach($shop as $itm) {
-            $data[$itm['shop_id']] = $itm['category_name'];
+        $data = Cache::get(Memcache::CACHE_ALL_USER_SHOP);
+        if (!$data) {
+            $shop = UserShop::where('shop_id', '>', 0)->get();
+            foreach($shop as $itm) {
+                $data[$itm['shop_id']] = $itm['shop_name'];
+            }
+            if(!empty($data)){
+                Cache::put(Memcache::CACHE_ALL_USER_SHOP, $data, Memcache::CACHE_TIME_TO_LIVE_5);
+            }
         }
         return $data;
     }
@@ -79,6 +91,9 @@ class UserShop extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
+                if(isset($data->shop_id) && $data->shop_id > 0){
+                    self::removeCache($data->shop_id);
+                }
                 return $data->shop_id;
             }
             DB::connection()->getPdo()->commit();
@@ -105,12 +120,16 @@ class UserShop extends Eloquent
                 $dataSave->update($dataInput);
             }
             DB::connection()->getPdo()->commit();
+            if(isset($dataSave->shop_id) && $dataSave->shop_id > 0){
+                self::removeCache($dataSave->shop_id);
+            }
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
         }
     }
+
 
     /**
      * @desc: Update Data.
@@ -125,11 +144,24 @@ class UserShop extends Eloquent
             $dataSave = UserShop::find($id);
             $dataSave->delete();
             DB::connection()->getPdo()->commit();
+            if(isset($dataSave->shop_id) && $dataSave->shop_id > 0){
+                self::removeCache($dataSave->shop_id);
+            }
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
         }
+    }
+
+    /**
+     * @param int $id
+     */
+    public static function removeCache($id = 0){
+        if($id > 0){
+            Cache::forget(Memcache::CACHE_USER_SHOP_ID.$id);
+        }
+        Cache::forget(Memcache::CACHE_ALL_USER_SHOP);
     }
 
 }

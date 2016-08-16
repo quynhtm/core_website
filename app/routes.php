@@ -85,7 +85,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     /*Quản lý danh sách shop*/
     Route::get('userShop/view',array('as' => 'admin.userShop_list','uses' => 'UserShopController@view'));
     Route::get('userShop/getUserShop/{id?}', array('as' => 'admin.userShop_edit','uses' => 'UserShopController@getUserShop'))->where('id', '[0-9]+');
-    Route::post('userShop/postUserShop/{id?}', array('as' => 'admin.userShop_edit','uses' => 'UserShopController@postUserShop'))->where('id', '[0-9]+');
+    Route::post('userShop/postUserShop/{id?}', array('as' => 'admin.userShop_edit_post','uses' => 'UserShopController@postUserShop'))->where('id', '[0-9]+');
     Route::post('userShop/deleteUserShop', array('as' => 'admin.deltete_userShop_post','uses' => 'UserShopController@deleteUserShop'));//ajax
     Route::post('userShop/updateStatusUserShop', array('as' => 'admin.status_userShop_post','uses' => 'UserShopController@updateStatusUserShop'));//ajax
 
