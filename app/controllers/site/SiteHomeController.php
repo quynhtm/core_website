@@ -17,5 +17,14 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
+    public function shopLogin(){
+        $this->header();
+        $dataShow = array();
+        $this->layout->content = View::make('site.ShopLayouts.login')
+            ->with('data',$dataShow)
+            ->with('user', $this->user);
+        $this->footer();
+    }
+
 }
 

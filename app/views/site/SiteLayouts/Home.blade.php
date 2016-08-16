@@ -1,1 +1,1 @@
-Đây là trang chủ
+Đây là nội dung phần trang chủ
