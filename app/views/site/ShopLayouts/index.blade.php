@@ -168,7 +168,7 @@
         </div><!-- /.sidebar-shortcuts -->
 
         <ul class="nav nav-list">
-            @if($is_root || in_array('user_view',$aryPermission))
+
             <li class="@if(Route::currentRouteName() == 'admin.user_view' || Route::currentRouteName() == 'admin.permission_view'|| Route::currentRouteName() == 'admin.groupUser_view')active @endif">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user"></i>
@@ -202,7 +202,7 @@
                     </li>
                 </ul>
             </li>
-            @endif
+
 
             <li class="@if(Route::currentRouteName() == 'admin.category_list' || Route::currentRouteName() == 'admin.product_list')active @endif">
                 <a href="#" class="dropdown-toggle">
