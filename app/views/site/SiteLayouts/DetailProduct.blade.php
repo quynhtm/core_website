@@ -1,1 +1,1 @@
-Đây là trang chủ
+Đây là chi tiết sản phẩm

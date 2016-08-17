@@ -20,7 +20,7 @@ class UserShop extends Eloquent
         if (sizeof($shop) == 0) {
             $shop = UserShop::where('shop_id', $id)->first();
             if(!empty($shop)){
-                Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_5);
+                Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_ONE_WEEK);
             }
         }
         return $shop;
@@ -34,7 +34,7 @@ class UserShop extends Eloquent
                 $data[$itm['shop_id']] = $itm['shop_name'];
             }
             if(!empty($data)){
-                Cache::put(Memcache::CACHE_ALL_USER_SHOP, $data, Memcache::CACHE_TIME_TO_LIVE_5);
+                Cache::put(Memcache::CACHE_ALL_USER_SHOP, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_WEEK);
             }
         }
         return $data;

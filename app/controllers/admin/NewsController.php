@@ -92,7 +92,7 @@ class NewsController extends BaseAdminController
         $data = array();
         $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
-            $data = News::find($id);
+            $data = News::getNewByID($id);
             if(sizeof($data) > 0){
                 //lay ảnh khác của san phẩm
                 $arrViewImgOther = array();

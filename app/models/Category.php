@@ -149,7 +149,7 @@ class Category extends Eloquent
                         'category_order'=>$itm->category_order);
                 }
                 if(!empty($data)){
-                    Cache::put(Memcache::CACHE_ALL_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_5);
+                    Cache::put(Memcache::CACHE_ALL_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_WEEK);
                 }
             }
         }

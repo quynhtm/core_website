@@ -14,9 +14,15 @@ class News extends Eloquent
         'news_content', 'news_image', 'news_image_other','news_create',
         'news_type', 'news_category', 'news_status');
 
-    public static function getByID($id) {
-        $admin = News::where('news_id', $id)->first();
-        return $admin;
+    public static function getNewByID($id) {
+        $new = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_NEW_ID) : array();
+        if (sizeof($new) == 0) {
+            $new = News::where('news_id', $id)->first();
+            if($new){
+                Cache::put(Memcache::CACHE_NEW_ID, $new, Memcache::CACHE_TIME_TO_LIVE_ONE_DAY);
+            }
+        }
+        return $new;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
@@ -63,6 +69,9 @@ class News extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
+                if(isset($data->news_id) && $data->news_id > 0){
+                    self::removeCache($data->news_id);
+                }
                 return $data->news_id;
             }
             DB::connection()->getPdo()->commit();
@@ -87,6 +96,9 @@ class News extends Eloquent
             $dataSave = News::find($id);
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
+                if(isset($dataSave->news_id) && $dataSave->news_id > 0){
+                    self::removeCache($dataSave->news_id);
+                }
             }
             DB::connection()->getPdo()->commit();
             return true;
@@ -108,11 +120,20 @@ class News extends Eloquent
             DB::connection()->getPdo()->beginTransaction();
             $dataSave = News::find($id);
             $dataSave->delete();
+            if(isset($dataSave->news_id) && $dataSave->news_id > 0){
+                self::removeCache($dataSave->news_id);
+            }
             DB::connection()->getPdo()->commit();
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
+        }
+    }
+
+    public static function removeCache($id = 0){
+        if($id > 0){
+            Cache::forget(Memcache::CACHE_NEW_ID.$id);
         }
     }
 

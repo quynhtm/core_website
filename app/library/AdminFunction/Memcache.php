@@ -15,7 +15,13 @@ class Memcache{
     const CACHE_ALL_USER_SHOP = 'cache_all_user_shop';
     const CACHE_USER_SHOP_ID = 'cache_user_shop_id_';
 
-    //danh m?c
+    //danh mục
     const CACHE_ALL_CATEGORY    = 'cache_all_category';
     const CACHE_CATEGORY_ID    = 'cache_category_id';
+
+    //sản phẩm
+    const CACHE_PRODUCT_ID    = 'cache_product_id';
+
+    //sản phẩm
+    const CACHE_NEW_ID    = 'cache_news_id';
 }

@@ -7,11 +7,11 @@
     <meta name="google-site-verification" content="ssdbfsdfsjfecncalnw" />
     <meta property="og:title" content="@if(isset($title_seo)){{$title_seo}}@else {{CGlobal::web_name}}" @endif/>
     <meta property="og:type" content="product" />
-    <meta property="og:url" content="@if(isset($url_seo)){{$url_seo}} @else {{Config::get('config.WEB_ROOT')}} @endif" />
-    <meta property="og:image" content="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/images/ava-share-plaza.png @endif" />
+    <meta property="og:url" content="@if(isset($url_seo) && $url_seo != ''){{$url_seo}} @else {{Config::get('config.WEB_ROOT')}} @endif" />
+    <meta property="og:image" content="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
     <meta property="og:site_name" content="{{CGlobal::web_name}}" />
     <meta property="og:description" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
-    <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/images/ava-share-plaza.png @endif" />
+    <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
     <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
 
     {{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}

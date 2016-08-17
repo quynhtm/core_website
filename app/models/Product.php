@@ -5,40 +5,39 @@
  */
 class Product extends Eloquent
 {
-    protected $table = 'category';
-    protected $primaryKey = 'category_id';
+    protected $table = 'web_product';
+    protected $primaryKey = 'product_id';
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('category_id','category_name', 'category_parent_id',
-        'category_content_front', 'category_content_front_order', 'category_status',
-        'category_image_background', 'category_icons', 'category_order');
+    protected $fillable = array('product_id','product_code', 'product_name',
+        'product_price_sell', 'product_price_market', 'product_price_input','product_type_price','product_selloff',
+        'product_is_hot', 'product_sort_desc', 'product_content','product_image','product_image_hover','product_image_other',
+        'product_order', 'quality_input','quality_out','product_status','is_block',
+        'user_shop_id', 'user_shop_name', 'is_shop','shop_province','time_created', 'time_update');
 
-    public static function getByID($id) {
-        $admin = Product::where('category_id', $id)->first();
-        return $admin;
-    }
-
-    public static function getCategoriessAll() {
-        $categories = Product::where('category_id', '>', 0)->get();
-        $data = array();
-        foreach($categories as $itm) {
-            $data[$itm['category_id']] = $itm['category_name'];
+    public static function getProductByID($id) {
+        $product = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PRODUCT_ID) : array();
+        if (sizeof($product) == 0) {
+            $product = Product::where('product_id', $id)->first();
+            if($product){
+                Cache::put(Memcache::CACHE_PRODUCT_ID, $product, Memcache::CACHE_TIME_TO_LIVE_ONE_DAY);
+            }
         }
-        return $data;
+        return $product;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
-            $query = Product::where('category_id','>',0);
-            if (isset($dataSearch['category_name']) && $dataSearch['category_name'] != '') {
-                $query->where('category_name','LIKE', '%' . $dataSearch['category_name'] . '%');
+            $query = Product::where('product_id','>',0);
+            if (isset($dataSearch['product_name']) && $dataSearch['product_name'] != '') {
+                $query->where('product_name','LIKE', '%' . $dataSearch['product_name'] . '%');
             }
-            if (isset($dataSearch['category_status']) && $dataSearch['category_status'] != -1) {
-                $query->where('category_status', $dataSearch['category_status']);
+            if (isset($dataSearch['product_status']) && $dataSearch['product_status'] != -1) {
+                $query->where('product_status', $dataSearch['product_status']);
             }
             $total = $query->count();
-            $query->orderBy('category_id', 'desc');
+            $query->orderBy('product_id', 'desc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
@@ -72,7 +71,10 @@ class Product extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                return $data->category_id;
+                if(isset($data->product_id) && $data->product_id > 0){
+                    self::removeCache($data->product_id);
+                }
+                return $data->product_id;
             }
             DB::connection()->getPdo()->commit();
             return false;
@@ -96,6 +98,9 @@ class Product extends Eloquent
             $dataSave = Product::find($id);
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
+                if(isset($dataSave->product_id) && $dataSave->product_id > 0){
+                    self::removeCache($dataSave->product_id);
+                }
             }
             DB::connection()->getPdo()->commit();
             return true;
@@ -117,11 +122,20 @@ class Product extends Eloquent
             DB::connection()->getPdo()->beginTransaction();
             $dataSave = Product::find($id);
             $dataSave->delete();
+            if(isset($dataSave->product_id) && $dataSave->product_id > 0){
+                self::removeCache($dataSave->product_id);
+            }
             DB::connection()->getPdo()->commit();
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
+        }
+    }
+
+    public static function removeCache($id = 0){
+        if($id > 0){
+            Cache::forget(Memcache::CACHE_PRODUCT_ID.$id);
         }
     }
 

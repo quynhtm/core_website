@@ -16,7 +16,11 @@ Route::any('/', array('as' => 'site.home','uses' => 'SiteHomeController@index'))
 Route::get('danh-muc/c-{id}/{name}.html',array('as' => 'site.list','uses' =>'SiteHomeController@index'))->where('id', '[0-9]+');
 
 /*detail*/
-Route::get('{cat}/d-{id}/{name}.html',array('as' => 'site.detail','uses' =>'SiteHomeController@index'))->where('id', '[0-9]+');
+Route::get('{cat}/d-{id}/{name}.html',array('as' => 'site.detailProduct','uses' =>'SiteHomeController@detailProduct'))->where('id', '[0-9]+');
+Route::get('{cat}/t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
+
+/*page 404*/
+Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteHomeController@pageError'));
 
 /*search*/
 Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@index'));

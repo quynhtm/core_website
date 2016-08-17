@@ -1,1 +1,1 @@
-Đây là trang chủ
+Đây là danh sách tin tức
