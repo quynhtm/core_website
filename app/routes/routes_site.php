@@ -12,23 +12,18 @@
 /*home*/
 Route::any('/', array('as' => 'site.home','uses' => 'SiteHomeController@index'));
 
-/*list*/
-Route::get('danh-muc/c-{id}/{name}.html',array('as' => 'site.list','uses' =>'SiteHomeController@index'))->where('id', '[0-9]+');
-
-/*detail*/
+/*product*/
+Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@searchProduct'));
 Route::get('{cat}/d-{id}/{name}.html',array('as' => 'site.detailProduct','uses' =>'SiteHomeController@detailProduct'))->where('id', '[0-9]+');
+Route::get('danh-muc/c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteHomeController@listProduct'))->where('id', '[0-9]+');
+
+/*tin tưc*/
+Route::get('c-{id}/{name}.html',array('as' => 'site.list','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
+Route::get('tin-tuc.html',array('as' => 'site.list','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
 Route::get('{cat}/t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
 /*page 404*/
 Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteHomeController@pageError'));
-
-/*search*/
-Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@index'));
-Route::get('site/search',array('as' => 'site.suggest_search','uses' => 'SiteHomeController@suggestSearch'));
-
-/*thông báo*/
-Route::get('thong-bao.html',array('as' => 'home.eventNote','uses' =>'SiteHomeController@eventNote'));
-
 
 //trang chủ shop
 Route::get('gian-hang/s-{shop_id}/{name}.html',array('as' => 'shop.home','uses' =>'ShopController@index'))->where('shop_id', '[0-9]+');

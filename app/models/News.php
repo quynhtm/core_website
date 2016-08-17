@@ -34,6 +34,9 @@ class News extends Eloquent
             if (isset($dataSearch['news_status']) && $dataSearch['news_status'] != -1) {
                 $query->where('news_status', $dataSearch['news_status']);
             }
+            if (isset($dataSearch['news_category']) && $dataSearch['news_category'] > 0) {
+                $query->where('news_category', $dataSearch['news_category']);
+            }
             $total = $query->count();
             $query->orderBy('news_id', 'desc');
 

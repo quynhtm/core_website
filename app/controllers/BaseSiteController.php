@@ -21,7 +21,7 @@ class BaseSiteController extends BaseController
         //m?ng menu danh muc
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
-        FunctionLib::debug($arrCategory);
+        //FunctionLib::debug($arrCategory);
 
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
