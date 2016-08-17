@@ -11,16 +11,19 @@ class SiteHomeController extends BaseSiteController
     public function index(){
         $this->header();
         $dataShow = array();
+        $user_shop = array();
+        $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
             ->with('data',$dataShow)
-            ->with('user', $this->user);
+            ->with('data',$dataShow)
+            ->with('user_shop', $user_shop);
         $this->footer();
     }
 
     public function shopLogin(){
         $this->header();
         $dataShow = array();
-        $this->layout->content = View::make('site.ShopLayouts.login')
+        $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
             ->with('data',$dataShow)
             ->with('user', $this->user);
         $this->footer();

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>@if(isset($title)){{$title}}@else {{CGlobal::web_name}} @endif</title>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="fb:app_id" content="11336688" />
     <meta name="google-site-verification" content="ssdbfsdfsjfecncalnw" />
     <meta property="og:title" content="@if(isset($title_seo)){{$title_seo}}@else {{CGlobal::web_name}}" @endif/>
@@ -16,6 +15,7 @@
     <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
 
     {{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
+    {{ HTML::style('assets/frontend/css/site.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
     {{CGlobal::$extraHeaderCSS}}
     <script type="text/javascript">
         var WEB_ROOT = "{{url('', array(), Config::get('config.SECURE'))}}";
@@ -38,20 +38,26 @@
 </head>
 <body>
 {{--<div class="alert-w"></div>--}}
-<div class="container-page">
-    <div class="mp-pusher" id="mp-pusher">
+<div class="container-page" id="wrapper">
         @if(isset($header))
-            {{$header}}
+            <div id="header">
+                {{$header}}
+            </div>
         @endif
-        <div id="wrapper">
-            @if(isset($content))
-                {{$content}}
-            @endif
-            @if(isset($footer))
-                {{$footer}}
-            @endif
+
+        <div id="content">
+            <div class="wrapper-content">
+                @if(isset($content))
+                    {{$content}}
+                @endif
+            </div>
         </div>
-    </div>
+
+        @if(isset($footer))
+            <div id="footer">
+                {{$footer}}
+            </div>
+        @endif
 </div>
 {{CGlobal::$extraFooterCSS}}
 {{CGlobal::$extraFooterJS}}
