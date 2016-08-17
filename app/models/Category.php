@@ -5,7 +5,7 @@
  */
 class Category extends Eloquent
 {
-    protected $table = 'category';
+    protected $table = 'web_category';
     protected $primaryKey = 'category_id';
     public $timestamps = false;
 
@@ -17,15 +17,6 @@ class Category extends Eloquent
     public static function getByID($id) {
         $admin = Category::where('category_id', $id)->first();
         return $admin;
-    }
-
-    public static function getCategoriessAll() {
-        $categories = Category::where('category_id', '>', 0)->get();
-        $data = array();
-        foreach($categories as $itm) {
-            $data[$itm['category_id']] = $itm['category_name'];
-        }
-        return $data;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
@@ -72,6 +63,9 @@ class Category extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
+                if(isset($data->category_id) && $data->category_id > 0){
+                    self::removeCache($data->category_id);
+                }
                 return $data->category_id;
             }
             DB::connection()->getPdo()->commit();
@@ -96,6 +90,9 @@ class Category extends Eloquent
             $dataSave = Category::find($id);
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
+                if(isset($dataSave->category_id) && $dataSave->category_id > 0){
+                    self::removeCache($dataSave->category_id);
+                }
             }
             DB::connection()->getPdo()->commit();
             return true;
@@ -117,6 +114,9 @@ class Category extends Eloquent
             DB::connection()->getPdo()->beginTransaction();
             $dataSave = Category::find($id);
             $dataSave->delete();
+            if(isset($dataSave->category_id) && $dataSave->category_id > 0){
+                self::removeCache($dataSave->category_id);
+            }
             DB::connection()->getPdo()->commit();
             return true;
         } catch (PDOException $e) {
@@ -124,5 +124,37 @@ class Category extends Eloquent
             throw new PDOException();
         }
     }
+
+    public static function removeCache($id = 0){
+        if($id > 0){
+            Cache::forget(Memcache::CACHE_CATEGORY_ID.$id);
+        }
+        Cache::forget(Memcache::CACHE_ALL_CATEGORY);
+    }
+
+    public static function getCategoriessAll(){
+        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_CATEGORY) : array();
+        if (sizeof($data) == 0) {
+            $categories = Category::where('category_id', '>', 0)->where('category_status', '=', CGlobal::status_show)->get();
+            if($categories){
+                foreach($categories as $itm) {
+                    $data[$itm->category_id] = array('category_id'=>$itm->category_id,
+                        'category_name'=>$itm->category_name,
+                        'category_parent_id'=>$itm->category_parent_id,
+                        'category_content_front'=>$itm->category_content_front,
+                        'category_content_front_order'=>$itm->category_content_front_order,
+                        'category_status'=>$itm->category_status,
+                        'category_image_background'=>$itm->category_image_background,
+                        'category_icons'=>$itm->category_icons,
+                        'category_order'=>$itm->category_order);
+                }
+                if(!empty($data)){
+                    Cache::put(Memcache::CACHE_ALL_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_5);
+                }
+            }
+        }
+        return $data;
+    }
+
 
 }

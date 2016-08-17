@@ -1,6 +1,6 @@
 <?php
 class Memcache{
-    const CACHE_ON = 1 ;// 0: khong dung qua cache, 1: dung qua cache
+    const CACHE_ON = false ;// 0: khong dung qua cache, 1: dung qua cache
     const CACHE_TIME_TO_LIVE_5 = 300; //Time cache 5 phut
     const CACHE_TIME_TO_LIVE_15 = 900; //Time cache 15 phut
     const CACHE_TIME_TO_LIVE_30 = 1800; //Time cache 30 phut
@@ -12,6 +12,10 @@ class Memcache{
     const CACHE_TIME_TO_LIVE_ONE_YEAR =  29030400; //Time cache 1 nam
 
     //user shop
-    const CACHE_ALL_USER_SHOP = 'all_user_shop';
-    const CACHE_USER_SHOP_ID = 'user_shop_id_';
+    const CACHE_ALL_USER_SHOP = 'cache_all_user_shop';
+    const CACHE_USER_SHOP_ID = 'cache_user_shop_id_';
+
+    //danh m?c
+    const CACHE_ALL_CATEGORY    = 'cache_all_category';
+    const CACHE_CATEGORY_ID    = 'cache_category_id';
 }

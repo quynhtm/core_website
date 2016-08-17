@@ -16,8 +16,8 @@ class UserShop extends Eloquent
         'shop_email', 'shop_status', 'shop_created');
 
     public static function getByID($id) {
-        $shop = Cache::get(Memcache::CACHE_USER_SHOP_ID.$id);
-        if (!$shop) {
+        $shop = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_USER_SHOP_ID.$id) : array();
+        if (sizeof($shop) == 0) {
             $shop = UserShop::where('shop_id', $id)->first();
             if(!empty($shop)){
                 Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_5);
@@ -27,9 +27,8 @@ class UserShop extends Eloquent
     }
 
     public static function getShopAll() {
-        $data = array();
-        $data = Cache::get(Memcache::CACHE_ALL_USER_SHOP);
-        if (!$data) {
+        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
+        if (sizeof($data) == 0) {
             $shop = UserShop::where('shop_id', '>', 0)->get();
             foreach($shop as $itm) {
                 $data[$itm['shop_id']] = $itm['shop_name'];
