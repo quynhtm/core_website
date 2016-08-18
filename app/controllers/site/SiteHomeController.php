@@ -7,7 +7,7 @@ class SiteHomeController extends BaseSiteController
         parent::__construct();
     }
 
-    //trang ch?
+    //trang chu
     public function index(){
         $this->header();
         $dataShow = array();
@@ -19,7 +19,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
-    //trang chi ti?t S?N PH?M
+    //trang chi tiet san pham
     public function detailProduct($cat_name, $pro_id, $pro_name){
         $this->header();
         $product = array();
@@ -28,7 +28,7 @@ class SiteHomeController extends BaseSiteController
             $product = Product::getProductByID($pro_id);
             //FunctionLib::debug($product);
             if ($product) {
-                //check s?n ph?m có b? khóa hay ?n khong
+                //check s?n ph?m cÃ³ b? khÃ³a hay ?n khong
                 if($product->product_status == CGlobal::status_hide || $product->product_status == CGlobal::status_block){
                     return Redirect::route('site.Error');
                 }
@@ -51,12 +51,12 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
-    //trang chi ti?t TIN T?C
+    //trang chi tiet tin tuc
     public function detailNew($cat_name, $new_id, $pro_name){
         $this->header();
         $dataNew = array();
         $user_shop = array();
-        //get thong tin c?a bài vi?t
+        //get thong tin c?a bÃ i vi?t
         if($new_id > 0) {
             $dataNew = News::getNewByID($new_id);
             //FunctionLib::debug($dataNew);
@@ -67,13 +67,13 @@ class SiteHomeController extends BaseSiteController
             ->with('user_shop', $user_shop);
         $this->footer();
     }
-    //trang danh sách tin t?c
+    //trang list tin tuc
     public function listNew($news_category = 0){
         $this->header();
         $dataNew = array();
         $user_shop = array();
 
-        //thong tin tìm ki?m
+        //thong tin tÃ¬m ki?m
         $pageNo = (int) Request::get('page_no',1);
         $limit = 15;
         $offset = ($pageNo - 1) * $limit;

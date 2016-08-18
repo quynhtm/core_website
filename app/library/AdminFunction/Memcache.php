@@ -17,11 +17,11 @@ class Memcache{
 
     //danh mục
     const CACHE_ALL_CATEGORY    = 'cache_all_category';
-    const CACHE_CATEGORY_ID    = 'cache_category_id';
+    const CACHE_CATEGORY_ID    = 'cache_category_id_';
 
     //sản phẩm
-    const CACHE_PRODUCT_ID    = 'cache_product_id';
+    const CACHE_PRODUCT_ID    = 'cache_product_id_';
 
     //sản phẩm
-    const CACHE_NEW_ID    = 'cache_news_id';
+    const CACHE_NEW_ID    = 'cache_news_id_';
 }
