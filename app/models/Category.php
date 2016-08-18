@@ -15,8 +15,14 @@ class Category extends Eloquent
         'category_image_background', 'category_icons', 'category_order');
 
     public static function getByID($id) {
-        $admin = Category::where('category_id', $id)->first();
-        return $admin;
+        $category = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_CATEGORY_ID.$id) : array();
+        if (sizeof($category) == 0) {
+            $category = Category::where('category_id', $id)->first();
+            if($category && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_CATEGORY_ID.$id, $category, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $category;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
@@ -148,8 +154,8 @@ class Category extends Eloquent
                         'category_icons'=>$itm->category_icons,
                         'category_order'=>$itm->category_order);
                 }
-                if(!empty($data)){
-                    Cache::put(Memcache::CACHE_ALL_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_WEEK);
+                if(!empty($data) && Memcache::CACHE_ON){
+                    Cache::put(Memcache::CACHE_ALL_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
                 }
             }
         }

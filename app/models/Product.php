@@ -17,11 +17,11 @@ class Product extends Eloquent
         'user_shop_id', 'user_shop_name', 'is_shop','shop_province','time_created', 'time_update');
 
     public static function getProductByID($id) {
-        $product = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PRODUCT_ID) : array();
+        $product = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PRODUCT_ID.$id) : array();
         if (sizeof($product) == 0) {
             $product = Product::where('product_id', $id)->first();
-            if($product){
-                Cache::put(Memcache::CACHE_PRODUCT_ID, $product, Memcache::CACHE_TIME_TO_LIVE_ONE_DAY);
+            if($product && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_PRODUCT_ID.$id, $product, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
         }
         return $product;

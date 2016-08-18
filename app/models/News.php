@@ -15,11 +15,11 @@ class News extends Eloquent
         'news_type', 'news_category', 'news_status');
 
     public static function getNewByID($id) {
-        $new = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_NEW_ID) : array();
+        $new = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_NEW_ID.$id) : array();
         if (sizeof($new) == 0) {
             $new = News::where('news_id', $id)->first();
-            if($new){
-                Cache::put(Memcache::CACHE_NEW_ID, $new, Memcache::CACHE_TIME_TO_LIVE_ONE_DAY);
+            if($new && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_NEW_ID.$id, $new, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
         }
         return $new;
