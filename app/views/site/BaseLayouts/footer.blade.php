@@ -59,6 +59,4 @@
         © 2014 ShopCuaTui.COM.VN - Mua sắm online các mặt hàng: thời trang nam, thời trang nữ, thời trang trẻ em, phụ kiện thời trang, đồ gia dụng... 
     </div>
 </div>
-<span id="back-to-top">
-    <i class="icon-caret-up"></i>
-</span>
+<a href="#" class="back-to-top"></a>
