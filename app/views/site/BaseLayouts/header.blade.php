@@ -2,8 +2,8 @@
     <div class="container">
         <div class="box-login">
             @if(empty($user_shop))
-                <a href="#" class="btnLog" rel="nofollow">Mở Shop</a>
-                <a href="#" class="btnLog" rel="nofollow">Vào Shop</a>
+                <a href="{{Config::get('config.WEB_ROOT')}}dang-ky.html" class="btnLog register" rel="nofollow"><i class="register"></i>Mở Shop</a>
+                <a href="{{Config::get('config.WEB_ROOT')}}dang-nhap.html" class="btnLog" rel="nofollow"><i class="login"></i>Vào Shop</a>
             @else
                 <a href="#" rel="nofollow" class="btnLog">Quản lý gian hàng</a>
                 <a href="#" rel="nofollow" class="btnLog">Thoát</a>

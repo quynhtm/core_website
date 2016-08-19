@@ -22,12 +22,12 @@ class ShopController extends BaseShopController
                 return Redirect::to(self::buildUrlDecode($url));
             }
         } else {
+            FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
             $this->layout->content = View::make('admin.User.login');
         }
     }
 
-    public function login($url = '')
-    {
+    public function login($url = ''){
         $username = Request::get('user_name', '');
         $password = Request::get('user_password', '');
         $error = '';

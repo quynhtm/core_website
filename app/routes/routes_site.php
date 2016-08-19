@@ -39,6 +39,9 @@ Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'sho
 Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
 Route::get('dang-xuat.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@logout'));
 
+//Register
+Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
+
 //quan ly san pham
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@ShopListProduct'));
 

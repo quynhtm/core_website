@@ -105,9 +105,20 @@ class SiteHomeController extends BaseSiteController
 
     //trang login
     public function shopLogin(){
+        FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataShow = array();
         $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
+            ->with('data',$dataShow)
+            ->with('user', $this->user);
+        $this->footer();
+    }
+    //trang register
+    public function shopRegister(){
+        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        $this->header();
+        $dataShow = array();
+        $this->layout->content = View::make('site.ShopLayouts.shopRegister')
             ->with('data',$dataShow)
             ->with('user', $this->user);
         $this->footer();
