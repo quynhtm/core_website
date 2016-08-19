@@ -15,6 +15,10 @@ class Memcache{
     const CACHE_ALL_USER_SHOP = 'cache_all_user_shop';
     const CACHE_USER_SHOP_ID = 'cache_user_shop_id_';
 
+    //provider: NCC cho shop
+    const CACHE_ALL_PROVIDER = 'cache_all_provider';
+    const CACHE_PROVIDER_ID = 'cache_provider_id_';
+
     //danh mục
     const CACHE_ALL_CATEGORY    = 'cache_all_category';
     const CACHE_CATEGORY_ID    = 'cache_category_id_';

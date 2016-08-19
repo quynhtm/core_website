@@ -89,6 +89,13 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('userShop/deleteUserShop', array('as' => 'admin.deltete_userShop_post','uses' => 'UserShopController@deleteUserShop'));//ajax
     Route::post('userShop/updateStatusUserShop', array('as' => 'admin.status_userShop_post','uses' => 'UserShopController@updateStatusUserShop'));//ajax
 
+    //Quản lý nhà cung cấp
+    Route::get('provider/view',array('as' => 'admin.provider_list','uses' => 'ProviderController@view'));
+    Route::get('provider/getProvider/{id?}', array('as' => 'admin.provider_edit','uses' => 'ProviderController@getProvider'))->where('id', '[0-9]+');
+    Route::post('provider/postProvider/{id?}', array('as' => 'admin.provider_edit_post','uses' => 'ProviderController@postProvider'))->where('id', '[0-9]+');
+    Route::post('provider/deleteProvider', array('as' => 'admin.deltete_provider_post','uses' => 'ProviderController@deleteProvider'));//ajax
+    Route::post('provider/updateStatusProvider', array('as' => 'admin.status_provider_post','uses' => 'ProviderController@updateStatusProvider'));//ajax
+
     /*Quản lý San Pham*/
     Route::get('product/view',array('as' => 'admin.product_list','uses' => 'ProductController@view'));
     Route::get('product/getProduct/{id}', array('as' => 'admin.product_edit','uses' => 'ProductController@getProduct'))->where('id', '[0-9]+');
