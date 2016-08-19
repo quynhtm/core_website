@@ -1,0 +1,111 @@
+/*Login*/
+.main-view-post {
+    display: inline-block;
+    min-height: 300px;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 100px;
+}
+.form-send-register {
+    margin: 0 auto;
+    width: 650px;
+}
+.form-send-register h1.title-head,
+.form-login h1.title-head {
+    display: inline-block;
+    font-size: 25px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+    font-weight: normal;
+}
+.title-head span {
+    font-size: 22px;
+}
+.link-tab {
+    color: #555;
+    font-size: 18px;
+}
+.box-register .form-group {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.box-register label {
+    display: inline-block;
+    float: left;
+    font-weight: normal;
+    margin-top: 5px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.control-label span {
+    color: #ff0000;
+}
+.box-register .form-control {
+    border-radius: 2px;
+    box-shadow: none;
+    display: inline-block;
+    float: left;
+    width: 100%;
+}
+.form-control {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    height: 22px;
+    line-height: 1.42857;
+    padding: 5px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.btn {
+    -moz-user-select: none;
+    background-image: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-primary {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+.box-register .form-left-reg {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+    width: 48%;
+}
+.box-register .form-right-reg {
+    display: inline-block;
+    float: right;
+    width: 45%;
+}
+select.form-control {
+    height: 34px;
+    line-height: 34px;
+    width: 305px !important;
+}
+.box-register .agree input {
+    float: left;
+     margin: 4px 5px 0 0;
+}
+.box-register .agree label {
+    display: inline-block;
+    float: left;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: normal;
+    margin-top: 1px;
+    width: auto;
+}

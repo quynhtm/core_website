@@ -17,7 +17,7 @@ a:hover,
 a:focus {
     outline: medium none;
     text-decoration: none;
-    color: #333;
+    color: #555;
 }
 /*Header*/
 .container {
@@ -40,15 +40,31 @@ a:focus {
     float: right;
 }
 .btnLog {
-    color: #666;
     display: inline-block;
-    font-size: 11px;
-    padding-left: 20px;
+    font-size: 12px;
+    padding-left: 12px;
+    vertical-align: top;
 }
 .btnLog:hover,
 .btnLog:focus,
 .btnLog:active {
     color: #ff7300;
+}
+.btnLog .register {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -55px 1px;
+    display: inline-block;
+    height: 25px;
+    margin-right: 3px;
+    vertical-align: top;
+    width: 25px;
+}
+.btnLog .login {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -82px 1px;
+    display: inline-block;
+    height: 25px;
+    margin-right: 3px;
+    vertical-align: top;
+    width: 25px;
 }
 .center-header {
     background: #fff none repeat scroll 0 0;
@@ -533,7 +549,7 @@ a:focus {
 /*Content*/
 #content {
     display: inline-block;
-    min-height: 300px;
+    min-height: 350px;
     width: 100%;
 }
 /*Footer*/
@@ -578,7 +594,7 @@ a:focus {
     color: #fff;
     margin-right: 10px;
     position: relative;
-    top: -4px;
+    top: 3px;
 }
 .midd-footer{
     display: inline-block;
@@ -621,30 +637,25 @@ a:focus {
     display: inline-block;
     font-style: italic;
 }
-.right-top-footer{
-    float: right;
+.right-top-footer {
     display: inline-block;
     float: right;
+    vertical-align: top;
 }
 .right-top-footer .icon-facebook {
-    background: #ddd none repeat scroll 0 0;
-    border-radius: 3px;
-    color: #222;
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -54px -28px;
     display: inline-block;
-    font-size: 20px;
     height: 25px;
+    margin-right: 3px;
+    vertical-align: top;
     width: 25px;
 }
-.right-top-footer .icon-facebook:hover{
-    background: #ccc;
-}
 .right-top-footer .icon-google-plus {
-    background: #ddd none repeat scroll 0 0;
-    border-radius: 3px;
-    color: #222;
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -82px -28px;
     display: inline-block;
-    font-size: 20px;
     height: 25px;
+    margin-right: 3px;
+    vertical-align: top;
     width: 25px;
 }
 .bg-icon-temviewer{
@@ -678,4 +689,16 @@ a:focus {
     font-style: italic;
     margin-top: 5px;
     padding: 5px;
+}
+.back-to-top {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -108px 1px;
+    bottom: 5px;
+    display: inline-block;
+    height: 35px;
+    position: fixed;
+    right: 10px;
+    transition: all 1s ease 0s;
+    vertical-align: top;
+    width: 35px;
+    z-index: 99;
 }
