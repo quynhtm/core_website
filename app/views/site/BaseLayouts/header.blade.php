@@ -1,13 +1,12 @@
-
 <div class="link-top-head">
     <div class="container">
         <div class="box-login">
             @if(empty($user_shop))
-                <a href="#" class="btnLog" rel="nofollow"><i class="icon-hand-right"></i> Mở Shop</a>
-                <a href="#" class="btnLog" rel="nofollow"><i class="icon-signin"></i> Vào Shop</a>
+                <a href="#" class="btnLog" rel="nofollow">Mở Shop</a>
+                <a href="#" class="btnLog" rel="nofollow">Vào Shop</a>
             @else
-                <a href="#" rel="nofollow" class="btnLog"><i class="icon-cog"></i> Quản lý gian hàng</a>
-                <a href="#" rel="nofollow" class="btnLog"><i class="icon-signout"></i> Thoát</a>
+                <a href="#" rel="nofollow" class="btnLog">Quản lý gian hàng</a>
+                <a href="#" rel="nofollow" class="btnLog">Thoát</a>
             @endif
         </div>
     </div>
@@ -96,7 +95,7 @@
                         ?>
                         <?php if(isset($cat['category_parent_name']) && $cat['category_parent_name'] != ''){ ?>
                         <li>
-                            <a href="<?php echo FunctionLib::buildLinkCategory(0, 0, $cat['category_id'], $cat['category_parent_name']) ?>" title="<?php echo $cat['category_parent_name'] ?>"><?php echo $cat['category_parent_name'] ?></a>
+                            <a href="" title="<?php echo $cat['category_parent_name'] ?>"><?php echo $cat['category_parent_name'] ?></a>
                             <?php if(isset($cat['arrSubCategory']) && !empty($cat['arrSubCategory'])) {?>
                             <?php
                             $url = '';
@@ -110,7 +109,7 @@
                                 <?php foreach($list_ul as $ul){?>
                                 <ul>
                                     <?php foreach($ul as $sub){ ?>
-                                    <li><a href="<?php echo FunctionLib::buildLinkCategory(0, 0, $sub['category_id'], $sub['category_name']) ?>" title="<?php echo $sub['category_name'] ?>"><?php echo $sub['category_name'] ?></a></li>
+                                    <li><a href="" title="<?php echo $sub['category_name'] ?>"><?php echo $sub['category_name'] ?></a></li>
                                     <?php } ?>
                                 </ul>
                                 <?php } ?>
@@ -130,10 +129,6 @@
             <div class="list-giai-tri">
                 <i class="icon-bullhorn"></i> <a href="#" title="Tin tức">Tin tức</a>
             </div>
-            <!-- <div class="desc-price-day">
-                <i class="icon-star-empty"></i> <a href="#" title="Giảm giá mỗi ngày">Giảm giá mỗi ngày</a>
-            </div> -->
-
             <div class="right-ultity">
                 <div class="shop-create">
                     <i></i>

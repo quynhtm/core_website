@@ -10,27 +10,26 @@ class BaseSiteController extends BaseController
 {
     protected $layout = 'site.BaseLayouts.index';
     protected $user = array();
-    public function __construct()
-    {
+    public function __construct(){
         $this->user = Session::has('user_shop') ? Session::get('user_shop') : array();
     }
 
     public function header(){
-        FunctionLib::site_js('v9/js/site.js', CGlobal::$POS_HEAD);
+        FunctionLib::site_js('lib/fancy-select/fancySelect.js', CGlobal::$POS_END);
+        FunctionLib::site_css('lib/fancy-select/fancySelect.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_js('frontend/js/site.js', CGlobal::$POS_END);
 
-        //m?ng menu danh muc
+        //Menu category
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
-        //FunctionLib::debug($arrCategory);
-
+        
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
             ->with('user', $this->user);
     }
 
-    public function footer()
-    {
-        FunctionLib::site_js('v9/js/footer.js', CGlobal::$POS_END);
+    public function footer(){
+    
         $this->layout->footer = View::make("site.BaseLayouts.footer")
             ->with('user', $this->user);
     }

@@ -22,7 +22,7 @@
         var DEVMODE = "{{Config::get('config.DEVMODE')}}";
         var COOKIE_DOMAIN = "{{Config::get('config.DOMAIN_COOKIE_SERVER')}}";
     </script>
-    {{ HTML::script('assets/v9/js/jquery-latest.min.js', array(), Config::get('config.SECURE')) }}
+    {{ HTML::script('assets/js/jquery.2.1.1.min.js', array(), Config::get('config.SECURE')) }}
 
     {{CGlobal::$extraHeaderJS}}
     @if(Config::get('config.DEVMODE') == false)

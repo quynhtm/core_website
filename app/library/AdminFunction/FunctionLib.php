@@ -26,7 +26,7 @@ class FunctionLib {
                 CGlobal::$extraFooterCSS .= $html . "\n";
             return;
         } else {
-            $html = '<link type="text/css" rel="stylesheet" href="' .Config::get('config.WEB_ROOT') . 'assets/' . $file_name . ((CGlobal::$css_ver) ? '?ver=' . CGlobal::$css_ver : '') . '" />' . "\n";
+            $html = '<link type="text/css" rel="stylesheet" href="' .Config::get('config.WEB_ROOT') . '/assets/' . $file_name . ((CGlobal::$css_ver) ? '?ver=' . CGlobal::$css_ver : '') . '" />' . "\n";
             if ($position == CGlobal::$POS_HEAD && strpos(CGlobal::$extraHeaderCSS, $html) === false)
                 CGlobal::$extraHeaderCSS .= $html . "\n";
             elseif ($position == CGlobal::$POS_END && strpos(CGlobal::$extraFooterCSS, $html) === false)
@@ -52,7 +52,7 @@ class FunctionLib {
                 CGlobal::$extraFooterJS .= $html . "\n";
             return;
         } else {
-            $html = '<script type="text/javascript" src="' . Config::get('config.WEB_ROOT')  . 'assets/' . $file_name . ((CGlobal::$js_ver) ? '?ver=' . CGlobal::$js_ver : '') . '"></script>';
+            $html = '<script type="text/javascript" src="' . Config::get('config.WEB_ROOT')  . '/assets/' . $file_name . ((CGlobal::$js_ver) ? '?ver=' . CGlobal::$js_ver : '') . '"></script>';
             if ($position == CGlobal::$POS_HEAD && strpos(CGlobal::$extraHeaderJS, $html) === false)
                 CGlobal::$extraHeaderJS .= $html . "\n";
             elseif ($position == CGlobal::$POS_END && strpos(CGlobal::$extraFooterJS, $html) === false)
@@ -75,7 +75,7 @@ class FunctionLib {
                 CGlobal::$extraFooterCSS .= $html . "\n";
             return;
         } else {
-            $html = '<link type="text/css" rel="stylesheet" href="' . url('', array(), Config::get('config.SECURE')) . 'assets/' . $file_name . ((CGlobal::$css_ver) ? '?ver=' . CGlobal::$css_ver : '') . '" />' . "\n";
+            $html = '<link type="text/css" rel="stylesheet" href="' . url('', array(), Config::get('config.SECURE')) . '/assets/' . $file_name . ((CGlobal::$css_ver) ? '?ver=' . CGlobal::$css_ver : '') . '" />' . "\n";
             if ($position == CGlobal::$POS_HEAD && strpos(CGlobal::$extraHeaderCSS, $html) === false)
                 CGlobal::$extraHeaderCSS .= $html . "\n";
             elseif ($position == CGlobal::$POS_END && strpos(CGlobal::$extraFooterCSS, $html) === false)
@@ -101,7 +101,7 @@ class FunctionLib {
                 CGlobal::$extraFooterJS .= $html . "\n";
             return;
         } else {
-            $html = '<script type="text/javascript" src="' . url('', array(), Config::get('config.SECURE')) . 'assets/' . $file_name . ((CGlobal::$js_ver) ? '?ver=' . CGlobal::$js_ver : '') . '"></script>';
+            $html = '<script type="text/javascript" src="' . url('', array(), Config::get('config.SECURE')) . '/assets/' . $file_name . ((CGlobal::$js_ver) ? '?ver=' . CGlobal::$js_ver : '') . '"></script>';
             if ($position == CGlobal::$POS_HEAD && strpos(CGlobal::$extraHeaderJS, $html) === false)
                 CGlobal::$extraHeaderJS .= $html . "\n";
             elseif ($position == CGlobal::$POS_END && strpos(CGlobal::$extraFooterJS, $html) === false)
