@@ -26,6 +26,33 @@ class UserShop extends Eloquent
         return $shop;
     }
 
+    public static function getUserByName($name){
+        $shop = UserShop::where('user_shop', $name)->first();
+        return $shop;
+    }
+    public static function isLogin()
+    {
+        $result = false;
+        if (Session::has('user_shop')) {
+            $result = true;
+        }
+        return $result;
+    }
+    public static function user_login(){
+        $user_shop = array();
+        if(Session::has('user_shop')){
+            $user_shop = Session::get('user_shop');
+        }
+        return $user_shop;
+    }
+
+    public static function updateLogin($shop = array()){
+        if($shop){
+            $shop->shop_time_login = time();
+            $shop->save();
+        }
+    }
+
     public static function getShopAll() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
         if (sizeof($data) == 0) {

@@ -9,25 +9,18 @@
 class BaseShopController extends BaseController
 {
     protected $layout = 'site.ShopLayouts.index';
-    protected $user = array();
+    protected $user_shop = array();
     public function __construct()
     {
-        //$this->user = Session::has('user_shop') ? Session::get('user_shop') : array();
-        if (!User::isLogin()) {
-            Redirect::route('admin.login',array('url'=>self::buildUrlEncode(URL::current())))->send();
+        $this->user_shop = Session::has('user_shop') ? Session::get('user_shop') : array();
+        if (!UserShop::isLogin()) {
+            Redirect::route('site.shopLogin',array('url'=>self::buildUrlEncode(URL::current())))->send();
         }
-
-        $this->user = User::user_login();
-        if($this->user && sizeof($this->user['user_permission']) > 0){
-            $this->permission = $this->user['user_permission'];
-        }
-        if(in_array('root',$this->permission)){
+        $this->user_shop = UserShop::user_login();
+        /*if(in_array('root',$this->permission)){
             $this->is_root = true;
-        }
+        }*/
 
-        //View::share('aryPermission',$this->permission);
-        View::share('user',$this->user);
-        //View::share('is_root',$this->is_root);
+        View::share('user_shop',$this->user_shop);
     }
-
 }

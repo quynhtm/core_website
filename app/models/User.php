@@ -36,7 +36,8 @@ class User extends Eloquent {
      * @return string
      */
     public static function encode_password($password){
-        return md5($password.'-vpp2015');
+        return md5($password.'-haianhem!@13368');
+        //return md5($password.'-vpp2015');
     }
 
     public static function updateLogin($user = array()){

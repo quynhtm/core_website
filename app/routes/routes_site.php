@@ -35,14 +35,16 @@ Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'sho
  * Phai login = account Shop với thao tác đc
  * **********************************************************************************************************************************
  * */
-//login
+//login, dang ky, logout shop
 Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
-Route::get('dang-xuat.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@logout'));
-
-//Register
+Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
+Route::post('thay-doi-pass.html', array('as' => 'site.user_shop_change_pass','uses' => 'SiteHomeController@shopChangePass'));
+Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 
+
 //quan ly san pham
+Route::get('shop.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@ShopListProduct'));
 
 //quan ly don hang

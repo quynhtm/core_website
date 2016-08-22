@@ -3,10 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>
-        <?php
-            echo CGlobal::$pageAdminTitle;
-        ?>
+    <title>Shop admin - shopcuatui.com.vn
     </title>
 
     <meta name="description" content="overview &amp; stats" />
@@ -95,7 +92,7 @@
             <a href="{{ URL::route('admin.dashboard') }}" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    Quản trị CMS - {{CGlobal::web_name}}
+                    Quản trị shop @if($user_shop['shop_name'] != '')- {{$user_shop['shop_name']}}@endif
                 </small>
             </a>
         </div>
@@ -106,7 +103,7 @@
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<span class="user-info">
 									<small>Xin chào,</small>
-                                    {{$user['user_full_name']}}
+                                    {{$user_shop['user_shop']}}
 								</span>
 
                         <i class="ace-icon fa fa-caret-down"></i>
@@ -114,7 +111,7 @@
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="{{URL::route('admin.user_change',array('id' => base64_encode($user['user_id'])))}}">
+                            <a href="{{URL::route('site.user_shop_change_pass',array('id' => base64_encode($user_shop['shop_id'])))}}">
                                 <i class="ace-icon fa fa-unlock"></i>
                                 Đổi mật khẩu
                             </a>
@@ -123,7 +120,7 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="{{URL::route('admin.logout')}}">
+                            <a href="{{URL::route('site.shopLogout')}}">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 Đăng xuất
                             </a>
@@ -139,21 +136,7 @@
     <div id="sidebar" class="sidebar sidebar-fixed sidebar-scroll responsive">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success">
-                    <i class="ace-icon fa fa-youtube"></i>
-                </button>
-
-                <button class="btn btn-info">
-                    <i class="ace-icon fa fa-facebook"></i>
-                </button>
-
-                <button class="btn btn-warning">
-                    <i class="ace-icon fa fa-twitter"></i>
-                </button>
-
-                <button class="btn btn-danger">
-                    <i class="ace-icon fa fa-google-plus"></i>
-                </button>
+                 <a href="#" title="Trang chủ shopcuatui.com.vn"><img width="150px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>
             </div>
 
             <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
