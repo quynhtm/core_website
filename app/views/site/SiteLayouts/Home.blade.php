@@ -48,7 +48,7 @@
 		</div>
 		<div class="slider-box-mid">
 			<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
-			<img src="http://shopcuatui.com.vn/image.php?type_dir=banner&amp;id=15&amp;width=0&amp;height=0&amp;image=http://shopcuatui.com.vn/uploads/banner/15/08-09-20-09-06-2016-5555.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
+			<img src="http://sanphamredep.com/uploads/images/ads/11-2015/08-35-08-07-11-2015-1.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
 		</a>
 		</div>
 		<div class="ads-right-mid">
