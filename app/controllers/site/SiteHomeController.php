@@ -53,7 +53,10 @@ class SiteHomeController extends BaseSiteController
 
     //trang chi tiet tin tuc
     public function detailNew($cat_name, $new_id, $pro_name){
-        $this->header();
+        
+    	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
+    	
+    	$this->header();
         $dataNew = array();
         $user_shop = array();
         //get thong tin c?a bài vi?t
@@ -69,7 +72,10 @@ class SiteHomeController extends BaseSiteController
     }
     //trang list tin tuc
     public function listNew($news_category = 0){
-        $this->header();
+        
+    	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
+    	
+    	$this->header();
         $dataNew = array();
         $user_shop = array();
 
