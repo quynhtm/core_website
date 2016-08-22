@@ -112,12 +112,12 @@ class SiteHomeController extends BaseSiteController
     //trang login
     public function shopLogin(){
         FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
-        //$this->header();
+        $this->header();
         $error = '';
         $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
             ->with('error',$error)
             ->with('user', $this->user);
-        //$this->footer();
+        $this->footer();
     }
     public function login($url = ''){
         FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
@@ -139,7 +139,7 @@ class SiteHomeController extends BaseSiteController
                             $dataUpdate['is_login'] = CGlobal::SHOP_ONLINE;
                             $dataUpdate['shop_time_login'] = time();
                             UserShop::updateData($userShop->shop_id,$dataUpdate);
-                            
+
                             if ($url === '' || $url === 'login') {
                                 return Redirect::route('shop.adminShop');
                             } else {
