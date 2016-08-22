@@ -43,7 +43,8 @@ Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeCo
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 
 
-//quan ly san pham
+
+//quan ly page shop admin
 Route::get('shop.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@ShopListProduct'));
 
