@@ -1146,7 +1146,7 @@ a:focus {
 .cate-box {
     background: #fafafa;
     border: 1px solid #ddd;
-    margin-bottom: 18px;
+    margin-bottom: 5px;
     padding: 8px 14px 7px;
     position: relative;
 }
@@ -1205,7 +1205,7 @@ a:focus {
     border-radius: 2px;
     display: inline-block;
     overflow: hidden;
-    padding: 10px;
+    padding: 10px 10px 2px;
 }
 .w-home > ul {
     margin-right: -100px;
@@ -1242,6 +1242,7 @@ a:focus {
     overflow: hidden;
     position: relative;
     text-align: center;
+	background: #fafafa;
 }
 .w-home .item .post-thumb img {
     width: 100%;
@@ -1271,8 +1272,9 @@ a:focus {
 }
 .line-ads{
     clear: both;
-    margin-top: 15px;
     width: 100%;
+	display:inline-block;
+	margin-top:15px;
 }
 .banner-ads > img {
     width: 100%;
