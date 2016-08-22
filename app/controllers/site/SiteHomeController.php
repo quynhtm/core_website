@@ -121,8 +121,8 @@ class SiteHomeController extends BaseSiteController
     }
     public function login($url = ''){
         FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
-        $user_shop = Request::get('user_shop_login', '');
-        $password = Request::get('password_shop_login', '');
+        $user_shop = trim(Request::get('user_shop_login', ''));
+        $password = trim(Request::get('password_shop_login', ''));
         $error = '';
         if ($user_shop != '' && $password != '') {
             if (strlen($user_shop) < 3 || strlen($user_shop) > 50 || preg_match('/[^A-Za-z0-9_\.@]/', $user_shop) || strlen($password) < 5) {
