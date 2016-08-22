@@ -43,9 +43,6 @@
                         Địa chỉ: Tòa nhà F4 Trung Kính - Cầu Giấy - Hà Nội<br>
                         <span class="phone">ĐT: 0985.10.10.26 - 0913.922.986</span><br>
                     </div>
-                    <div class="bg-icon-temviewer">
-                        <a rel="nofollow" href="https://www.teamviewer.com/link/?url=505374&id=756347786"><span>Tải về <br/>TeamViewer</span></a>
-                    </div>
                     <div class="note-footer">
                         Chú ý: Shopcuatui.com.vn không bán hàng trực tiếp, quý khách mua hàng xin vui lòng liên lạc với shop.
                     </div>

@@ -22,8 +22,8 @@ a:focus {
 /*Header*/
 .container {
     margin: 0 auto;
-    width: 1300px;
-    padding:0 15px;
+    padding: 0 15px;
+    width: 95%;
 }
 .link-top-head {
     background-color: #f7f7f7;
@@ -31,7 +31,6 @@ a:focus {
     border-top: 1px solid #d8d8d8;
     height: 30px;
     line-height: 30px;
-    min-width: 1300px;
     position: relative;
     width: 100%;
 }
@@ -556,7 +555,6 @@ a:focus {
 .top-bg-footer{
     background: #202020;
     border-top: 1px solid #fff;
-    min-width: 1300px;
     padding: 20px 0 10px;
 }
 .bottom-footer{
@@ -986,7 +984,7 @@ a:focus {
     background: #fff;
     border: 1px solid #ddd;
     border-top: none;
-    width: 230px;
+    width: 18%;
     position: relative;
     display: inline-block;
     float: left;
@@ -1108,7 +1106,7 @@ a:focus {
     float: left;
     height: 428px;
     margin-left: 5px;
-    width: 730px;
+    width: 56%;
     overflow: hidden;
 }
 .slider-box-mid img{
@@ -1119,7 +1117,7 @@ a:focus {
     float: right;
     height: 428px;
     overflow: hidden;
-    width: 328px;
+    width: 25%;
 }
 .item-right-slider {
     margin-bottom: 10px;
@@ -1137,7 +1135,6 @@ a:focus {
     clear: both;
 }
 .line-box{
-    display: inline-block;
     width: 100%;
     clear: both;
     margin-top: 15px;
@@ -1203,7 +1200,7 @@ a:focus {
 .content-list-item {
     background: #fafafa;
     border-radius: 2px;
-    display: inline-block;
+    display: block;
     overflow: hidden;
     padding: 10px 10px 2px;
 }
@@ -1211,15 +1208,15 @@ a:focus {
     margin-right: -100px;
 }
 .w-home .item {
-    background: #fff;
+    background: #fff none repeat scroll 0 0;
     display: inline-block;
     float: left;
     height: 320px;
-    margin: 5px 15px 15px 0;
+    margin: 5px 18px 15px 0;
     overflow: hidden;
     padding: 10px;
     position: relative;
-    width: 224px;
+    width: 16%;
 }
 .sale-off {
     background: rgba(0, 0, 0, 0) url("../img/discount.png") no-repeat scroll center top;
