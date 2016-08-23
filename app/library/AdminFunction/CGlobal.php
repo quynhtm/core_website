@@ -13,6 +13,7 @@ class CGlobal{
     public static $extraFooterCSS = '';
     public static $extraFooterJS = '';
     public static $pageAdminTitle = 'Dashboard Admin';
+    public static $pageShopTitle = 'Shop Admin';
 
     const web_name = 'Website';
     const number_limit_show = 30;
@@ -63,4 +64,13 @@ class CGlobal{
     const SHOP_NUMBER_PRODUCT_FREE = 10;
     const SHOP_NUMBER_PRODUCT_NOMAL = 100;
     const SHOP_NUMBER_PRODUCT_VIP = 5000;
+
+    //order
+    const ORDER_STATUS_DELETE = 0;
+    const ORDER_STATUS_NEW = 1;
+    const ORDER_STATUS_CHECKED = 2;
+    const ORDER_STATUS_SUCCESS = 3;
+    const ORDER_STATUS_CANCEL = 4;
+
+
 }

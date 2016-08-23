@@ -400,4 +400,10 @@ class FunctionLib {
         else
             return $arrItem;
     }
+    static function numberFormat($number = 0) {
+        if ($number >= 1000) {
+            return number_format($number, 0, ',', '.');
+        }
+        return $number;
+    }
 }

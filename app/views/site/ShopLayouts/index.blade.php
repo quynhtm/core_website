@@ -3,8 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>Shop admin - shopcuatui.com.vn
-    </title>
+    <title>{{CGlobal::$pageShopTitle}}</title>
 
     <meta name="description" content="overview &amp; stats" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -136,7 +135,7 @@
     <div id="sidebar" class="sidebar sidebar-fixed sidebar-scroll responsive">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                 <a href="#" title="Trang chủ shopcuatui.com.vn"><img width="150px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>
+                 <!--<a href="#" title="Trang chủ shopcuatui.com.vn"><img width="150px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>-->
             </div>
 
             <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
