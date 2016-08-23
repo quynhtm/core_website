@@ -53,9 +53,11 @@ class ShopController extends BaseShopController
         $search['order_id'] = addslashes(Request::get('order_id',''));
         $search['order_product_name'] = addslashes(Request::get('order_product_name',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
+        $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo đơn hàng của shop
+
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
-        $dataSearch = Order::searchByCondition($search, $limit, $offset,$total);
+        $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Order::searchByCondition($search, $limit, $offset,$total): array();
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($dataSearch);
 

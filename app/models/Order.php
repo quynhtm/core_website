@@ -43,6 +43,9 @@ class Order extends Eloquent
             if (isset($dataSearch['order_status']) && $dataSearch['order_status'] != -1) {
                 $query->where('order_status', $dataSearch['order_status']);
             }
+            if (isset($dataSearch['order_user_shop_id']) && $dataSearch['order_user_shop_id'] != -1) {
+                $query->where('order_user_shop_id', $dataSearch['order_user_shop_id']);
+            }
             $total = $query->count();
             $query->orderBy('order_id', 'desc');
 
