@@ -15,7 +15,8 @@
 							@if($item['news_image'] != '')
 							<div class="post-img">
 								<a title="{{$item['news_title']}}" href="">
-									<img alt="{{$item['news_title']}}" src="http://shopcuatui.com.vn/image.php?type_dir=news&amp;id=146&amp;width=400&amp;height=400&amp;image=http://shopcuatui.com.vn/uploads/news/146/10-10-33-12-08-2016-taobien.jpg">
+									<!--<img alt="{{$item['news_title']}}" src="http://shopcuatui.com.vn/image.php?type_dir=news&amp;id=146&amp;width=400&amp;height=400&amp;image=http://shopcuatui.com.vn/uploads/news/146/10-10-33-12-08-2016-taobien.jpg">-->
+									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 100, 100, '', true, true)}}">
 									<div class="post-format">
 										<i class="fa fa-file-text"></i>
 									</div>
