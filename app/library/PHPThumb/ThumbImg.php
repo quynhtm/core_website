@@ -60,7 +60,7 @@ if(!class_exists('ThumbImg') ){
 
 						$objThumb->show(true, $thumbPath);
 					}else{
-						$url_img = IMAGE_DEFAULT;
+						$url_img = '';
 					}
 				}
 			}

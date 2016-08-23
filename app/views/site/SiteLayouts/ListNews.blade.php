@@ -9,26 +9,34 @@
 			<div class="left-news-view">
 				<h1 class="title-news">Tin tức chung</h1>
 				<div class="list-news-post">
-					<div class="item-news">
-						<div class="post-img">
-							<a title="Thực phẩm tốt cho người ngồi máy tính nhiều" href="">
-								<img alt="Thực phẩm tốt cho người ngồi máy tính nhiều" src="http://shopcuatui.com.vn/image.php?type_dir=news&amp;id=146&amp;width=400&amp;height=400&amp;image=http://shopcuatui.com.vn/uploads/news/146/10-10-33-12-08-2016-taobien.jpg">
-								<div class="post-format">
-									<i class="fa fa-file-text"></i>
-								</div>
-							</a>
-							
+					@if(!empty($dataNew))
+						@foreach ($dataNew as $key => $item)
+						<div class="item-news">
+							@if($item['news_image'] != '')
+							<div class="post-img">
+								<a title="{{$item['news_title']}}" href="">
+									<img alt="{{$item['news_title']}}" src="http://shopcuatui.com.vn/image.php?type_dir=news&amp;id=146&amp;width=400&amp;height=400&amp;image=http://shopcuatui.com.vn/uploads/news/146/10-10-33-12-08-2016-taobien.jpg">
+									<div class="post-format">
+										<i class="fa fa-file-text"></i>
+									</div>
+								</a>
+							</div>
+							@endif
+							<div class="post-data">
+								<h2 class="post-title"><a href="">{{$item['news_title']}}</a></h2>
+								<div class="post-content">{{$item['news_desc_sort']}}</div>
+								<div class="redmoreNews"> <a href="">Xem thêm</a></div>
+							</div>
 						</div>
-						<div class="post-data">
-							<h2 class="post-title"><a href="">Thực phẩm tốt cho người ngồi máy tính nhiều</a></h2>
-							<div class="post-content">Những mặt trái của hiện tượng bức xạ nhiệt từ máy tính gây nên tình trạng da khô, môi khô, mắt khô, ảnh hưởng đến nội tạng cơ thể…Với rau xanh bạn nên chọn loại có màu sẫm và nhiều lá, còn với trái cây nên ưu tiên những loại quả giàu vitamin C sẽ đem lại tác dụng tích cực và nhanh chóng hơn rất nhiều</div>
-							<div class="redmoreNews"> <a href="">Xem thêm</a></div>
-						</div>
-					</div>
+						@endforeach
 					<div class="show-box-paging" style="margin-top:20px; ">
-						<div class="showListPage">
-						</div>
+						<div class="showListPage">{{$paging}}</div>
 					</div>
+					@else
+                    <div class="alert">
+                        Đang cập nhật dữ liệu...
+                    </div>
+                	@endif
 				</div>
 			</div>
 			<div class="right-news-view">

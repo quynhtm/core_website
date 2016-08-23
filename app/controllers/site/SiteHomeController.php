@@ -79,7 +79,7 @@ class SiteHomeController extends BaseSiteController
         $dataNew = array();
         $user_shop = array();
 
-        //thong tin tìm ki?m
+        //thong tin tim kiem
         $pageNo = (int) Request::get('page_no',1);
         $limit = 15;
         $offset = ($pageNo - 1) * $limit;
@@ -90,10 +90,12 @@ class SiteHomeController extends BaseSiteController
         $search['news_status'] = CGlobal::status_show;
         $search['field_get'] = 'news_id,news_title,news_desc_sort,news_image';//cac truong can lay
         $dataNew = News::searchByCondition($search, $limit, $offset,$total);
+        $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($dataNew);
 
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
             ->with('dataNew',$dataNew)
+            ->with('paging', $paging)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
