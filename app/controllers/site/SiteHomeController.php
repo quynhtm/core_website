@@ -14,7 +14,6 @@ class SiteHomeController extends BaseSiteController
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
             ->with('data',$dataShow)
-            ->with('data',$dataShow)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
@@ -57,16 +56,26 @@ class SiteHomeController extends BaseSiteController
     	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     	
     	$this->header();
-        $dataNew = array();
+        $dataNew = $dataNewsSame = array();
         $user_shop = array();
-        //get thong tin c?a bài vi?t
+        //get news detail
         if($new_id > 0) {
             $dataNew = News::getNewByID($new_id);
-            //FunctionLib::debug($dataNew);
+            //get news same
+            if($dataNew != null){
+            	$dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category';
+            	$dataNewsSame = News::getSameNews($dataField, $dataNew->news_category, $new_id, 10);
+            }
         }
-
+		
+        //get product hot
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 10);
+        
         $this->layout->content = View::make('site.SiteLayouts.DetailNews')
             ->with('dataNew',$dataNew)
+            ->with('dataNewsSame',$dataNewsSame)
+            ->with('dataFieldProductHot',$dataFieldProductHot)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
@@ -91,11 +100,15 @@ class SiteHomeController extends BaseSiteController
         $search['field_get'] = 'news_id,news_title,news_desc_sort,news_image';//cac truong can lay
         $dataNew = News::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
-        //FunctionLib::debug($dataNew);
+        
+        //get product hot
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 10);
 
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
             ->with('dataNew',$dataNew)
             ->with('paging', $paging)
+            ->with('dataFieldProductHot',$dataFieldProductHot)
             ->with('user_shop', $user_shop);
         $this->footer();
     }

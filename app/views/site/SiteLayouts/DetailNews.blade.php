@@ -9,26 +9,25 @@
 	<div class="main-view-post">
 		<div class="wrapp-content-news">
 			<div class="left-news-view">
-				<h1 class="title-news">Thực phẩm tốt cho người ngồi máy tính nhiều</h1>
+				<h1 class="title-news">{{$dataNew->news_title}}</h1>
+				@if($dataNew->news_desc_sort != '')
 				<div class="intro-news">
-					Những mặt trái của hiện tượng bức xạ nhiệt từ máy tính gây nên tình trạng da khô, môi khô, mắt khô, 
-					ảnh hưởng đến nội tạng cơ thể…Với rau xanh bạn nên chọn loại có màu sẫm và nhiều lá, còn với trái cây nên ưu tiên 
-					những loại quả giàu vitamin C 
-					sẽ đem lại tác dụng tích cực và nhanh chóng hơn rất nhiều
+					{{$dataNew->news_desc_sort}}
 				</div>
-				<div class="content-news">
-					Tảo biển hay còn được gọi là một loại rau ở biển cả, nó tập trung nhiều chất dinh dưỡng, đặc biệt giàu hàm lượng những chất hóa học giúp bảo vệ cơ thể khỏi nguy cơ bức xạ nhiệt. Tảo biển thường được dùng để chế biến món ăn cho người suy nhược sức khỏe, phụ nữ sau khi sinh, người mới ốm dậy…
-Trong thành phần của tảo biển có chứa Sodium alginate là muối natri của acid alginic NaC6H7O6, nghiên cứu của các chuyên gia thuộc trường đại học Y khoa Hoa Kỳ đã cho thấy rằng chất này có tác dụng hấp thụ các chất phóng xạ nằm trong đường ruột từ 50 – 80%.
-Còn hàm lượng iot hào phóng trong tảo biển cần thiết cho hoạt động của tuyến giáp, phòng tránh nguy cơ ung thư hay viêm nhiễm cơ thể.Với tảo biển bạn có thể thưởng thức với món canh, súp, cơm quấn hay sushi đều rất tuyệt vời.
-				</div>
+				@endif
+				<div class="content-news">{{$dataNew->news_content}}</div>
+				@if($dataNewsSame != null)
 				<div class="same-content-news">
 					<div class="same-title">Bài viết khác:</div>
 					<ul>
+						@foreach($dataNewsSame as $item)
 						<li><i class="fa fa-angle-double-right"></i>
-							<a href="" title="Nên uống nước chè mỗi ngày">Nên uống nước chè mỗi ngày</a>
+							<a href="" title="{{$item->news_title}}">{{$item->news_title}}</a>
 						</li>
+						@endforeach
 					</ul>
 				</div>
+				@endif
 			</div>
 			<div class="right-news-view">
 				<div class="content-right-product search">
@@ -40,6 +39,7 @@ Còn hàm lượng iot hào phóng trong tảo biển cần thiết cho hoạt �
 				</div>
 				<div class="content-right-product">
 				</div>
+				@if($dataFieldProductHot != null)
 				<div class="right-bottom-content-view">
 					<div class="title-hot"><span>Sản phẩm nổi bật</span></div>
 					<div class="content-right-bottom-content-view">
@@ -60,6 +60,7 @@ Còn hàm lượng iot hào phóng trong tảo biển cần thiết cho hoạt �
 						</ul>
 					</div>
 				</div>
+				@endif
 			</div>	
 		</div>
 	</div>

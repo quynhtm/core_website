@@ -16,9 +16,6 @@
 							<div class="post-img">
 								<a title="{{$item['news_title']}}" href="">
 									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 300, 300, '', true, true)}}">
-									<div class="post-format">
-										<i class="fa fa-file-text"></i>
-									</div>
 								</a>
 							</div>
 							@endif
@@ -29,7 +26,7 @@
 							</div>
 						</div>
 						@endforeach
-					<div class="show-box-paging" style="margin-top:20px; ">
+					<div class="show-box-paging">
 						<div class="showListPage">{{$paging}}</div>
 					</div>
 					@else
@@ -49,6 +46,7 @@
 				</div>
 				<div class="content-right-product">
 				</div>
+				@if($dataFieldProductHot != null)
 				<div class="right-bottom-content-view">
 					<div class="title-hot"><span>Sản phẩm nổi bật</span></div>
 					<div class="content-right-bottom-content-view">
@@ -69,6 +67,7 @@
 						</ul>
 					</div>
 				</div>
+				@endif
 			</div>	
 		</div>
 	</div>

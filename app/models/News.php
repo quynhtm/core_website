@@ -139,5 +139,28 @@ class News extends Eloquent
             Cache::forget(Memcache::CACHE_NEW_ID.$id);
         }
     }
-
+    //get news same
+    public static function getSameNews($dataField='', $catid=0, $id=0, $limit=10){
+    	try{
+    		$result = array();
+    		
+    		if($catid>0 && $id>0 && $limit>0){
+	    		$query = News::where('news_id','<>', $id);
+	    		$query->where('news_category', $catid);
+	    		$query->where('news_status', CGlobal::status_show);
+	    		$query->orderBy('news_id', 'desc');
+	    
+	    		$fields = (isset($dataField['field_get']) && trim($dataField['field_get']) != '') ? explode(',',trim($dataField['field_get'])): array();
+	    		if(!empty($fields)){
+	    			$result = $query->take($limit)->get($fields);
+	    		}else{
+	    			$result = $query->take($limit)->get();
+	    		}
+    		}
+    		return $result;
+    
+    	}catch (PDOException $e){
+    		throw new PDOException();
+    	}
+    }
 }
