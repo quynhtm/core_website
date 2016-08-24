@@ -20,7 +20,7 @@
 							</div>
 							@endif
 							<div class="post-data">
-								<h2 class="post-title"><a href="">{{$item['news_title']}}</a></h2>
+								<h2 class="post-title"><a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">{{$item['news_title']}}</a></h2>
 								<div class="post-content">{{$item['news_desc_sort']}}</div>
 								<div class="redmoreNews"> <a href="">Xem thêm</a></div>
 							</div>
@@ -52,7 +52,7 @@
 						  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
 						  fjs.parentNode.insertBefore(js, fjs);
 						}(document, 'script', 'facebook-jssdk'));</script>
-					<div class="fb-like" data-href="http://shopcuatui.com.vn/tin-tuc-chung/t146/Thuc-pham-tot-cho-nguoi-ngoi-may-tinh-nhieu.html" 
+					<div class="fb-like" data-href="{{URL::route('site.listNew')}}"
 						data-layout="button_count" data-action="like" 
 						data-show-faces="false" data-share="true">
 					</div>

@@ -95,7 +95,7 @@
                         ?>
                         <?php if(isset($cat['category_parent_name']) && $cat['category_parent_name'] != ''){ ?>
                         <li>
-                            <a href="" title="<?php echo $cat['category_parent_name'] ?>"><?php echo $cat['category_parent_name'] ?></a>
+                            <a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($cat['category_parent_name'])),'id'=>$cat['category_id']))}}" title="<?php echo $cat['category_parent_name'] ?>"><?php echo $cat['category_parent_name'] ?></a>
                             <?php if(isset($cat['arrSubCategory']) && !empty($cat['arrSubCategory'])) {?>
                             <?php
                             $url = '';
@@ -109,7 +109,7 @@
                                 <?php foreach($list_ul as $ul){?>
                                 <ul>
                                     <?php foreach($ul as $sub){ ?>
-                                    <li><a href="" title="<?php echo $sub['category_name'] ?>"><?php echo $sub['category_name'] ?></a></li>
+                                    <li><a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($sub['category_name'])),'id'=>$sub['category_id']))}}" title="<?php echo $sub['category_name'] ?>"><?php echo $sub['category_name'] ?></a></li>
                                     <?php } ?>
                                 </ul>
                                 <?php } ?>
@@ -127,7 +127,7 @@
                 <i class="icon-list-new"></i> <a href="#" title="Sản phẩm mới">Sản phẩm mới</a>
             </div>
             <div class="list-giai-tri">
-                <i class="icon-bullhorn"></i> <a href="#" title="Tin tức">Tin tức</a>
+                <i class="icon-bullhorn"></i> <a href="{{URL::route('site.listNew')}}" title="Tin tức">Tin tức</a>
             </div>
             <div class="right-ultity">
                 <div class="shop-create">

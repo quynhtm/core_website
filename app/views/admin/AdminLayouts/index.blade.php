@@ -139,21 +139,7 @@
     <div id="sidebar" class="sidebar sidebar-fixed sidebar-scroll responsive">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success">
-                    <i class="ace-icon fa fa-youtube"></i>
-                </button>
-
-                <button class="btn btn-info">
-                    <i class="ace-icon fa fa-facebook"></i>
-                </button>
-
-                <button class="btn btn-warning">
-                    <i class="ace-icon fa fa-twitter"></i>
-                </button>
-
-                <button class="btn btn-danger">
-                    <i class="ace-icon fa fa-google-plus"></i>
-                </button>
+                <a href="{{URL::route('site.home')}}" title="Trang chủ shopcuatui.com.vn"><img width="185px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>
             </div>
 
             <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">

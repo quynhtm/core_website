@@ -88,6 +88,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('userShop/postUserShop/{id?}', array('as' => 'admin.userShop_edit_post','uses' => 'UserShopController@postUserShop'))->where('id', '[0-9]+');
     Route::post('userShop/deleteUserShop', array('as' => 'admin.deltete_userShop_post','uses' => 'UserShopController@deleteUserShop'));//ajax
     Route::post('userShop/updateStatusUserShop', array('as' => 'admin.status_userShop_post','uses' => 'UserShopController@updateStatusUserShop'));//ajax
+    Route::get('userShop/loginToShop/{id}', array('as' => 'admin.loginToShop','uses' => 'UserShopController@loginToShop'))->where('id', '[0-9]+');
 
     //Quản lý nhà cung cấp
     Route::get('provider/view',array('as' => 'admin.provider_list','uses' => 'ProviderController@view'));

@@ -28,6 +28,7 @@ class UserShopController extends BaseAdminController
         FunctionLib::link_js(array(
             'lib/ckeditor/ckeditor.js',
         ));
+        CGlobal::$pageAdminTitle = 'Quản lý User Shop';
     }
 
     public function view() {
@@ -143,6 +144,24 @@ class UserShopController extends BaseAdminController
             ->with('optionIsShop', $optionIsShop)
             ->with('error', $this->error)
             ->with('arrStatus', $this->arrStatus);
+    }
+
+    public function loginToShop($shop_id=0) {
+        if(!$this->is_root){
+            return Redirect::route('admin.dashboard');
+        }
+        if($shop_id > 0){
+            $userShop = UserShop::find($shop_id);
+            if($userShop){
+                Session::put('user_shop', $userShop, 60*24);
+                //cập nhật login
+                $dataUpdate['is_login'] = CGlobal::SHOP_ONLINE;
+                $dataUpdate['shop_time_login'] = time();
+                UserShop::updateData($userShop->shop_id,$dataUpdate);
+                return Redirect::route('shop.adminShop');
+            }
+        }
+        return Redirect::route('admin.userShop_list');
     }
 
     private function valid($data=array()) {

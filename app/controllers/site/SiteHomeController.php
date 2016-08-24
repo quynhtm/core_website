@@ -32,11 +32,11 @@ class SiteHomeController extends BaseSiteController
                     return Redirect::route('site.Error');
                 }
                 $url = URL::current();
-                $link_detail = URL::route('site.detailProduct', array('cat' => $product->category_name, 'name' => strtolower(FunctionLib::safe_title($product->product_name)), 'id' => $product->product_id));
+                $link_detail = FunctionLib::buildLinkDetailProduct($product->product_id,$product->product_name,$product->category_name);
                 if ($url != $link_detail) {
                     return Redirect::to($link_detail);
                 }
-                $this->layout->title = $product->product_name . ' - Muachung Plaza';
+                $this->layout->title = $product->product_name . ' - shopcuatui.com.vn';
                 $this->layout->title_seo = $product->product_name;
                 $this->layout->url_seo = $link_detail;
                 $this->layout->img_seo = '';
@@ -51,7 +51,7 @@ class SiteHomeController extends BaseSiteController
     }
 
     //trang chi tiet tin tuc
-    public function detailNew($cat_name, $new_id, $pro_name){
+    public function detailNew($new_id, $new_name){
         
     	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     	
@@ -69,7 +69,7 @@ class SiteHomeController extends BaseSiteController
         }
 		
         //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name';
         $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 10);
         
         $this->layout->content = View::make('site.SiteLayouts.DetailNews')

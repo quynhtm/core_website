@@ -116,6 +116,10 @@
                                     @if($is_root || $permission_full ==1 || $permission_delete == 2)
                                        <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->shop_id}},2)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
+                                    <br/>
+                                    @if($is_root)
+                                        <a href="{{Config::get('config.WEB_ROOT')}}admin/userShop/loginToShop/{{$item->shop_id}}" style="color: red" title="Đăng nhập vào shop" target="_blank"><i class="fa fa-sign-in fa-2x"></i></a>
+                                    @endif
                                     <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->shop_id}}">
                                 </td>
                             </tr>

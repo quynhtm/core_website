@@ -14,13 +14,13 @@ Route::any('/', array('as' => 'site.home','uses' => 'SiteHomeController@index'))
 
 /*product*/
 Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@searchProduct'));
-Route::get('{cat}/d-{id}/{name}.html',array('as' => 'site.detailProduct','uses' =>'SiteHomeController@detailProduct'))->where('id', '[0-9]+');
-Route::get('danh-muc/c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteHomeController@listProduct'))->where('id', '[0-9]+');
+Route::get('{cat}/{id}-{name}.html',array('as' => 'site.detailProduct','uses' =>'SiteHomeController@detailProduct'))->where('id', '[0-9]+');
+Route::get('c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteHomeController@listProduct'))->where('id', '[0-9]+');
 
 /*tin tưc*/
-Route::get('c-{id}/{name}.html',array('as' => 'site.list','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
-Route::get('tin-tuc.html',array('as' => 'site.list','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
-Route::get('{cat}/t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
+Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
+Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
+Route::get('t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
 /*page 404*/
 Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteHomeController@pageError'));
