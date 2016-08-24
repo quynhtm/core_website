@@ -90,6 +90,7 @@ class NewsController extends BaseAdminController
             return Redirect::route('admin.dashboard');
         }
         $data = array();
+        $arrViewImgOther = array();
         $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
             $data = News::getNewByID($id);

@@ -15,7 +15,7 @@
 							@if($item['news_image'] != '')
 							<div class="post-img">
 								<a title="{{$item['news_title']}}" href="">
-									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 100, 100, '', true, true)}}">
+									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 300, 300, '', true, true)}}">
 									<div class="post-format">
 										<i class="fa fa-file-text"></i>
 									</div>
