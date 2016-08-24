@@ -719,7 +719,7 @@ a:focus {
     display: inline-block;
     float: left;
     padding: 5px 10px;
-    width: 1000px;
+    width: 75%;
 }
 .title-news, .title-video {
     border-bottom: 1px dotted #ddd;
@@ -737,11 +737,16 @@ a:focus {
     display: inline-block;
     margin: 0 0 2em;
     width: 100%;
+	border:2px solid transparent;
+}
+.list-news-post .item-news:hover{
+	border:2px solid #ddd;
 }
 .list-news-post .item-news .post-img {
     display: inline-block;
     float: left;
     margin: 0;
+    max-height: 200px;
     overflow: hidden;
     position: relative;
     width: 300px;
@@ -755,7 +760,6 @@ a:focus {
     padding: 10px 10px 0;
     position: relative;
 }
-
 .post-data .post-title{
     font-style: normal;
     font-weight: normal;
@@ -769,33 +773,6 @@ a:focus {
 }
 .post-title a:hover {
     color: #2858a0;
-}
-.post-format {
-    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    transition: background 0.5s ease 0s;
-    width: 100%;
-    z-index: 2;
-}
-.post-format .fa-file-text{
-    border: 2px solid #fff;
-    border-radius: 100%;
-    color: #fff;
-    display: block;
-    font-size: 18px;
-    height: 40px;
-    left: 50%;
-    line-height: 35px;
-    margin: -20px 0 0 -20px;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    transform: scale(0, 0);
-    transition: all 0.2s ease 0s;
-    width: 40px;
 }
 .redmoreNews {
     background: #fe6d01 none repeat scroll 0 0;
@@ -821,7 +798,7 @@ a:focus {
 .right-news-view {
     display: inline-block;
     float: right;
-    width: 260px;
+    width: 22%;
 }
 .content-right-product {
     border: 1px solid #e4e4e4;
@@ -887,12 +864,15 @@ a:focus {
     text-transform: uppercase;
 }
 .content-right-bottom-content-view ul li {
-    box-shadow: 0 0 2px rgba(87, 87, 87, 0.6);
+    box-shadow: 0 0 2px #aaa;
     color: #999;
     font-size: 11px;
     line-height: 20px;
     margin-bottom: 20px;
     padding: 10px;
+}
+.content-right-bottom-content-view ul li:hover{
+	box-shadow: 0 0 2px #222;
 }
 .content-right-bottom-content-view ul li .i-thumb {
     display: block;
@@ -1275,4 +1255,72 @@ a:focus {
 }
 .banner-ads > img {
     width: 100%;
+}
+
+.show-box-paging {
+    clear: both;
+    text-align: center;
+}
+/*pagging*/
+.pagination {
+    border-radius: 4px;
+    display: inline-block;
+    margin: 0;
+    padding-left: 0;
+}
+.pagination > li {
+    display: inline;
+}
+.pagination > li > a, .pagination > li > span {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #337ab7;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    margin-left: 0;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus, .pagination > li > span:focus {
+    background-color: #eee;
+    border-color: #ddd;
+    color: #23527c;
+    z-index: 3;
+}
+.pagination > .active > a, 
+.pagination > .active > span, 
+.pagination > .active > a:hover, 
+.pagination > .active > span:hover, 
+.pagination > .active > a:focus, 
+.pagination > .active > span:focus {
+    background-color: #337ab7;
+    border-color: #337ab7;
+    color: #fff;
+    cursor: default;
+    z-index: 2;
+}
+.pagination > .disabled > span, 
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus, 
+.pagination > .disabled > a, 
+.pagination > .disabled > a:hover, 
+.pagination > .disabled > a:focus {
+    background-color: #fff;
+    border-color: #ddd;
+    color: #777;
+    cursor: not-allowed;
 }
