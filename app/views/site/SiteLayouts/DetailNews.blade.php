@@ -57,24 +57,35 @@
 						<ul>
 							@foreach($dataFieldProductHot as $item)
 							<li class="item">
-								<a class="i-thumb post-thumb" title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id,$item->product_name, $item->category_id)}}">
-									<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, 300, 300, '', true, true)}}">
-								</a>
-								<a class="item-name" title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
-									@if($item->product_price_sell > 0)
-									<div class="item-price">
-										<p class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}<span>đ</span></p>
+								<span class="sale-off">-11.1%</span>
+								<div class="post-thumb">
+									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">
+										<img alt="{{$item->product_name}}" src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-0724-146674389884623/tui-xach-nam-da-bo-wt-mau-xanh-navy-0724-7.jpg">
+									</a>
+								</div>
+								<div class="item-content">
+									<div class="title-info">
+										<h4 class="post-title">
+											<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">{{$item->product_name}}</a>
+										</h4>
+										<div class="item-price">
+											@if($item->product_price_sell > 0)
+											<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+											@endif
+											@if($item->product_price_market > 0)
+											<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+											@endif
+											@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+												<span class="amount-1">Liên hệ</span>
+											@endif
+										</div>
 									</div>
-									@else
-									<div class="item-price">
-										<p class="amount-1">Liên hệ</p>
-									</div>
-									@endif
-								@if(!empty($user_shop))
-								<div class="mgt5 amount-call">
-				                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
-				            	</div>
-				            	@endif
+									@if(!empty($user_shop))
+									<div class="mgt5 amount-call">
+					                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
+					            	</div>
+					            	@endif
+								</div>
 							</li>
 							@endforeach
 						</ul>

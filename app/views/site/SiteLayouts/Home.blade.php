@@ -98,10 +98,10 @@
 			<ul>
 				<?php for($i=0; $i<15; $i++){?>
 				<li class="item">
+						<span class="sale-off">-11.1%</span>
 						<div class="post-thumb">
-							<span class="sale-off">-11.1%</span>
 							<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
-								<img src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-IMG_2370-146373486956484/day-nhay-co-bo-dem-so-vong-av37035.jpg" data-other-src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=603&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/603/03-33-29-09-06-2016-lnt-sua-ong-chua500k.jpg" alt="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
+								<img src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-0724-146674389884623/tui-xach-nam-da-bo-wt-mau-xanh-navy-0724-7.jpg" alt="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
 							</a>
 						</div>
 						<div class="item-content">
@@ -162,8 +162,8 @@
 			<ul>
 				<?php for($i=0; $i<10; $i++){?>
 				<li class="item">
+						<span class="sale-off">-11.1%</span>
 						<div class="post-thumb">
-							<span class="sale-off">-11.1%</span>
 							<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
 								<img src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-IMG_2370-146373486956484/day-nhay-co-bo-dem-so-vong-av37035.jpg" data-other-src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=603&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/603/03-33-29-09-06-2016-lnt-sua-ong-chua500k.jpg" alt="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
 							</a>
