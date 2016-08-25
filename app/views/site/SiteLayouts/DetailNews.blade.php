@@ -57,13 +57,13 @@
 						<ul>
 							@foreach($dataFieldProductHot as $item)
 							<li class="item">
-								<a class="i-thumb post-thumb" title="{{$item->product_name}}" href="">
+								<a class="i-thumb post-thumb" title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id,$item->product_name, $item->category_id)}}">
 									<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, 300, 300, '', true, true)}}">
 								</a>
-								<a class="item-name" title="{{$item->product_name}}" href="">{{$item->product_name}}</a>
+								<a class="item-name" title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">{{$item->product_name}}</a>
 									@if($item->product_price_sell > 0)
 									<div class="item-price">
-										<p class="price-sale">{{number_format($item->product_price_sell)}}<span>đ</span></p>
+										<p class="price-sale">{{FunctionLib::numberFormat($item->product_price_sell)}}<span>đ</span></p>
 									</div>
 									@else
 									<div class="item-price">
