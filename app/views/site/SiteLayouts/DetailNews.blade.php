@@ -63,11 +63,11 @@
 								<a class="item-name" title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 									@if($item->product_price_sell > 0)
 									<div class="item-price">
-										<p class="price-sale">{{FunctionLib::numberFormat($item->product_price_sell)}}<span>đ</span></p>
+										<p class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}<span>đ</span></p>
 									</div>
 									@else
 									<div class="item-price">
-										<p class="price-sale">Liên hệ</p>
+										<p class="amount-1">Liên hệ</p>
 									</div>
 									@endif
 								@if(!empty($user_shop))
