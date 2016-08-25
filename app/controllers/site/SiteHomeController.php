@@ -94,10 +94,12 @@ class SiteHomeController extends BaseSiteController
         $offset = ($pageNo - 1) * $limit;
         $search = $data = array();
         $total = 0;
-
+		
+        $search['news_title'] = addslashes(Request::get('news_title', ''));
         $search['news_category'] = (int)$news_category;
         $search['news_status'] = CGlobal::status_show;
         $search['field_get'] = 'news_id,news_title,news_desc_sort,news_image';//cac truong can lay
+        
         $dataNew = News::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         

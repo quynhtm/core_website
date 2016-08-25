@@ -38,32 +38,52 @@
 			</div>
 			<div class="right-news-view">
 				<div class="content-right-product search">
-					<form action="" method="GET">
-						<input name="keyword" class="keyword-news" type="text">
-						<input name="catalias" value="tin-tuc-chung" type="hidden">
+					{{Form::open(array('method' => 'GET', 'id'=>'formListItem', 'class'=>'formListItem', 'name'=>'txtForm', 'url'=>'tin-tuc.html'))}}
+						<input name="news_title" class="keyword-news" type="text">
 						<button value="s" name="submit" class="btn btn-primary">Tìm kiếm</button>
-					</form>
+					{{Form::close()}}
 				</div>
 				<div class="content-right-product">
+					<div id="fb-root"></div>
+						<script>(function(d, s, id) {
+						  var js, fjs = d.getElementsByTagName(s)[0];
+						  if (d.getElementById(id)) return;
+						  js = d.createElement(s); js.id = id;
+						  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
+						  fjs.parentNode.insertBefore(js, fjs);
+						}(document, 'script', 'facebook-jssdk'));</script>
+					<div class="fb-like" data-href="http://shopcuatui.com.vn/tin-tuc-chung/t146/Thuc-pham-tot-cho-nguoi-ngoi-may-tinh-nhieu.html" 
+						data-layout="button_count" data-action="like" 
+						data-show-faces="false" data-share="true">
+					</div>
 				</div>
 				@if($dataFieldProductHot != null)
 				<div class="right-bottom-content-view">
 					<div class="title-hot"><span>Sản phẩm nổi bật</span></div>
 					<div class="content-right-bottom-content-view">
 						<ul>
+							@foreach($dataFieldProductHot as $item)
 							<li class="item">
-								<a class="i-thumb post-thumb" title="Cell SP chống viêm, tăng sức đề kháng - Shopcuatui.com.vn" href="">
-									<img src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=701&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/701/11-52-32-20-08-2016-cell-sp.jpg" alt="Cell SP chống viêm, tăng sức đề kháng - Shopcuatui.com.vn" data-other-src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=701&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/701/11-52-32-20-08-2016-cell-sp.jpg">
+								<a class="i-thumb post-thumb" title="{{$item->product_name}}" href="">
+									<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, 300, 300, '', true, true)}}">
 								</a>
-								
-								<a class="item-name" title="Cell SP chống viêm, tăng sức đề kháng - Shopcuatui.com.vn" href="http://shopcuatui.com.vn/san-pham/p701/Cell-SP-chong-viem-tang-suc-de-khang.html">Cell SP chống viêm, tăng sức đề kháng</a>
+								<a class="item-name" title="{{$item->product_name}}" href="">{{$item->product_name}}</a>
+									@if($item->product_price_sell > 0)
 									<div class="item-price">
-										<p class="price-sale">300,000<span>đ</span></p>
+										<p class="price-sale">{{number_format($item->product_price_sell)}}<span>đ</span></p>
 									</div>
+									@else
+									<div class="item-price">
+										<p class="price-sale">Liên hệ</p>
+									</div>
+									@endif
+								@if(!empty($user_shop))
 								<div class="mgt5 amount-call">
-				                	<a title="EnMax 98" class="link-shop" href="">EnMax 98</a>
+				                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
 				            	</div>
+				            	@endif
 							</li>
+							@endforeach
 						</ul>
 					</div>
 				</div>

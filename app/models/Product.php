@@ -145,7 +145,7 @@ class Product extends Eloquent
     		$result = array();
     
     		if($limit>0){
-    			$query = Product::where('product_is_hot','1', CGlobal::status_show);
+    			$query = Product::where('product_is_hot', CGlobal::status_show);
     			$query->where('product_status', CGlobal::status_show);
     			$query->orderBy('product_id', 'desc');
     			 

@@ -54,6 +54,7 @@ class CGlobal{
 
     const IMAGE_ERROR = 133;
     const FOLDER_NEWS = 'news';
+    const FOLDER_PRODUCT = 'product';
 
     //shop
     const SHOP_FREE = 1;
