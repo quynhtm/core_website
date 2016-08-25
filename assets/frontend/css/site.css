@@ -708,7 +708,7 @@ li{
 }
 /*News*/
 .link-breadcrumb {
-    background: #f2f2f2 none repeat scroll 0 0;
+    background: #fff;
     border: 1px solid #ddd;
     margin: 10px 0;
     padding: 5px 8px;
@@ -720,7 +720,7 @@ li{
     width: 100%;
 }
 .left-news-view {
-    background: #f2f2f2 none repeat scroll 0 0;
+    background: #fff;
     border-radius: 2px;
     display: inline-block;
     float: left;
@@ -811,9 +811,7 @@ li{
     border-radius: 2px;
     margin-bottom: 8px;
     padding: 15px;
-}
-.content-right-product.search {
-    background: #f2f2f2 none repeat scroll 0 0;
+	background: #fff
 }
 .content-right-product.search form {
     white-space: nowrap;
