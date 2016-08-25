@@ -864,15 +864,19 @@ a:focus {
     text-transform: uppercase;
 }
 .content-right-bottom-content-view ul li {
+	background: #fff;
     box-shadow: 0 0 2px #aaa;
-    color: #999;
-    font-size: 11px;
-    line-height: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
+    display: inline-block;
+    float: left;
+    margin: 5px 18px 15px 0;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+	width:96%;
 }
 .content-right-bottom-content-view ul li:hover{
 	box-shadow: 0 0 2px #222;
+	background: #eee;
 }
 .content-right-bottom-content-view ul li .i-thumb {
     display: block;
@@ -882,14 +886,14 @@ a:focus {
     text-align: center;
     width: 100%;
 }
-.content-right-bottom-content-view ul li a.item-name {
-    color: #007dcd;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0 0 5px;
+.i-thumb.post-thumb > img {
+    width: 100%;
 }
-.content-right-bottom-content-view ul li a:hover{
-    text-decoration: underline;
+.content-right-bottom-content-view ul li a.item-name {
+    color: #444;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 5px;
 }
 .content-right-bottom-content-view ul li .item-price {
     clear: both;
@@ -1189,14 +1193,19 @@ a:focus {
 }
 .w-home .item {
     background: #fff none repeat scroll 0 0;
+    box-shadow: 0 0 2px #aaa;
     display: inline-block;
     float: left;
     height: 320px;
     margin: 5px 18px 15px 0;
     overflow: hidden;
-    padding: 10px;
+    padding: 5px;
     position: relative;
-    width: 16%;
+    width: 16.72%;
+}
+.w-home .item:hover {
+    background: #eeeeee;
+	box-shadow: 0 0 2px #222;
 }
 .sale-off {
     background: rgba(0, 0, 0, 0) url("../img/discount.png") no-repeat scroll center top;
