@@ -406,4 +406,30 @@ class FunctionLib {
         }
         return $number;
     }
+
+    /**
+     * @param int $pro_id
+     * @param string $pro_name
+     * @param string $cat_name
+     * @return string
+     */
+    static function buildLinkDetailProduct($pro_id = 0,$pro_name = 'sản phẩm',$cat_name = 'danh mục'){
+        if($pro_id > 0){
+            return URL::route('site.detailProduct', array('cat'=>strtolower(FunctionLib::safe_title($cat_name)),'name'=>strtolower(FunctionLib::safe_title($pro_name)),'id'=>$pro_id));
+        }
+        return '#';
+    }
+
+    /**
+     * @param int $new_id
+     * @param string $new_name
+     * @param string $cat_name
+     * @return string
+     */
+    static function buildLinkDetailNews($new_id = 0,$new_name = 'tin tức',$cat_name = 'danh mục'){
+        if($new_id > 0){
+            return URL::route('site.detailNew', array('cat'=>strtolower(FunctionLib::safe_title($cat_name)),'name'=>strtolower(FunctionLib::safe_title($new_name)),'id'=>$new_id));
+        }
+        return '#';
+    }
 }
