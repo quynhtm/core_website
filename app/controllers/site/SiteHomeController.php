@@ -2,9 +2,9 @@
 
 class SiteHomeController extends BaseSiteController
 {
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
+        FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     }
 
     //trang chu
@@ -52,8 +52,6 @@ class SiteHomeController extends BaseSiteController
 
     //trang chi tiet tin tuc
     public function detailNew($new_id, $new_name){
-        
-    	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     	
     	$this->header();
         $dataNew = $dataNewsSame = array();
@@ -82,8 +80,6 @@ class SiteHomeController extends BaseSiteController
     //trang list tin tuc
     public function listNew($news_category = 0){
         
-    	FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
-    	
     	$this->header();
         $dataNew = array();
         $user_shop = array();

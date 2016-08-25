@@ -71,8 +71,7 @@ li{
     vertical-align: top;
     width: 25px;
 }
-.center-header {
-    background: #fff none repeat scroll 0 0;
+.center-header{
     border-bottom: 1px solid #ddd;
 }
 .top-header {
@@ -300,31 +299,33 @@ li{
     white-space: nowrap;
     width: 14px;
 }
-.box-header-link{
+.box-header-link {
     clear: both;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    position: relative;
     width: 100%;
-    position: relative;
-    padding-bottom: 40px;
 }
-.box-menu-title {
+.box-menu-title{
     display: inline-block;
     float: left;
-    position: relative;
-    width: 230px;
+    height: 53px;
+    left: 0;
+    position: absolute;
+    width: 232px;
     z-index: 2;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	cursor: pointer;
 }
-.box-menu-title {
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 230px;
-    z-index: 2;
+.box-menu-title:hover{
+	background: #fe6d01;
 }
 .list-product-new{
     display: inline-block;
     float: left;
     margin-top: 10px;
-    margin-left: 58px;
     font-size: 14px;
     font-style: italic;
 }
@@ -348,28 +349,6 @@ li{
     color: #fe6d00;
     font-size: 18px;
 }
-.title-cat-menu {
-    color: #222;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 8px 5px 10px 1px;
-    text-transform: uppercase;
-}
-.icon-cat-title {
-    display: inline-block !important;
-    float: left;
-    margin-right: 10px;
-    margin-top: 2px !important;
-    width: 18px !important;
-}
-.ic-line {
-    background: #222 none repeat scroll 0 0;
-    clear: both;
-    display: block;
-    height: 3px;
-    margin-bottom: 2px;
-    width: 100%;
-}
 .list-giai-tri {
     display: inline-block;
     float: left;
@@ -378,6 +357,9 @@ li{
     margin-left: 20px;
     margin-top: 10px;
 }
+.list-giai-tri > i{
+    font-size: 18px;
+}
 .right-ultity {
     color: #9a9a9a;
     display: inline-block;
@@ -385,12 +367,20 @@ li{
     height: 38px;
     margin-left: 30px;
     overflow: hidden;
-    width: 55%;
+    width: 78%;
 }
 .shop-create {
     display: inline-block;
     float: left;
     width: 220px;
+}
+.part1-right-ultity{
+	display:inline-block;
+	float:left;
+}
+.part2-right-ultity{
+	display:inline-block;
+	float:right;
 }
 .right-ultity i {
     margin-right: 5px;
@@ -438,7 +428,7 @@ li{
     position: relative;
     display: inline-block;
     float: left;
-    height: 351px;
+    height: 427px;
 }
 .icon-cat-title {
     display: inline-block !important;
@@ -469,13 +459,18 @@ li{
 }
 .title-cat-menu {
     color: #222;
-    cursor: pointer;
     font-weight: bold;
-    padding: 10px 5px 10px 1px;
     text-transform: uppercase;
+	padding: 12px 5px;
 }
-.box-menu-hover.act .title-cat-menu{
-    color: #cc0000;
+.box-menu-hover.act .title-cat-menu,
+.box-menu-hover:hover .title-cat-menu{
+    color: #fff;
+    position: relative;
+    top: 5px;
+}
+.box-menu-hover:hover .ic-line{
+	background: #fff;
 }
 .box-menu-hover.act .title-cat-menu .ic-line{
     background: #cc0000;
@@ -483,13 +478,14 @@ li{
 .content-box-menu{
     background: #fff;
 }
-.content-box-menu.header-menu-other{
+.content-box-menu.header-menu-other {
     border: 1px solid #ddd;
     display: none;
-    height: 344px;
-    position: absolute;
+    height: 427px;
+    position: relative;
+    top: 10px;
     width: 230px;
-    z-index: 999;
+    z-index: 10;
 }
 .box-menu-title:hover .content-box-menu.header-menu-other{
     display: block;
@@ -525,13 +521,14 @@ li{
     position: absolute;
     top: -1px;
     z-index: 22;
-    min-height: 352px;
-    max-height: 352px;
+    min-height: 427px;
+    max-height: 427px;
     overflow: hidden;
+	background: #fff;
 }
 .content-box-menu.header-menu-other .list-subcat {
-    max-height: 344px;
-    min-height: 344px;
+    max-height: 427px;
+    min-height: 427px;
     overflow: hidden;
 }
 .content-box-menu ul > li:hover .list-subcat{
@@ -551,7 +548,6 @@ li{
 .content-box-menu .list-subcat li a:hover{
     font-weight: bold;
 }
-/*Content*/
 #content {
     display: inline-block;
     min-height: 350px;
@@ -913,127 +909,6 @@ li{
     text-decoration: underline;
 }
 /*Home*/
-.box-menu-list{
-    background: #fff;
-    border: 1px solid #ddd;
-    border-top: none;
-    width: 18%;
-    position: relative;
-    display: inline-block;
-    float: left;
-    height: 427px;
-}
-.icon-cat-title {
-    display: inline-block !important;
-    float: left;
-    margin-right: 10px;
-    margin-top: 2px !important;
-    width: 18px !important;
-}
-.ic-line {
-    background: #222;
-    clear: both;
-    display: block;
-    height: 3px;
-    margin-bottom: 2px;
-    width: 100%;
-}
-.title-cat-menu .right-down {
-    display: inline-block;
-    float: right;
-    font-size: 20px;
-    height: 20px;
-    position: relative;
-    right: 32px;
-    top: -4px;
-}
-.front .title-cat-menu .right-down{
-    display: none;
-}
-.title-cat-menu {
-    color: #222;
-    cursor: pointer;
-    font-weight: bold;
-    padding: 8px 5px 10px 1px;
-    text-transform: uppercase;
-}
-.box-menu-hover.act .title-cat-menu{
-    color: #cc0000;
-}
-.box-menu-hover.act .title-cat-menu .ic-line{
-    background: #cc0000;
-}
-.content-box-menu{
-    background: #fff;
-}
-.content-box-menu.header-menu-other{
-    border: 1px solid #ddd;
-    display: none;
-    height: 344px;
-    position: absolute;
-    width: 230px;
-    z-index: 999;
-}
-.box-menu-title:hover .content-box-menu.header-menu-other{
-    display: block;
-}
-.content-box-menu > ul{
-    margin-bottom: 0;
-}
-.content-box-menu > ul > li{
-    background: #fff;
-    border-bottom: 1px solid #f1f1f1;
-    color: #333;
-    display: block;
-    height: 38px;
-    line-height: 38px;
-    padding-left: 13px;
-    text-decoration: none;
-}
-.content-box-menu ul > li > a {
-    display: inline-block;
-    text-transform: none;
-    width: 100%;
-}
-.content-box-menu ul > li:last-child{
-    border-bottom: none;
-}
-.content-box-menu .list-subcat{
-    border: 1px solid #ddd;
-    display: none;
-    left: 100%;
-    width: 618px;
-    padding-left: 30px;
-    padding-right: 15px;
-    position: absolute;
-    top: -1px;
-    z-index: 22;
-    min-height: 352px;
-    max-height: 352px;
-    overflow: hidden;
-}
-.content-box-menu.header-menu-other .list-subcat {
-    max-height: 344px;
-    min-height: 344px;
-    overflow: hidden;
-}
-.content-box-menu ul > li:hover .list-subcat{
-    display: inline-block;
-}
-.list-subcat ul {
-    display: inline-block;
-    float: left;
-    margin-right: 10px;
-    width: 38%;
-}
-.content-box-menu .list-subcat li {
-    height: 32px;
-    line-height: 32px;
-    white-space: nowrap;
-}
-.content-box-menu .list-subcat li a:hover{
-    font-weight: bold;
-}
 .slider-box-mid {
     display: inline-block;
     float: left;

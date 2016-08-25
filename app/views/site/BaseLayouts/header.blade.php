@@ -123,27 +123,31 @@
                 </div>
                 <?php } ?>
             </div>
-            <div class="list-product-new">
-                <i class="icon-list-new"></i> <a href="#" title="Sản phẩm mới">Sản phẩm mới</a>
-            </div>
-            <div class="list-giai-tri">
-                <i class="icon-bullhorn"></i> <a href="{{URL::route('site.listNew')}}" title="Tin tức">Tin tức</a>
-            </div>
             <div class="right-ultity">
-                <div class="shop-create">
-                    <i></i>
-                    <b>Tạo shop online:</b><br>
-                    <span>Tiện ích - Đơn giản - Dễ dùng</span>
-                </div>
-                <div class="shop-transfer">
-                    <i></i>
-                    <b>Ship hàng tận nơi:</b><br>
-                    <span>Giao ngay trong ngày</span>
-                </div>
-                <div class="shop-diversity">
-                    <i></i>
-                    <b>Sản phẩm đa dạng:</b><br>
-                    <span>Đủ các mặt hàng gọi là có ngay</span>
+            	<div class="part1-right-ultity">
+	            	<div class="list-product-new">
+		                <i class="icon-list-new"></i> <a href="#" title="Sản phẩm mới">Sản phẩm mới</a>
+		            </div>
+		            <div class="list-giai-tri">
+		                <i class="fa fa-bullhorn"></i> <a href="{{URL::route('site.listNew')}}" title="Tin tức">Tin tức</a>
+		            </div>
+		         </div>
+                 <div class="part2-right-ultity">
+	                <div class="shop-create">
+	                    <i></i>
+	                    <b>Tạo shop online:</b><br>
+	                    <span>Tiện ích - Đơn giản - Dễ dùng</span>
+	                </div>
+	                <div class="shop-transfer">
+	                    <i></i>
+	                    <b>Ship hàng tận nơi:</b><br>
+	                    <span>Giao ngay trong ngày</span>
+	                </div>
+	                <div class="shop-diversity">
+	                    <i></i>
+	                    <b>Sản phẩm đa dạng:</b><br>
+	                    <span>Đủ các mặt hàng gọi là có ngay</span>
+	                </div>
                 </div>
             </div>
         </div>

@@ -14,8 +14,7 @@ div.fancy-select select:focus + div.trigger {
 div.fancy-select select:focus + div.trigger.open {
 	box-shadow: none;
 }
-div.fancy-select div.trigger {
-	background: #fff;
+div.fancy-select div.trigger{
     border: medium none;
     color: #222;
     cursor: pointer;
@@ -42,13 +41,12 @@ div.fancy-select div.trigger:after {
 	width: 0;
 	height: 0;
 	border: 5px solid transparent;
-	border-top-color: #ddd;
+	border-top-color: #aaa;
 	top: 12px;
 	right: 10px;
 }
 
 div.fancy-select div.trigger.open {
-	background: #fff;
 	color: #555;
 }
 
