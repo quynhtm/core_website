@@ -82,7 +82,6 @@
                         <span class="ic-line"></span>
                     </div>
                     Danh mục sản phẩm
-                    <i class="right-down icon-angle-down"></i>
                 </div>
                 <?php if(isset($arrCategory) && !empty($arrCategory)){?>
                 <div class="content-box-menu header-menu-other">

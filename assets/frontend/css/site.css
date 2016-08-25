@@ -302,16 +302,16 @@ li{
 .box-header-link {
     clear: both;
     display: inline-block;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
     position: relative;
     width: 100%;
 }
 .box-menu-title{
     display: inline-block;
     float: left;
-    height: 53px;
     left: 0;
+	top:8px;
     position: absolute;
     width: 232px;
     z-index: 2;
@@ -445,29 +445,15 @@ li{
     margin-bottom: 2px;
     width: 100%;
 }
-.title-cat-menu .right-down {
-    display: inline-block;
-    float: right;
-    font-size: 20px;
-    height: 20px;
-    position: relative;
-    right: 32px;
-    top: -4px;
-}
-.front .title-cat-menu .right-down{
-    display: none;
-}
 .title-cat-menu {
     color: #222;
     font-weight: bold;
     text-transform: uppercase;
-	padding: 12px 5px;
+	padding: 8px 5px;
 }
 .box-menu-hover.act .title-cat-menu,
 .box-menu-hover:hover .title-cat-menu{
     color: #fff;
-    position: relative;
-    top: 5px;
 }
 .box-menu-hover:hover .ic-line{
 	background: #fff;
@@ -483,7 +469,6 @@ li{
     display: none;
     height: 427px;
     position: relative;
-    top: 10px;
     width: 230px;
     z-index: 10;
 }
@@ -1015,19 +1000,19 @@ li{
     padding: 10px 2px 2px;
 }
 /*Begin Item Product*/
-.item{
-	background: #fff;
+.item {
+    background: #fff none repeat scroll 0 0;
     box-shadow: 0 0 2px #aaa;
     display: inline-block;
     float: left;
     margin: 5px 18px 15px 0;
     overflow: hidden;
-    padding: 5px;
+    padding: 2px;
     position: relative;
 }
 .item:hover {
-    background: #eeeeee;
-	box-shadow: 0 0 2px #222;
+    background: #fe6d01;
+	box-shadow: 0 0 2px #fe6d01;
 }
 .item .item-content {
     background: #fff;
@@ -1084,7 +1069,7 @@ li{
     margin-right: -100px;
 }
 .w-home .item {
-    width: 16.72%;
+    width: 17.2%;
 }
 .line-ads{
     clear: both;
