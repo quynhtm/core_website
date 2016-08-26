@@ -12,9 +12,9 @@ class BaseShopController extends BaseController
     protected $user_shop = array();
     public function __construct()
     {
-        //if (!UserShop::isLogin()) {
+        if (!UserShop::isLogin()) {
             Redirect::route('site.shopLogin',array('url'=>self::buildUrlEncode(URL::current())))->send();
-        //}
+        }
         $this->user_shop = UserShop::user_login();
 
         View::share('user_shop',$this->user_shop);

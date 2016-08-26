@@ -44,19 +44,6 @@
 						</a>
 					</div>
 				</div>
-				<div class="content-right-product">
-					<div class="order-number-phone">
-						<p><b>Đặt nhanh qua điện thoại</b></p>
-						<div class="number-phone">
-							<div class="fa fa-phone"></div>
-							<span>0932292136</span>
-						</div>
-						<p><a href="" title="Shop: EnMax 98">EnMax 98</a></p>
-						<p><b>Thông tin liên hệ: </b></p>
-						<p>phanngoc289@gmail.com</p>
-						<p>98 Hoàng Văn Thái, Thanh Xuân, HN</p>
-					</div>
-				</div>
 			</div>
 			<div class="right-show-product-shop body-list-item">
 				<ul>
