@@ -26,8 +26,8 @@ Route::get('t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHom
 Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteHomeController@pageError'));
 
 //trang chủ shop
-Route::get('gian-hang/s-{shop_id}/{name}.html',array('as' => 'shop.home','uses' =>'ShopController@index'))->where('shop_id', '[0-9]+');
-Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.ShopListProduct','uses' =>'ShopController@ShopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
+Route::get('gian-hang/s-{shop_id}/{name}.html',array('as' => 'shop.home','uses' =>'SiteHomeController@shopIndex'))->where('shop_id', '[0-9]+');
+Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.ShopListProduct','uses' =>'SiteHomeController@shopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
 
 /*
  * **********************************************************************************************************************************

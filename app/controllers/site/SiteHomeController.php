@@ -23,7 +23,6 @@ class SiteHomeController extends BaseSiteController
         $this->header();
         $product = array();
         $user_shop = array();
-
         $this->layout->content = View::make('site.SiteLayouts.ListProduct')
             ->with('product',$product)
             ->with('user_shop', $user_shop);
@@ -60,33 +59,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
-    //trang chi tiet tin tuc
-    public function detailNew($new_id, $new_name){
-    	
-    	$this->header();
-        $dataNew = $dataNewsSame = array();
-        $user_shop = array();
-        //get news detail
-        if($new_id > 0) {
-            $dataNew = News::getNewByID($new_id);
-            //get news same
-            if($dataNew != null){
-            	$dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category';
-            	$dataNewsSame = News::getSameNews($dataField, $dataNew->news_category, $new_id, 10);
-            }
-        }
-		
-        //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
-        
-        $this->layout->content = View::make('site.SiteLayouts.DetailNews')
-            ->with('dataNew',$dataNew)
-            ->with('dataNewsSame',$dataNewsSame)
-            ->with('dataFieldProductHot',$dataFieldProductHot)
-            ->with('user_shop', $user_shop);
-        $this->footer();
-    }
+
     //trang list tin tuc
     public function homeNew(){
     	$this->header();
@@ -113,6 +86,33 @@ class SiteHomeController extends BaseSiteController
             ->with('dataNew',$dataNew)
             ->with('paging', $paging)
             ->with('dataFieldProductHot',$dataFieldProductHot);
+        $this->footer();
+    }
+    //trang chi tiet tin tuc
+    public function detailNew($new_id, $new_name){
+
+        $this->header();
+        $dataNew = $dataNewsSame = array();
+        $user_shop = array();
+        //get news detail
+        if($new_id > 0) {
+            $dataNew = News::getNewByID($new_id);
+            //get news same
+            if($dataNew != null){
+                $dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category';
+                $dataNewsSame = News::getSameNews($dataField, $dataNew->news_category, $new_id, 10);
+            }
+        }
+
+        //get product hot
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name';
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
+
+        $this->layout->content = View::make('site.SiteLayouts.DetailNews')
+            ->with('dataNew',$dataNew)
+            ->with('dataNewsSame',$dataNewsSame)
+            ->with('dataFieldProductHot',$dataFieldProductHot)
+            ->with('user_shop', $user_shop);
         $this->footer();
     }
 
@@ -178,6 +178,35 @@ class SiteHomeController extends BaseSiteController
 
         $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
             ->with('error', $error);
+    }
+
+    /***************************************************************************************************
+     * Page lien quan tới shop
+     ***************************************************************************************************
+     */
+    /**
+     * Trang chủ của shop
+     */
+    public function shopIndex($shop_id = 0){
+        $this->header();
+        $product = array();
+        $user_shop = array();
+        $this->layout->content = View::make('site.SiteLayouts.ShopHome')
+            ->with('product',$product)
+            ->with('user_shop', $user_shop);
+        $this->footer();
+    }
+    /**
+     * Trang list sản phẩm của shop
+     */
+    public function shopListProduct($shop_id = 0,$cat_id = 0){
+        $this->header();
+        $product = array();
+        $user_shop = array();
+        $this->layout->content = View::make('site.SiteLayouts.ShopListProduct')
+            ->with('product',$product)
+            ->with('user_shop', $user_shop);
+        $this->footer();
     }
     public function shopLogout(){
         if (Session::has('user_shop')) {
