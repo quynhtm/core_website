@@ -16,12 +16,15 @@
 							<div class="post-img">
 								<a title="{{$item['news_title']}}" href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">
 									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 300, 300, '', true, true)}}">
+									<div class="post-format">
+										<i class="fa fa-file-text"></i>
+									</div>
 								</a>
 							</div>
 							@endif
 							<div class="post-data">
 								<h2 class="post-title"><a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">{{$item['news_title']}}</a></h2>
-								<div class="post-content">{{$item['news_desc_sort']}}</div>
+								<div class="post-content">{{FunctionLib::substring($item['news_desc_sort'], 500, '...') }}</div>
 								<div class="redmoreNews"> <a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">Xem thêm</a></div>
 							</div>
 						</div>
