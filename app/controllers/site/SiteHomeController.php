@@ -68,7 +68,7 @@ class SiteHomeController extends BaseSiteController
 		
         //get product hot
         $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 10);
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
         
         $this->layout->content = View::make('site.SiteLayouts.DetailNews')
             ->with('dataNew',$dataNew)
@@ -101,7 +101,7 @@ class SiteHomeController extends BaseSiteController
         
         //get product hot
         $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 10);
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
 
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
             ->with('dataNew',$dataNew)

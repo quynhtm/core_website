@@ -14,7 +14,7 @@
 <div class="center-header">
     <div class="container">
         <div class="top-header">
-            <h1 id="logo"><a href="#"><img src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a></h1>
+            <h1 id="logo"><a href="{{Config::get('config.WEB_ROOT')}}"><img src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a></h1>
             <div class="box-top-header-right">
                 <div class="search-top-center">
                     <div class="box-search">

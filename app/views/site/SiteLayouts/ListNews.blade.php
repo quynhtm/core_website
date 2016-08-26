@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="link-breadcrumb">
-		<a href="http://shopcuatui.com.vn" title="Trang chủ">Trang chủ</a>
+		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
 		<i class="fa fa-angle-double-right"></i>
 		<a href="" title="Tin tức chung">Tin tức chung</a>
 	</div>
@@ -14,7 +14,7 @@
 						<div class="item-news">
 							@if($item['news_image'] != '')
 							<div class="post-img">
-								<a title="{{$item['news_title']}}" href="">
+								<a title="{{$item['news_title']}}" href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">
 									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 300, 300, '', true, true)}}">
 								</a>
 							</div>
@@ -22,7 +22,7 @@
 							<div class="post-data">
 								<h2 class="post-title"><a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">{{$item['news_title']}}</a></h2>
 								<div class="post-content">{{$item['news_desc_sort']}}</div>
-								<div class="redmoreNews"> <a href="">Xem thêm</a></div>
+								<div class="redmoreNews"> <a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">Xem thêm</a></div>
 							</div>
 						</div>
 						@endforeach
@@ -67,7 +67,7 @@
 								<span class="sale-off">-11.1%</span>
 								<div class="post-thumb">
 									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">
-										<img alt="{{$item->product_name}}" src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-0724-146674389884623/tui-xach-nam-da-bo-wt-mau-xanh-navy-0724-7.jpg">
+										<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
 									</a>
 								</div>
 								<div class="item-content">

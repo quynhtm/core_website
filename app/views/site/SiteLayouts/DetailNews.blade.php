@@ -1,10 +1,10 @@
 <div class="container">
 	<div class="link-breadcrumb">
-		<a href="" title="Trang chủ">Trang chủ</a>
+		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
 		<i class="fa fa-angle-double-right"></i>
 		<a href="" title="Tin tức chung">Tin tức chung</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="" title="Thực phẩm tốt cho người ngồi máy tính nhiều">{{$dataNew->news_title}}</a>
+		<a href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_title)}}" title="{{$dataNew->news_title}}">{{$dataNew->news_title}}</a>
 	</div>
 	<div class="main-view-post">
 		<div class="wrapp-content-news">
@@ -60,7 +60,7 @@
 								<span class="sale-off">-11.1%</span>
 								<div class="post-thumb">
 									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">
-										<img alt="{{$item->product_name}}" src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-0724-146674389884623/tui-xach-nam-da-bo-wt-mau-xanh-navy-0724-7.jpg">
+										<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
 									</a>
 								</div>
 								<div class="item-content">
