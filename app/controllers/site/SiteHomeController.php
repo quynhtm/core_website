@@ -52,9 +52,13 @@ class SiteHomeController extends BaseSiteController
                 $this->layout->des_seo = strip_tags($product->product_sort_desc);
             }
         }
-
+        //get product hot
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
+        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
+        
         $this->layout->content = View::make('site.SiteLayouts.DetailProduct')
             ->with('product',$product)
+            ->with('dataFieldProductHot',$dataFieldProductHot)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
