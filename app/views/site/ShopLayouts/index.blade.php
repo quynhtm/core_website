@@ -88,7 +88,7 @@
         </button>
 
         <div class="navbar-header pull-left">
-            <a href="{{ URL::route('admin.dashboard') }}" class="navbar-brand">
+            <a href="{{ URL::route('shop.adminShop')}}" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
                     Quản trị shop @if($user_shop['shop_name'] != '')- {{$user_shop['shop_name']}}@endif

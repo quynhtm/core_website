@@ -62,7 +62,7 @@ class CGlobal{
     const SHOP_VIP = 3;
     const SHOP_ONLINE = 1;
     const SHOP_OFFLINE = 0;
-    const SHOP_NUMBER_PRODUCT_FREE = 10;
+    const SHOP_NUMBER_PRODUCT_FREE = 5;
     const SHOP_NUMBER_PRODUCT_NOMAL = 100;
     const SHOP_NUMBER_PRODUCT_VIP = 5000;
 

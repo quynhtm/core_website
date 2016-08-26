@@ -25,7 +25,7 @@ class BaseSiteController extends BaseController
         
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
-            ->with('user', $this->user);
+            ->with('user_shop', $this->user);
     }
 
     public function footer(){

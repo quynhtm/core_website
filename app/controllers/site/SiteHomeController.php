@@ -131,9 +131,46 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
-    //trang login
+
+
+    /***************************************************************************************************
+     * Page lien quan tới shop
+     ***************************************************************************************************
+     */
+    /**
+     * Trang chủ của shop
+     */
+    public function shopIndex($shop_id = 0){
+        $this->header();
+        $product = array();
+        $user_shop = array();
+        $this->layout->content = View::make('site.SiteLayouts.ShopHome')
+            ->with('product',$product)
+            ->with('user_shop', $user_shop);
+        $this->footer();
+    }
+    /**
+     * Trang list sản phẩm của shop
+     */
+    public function shopListProduct($shop_id = 0,$cat_id = 0){
+        $this->header();
+        $product = array();
+        $user_shop = array();
+        $this->layout->content = View::make('site.SiteLayouts.ShopListProduct')
+            ->with('product',$product)
+            ->with('user_shop', $user_shop);
+        $this->footer();
+    }
+
+
+    /**
+     * Login và logout, đăng ký shop
+     */
     public function shopLogin(){
         FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        if(sizeof($this->user) > 0){
+            return Redirect::route('shop.adminShop');
+        }
         $this->header();
         $error = '';
         $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
@@ -185,35 +222,6 @@ class SiteHomeController extends BaseSiteController
             ->with('error', $error);
         $this->footer();
     }
-
-    /***************************************************************************************************
-     * Page lien quan tới shop
-     ***************************************************************************************************
-     */
-    /**
-     * Trang chủ của shop
-     */
-    public function shopIndex($shop_id = 0){
-        $this->header();
-        $product = array();
-        $user_shop = array();
-        $this->layout->content = View::make('site.SiteLayouts.ShopHome')
-            ->with('product',$product)
-            ->with('user_shop', $user_shop);
-        $this->footer();
-    }
-    /**
-     * Trang list sản phẩm của shop
-     */
-    public function shopListProduct($shop_id = 0,$cat_id = 0){
-        $this->header();
-        $product = array();
-        $user_shop = array();
-        $this->layout->content = View::make('site.SiteLayouts.ShopListProduct')
-            ->with('product',$product)
-            ->with('user_shop', $user_shop);
-        $this->footer();
-    }
     public function shopLogout(){
         if (Session::has('user_shop')) {
             //cap nhat thoi gian logout
@@ -226,15 +234,80 @@ class SiteHomeController extends BaseSiteController
         }
         return Redirect::route('site.shopLogin', array('url' => self::buildUrlEncode(URL::previous())));
     }
+
     //trang register
     public function shopRegister(){
         FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataShow = array();
         $this->layout->content = View::make('site.ShopLayouts.shopRegister')
+            ->with('error',array())
             ->with('data',$dataShow)
             ->with('user', $this->user);
         $this->footer();
+    }
+    public function postShopRegister(){
+        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        $this->header();
+        $dataSave = $error = array();
+
+        $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
+        $dataSave['user_password'] = addslashes(Request::get('user_password'));
+        $dataSave['rep_user_password'] = addslashes(Request::get('rep_user_password'));
+
+        $dataSave['shop_phone'] = addslashes(Request::get('shop_phone'));
+        $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
+
+        $error = $this->validUserInforShop($dataSave);
+        if (empty($error)) {
+            unset($dataSave['rep_user_password']);
+            //gan co dinh 1 shop khi dang ky
+            $dataSave['number_limit_product'] = CGlobal::SHOP_NUMBER_PRODUCT_FREE;
+            $dataSave['is_shop'] = CGlobal::SHOP_FREE;
+            $dataSave['shop_created'] = time();
+            //login luon
+            $dataSave['shop_time_login'] = CGlobal::SHOP_ONLINE;
+            $dataSave['is_login'] = time();
+
+            $shop_id = UserShop::addData($dataSave);
+            if($shop_id > 0) {
+                $userShop = UserShop::find($shop_id);
+                if($userShop){
+                    Session::put('user_shop', $userShop, 60*24);
+                    return Redirect::route('shop.adminShop');
+                }
+            }
+        }
+        $this->layout->content = View::make('site.ShopLayouts.shopRegister')
+            ->with('error',$error)
+            ->with('data',$dataSave)
+            ->with('user', $this->user);
+        $this->footer();
+    }
+    private function validUserInforShop($data=array()) {
+        $error = array();
+        if(!empty($data)) {
+            if(isset($data['user_shop']) && $data['user_shop'] == '') {
+                $error[] = 'Tên đăng nhập không được bỏ trống';
+            }
+            if(isset($data['shop_phone']) && $data['shop_phone'] == '') {
+                $error[] = 'Điện thoại liên hệ không được bỏ trống';
+            }
+            if(isset($data['shop_email']) && $data['shop_email'] == '') {
+                $error[] = 'Email không được bỏ trống';
+            }
+            if(isset($data['user_password']) && $data['user_password'] == '') {
+                $error[] = 'Bạn chưa nhập password';
+            }else{
+                if(isset($data['rep_user_password']) && $data['rep_user_password'] == '') {
+                    $error[] = 'Bạn chưa nhập lại password';
+                }elseif(strcmp($data['user_password'],$data['rep_user_password']) != 0){
+                    $error[] = 'Bạn nhập lại password chưa đúng';
+                }
+            }
+            return $error;
+        }
+        return $error;
     }
 
 }

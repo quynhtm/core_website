@@ -1,12 +1,12 @@
 <div class="link-top-head">
     <div class="container">
         <div class="box-login">
-            @if(empty($user_shop))
-                <a href="{{Config::get('config.WEB_ROOT')}}dang-ky.html" class="btnLog register" rel="nofollow"><i class="register"></i>Mở Shop</a>
-                <a href="{{Config::get('config.WEB_ROOT')}}dang-nhap.html" class="btnLog" rel="nofollow"><i class="login"></i>Vào Shop</a>
+            @if(isset($user_shop) && sizeof($user_shop) > 0)
+                <a href="{{URL::route('shop.adminShop')}}" rel="nofollow" class="btnLog"><i class="config"></i> Quản lý gian hàng</a>
+                <a href="{{URL::route('site.shopLogout')}}" rel="nofollow" class="btnLog"><i class="logout"></i> Thoát</a>
             @else
-                <a href="#" rel="nofollow" class="btnLog"><i class="config"></i> Quản lý gian hàng</a>
-                <a href="#" rel="nofollow" class="btnLog"><i class="logout"></i> Thoát</a>
+                <a href="{{URL::route('site.shopRegister')}}" class="btnLog register" rel="nofollow"><i class="register"></i>Mở Shop</a>
+                <a href="{{URL::route('site.shopLogin')}}dang-nhap.html" class="btnLog" rel="nofollow"><i class="login"></i>Vào Shop</a>
             @endif
         </div>
     </div>

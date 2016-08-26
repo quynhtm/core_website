@@ -20,7 +20,7 @@ Route::get('c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteH
 /*tin tưc*/
 Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'SiteHomeController@listNewSearch'))->where('id', '[0-9]+');
 Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@homeNew'));
-Route::get('t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
+Route::get('tin-tuc-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
 /*page 404*/
 Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteHomeController@pageError'));
@@ -38,9 +38,12 @@ Route::get('gian-hang/s-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'sho
 //login, dang ky, logout shop
 Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
 Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
+
 Route::post('thay-doi-pass.html', array('as' => 'site.user_shop_change_pass','uses' => 'SiteHomeController@shopChangePass'));
 Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
+
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
+Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
 
 
 //quan ly page shop admin
