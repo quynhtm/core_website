@@ -139,6 +139,7 @@ class SiteHomeController extends BaseSiteController
     }
     public function login($url = ''){
         FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        $this->header();
         $user_shop = trim(Request::get('user_shop_login', ''));
         $password = trim(Request::get('password_shop_login', ''));
         $error = '';
@@ -178,6 +179,7 @@ class SiteHomeController extends BaseSiteController
 
         $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
             ->with('error', $error);
+        $this->footer();
     }
 
     /***************************************************************************************************

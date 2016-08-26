@@ -31,11 +31,71 @@ class ShopController extends BaseShopController
      * **************************************************************************************************************************
      */
     public function shopInfor(){
-        $dataShow = array();
-        //FunctionLib::debug($this->user_shop);
+        FunctionLib::link_js(array(
+            'lib/ckeditor/ckeditor.js',
+        ));
+        $data = array();
+        if($this->user_shop) {
+            $shop_id = $this->user_shop->shop_id;
+            //$item = UserShop::find($id);
+            $item = UserShop::getByID($shop_id);
+            if($item){
+                $data['shop_name'] = $item->shop_name;
+                $data['user_shop'] = $item->user_shop;
+                $data['shop_phone'] = $item->shop_phone;
+                $data['shop_email'] = $item->shop_email;
+                $data['shop_address'] = $item->shop_address;
+                $data['shop_about'] = $item->shop_about;
+                $data['shop_transfer'] = $item->shop_transfer;
+                $data['shop_category'] = $item->shop_category;
+                $data['is_shop'] = $item->is_shop;
+                $data['shop_status'] = $item->shop_status;
+            }
+        }
+        //FunctionLib::debug($data);
         $this->layout->content = View::make('site.ShopLayouts.ShopEditInfor')
-            ->with('data',$dataShow)
-            ->with('user', $this->user_shop);
+            ->with('id', $shop_id)
+            ->with('user', $this->user_shop)
+            ->with('data', $data);
+    }
+    public function updateShopInfor(){
+        FunctionLib::link_js(array(
+            'lib/ckeditor/ckeditor.js',
+        ));
+        $shop_id = $this->user_shop->shop_id;
+
+        $dataSave['shop_name'] = addslashes(Request::get('shop_name'));
+        $dataSave['shop_phone'] = addslashes(Request::get('shop_phone'));
+        $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
+        $dataSave['shop_address'] = addslashes(Request::get('shop_address'));
+        $dataSave['shop_about'] = addslashes(Request::get('shop_about'));
+        $dataSave['shop_transfer'] = addslashes(Request::get('shop_transfer'));
+
+        if ($this->validUserInforShop($dataSave) && empty($this->error)) {
+            if ($shop_id > 0) {
+                //cap nhat
+                if (UserShop::updateData($shop_id, $dataSave)) {
+                    return Redirect::route('shop.adminShop');
+                }
+            }
+        }
+
+        $this->layout->content =  View::make('site.ShopLayouts.ShopEditInfor')
+            ->with('id', $shop_id)
+            ->with('data', $dataSave)
+            ->with('error', $this->error);
+    }
+    private function validUserInforShop($data=array()) {
+        if(!empty($data)) {
+            if(isset($data['shop_name']) && $data['shop_name'] == '') {
+                $this->error[] = 'Tên danh mục không được trống';
+            }
+            if(isset($data['shop_status']) && $data['shop_status'] == -1) {
+                $this->error[] = 'Bạn chưa chọn trạng thái cho danh mục';
+            }
+            return true;
+        }
+        return false;
     }
 
     /****************************************************************************************************************************
