@@ -20,6 +20,7 @@ if(Session::has('is_debug_of_tech')){
     Config::set('compile.debug',true);
 }
 
+
 /*
  * router cho phan Site
  *
@@ -115,4 +116,21 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('order/postOrder/{id}', array('as' => 'admin.order_edit_post','uses' => 'OrderController@postOrder'))->where('id', '[0-9]+');
     Route::post('order/deleteItem', array('as' => 'admin.deltete_order_post','uses' => 'OrderController@deleteItem'));
 
+});
+
+Route::any('{checkUrlTrue}', function()
+{
+    $arrPath = array();
+    $path = Request::path();
+    $routeCollection = Route::getRoutes();
+    foreach($routeCollection as $val){
+        $str = $val->getPath();
+        $str = preg_replace('/(\/{.*})/i', '', $str);
+        $arrPath[] = $str;
+    }
+    unset($arrPath[0]);
+    foreach($arrPath as $k=>$na)
+        if(!in_array($path, $arrPath)){
+            return Redirect::route('site.home');
+        }
 });
