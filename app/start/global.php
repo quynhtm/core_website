@@ -78,5 +78,9 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
+App::missing(function($exception)
+{
+	return Redirect::to('/');
+});
 
 require app_path().'/filters.php';
