@@ -1009,6 +1009,7 @@ li{
     overflow: hidden;
     padding: 2px;
     position: relative;
+	transition: all 1s ease 0s;
 }
 .item:hover {
     background: #fe6d01;
