@@ -78,12 +78,9 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     //trang list tin tuc
-    public function listNew($news_category = 0){
-        
+    public function homeNew(){
     	$this->header();
         $dataNew = array();
-        $user_shop = array();
-
         //thong tin tim kiem
         $pageNo = (int) Request::get('page_no',1);
         $limit = 15;
@@ -92,7 +89,6 @@ class SiteHomeController extends BaseSiteController
         $total = 0;
 		
         $search['news_title'] = addslashes(Request::get('news_title', ''));
-        $search['news_category'] = (int)$news_category;
         $search['news_status'] = CGlobal::status_show;
         $search['field_get'] = 'news_id,news_title,news_desc_sort,news_image';//cac truong can lay
         
@@ -106,8 +102,7 @@ class SiteHomeController extends BaseSiteController
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
             ->with('dataNew',$dataNew)
             ->with('paging', $paging)
-            ->with('dataFieldProductHot',$dataFieldProductHot)
-            ->with('user_shop', $user_shop);
+            ->with('dataFieldProductHot',$dataFieldProductHot);
         $this->footer();
     }
 

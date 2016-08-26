@@ -18,8 +18,8 @@ Route::get('{cat}/{id}-{name}.html',array('as' => 'site.detailProduct','uses' =>
 Route::get('c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteHomeController@listProduct'))->where('id', '[0-9]+');
 
 /*tin tưc*/
-Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
-Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@listNew'))->where('id', '[0-9]+');
+Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'SiteHomeController@listNewSearch'))->where('id', '[0-9]+');
+Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@homeNew'));
 Route::get('t-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
 /*page 404*/
