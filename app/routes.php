@@ -118,7 +118,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
 });
 
-Route::any('{checkUrlTrue}', function()
+/*Route::any('{checkUrlTrue}', function()
 {
     $arrPath = array();
     $path = Request::path();
@@ -133,4 +133,4 @@ Route::any('{checkUrlTrue}', function()
         if(!in_array($path, $arrPath)){
             return Redirect::route('site.home');
         }
-});
+});*/
