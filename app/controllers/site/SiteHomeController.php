@@ -18,7 +18,17 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
-    //trang chi tiet san pham
+    //trang danh sách san pham theo danh mục
+    public function listProduct($cat_id){
+        $this->header();
+        $product = array();
+        $user_shop = array();
+
+        $this->layout->content = View::make('site.SiteLayouts.ListProduct')
+            ->with('product',$product)
+            ->with('user_shop', $user_shop);
+        $this->footer();
+    }
     public function detailProduct($cat_name, $pro_id, $pro_name){
         $this->header();
         $product = array();
