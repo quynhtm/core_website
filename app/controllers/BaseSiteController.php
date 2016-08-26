@@ -13,19 +13,20 @@ class BaseSiteController extends BaseController
     public function __construct(){
         $this->user = Session::has('user_shop') ? Session::get('user_shop') : array();
         
-        
-        //Check router exists
-//         $arrPath = array();
-//         $path = Request::path();
-//         $routeCollection = Route::getRoutes();
-//         foreach($routeCollection as $val){
-//         	$arrPath[] = $val->getPath();
-//         }
-//         if(!in_array($path, $arrPath)){
-//         	header('Location: '.Config::get('config.WEB_ROOT'));
-//         	exit;
-        
-//         }
+        /*
+        $arrPath = array();
+        $path = Request::path();
+        $routeCollection = Route::getRoutes();
+        foreach($routeCollection as $val){
+	        $str = $val->getPath();
+	        $str = preg_replace('/(\/{.*})/i', '', $str);
+	        $arrPath[] = $str;
+        }
+        if(!in_array($path, $arrPath)){
+	        header('Location: '.Config::get('config.WEB_ROOT'));
+	        exit;
+        }
+        */
     }
 
     public function header(){
