@@ -406,7 +406,18 @@ class FunctionLib {
         }
         return $number;
     }
-
+		
+    static function substring($str, $length = 100, $replacer='...'){
+    	$str = strip_tags($str);
+    	if(strlen($str) <= $length){
+    		return $str;
+    	}
+    	$str = trim(@substr($str,0,$length));
+    	$posSpace = strrpos($str,' ');
+    	$replacer="...";
+    	return substr($str,0,$posSpace).$replacer;
+    }
+    
     /**
      * @param int $pro_id
      * @param string $pro_name

@@ -461,16 +461,14 @@ li{
 .box-menu-hover.act .title-cat-menu .ic-line{
     background: #cc0000;
 }
-.content-box-menu{
-    background: #fff;
-}
 .content-box-menu.header-menu-other {
     border: 1px solid #ddd;
     display: none;
-    height: 427px;
+    height: 437px;
     position: relative;
     width: 230px;
     z-index: 10;
+	background: #fff;
 }
 .box-menu-title:hover .content-box-menu.header-menu-other{
     display: block;
@@ -479,7 +477,6 @@ li{
     margin-bottom: 0;
 }
 .content-box-menu > ul > li{
-    background: #fff;
     border-bottom: 1px solid #f1f1f1;
     color: #333;
     display: block;
@@ -512,8 +509,8 @@ li{
 	background: #fff;
 }
 .content-box-menu.header-menu-other .list-subcat {
-    max-height: 427px;
-    min-height: 427px;
+    max-height: 437px;
+    min-height: 437px;
     overflow: hidden;
 }
 .content-box-menu ul > li:hover .list-subcat{
@@ -540,13 +537,13 @@ li{
 }
 /*Footer*/
 .top-bg-footer{
-    background: #202020;
+    background: #383838;
     border-top: 1px solid #fff;
     padding: 20px 0 10px;
 }
 .bottom-footer{
-    background: #121212;
-    color: #6a6a6a;
+    background: #252525;
+    color: #aaa;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -689,10 +686,10 @@ li{
 }
 /*News*/
 .link-breadcrumb {
-    background: #fff;
+    background: #f7f7f7 ;
     border: 1px solid #ddd;
     margin: 10px 0;
-    padding: 5px 8px;
+    padding: 8px 8px;
     text-transform: none;
 }
 .main-view-post {
@@ -701,7 +698,7 @@ li{
     width: 100%;
 }
 .left-news-view {
-    background: #fff;
+    background: #f7f7f7;
     border-radius: 2px;
     display: inline-block;
     float: left;
@@ -719,15 +716,12 @@ li{
     position: relative;
 }
 .list-news-post .item-news {
-    background: #fff none repeat scroll 0 0;
+    border-bottom: 1px dotted #ddd;
     clear: both;
     display: inline-block;
-    margin: 0 0 2em;
+    margin: 0 0 10px;
+    padding-bottom: 10px;
     width: 100%;
-	border:2px solid transparent;
-}
-.list-news-post .item-news:hover{
-	border:2px solid #ddd;
 }
 .list-news-post .item-news .post-img {
     display: inline-block;
@@ -740,6 +734,39 @@ li{
 }
 .list-news-post .item-news .post-img img {
     width: 100%;
+}
+.post-format {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: background 0.5s ease 0s;
+    width: 100%;
+    z-index: 2;
+}
+.item-news:hover .post-format {
+    background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+}
+.post-format .fa-file-text {
+    border: 2px solid #fff;
+    border-radius: 100%;
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    height: 40px;
+    left: 50%;
+    line-height: 35px;
+    margin: -20px 0 0 -20px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: scale(0, 0);
+    transition: all 0.2s ease 0s;
+    width: 40px;
+}
+.item-news:hover .post-format .fa-file-text {
+    transform: scale(1, 1);
 }
 .post-data {
     margin-top: 0;
@@ -792,7 +819,7 @@ li{
     border-radius: 2px;
     margin-bottom: 8px;
     padding: 15px;
-	background: #fff
+	background: #f7f7f7
 }
 .content-right-product.search form {
     white-space: nowrap;
@@ -1010,10 +1037,11 @@ li{
     padding: 2px;
     position: relative;
 	transition: all 1s ease 0s;
+	border:2px solid transparent;
 }
 .item:hover {
-    background: #fe6d01;
 	box-shadow: 0 0 2px #fe6d01;
+	border:2px solid #fe6d01;
 }
 .item .item-content {
     background: #fff;
@@ -1070,7 +1098,7 @@ li{
     margin-right: -100px;
 }
 .w-home .item {
-    width: 17.2%;
+    width: 16.9%;
 }
 .line-ads{
     clear: both;
@@ -1081,12 +1109,15 @@ li{
 .banner-ads > img {
     width: 100%;
 }
-
+.right-bottom-content-view .item .post-thumb {
+    height: auto;
+    line-height: normal;
+}
+/*pagging*/
 .show-box-paging {
     clear: both;
     text-align: center;
 }
-/*pagging*/
 .pagination {
     border-radius: 4px;
     display: inline-block;
@@ -1097,7 +1128,7 @@ li{
     display: inline;
 }
 .pagination > li > a, .pagination > li > span {
-    background-color: #fff;
+    background-color: #f7f7f7;
     border: 1px solid #ddd;
     color: #337ab7;
     float: left;
