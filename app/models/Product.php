@@ -147,6 +147,7 @@ class Product extends Eloquent
     		if($limit>0){
     			$query = Product::where('product_is_hot', CGlobal::status_show);
     			$query->where('product_status', CGlobal::status_show);
+    			$query->where('product_image', '<>', '');
     			$query->orderBy('product_id', 'desc');
     			 
     			$fields = (isset($dataField['field_get']) && trim($dataField['field_get']) != '') ? explode(',',trim($dataField['field_get'])): array();
