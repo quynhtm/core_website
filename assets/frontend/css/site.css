@@ -74,6 +74,22 @@ p {
     vertical-align: top;
     width: 25px;
 }
+.btnLog .config {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -112px -30px;
+    display: inline-block;
+    height: 26px;
+    margin-right: 3px;
+    vertical-align: top;
+    width: 26px;
+}
+.btnLog .logout {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -112px -60px;
+    display: inline-block;
+    height: 26px;
+    margin-right: 3px;
+    vertical-align: top;
+    width: 26px;
+}
 .center-header{
     border-bottom: 1px solid #ddd;
 }
