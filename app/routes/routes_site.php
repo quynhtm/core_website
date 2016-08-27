@@ -46,11 +46,21 @@ Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeCo
 Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
 
 
+
 //quan ly page shop admin
-Route::get('shop.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
+Route::get('shop-cua-tui.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
+
+//san phẩm của shop
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@shopListProduct'));
+Route::get('them-san-pham.html',array('as' => 'shop.addProduct','uses' =>'ShopController@getAddProduct'));
+Route::post('them-san-pham.html',array('as' => 'shop.addProduct','uses' =>'ShopController@postAddProduct'));
+Route::get('sua-san-pham/p-{product_id}/{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@getEditProduct'))->where('id', '[0-9]+');
+Route::post('sua-san-pham/p-{product_id}/{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@postEditProduct'))->where('id', '[0-9]+');
+
+//thong tin shop
 Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@shopInfor'));
 Route::post('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@updateShopInfor'));
+//don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 
 

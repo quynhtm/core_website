@@ -19,10 +19,89 @@ class ShopController extends BaseShopController
      **************************************************************************************************************************
      */
     public function shopListProduct(){
-        $dataShow = array();
-        //FunctionLib::debug($this->user_shop);
-        $this->layout->content = View::make('site.ShopLayouts.ShopListProduct')
-            ->with('data',$dataShow)
+        CGlobal::$pageShopTitle = "Quản lý sản phẩm | ".CGlobal::web_name;
+        $pageNo = (int) Request::get('page_no',1);
+        $limit = CGlobal::number_limit_show;
+        $offset = ($pageNo - 1) * $limit;
+        $search = $data = array();
+        $total = 0;
+
+        $search['product_name'] = addslashes(Request::get('product_name',''));
+        $search['product_status'] = (int)Request::get('product_status',-1);
+        $search['category_id'] = (int)Request::get('category_id',-1);
+        $search['user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
+        //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
+
+        $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Product::searchByCondition($search, $limit, $offset,$total): array();
+        $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
+        //FunctionLib::debug($search);
+
+        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
+            CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
+            CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
+            CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
+            CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
+        $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['product_status']);
+
+        $this->layout->content = View::make('site.ShopLayouts.ListProduct')
+            ->with('paging', $paging)
+            ->with('stt', ($pageNo-1)*$limit)
+            ->with('total', $total)
+            ->with('sizeShow', count($data))
+            ->with('data', $dataSearch)
+            ->with('search', $search)
+            ->with('optionStatus', $optionStatus)
+            ->with('arrStatus', $arrStatusOrder)
+            ->with('user', $this->user_shop);
+    }
+
+    public function getEditProduct($product_id = 0){
+        FunctionLib::link_js(array(
+            'lib/ckeditor/ckeditor.js',
+        ));
+        CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
+        $product = array();
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->user_shop->shop_id,$product_id);
+        }
+        $error = array();
+        if(empty($product)){
+            return Redirect::route('shop.listProduct');
+        }
+
+        $dataShow = array('product_id'=>$product->product_id,
+            'product_name'=>$product->product_name,
+            'category_id'=>$product->category_id,
+            'product_price_sell'=>$product->product_price_sell,
+            'product_price_market'=>$product->product_price_market,
+            'product_price_input'=>$product->product_price_input,
+            'product_type_price'=>$product->product_type_price,
+            'product_selloff'=>$product->product_selloff,
+            'product_is_hot'=>$product->product_is_hot,
+            'product_sort_desc'=>$product->product_sort_desc,
+            'product_content'=>$product->product_content,
+            'product_image'=>$product->product_image,
+            'product_image_hover'=>$product->product_image_hover,
+            'product_image_other'=>$product->product_image_other,
+            'product_order'=>$product->product_order,
+            'quality_input'=>$product->quality_input,
+            'product_status'=>$product->product_status);
+
+        //FunctionLib::debug($product);
+
+        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
+            CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
+            CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
+            CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
+            CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
+        $optionStatus = FunctionLib::getOption($arrStatusOrder,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
+
+        $this->layout->content = View::make('site.ShopLayouts.EditProduct')
+            ->with('error', $error)
+            ->with('product_id', $product_id)
+            ->with('data', $dataShow)
+            ->with('optionStatus', $optionStatus)
+            ->with('arrStatus', $arrStatusOrder)
             ->with('user', $this->user_shop);
     }
 
@@ -53,7 +132,7 @@ class ShopController extends BaseShopController
             }
         }
         //FunctionLib::debug($data);
-        $this->layout->content = View::make('site.ShopLayouts.ShopEditInfor')
+        $this->layout->content = View::make('site.ShopLayouts.EditUserShop')
             ->with('id', $shop_id)
             ->with('user', $this->user_shop)
             ->with('data', $data);
@@ -80,7 +159,7 @@ class ShopController extends BaseShopController
             }
         }
 
-        $this->layout->content =  View::make('site.ShopLayouts.ShopEditInfor')
+        $this->layout->content =  View::make('site.ShopLayouts.EditUserShop')
             ->with('id', $shop_id)
             ->with('data', $dataSave)
             ->with('error', $this->error);
@@ -113,8 +192,7 @@ class ShopController extends BaseShopController
         $search['order_id'] = addslashes(Request::get('order_id',''));
         $search['order_product_name'] = addslashes(Request::get('order_product_name',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
-        $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo đơn hàng của shop
-
+        $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
         $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Order::searchByCondition($search, $limit, $offset,$total): array();
@@ -128,7 +206,7 @@ class ShopController extends BaseShopController
             CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
         $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['order_status']);
 
-        $this->layout->content = View::make('site.ShopLayouts.ShopListOrder')
+        $this->layout->content = View::make('site.ShopLayouts.ListOrder')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)

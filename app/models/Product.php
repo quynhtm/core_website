@@ -16,15 +16,36 @@ class Product extends Eloquent
         'product_order', 'quality_input','quality_out','product_status','is_block',
         'user_shop_id', 'user_shop_name', 'is_shop','shop_province','time_created', 'time_update');
 
-    public static function getProductByID($id) {
-        $product = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PRODUCT_ID.$id) : array();
+    /**
+     * @param $product_id
+     * @return array
+     */
+    public static function getProductByID($product_id) {
+        $product = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PRODUCT_ID.$product_id) : array();
         if (sizeof($product) == 0) {
-            $product = Product::where('product_id', $id)->first();
+            $product = Product::where('product_id', $product_id)->first();
             if($product && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_PRODUCT_ID.$id, $product, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                Cache::put(Memcache::CACHE_PRODUCT_ID.$product_id, $product, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
         }
         return $product;
+    }
+
+    /**
+     * @param $shop_id
+     * @param $id
+     * @return array
+     */
+    public static function getProductByShopId($shop_id,$product_id) {
+        if($product_id > 0){
+            $product = Product::getProductByID($product_id);
+            if (sizeof($product) > 0) {
+                if(isset($product->user_shop_id) && (int)$product->user_shop_id == $shop_id){
+                    return $product;
+                }
+            }
+        }
+        return array();
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
@@ -35,6 +56,12 @@ class Product extends Eloquent
             }
             if (isset($dataSearch['product_status']) && $dataSearch['product_status'] != -1) {
                 $query->where('product_status', $dataSearch['product_status']);
+            }
+            if (isset($dataSearch['category_id']) && $dataSearch['category_id'] != -1) {
+                $query->where('category_id', $dataSearch['category_id']);
+            }
+            if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
+                $query->where('user_shop_id', $dataSearch['user_shop_id']);
             }
             $total = $query->count();
             $query->orderBy('product_id', 'desc');
