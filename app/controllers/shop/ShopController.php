@@ -39,13 +39,7 @@ class ShopController extends BaseShopController
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($search);
 
-        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
-            CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
-            CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
-            CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
-            CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
-        $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['product_status']);
-
+        $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
         $this->layout->content = View::make('site.ShopLayouts.ListProduct')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -54,7 +48,6 @@ class ShopController extends BaseShopController
             ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $arrStatusOrder)
             ->with('user', $this->user_shop);
     }
     public function getAddProduct($product_id = 0){

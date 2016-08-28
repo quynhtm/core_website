@@ -3,9 +3,9 @@
         <ul class="breadcrumb">
             <li>
                 <i class="ace-icon fa fa-home home-icon"></i>
-                <a href="{{URL::route('shop.adminShop')}}">Home</a>
+                <a href="{{URL::route('shop.adminShop')}}">Quản trị shop</a>
             </li>
-            <li class="active">@if($id > 0)Cập nhật User shop @else Tạo mới User shop @endif</li>
+            <li class="active">@if($id > 0)Cập nhật thông tin Shop @else Tạo mới User shop @endif</li>
         </ul><!-- /.breadcrumb -->
     </div>
 

@@ -3,7 +3,7 @@
         <ul class="breadcrumb">
             <li>
                 <i class="ace-icon fa fa-home home-icon"></i>
-                Home
+                Quản trị shop
             </li>
         </ul><!-- /.breadcrumb -->
     </div>
@@ -19,7 +19,7 @@
                     <div class="col-sm-6 col-md-3">
                         <div class="thumbnail text-center">
                             <a class="quick-btn" href="{{URL::route('shop.inforShop')}}">
-                                <i class="fa fa-user fa-5x"></i><br/>
+                                <i class="fa fa-pencil-square-o fa-5x"></i><br/>
                                 <span>Thông tin shop</span>
                             </a>
                         </div>

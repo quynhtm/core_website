@@ -3,7 +3,7 @@
         <ul class="breadcrumb">
             <li>
                 <i class="ace-icon fa fa-home home-icon"></i>
-                <a href="{{URL::route('shop.adminShop')}}">Home</a>
+                <a href="{{URL::route('shop.adminShop')}}">Quản trị shop</a>
             </li>
             <li class="active">Danh sách sản phẩm</li>
         </ul><!-- /.breadcrumb -->
