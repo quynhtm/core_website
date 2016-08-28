@@ -53,9 +53,8 @@ Route::get('shop-cua-tui.html',array('as' => 'shop.adminShop','uses' =>'ShopCont
 //san phẩm của shop
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@shopListProduct'));
 Route::get('them-san-pham.html',array('as' => 'shop.addProduct','uses' =>'ShopController@getAddProduct'));
-Route::post('them-san-pham.html',array('as' => 'shop.addProduct','uses' =>'ShopController@postAddProduct'));
-Route::get('sua-san-pham/p-{product_id}/{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@getEditProduct'))->where('id', '[0-9]+');
-Route::post('sua-san-pham/p-{product_id}/{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@postEditProduct'))->where('id', '[0-9]+');
+Route::get('cap-nhat-san-pham/p-{product_id}-{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@getEditProduct'))->where('product_id', '[0-9]+');
+Route::post('cap-nhat-san-pham/p-{product_id}-{product_name}.html',array('as' => 'shop.editProduct','uses' =>'ShopController@postEditProduct'))->where('product_id', '[0-9]+');
 
 //thong tin shop
 Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@shopInfor'));

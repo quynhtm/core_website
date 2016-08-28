@@ -30,6 +30,7 @@
                     <div class="panel-footer text-right">
                         <span class="">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
+                            <a class="btn btn-warning btn-sm" href="{{URL::route('shop.addProduct')}}"><i class="fa fa-edit"></i> Thêm SP mới</a>
                         </span>
                     </div>
                     {{ Form::close() }}
@@ -40,41 +41,52 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
-                            <th width="5%" class="text-center">STT</th>
-                            <th width="10%" class="text-center">Ảnh SP</th>
-                            <th width="25%">Thông tin sản phẩm</th>
-                            <th width="15%" class="text-left">Giá bán</th>
-                            <th width="25%" class="text-left">Mô tả ngắn</th>
+                            <th width="3%" class="text-center">STT</th>
+                            <th width="8%" class="text-center">Ảnh SP</th>
+                            <th width="24%">Thông tin sản phẩm</th>
+                            <th width="15%">Giá bán</th>
+                            <th width="15%">Mô tả ngắn</th>
+                            <th width="15%">Thông tin khác</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
-                                <td class="text-center">{{ $stt + $key+1 }}</td>
-                                <td class="text-center">
+                                <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
+                                <td class="text-center text-middle">
                                     <img src="{{ ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, 100, 100, '', true, true)}}">
                                 </td>
-                                <td>
-                                    [<b>{{ $item->product_id }}</b>] {{ $item->product_name }}
-                                    <br/><b>Danh mục:</b> {{ $item->category_name }}
-                                    <br/>Ngày tạo: {{date ('d-m-Y H:i:s',$item->time_created)}}
-                                    <br/>Ngày sửa: {{date ('d-m-Y H:i:s',$item->time_update)}}
+                                <td class="text-left text-middle">
+                                    @if($item->product_status == CGlobal::status_show)
+                                        <a href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}" target="_blank" title="Chi tiết sản phẩm">
+                                            [<b>{{ $item->product_id }}</b>] {{ $item->product_name }}
+                                        </a>
+                                    @else
+                                        [<b>{{ $item->product_id }}</b>] {{ $item->product_name }}
+                                    @endif
+                                    @if($item->category_name != '')
+                                        <br/><b>Danh mục:</b> {{ $item->category_name }}
+                                    @endif
                                 </td>
-                                <td>
+                                <td class="text-middle">
                                     @if($item->product_price_market > 0)Thị trường: <b class="green">{{ FunctionLib::numberFormat($item->product_price_market) }} đ</b><br/>@endif
                                     Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->product_price_sell) }} đ</b>
-                                    @if($item->product_price_input > 0)<br/>Giá nhập: <b class="green">{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
+                                    @if($item->product_price_input > 0)<br/>Giá nhập: <b>{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
                                 </td>
-                                <td>
-                                    @if($item->product_sort_desc != ''){{ $item->product_sort_desc }}@endif
+                                <td class="text-left text-middle">
+                                    @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,200) }}@endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-left text-middle">
+                                    Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
+                                    <br/>Sửa: {{date ('d-m-Y H:i',$item->time_update)}}
+                                </td>
+                                <td class="text-center text-middle">
                                     @if($item->product_status == CGlobal::status_show)
-                                        <i class="fa fa-check fa-2x"></i>
+                                        <i class="fa fa-check fa-2x green" title="Hiển thị"></i>
                                     @endif
                                     @if($item->product_status == CGlobal::status_hide)
-                                        <i class="fa fa-close fa-2x"></i>
+                                        <i class="fa fa-close fa-2x red" title="Đang ẩn"></i>
                                     @endif
 
                                     <a href="{{URL::route('shop.editProduct',array('product_id' => $item->product_id,'product_name' => $item->product_name))}}" title="Sửa sản phẩm"><i class="fa fa-edit fa-2x"></i></a>

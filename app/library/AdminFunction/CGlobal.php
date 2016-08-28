@@ -73,5 +73,15 @@ class CGlobal{
     const ORDER_STATUS_SUCCESS = 3;
     const ORDER_STATUS_CANCEL = 4;
 
+    //product
+    const TYPE_PRICE_NUMBER = 1;
+    const TYPE_PRICE_CONTACT = 2;
+
+    const PRODUCT_NOMAL = 1;
+    const PRODUCT_HOT = 2;
+    const PRODUCT_SELLOFF = 3;
+
+    const PRODUCT_BLOCK = 0;
+    const PRODUCT_NOT_BLOCK = 1;
 
 }

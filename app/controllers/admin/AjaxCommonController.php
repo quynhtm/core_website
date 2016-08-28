@@ -7,8 +7,6 @@
 class AjaxCommonController extends BaseAdminController
 {
     function uploadImage() {
-        //FunctionLib::debug($_SERVER);
-
         $id_hiden = Request::get('id', 0);
         $type = Request::get('type', 1);
         $dataImg = $_FILES["multipleFile"];
@@ -17,8 +15,10 @@ class AjaxCommonController extends BaseAdminController
         $aryData['msg'] = "Data not exists!";
         switch( $type ){
             case 1://img news
-                //$table_action = with(new News())->getTable();
-                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_NEWS, 'news_image_other',$type);
+                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_NEWS, $type);
+                break;
+            case 2://img Product
+                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_PRODUCT, $type);
                 break;
             default:
                 break;
@@ -27,124 +27,59 @@ class AjaxCommonController extends BaseAdminController
         exit();
     }
 
-    function uploadImageToFolder($dataImg, $id_hiden, $folder, $field_img_other='', $type){
-        global $base_url;
+    function uploadImageToFolder($dataImg, $id_hiden, $folder, $type){
         $aryData = array();
         $aryData['intIsOK'] = -1;
         $aryData['msg'] = "Upload Img!";
         $item_id = 0; // id doi tuong dang upload
         if (!empty($dataImg)) {
             if($id_hiden == 0){
-                if($field_img_other == 'news_image_other'){
-                    $new_row['news_create'] = time();
-                    $new_row['news_status'] = CGlobal::IMAGE_ERROR;
+                switch( $type ){
+                    case 1://img news
+                        $new_row['news_create'] = time();
+                        $new_row['news_status'] = CGlobal::IMAGE_ERROR;
+                        $item_id = News::addData($new_row);
+                        break;
+                    case 2://img Product
+                        $this->user_shop = UserShop::user_login();
+                        if(sizeof($this->user_shop) > 0){
+                            $new_row['time_created'] = time();
+                            $new_row['product_status'] = CGlobal::IMAGE_ERROR;
+                            $new_row['user_shop_id'] = $this->user_shop->shop_id;
+                            $new_row['user_shop_name'] = $this->user_shop->user_shop_name;
+                            $new_row['is_shop'] = $this->user_shop->is_shop;
+                            $new_row['shop_province'] = $this->user_shop->shop_province;
+                            $item_id = Product::addData($new_row);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                if($type == 1){//news
-                    $item_id = News::addData($new_row);
-                }
-
             }elseif($id_hiden > 0){
                 $item_id = $id_hiden;
             }
 
-            $aryError = $tmpImg = array();
-            $file_name = Upload::uploadFile('multipleFile',
-                $_file_ext = 'jpg,jpeg,png,gif',
-                $_max_file_size = 10*1024*1024,
-                $_folder = $folder.'/'.$item_id);
+            if($item_id > 0){
+                $aryError = $tmpImg = array();
+                $file_name = Upload::uploadFile('multipleFile',
+                    $_file_ext = 'jpg,jpeg,png,gif',
+                    $_max_file_size = 10*1024*1024,
+                    $_folder = $folder.'/'.$item_id);
 
-            if ($file_name != '' && empty($aryError)) {
-                $tmpImg['name_img'] = $file_name;
-                $tmpImg['id_key'] = rand(10000, 99999);
+                if ($file_name != '' && empty($aryError)) {
+                    $tmpImg['name_img'] = $file_name;
+                    $tmpImg['id_key'] = rand(10000, 99999);
 
-                $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 80, 80, '', true, true);
-                $tmpImg['src'] = $url_thumb;
-                // if($field_img_other != ''){
-                //     $inforItem = array();
-                //     //lay thong tin cua item
-                //     if($type == 1){//news
-                //         $inforItem = News::find($item_id);
-                //     }
-
-                //     //gan them cho danh sach anh khac
-                //     if(!empty($inforItem)){
-                //         $aryTempImages = ($inforItem->$field_img_other !='') ? unserialize($inforItem->$field_img_other): array();
-                //     }
-                //     $aryTempImages[] = $file_name;
-                //     $new_row[$field_img_other] = serialize($aryTempImages);
-
-                //     if($type == 1){//news
-                //         News::updateData($item_id,$new_row);
-                //     }
-                // }
+                    $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 100, 100, '', true, true);
+                    $tmpImg['src'] = $url_thumb;
+                }
+                $aryData['intIsOK'] = 1;
+                $aryData['id_item'] = $item_id;
+                $aryData['info'] = $tmpImg;
             }
-            $aryData['intIsOK'] = 1;
-            $aryData['id_item'] = $item_id;
-            $aryData['info'] = $tmpImg;
-
         }
-        //FunctionLib::debug($aryData);
         echo json_encode($aryData);
         die();
-    }
-
-    function uploadImageToFolderOnce($dataImg, $id_hiden, $table_action, $folder, $field_img='', $primary_key){
-        global $base_url;
-        $aryData = array();
-        $aryData['intIsOK'] = -1;
-        $aryData['msg'] = "Upload Img!";
-        $item_id = 0;
-        if (!empty($dataImg)) {
-            if($id_hiden == 0){
-                if($field_img == 'banner_image'){
-                    $new_row['banner_create_time'] = time();
-                    $new_row['banner_status'] = IMAGE_ERROR;
-                }
-                elseif($field_img == 'video_img'){
-                    $new_row['video_time_creater'] = time();
-                    $new_row['video_status'] = IMAGE_ERROR;
-                }
-                elseif($field_img == 'shop_logo'){
-                    $new_row['shop_created'] = time();
-                    $new_row['shop_status'] = IMAGE_ERROR;
-                }
-                $item_id = DB::insertOneItem($table_action, $new_row);
-            }elseif($id_hiden > 0){
-                $item_id = $id_hiden;
-            }
-
-            $aryError = $tmpImg = array();
-            $file_name = Upload::uploadFile('multipleFile',
-                $_file_ext = 'jpg,jpeg,png,gif',
-                $_max_file_size = 10*1024*1024,
-                $_folder = $folder.'/'.$item_id,
-                $type_json=0);
-
-            if ($file_name != '' && empty($aryError)) {
-                $tmpImg['name_img'] = $file_name;
-                $tmpImg['id_key'] = rand(10000, 99999);
-
-                $tmpImg['src'] = $base_url.'/uploads/'.$folder.'/'.$item_id.'/'.$file_name;
-                if($field_img != ''){
-                    $arrItem = DB::getItemById($table_action, $primary_key, array($field_img), $item_id);
-                    if(!empty($arrItem)){
-                        $path_images = ($arrItem[0]->$field_img != '')? $arrItem[0]->$field_img : '';
-                        //Delte img current in db
-                        if($path_images != ''){
-                            $folder_image = 'uploads/'.$folder;
-                            $this->unlinkFileAndFolder($path_images, $item_id, $folder_image, 0);
-                        }
-                    }
-                    $path_images = $file_name;
-                    $new_row[$field_img] = $path_images;
-                    DB::updateId($table_action, $primary_key, $new_row, $item_id);
-                }
-            }
-            $aryData['intIsOK'] = 1;
-            $aryData['id_item'] = $item_id;
-            $aryData['info'] = $tmpImg;
-        }
-        return $aryData;
     }
 
     function remove_image(){

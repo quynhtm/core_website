@@ -59,14 +59,14 @@
 							<li class="item">
 								<span class="sale-off">-11.1%</span>
 								<div class="post-thumb">
-									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">
+									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
 										<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
 									</a>
 								</div>
 								<div class="item-content">
 									<div class="title-info">
 										<h4 class="post-title">
-											<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_id)}}">{{$item->product_name}}</a>
+											<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 										</h4>
 										<div class="item-price">
 											@if($item->product_price_sell > 0)

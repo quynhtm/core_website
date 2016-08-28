@@ -5,15 +5,18 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{URL::route('shop.adminShop')}}">Quản trị shop</a>
             </li>
+            <li>
+                <a href="{{URL::route('shop.listProduct')}}">Danh sách sản phẩm</a>
+            </li>
             <li class="active">@if(isset($product_id) && $product_id > 0)Sửa sản phẩm @else Tạo mới sản phẩm @endif</li>
         </ul><!-- /.breadcrumb -->
     </div>
 
-    <div class="page-content">
-        <div class="row">
+    <div class="page-content marginTop10">
+        <div class="row ">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editProduct'),'files' => true))}}
+                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editProduct',array('product_id'=>$product_id,'product_name'=>(isset($product_id) && $product_id > 0)?strtolower(FunctionLib::safe_title($data['product_name'])):strtolower(FunctionLib::safe_title('thêm sản phẩm')))),'files' => true))}}
                 @if(isset($error) && !empty($error))
                     <div class="alert alert-danger" role="alert">
                         @foreach($error as $itmError)
@@ -22,10 +25,10 @@
                     </div>
                 @endif
 
-                <div style="float: left;width: 50%">
+                <div style="float: left;width: 38%">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label">Tên sản phẩm</label>
+                        <label for="name" class="control-label">Tên sản phẩm <span class="red"> (*) </span></label>
                         <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
                     </div>
                 </div>
@@ -33,14 +36,22 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Danh mục</label>
-                        <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
+                        <label for="name" class="control-label">Danh mục<span class="red"> (*) </span></label>
+                        <div class="form-group">
+                            <select name="category_id" id="category_id" class="form-control input-sm">
+                                {{$optionStatusProduct}}
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Kiểu hiển thị giá</label>
-                        <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
+                        <label for="name" class="control-label">Thuộc nhà cung cấp</label>
+                        <div class="form-group">
+                            <select name="provider_id" id="provider_id" class="form-control input-sm">
+                                {{$optionStatusProduct}}
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -48,27 +59,39 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Loại sản phẩm</label>
-                        <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
+                        <div class="form-group">
+                            <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
+                                {{$optionTypeProduct}}
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá bán</label>
-                        <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Kiểu hiển thị giá<span class="red"> (*) </span></label>
+                            <div class="form-group">
+                                <select name="product_type_price" id="product_type_price" class="form-control input-sm">
+                                    {{$optionTypePrice}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 <div class="clearfix"></div>
 
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Trạng thái Ẩn/Hiện</label>
-                        <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
+                        <div class="form-group">
+                            <select name="product_status" id="product_status" class="form-control input-sm">
+                                {{$optionStatusProduct}}
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Giá thị trường</label>
-                        <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
+                        <label for="name" class="control-label">Giá bán <span class="red"> (*) </span></label>
+                        <input type="text" placeholder="Giá bán" id="product_price_sell" name="product_price_sell" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_sell'])){{$data['product_price_sell']}}@endif">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -76,41 +99,87 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Thông tin khuyến mại</label>
-                        <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
+                        <div class="clearfix"></div>
+                        <textarea rows="5" cols="8" name="product_selloff" class="form-control input-sm">@if(isset($data['product_selloff'])){{$data['product_selloff']}}@endif</textarea>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Giá nhập</label>
-                        <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
+                        <label for="name" class="control-label">Giá thị trường</label>
+                        <input type="text" placeholder="Giá thị trường" id="product_price_market" name="product_price_market" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_market'])){{$data['product_price_market']}}@endif">
                     </div>
-                </div>
-                <div class="clearfix"></div>
-                </div>
-
-                <div style="float: left;width: 50%">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(1);">Upload ảnh </a>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Mô tả ngắn</label>
-                            <textarea class="form-control input-sm" rows="8" name="shop_about" id="shop_about">@if(isset($data['shop_about'])){{$data['shop_about']}}@endif</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="clearfix"></div>
-
-
-                <div class="clearfix"></div>
-                <div class="col-sm-12">
+                </div><div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Thông tin chi tiết</label>
-                        <textarea class="form-control input-sm" rows="8" name="shop_transfer" id="shop_transfer">@if(isset($data['shop_transfer'])){{$data['shop_transfer']}}@endif</textarea>
+                        <label for="name" class="control-label">Giá nhập</label>
+                        <input type="text" placeholder="Giá nhập" id="product_price_input" name="product_price_input" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_input'])){{$data['product_price_input']}}@endif">
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                </div>
+
+                <div style="float: left;width: 62%">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(2);">Upload ảnh </a>
+                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
+                            <input name="product_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['product_image_hover'])){{$data['product_image_hover']}}@endif">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-12">
+                        <!--hien thi anh-->
+                        <ul id="sys_drag_sort" class="ul_drag_sort">
+                            @if(isset($arrViewImgOther))
+                                @foreach ($arrViewImgOther as $key => $imgNew)
+                                    <li id="sys_div_img_other_{{$key}}" style="margin: 1px!important;">
+                                        <div class='block_img_upload'>
+                                            <img src="{{$imgNew['src_img_other']}}" height='100' width='100'>
+                                            <input type="hidden" id="sys_img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
+                                            <div class='clear'></div>
+                                            <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
+                                            <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
+
+                                            <div class="clearfix"></div>
+                                            <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHover) && $imageHover == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImageHover('{{$imgNew['img_other']}}','{{$key}}');">
+                                            <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
+
+                                            <div class="clearfix"></div>
+                                            <a href="javascript:void(0);" onclick="Common.removeImage({{$key}});">Xóa ảnh</a>
+                                            <span style="display: none"><b>{{$key}}</b></span>
+                                        </div>
+                                    </li>
+                                    @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] )
+                                        <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="{{$key}}">
+                                    @endif
+                                @endforeach
+                            @else
+                                <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="-1">
+                            @endif
+                        </ul>
+
+                        <input name="list1SortOrder" id ='list1SortOrder' type="hidden" />
+                        <script type="text/javascript">
+                            $("#sys_drag_sort").dragsort({ dragSelector: "div", dragBetween: true, dragEnd: saveOrder });
+                            function saveOrder() {
+                                var data = $("#sys_drag_sort li div span").map(function() { return $(this).children().html(); }).get();
+                                $("input[name=list1SortOrder]").val(data.join(","));
+                            };
+                        </script>
+                        <!--ket thuc hien thi anh-->
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Mô tả ngắn <span class="red"> (*) </span></label>
+                        <textarea class="form-control input-sm" rows="8" name="product_sort_desc" id="product_sort_desc">@if(isset($data['product_sort_desc'])){{$data['product_sort_desc']}}@endif</textarea>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span></label>
+                        <textarea class="form-control input-sm" rows="8" name="product_content" id="product_content">@if(isset($data['product_content'])){{$data['product_content']}}@endif</textarea>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -118,6 +187,7 @@
                 <div class="form-group col-sm-12 text-left">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
+                <input type="hidden" id="id_hiden" name="id_hiden" value="{{$product_id}}"/>
                 {{ Form::close() }}
                         <!-- PAGE CONTENT ENDS -->
             </div>
@@ -155,7 +225,7 @@
 <!--Popup upload ảnh-->
 <script>
     CKEDITOR.replace(
-            'shop_about',
+            'product_sort_desc',
             {
                 toolbar: [
                     { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
@@ -165,7 +235,7 @@
             },
             {height:800}
     );CKEDITOR.replace(
-            'shop_transfer',
+            'product_content',
             {
                 toolbar: [
                     { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
@@ -175,4 +245,16 @@
             },
             {height:800}
     );
+</script>
+<script type="text/javascript">
+    jQuery('.formatMoney').autoNumeric('init');
+    //kéo thả ảnh
+    jQuery("#sys_drag_sort").dragsort({ dragSelector: "div", dragBetween: true, dragEnd: saveOrder });
+    function saveOrder() {
+        var data = jQuery("#sys_drag_sort li div span").map(function() { return jQuery(this).children().html(); }).get();
+        jQuery("input[name=list1SortOrder]").val(data.join(","));
+    };
+    function insertImgContent(src){
+        CKEDITOR.instances.news_content.insertHtml('<img src="'+src+'"/>');
+    }
 </script>

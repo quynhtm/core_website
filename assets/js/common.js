@@ -45,8 +45,8 @@ var Common = {
                     }
                     var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='Common.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\",\""+type+"\")' >Xóa ảnh</a>";
                     var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
-                    html += "<div class='div_img_upload' >";
-                    html += "<img height='80' width='80' src='" + dataResult.info.src + "'/>";
+                    html += "<div class='block_img_upload' >";
+                    html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
                     html += "<input type='hidden' id='sys_img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
                     html += checked_img_pro;
                     html += delete_img;
