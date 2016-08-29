@@ -6,7 +6,7 @@
                 <a href="{{URL::route('site.shopLogout')}}" rel="nofollow" class="btnLog"><i class="logout"></i> Thoát</a>
             @else
                 <a href="{{URL::route('site.shopRegister')}}" class="btnLog register" rel="nofollow"><i class="register"></i>Mở Shop</a>
-                <a href="{{URL::route('site.shopLogin')}}dang-nhap.html" class="btnLog" rel="nofollow"><i class="login"></i>Vào Shop</a>
+                <a href="{{URL::route('site.shopLogin')}}" class="btnLog" rel="nofollow"><i class="login"></i>Vào Shop</a>
             @endif
         </div>
     </div>

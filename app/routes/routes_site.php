@@ -62,8 +62,12 @@ Route::post('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopC
 //don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 
+//Duy them page danh sách sản phẩm trong giỏ hàng
+Route::get('gio-hang.html',array('as' => 'site.listCartOrder','uses' =>'SiteHomeController@listCartOrder'));
+Route::get('gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteHomeController@sendCartOrder'));
 
-
+Route::get('404.html',array('as' => 'site.page404','uses' =>'SiteHomeController@page404'));
+Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteHomeController@thanksBuy'));
 
 
 
