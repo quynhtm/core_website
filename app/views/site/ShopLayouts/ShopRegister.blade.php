@@ -33,7 +33,8 @@
 				<div class="form-group">
 					<label class="control-label">Tỉnh/thành<span>(*)</span></label>
 					<select id="shop_province" name="shop_province" class="form-control">
-						<option></option>					</select>
+						{{$optionProvince}}
+					</select>
 				</div>
 			</div>
 			<div class="form-group">

@@ -28,4 +28,7 @@ class Memcache{
 
     //sản phẩm
     const CACHE_NEW_ID    = 'cache_news_id_';
+
+    //Tinh thành
+    const CACHE_ALL_PROVINCE = 'cache_all_province';
 }

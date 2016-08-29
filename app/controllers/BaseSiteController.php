@@ -19,12 +19,16 @@ class BaseSiteController extends BaseController
         FunctionLib::site_css('lib/fancy-select/fancySelect.css', CGlobal::$POS_HEAD);
         FunctionLib::site_js('frontend/js/site.js', CGlobal::$POS_END);
 
+        //tỉnh thành
+        $arrProvince = Province::getAllProvince();
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----') + $arrProvince, -1);
         //Menu category
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
         
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
+            ->with('optionProvince', $optionProvince)
             ->with('user_shop', $this->user);
     }
 

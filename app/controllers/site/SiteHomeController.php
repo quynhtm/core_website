@@ -239,10 +239,12 @@ class SiteHomeController extends BaseSiteController
     public function shopRegister(){
         FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
         $this->header();
-        $dataShow = array();
-        $this->layout->content = View::make('site.ShopLayouts.shopRegister')
+        //tỉnh thành
+        $arrProvince = Province::getAllProvince();
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, -1);
+        $this->layout->content = View::make('site.ShopLayouts.ShopRegister')
             ->with('error',array())
-            ->with('data',$dataShow)
+            ->with('optionProvince',$optionProvince)
             ->with('user', $this->user);
         $this->footer();
     }
@@ -278,7 +280,7 @@ class SiteHomeController extends BaseSiteController
                 }
             }
         }
-        $this->layout->content = View::make('site.ShopLayouts.shopRegister')
+        $this->layout->content = View::make('site.ShopLayouts.ShopRegister')
             ->with('error',$error)
             ->with('data',$dataSave)
             ->with('user', $this->user);

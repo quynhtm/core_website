@@ -19,9 +19,8 @@
                 <div class="search-top-center">
                     <div class="box-search">
                         <form name="frmsearch" id="frmsearch" class="frmsearch" method="GET" action="#">
-                            <select name="provices_id" class="provices_id">
-                                <option value="0">Chọn tỉnh thành</option>
-
+                            <select name="province_id" class="province_id">
+                                {{$optionProvince}}
                             </select>
                             <select name="category_id" class="category_id">
                                 <option value="0">Chọn danh mục sản phẩm</option>
