@@ -132,7 +132,6 @@ class SiteHomeController extends BaseSiteController
     }
 
 
-
     /***************************************************************************************************
      * Page lien quan tới shop
      ***************************************************************************************************
@@ -311,6 +310,35 @@ class SiteHomeController extends BaseSiteController
         }
         return $error;
     }
-
+    
+    //Duy them page danh sách sản phẩm trong giỏ hàng
+    public function listCartOrder(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.listCartOrder');
+    	$this->footer();
+    }
+    public function sendCartOrder(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.sendCartOrder');
+    	$this->footer();
+    }
+    
+	public function page404(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.page404');
+    	$this->footer();
+    }
+    
+    public function thanksBuy(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy');
+    	$this->footer();
+    }
+    public function searchProduct(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.searchProduct');
+    	$this->footer();
+    }
+    
 }
 
