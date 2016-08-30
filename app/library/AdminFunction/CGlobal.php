@@ -17,6 +17,10 @@ class CGlobal{
 
     const web_name = 'Website';
     const number_limit_show = 30;
+    const number_show_30 = 30;
+    const number_show_20 = 20;
+    const number_show_15 = 15;
+    const number_show_10 = 10;
 
     const status_show = 1;
     const status_hide = 0;

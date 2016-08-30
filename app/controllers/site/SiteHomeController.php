@@ -11,9 +11,40 @@ class SiteHomeController extends BaseSiteController
     public function index(){
         $this->header();
         $dataShow = array();
+        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status
+                product_price_sell,product_price_market,product_type_price,product_selloff,
+                user_shop_id,user_shop_name,is_shop,';//cac truong can lay
+        $parentCategoryId = (int) Request::get('parent_category_id',0);
+        /**
+         * list SP cua shop VIP
+         * */
+        $limit = $offset = CGlobal::number_show_30;
+        $total = 0;
+        if($parentCategoryId > 0){
+            $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+            if(sizeof($arrChildCate) > 0){
+                $searchVip['category_id'] = array_keys($arrChildCate);
+            }
+        }
+        $searchVip['is_shop'] = CGlobal::SHOP_VIP;
+        $searchVip['field_get'] = $str_field_get;
+        $dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
+        //FunctionLib::debug($dataProVip);
+
+
+        /**
+         * //list sản phẩm THUONG - FREE
+         */
+        $limit = $offset = CGlobal::number_show_15;
+        $searchFree['is_shop'] = array( CGlobal::SHOP_NOMAL, CGlobal::SHOP_FREE );
+        $searchFree['category_id'] = 0;
+        $searchFree['field_get'] = $str_field_get;
+        $dataProFree = Product::getProductForSite($searchFree, $limit, $offset, $total);
+
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
-            ->with('data',$dataShow)
+            ->with('dataProVip',$dataProVip)
+            ->with('dataProFree',$dataProFree)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
@@ -155,7 +186,7 @@ class SiteHomeController extends BaseSiteController
         $this->header();
         $product = array();
         $user_shop = array();
-        $this->layout->content = View::make('site.SiteLayouts.ShopListProduct')
+        $this->layout->content = View::make('site.SiteLayouts.ShopHome')
             ->with('product',$product)
             ->with('user_shop', $user_shop);
         $this->footer();
