@@ -23,7 +23,7 @@
                                 {{$optionProvince}}
                             </select>
                             <select name="category_id" class="category_id">
-                                <option value="0">Chọn danh mục sản phẩm</option>
+                                {{$optionParentCate}}
                             </select>
                             <input type="submit" class="btn-search" value="Tìm kiếm"/>
                         </form>

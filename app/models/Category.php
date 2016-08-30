@@ -25,6 +25,20 @@ class Category extends Eloquent
         return $category;
     }
 
+    public static function getAllParentCategoryId() {
+        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PARENT_CATEGORY) : array();
+        if (sizeof($data) == 0) {
+            $category = Category::where('category_id' > 0)->where('category_parent_id','=', 0)->orderBy('category_order','asc')->get();
+            foreach($category as $itm) {
+                $data[$itm['category_id']] = $itm['category_name'];
+            }
+            if($data && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_ALL_PARENT_CATEGORY, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $data;
+    }
+
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = Category::where('category_id','>',0);
@@ -136,6 +150,7 @@ class Category extends Eloquent
             Cache::forget(Memcache::CACHE_CATEGORY_ID.$id);
         }
         Cache::forget(Memcache::CACHE_ALL_CATEGORY);
+        Cache::forget(Memcache::CACHE_ALL_PARENT_CATEGORY);
     }
 
     public static function getCategoriessAll(){

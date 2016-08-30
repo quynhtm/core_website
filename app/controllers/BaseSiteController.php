@@ -22,12 +22,17 @@ class BaseSiteController extends BaseController
         //tỉnh thành
         $arrProvince = Province::getAllProvince();
         $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----') + $arrProvince, -1);
+
+        //tỉnh thành
+        $arrParentCate = Category::getAllParentCategoryId();
+        $optionParentCate = FunctionLib::getOption(array(-1=>' ---Chọn danh mục ----') + $arrParentCate, -1);
         //Menu category
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
         
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
+            ->with('optionParentCate', $optionParentCate)
             ->with('optionProvince', $optionProvince)
             ->with('user_shop', $this->user);
     }
