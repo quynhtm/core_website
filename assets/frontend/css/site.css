@@ -1624,6 +1624,10 @@ form#txtFormPaymentCart .form-group label {
     margin-top: 10px;
     text-align: center;
 }
+
+.view-content-static {
+    min-height: 150px;
+}
 /*pagging*/
 .show-box-paging {
     clear: both;

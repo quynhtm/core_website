@@ -132,7 +132,6 @@ class SiteHomeController extends BaseSiteController
     }
 
 
-
     /***************************************************************************************************
      * Page lien quan tới shop
      ***************************************************************************************************
@@ -331,6 +330,11 @@ class SiteHomeController extends BaseSiteController
     public function thanksBuy(){
     	$this->header();
     	$this->layout->content = View::make('site.SiteLayouts.thanksBuy');
+    	$this->footer();
+    }
+    public function searchProduct(){
+    	$this->header();
+    	$this->layout->content = View::make('site.SiteLayouts.searchProduct');
     	$this->footer();
     }
     
