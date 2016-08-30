@@ -41,10 +41,14 @@ class SiteHomeController extends BaseSiteController
         $searchFree['field_get'] = $str_field_get;
         $dataProFree = Product::getProductForSite($searchFree, $limit, $offset, $total);
 
+        //list danh mục cha
+        $listParentCate = Category::getAllParentCategoryId();
+
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
             ->with('dataProVip',$dataProVip)
             ->with('dataProFree',$dataProFree)
+            ->with('listParentCate',$listParentCate)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
