@@ -16,6 +16,9 @@
 				</div>
 			</div>
 			<div class="right-show-product-shop body-list-item">
+				<h1 class="title-video">
+					Kết quả tìm kiếm: Có 20 kết quả phù hợp với từ khóa
+				</h1>
 				<ul>
 					<?php for($i=0; $i<20; $i++){?>
 					<li class="item">
