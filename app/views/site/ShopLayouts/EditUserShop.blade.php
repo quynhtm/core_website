@@ -21,8 +21,8 @@
                         @endforeach
                     </div>
                 @endif
-
-                <div class="col-sm-4">
+                <div style="float:left; width: 70%">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">User đăng nhập</label>
                         <input type="text" placeholder="User shop" id="user_shop" name="user_shop" readonly class="form-control input-sm" value="@if(isset($data['user_shop'])){{$data['user_shop']}}@endif">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="clearfix"></div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Tên shop</label>
                         <input type="text" placeholder="Tên shop" id="shop_name" name="shop_name" class="form-control input-sm" value="@if(isset($data['shop_name'])){{$data['shop_name']}}@endif">
@@ -38,13 +38,13 @@
                 </div>
                 <div class="clearfix"></div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Số điện thoại</label>
                         <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Email</label>
                         <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
@@ -52,27 +52,66 @@
                 </div>
                 <div class="clearfix"></div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                     <div class="form-group">
                         <label for="name" class="control-label">Địa chỉ</label>
                         <input type="text" placeholder="Địa chỉ" id="shop_address" name="shop_address" class="form-control input-sm" value="@if(isset($data['shop_address'])){{$data['shop_address']}}@endif">
                     </div>
                 </div>
+                    <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Tỉnh thành</label>
+                        <select id="shop_province" name="shop_province" class="form-control">
+                            {{$optionProvince}}
+                        </select>
+                    </div>
+                </div>
                 <div class="clearfix"></div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Giới thiệu về shop</label>
                         <textarea class="form-control input-sm" rows="8" name="shop_about" id="shop_about">@if(isset($data['shop_about'])){{$data['shop_about']}}@endif</textarea>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Chính sách vận chuyển</label>
                         <textarea class="form-control input-sm" rows="8" name="shop_transfer" id="shop_transfer">@if(isset($data['shop_transfer'])){{$data['shop_transfer']}}@endif</textarea>
                     </div>
                 </div>
                 <div class="clearfix"></div>
+                </div>
+                <div style="float:left; width: 30%; height: 650px;">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Danh mục sản phẩm của shop</label>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 100%; height: 920px;overflow: hidden; overflow-x: hidden;overflow-y: scroll">
+                    <table class="table table-bordered table-hover">
+                        @foreach ($arrCategory as $key => $cate)
+                            <tr>
+                                <td class="text-center text-middle">
+                                    @if($cate['category_parent_id'] > 0)
+                                        <input type="checkbox" class="checkItem" name="checkCategoryShop[]"
+                                               @if(in_array($cate['category_id'],$arrCateShop)) checked="checked"@endif
+                                               value="{{$cate['category_id']}}" />
+                                    @endif
+                                </td>
+                                <td class="text-left text-middle">
+                                    @if($cate['category_parent_id'] == 0)
+                                        <b>{{$cate['category_name']}}</b>
+                                    @else
+                                        {{$cate['padding_left'].$cate['category_name']}}
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    </div>
+                </div>
 
                 <div class="form-group col-sm-12 text-left">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>

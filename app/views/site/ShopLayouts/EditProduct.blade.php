@@ -39,7 +39,7 @@
                         <label for="name" class="control-label">Danh mục<span class="red"> (*) </span></label>
                         <div class="form-group">
                             <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionStatusProduct}}
+                                {{$optionCategory}}
                             </select>
                         </div>
                     </div>

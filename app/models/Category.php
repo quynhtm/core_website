@@ -25,6 +25,18 @@ class Category extends Eloquent
         return $category;
     }
 
+    public static function getCategoryByArrayId($arrCate = array()) {
+        $data = array();
+        if(!empty($arrCate)){
+            $category = Category::whereIn('category_id',$arrCate)->orderBy('category_id','asc')->get();
+            foreach($category as $itm) {
+                $data[$itm['category_id']] = $itm['category_name'];
+            }
+            return $data;
+        }
+        return $data;
+    }
+
     public static function getAllParentCategoryId() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PARENT_CATEGORY) : array();
         if (sizeof($data) == 0) {
@@ -196,5 +208,62 @@ class Category extends Eloquent
         return $data;
     }
 
+    public static function buildTreeCategory(){
+        $categories = Category::where('category_id', '>', 0)->where('category_status', '=', CGlobal::status_show)->get();
+        return $treeCategroy = self::getTreeCategory($categories);
+    }
+    /**
+     * build cây danh m?c
+     * @param $data
+     * @return array
+     */
+    public static function getTreeCategory($data){
+        $max = 0;
+        $aryCategoryProduct = $arrCategory = array();
+        if(!empty($data)){
+            foreach ($data as $k=>$value){
+                $max = ($max < $value->category_parent_id)? $value->category_parent_id : $max;
+                $arrCategory[$value->category_id] = array(
+                    'category_id'=>$value->category_id,
+                    'category_parent_id'=>$value->category_parent_id,
+                    'category_content_front'=>$value->category_content_front,
+                    'category_content_front_order'=>$value->category_content_front_order,
+                    'category_order'=>$value->category_order,
+                    'category_status'=>$value->category_status,
+                    'category_name'=>$value->category_name);
+            }
+        }
+
+        if($max > 0){
+            $aryCategoryProduct = self::showCategory($max, $arrCategory);
+        }
+        return $aryCategoryProduct;
+    }
+    public static function showCategory($max, $aryDataInput) {
+        $aryData = array();
+        if(is_array($aryDataInput) && count($aryDataInput) > 0) {
+            foreach ($aryDataInput as $k => $val) {
+                if((int)$val['category_parent_id'] == 0) {
+                    $val['padding_left'] = '';
+                    $val['category_parent_name'] = '';
+                    $aryData[] = $val;
+                    self::showSubCategory($val['category_id'],$val['category_name'], $max, $aryDataInput, $aryData);
+                }
+            }
+        }
+        return $aryData;
+    }
+    public static function showSubCategory($cat_id,$cat_name, $max, $aryDataInput, &$aryData) {
+        if($cat_id <= $max) {
+            foreach ($aryDataInput as $chk => $chval) {
+                if($chval['category_parent_id'] == $cat_id) {
+                    $chval['padding_left'] = '---------- ';
+                    $chval['category_parent_name'] = $cat_name;
+                    $aryData[] = $chval;
+                    self::showSubCategory($chval['category_id'],$chval['category_name'], $max, $aryDataInput, $aryData);
+                }
+            }
+        }
+    }
 
 }

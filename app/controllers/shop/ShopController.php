@@ -70,6 +70,15 @@ class ShopController extends BaseShopController
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
+        //danh muc san pham cua shop
+        $arrCateShop = array();
+        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
+            $arrCateId = explode(',',$this->user_shop->shop_category);
+            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
+        }
+
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
+
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,CGlobal::PRODUCT_NOMAL);
@@ -81,6 +90,7 @@ class ShopController extends BaseShopController
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
+            ->with('optionCategory', $optionCategory)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
@@ -148,8 +158,15 @@ class ShopController extends BaseShopController
             'quality_input'=>$product->quality_input,
             'product_status'=>$product->product_status);
 
-        //FunctionLib::debug($dataShow);
 
+        //danh muc san pham cua shop
+        $arrCateShop = array();
+        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
+            $arrCateId = explode(',',$this->user_shop->shop_category);
+            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
+        }
+
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
@@ -161,6 +178,7 @@ class ShopController extends BaseShopController
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
+            ->with('optionCategory', $optionCategory)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
@@ -203,6 +221,14 @@ class ShopController extends BaseShopController
 
         $dataSave['product_image'] = $imagePrimary = addslashes(Request::get('image_primary'));
         $dataSave['product_image_hover'] = $imageHover = addslashes(Request::get('product_image_hover'));
+
+        //danh muc san pham cua shop
+        $arrCateShop = array();
+        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
+            $arrCateId = explode(',',$this->user_shop->shop_category);
+            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
+        }
+
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
         $getImgOther = Request::get('img_other',array());
@@ -242,6 +268,8 @@ class ShopController extends BaseShopController
                         }else{
                             $dataSave['time_update'] = time();
                         }
+                        //lay tên danh mục
+                        $dataSave['category_name'] = isset($arrCateShop[$dataSave['category_id']])?$arrCateShop[$dataSave['category_id']]: '';
                         $dataSave['user_shop_id'] = $this->user_shop->shop_id;
                         $dataSave['user_shop_name'] = $this->user_shop->user_shop_name;
                         $dataSave['is_shop'] = $this->user_shop->is_shop;
@@ -277,6 +305,8 @@ class ShopController extends BaseShopController
             }
         }
         //FunctionLib::debug($dataSave);
+
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,$dataSave['category_id']);
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,$dataSave['product_is_hot']);
@@ -288,6 +318,7 @@ class ShopController extends BaseShopController
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
+            ->with('optionCategory', $optionCategory)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
@@ -335,13 +366,22 @@ class ShopController extends BaseShopController
                 $data['shop_about'] = $item->shop_about;
                 $data['shop_transfer'] = $item->shop_transfer;
                 $data['shop_category'] = $item->shop_category;
+                $data['shop_province'] = $item->shop_province;
                 $data['is_shop'] = $item->is_shop;
                 $data['shop_status'] = $item->shop_status;
             }
         }
-        //FunctionLib::debug($data);
+        $arrCategory = Category::buildTreeCategory();
+        $arrCateShop = isset($data['shop_category'])? explode(',',$data['shop_category']): array();
+        //tỉnh thành
+        $arrProvince = Province::getAllProvince();
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, isset($data['shop_province'])?$data['shop_province']:-1);
+
         $this->layout->content = View::make('site.ShopLayouts.EditUserShop')
             ->with('id', $shop_id)
+            ->with('arrCategory', $arrCategory)
+            ->with('arrCateShop', $arrCateShop)
+            ->with('optionProvince', $optionProvince)
             ->with('user', $this->user_shop)
             ->with('data', $data);
     }
@@ -356,29 +396,55 @@ class ShopController extends BaseShopController
         $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
         $dataSave['shop_address'] = addslashes(Request::get('shop_address'));
         $dataSave['shop_about'] = addslashes(Request::get('shop_about'));
+        $dataSave['shop_province'] = addslashes(Request::get('shop_province'));
         $dataSave['shop_transfer'] = addslashes(Request::get('shop_transfer'));
+
+        $arrCateShop = Request::get('checkCategoryShop',array());
+        $dataSave['shop_category'] = !empty($arrCateShop)? join(',',$arrCateShop): '';
 
         if ($this->validUserInforShop($dataSave) && empty($this->error)) {
             if ($shop_id > 0) {
                 //cap nhat
                 if (UserShop::updateData($shop_id, $dataSave)) {
+                    //cập nhật lại thông tin user
+                    $userShop = UserShop::getByID($shop_id);
+                    Session::forget('user_shop');//xóa session
+                    Session::put('user_shop', $userShop, 60*24);
                     return Redirect::route('shop.adminShop');
                 }
             }
         }
 
+        $arrCategory = Category::buildTreeCategory();
+        $arrCateShop = isset($dataSave['shop_category'])? explode(',',$dataSave['shop_category']): array();
+        //tỉnh thành
+        $arrProvince = Province::getAllProvince();
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, isset($dataSave['shop_province'])?$dataSave['shop_province']:-1);
+
         $this->layout->content =  View::make('site.ShopLayouts.EditUserShop')
             ->with('id', $shop_id)
+            ->with('arrCategory', $arrCategory)
+            ->with('arrCateShop', $arrCateShop)
+            ->with('optionProvince', $optionProvince)
             ->with('data', $dataSave)
             ->with('error', $this->error);
     }
     private function validUserInforShop($data=array()) {
         if(!empty($data)) {
             if(isset($data['shop_name']) && trim($data['shop_name']) == '') {
-                $this->error[] = 'Tên danh mục không được trống';
+                $this->error[] = 'Tên shop không được trống';
             }
-            if(isset($data['shop_status']) && $data['shop_status'] == -1) {
-                $this->error[] = 'Bạn chưa chọn trạng thái cho danh mục';
+            if(isset($data['shop_email']) && trim($data['shop_email']) == '') {
+                $this->error[] = 'Email shop không được trống';
+            }
+            if(isset($data['shop_phone']) && trim($data['shop_phone']) == '') {
+                $this->error[] = 'Phone shop không được trống';
+            }
+            if(isset($data['shop_address']) && trim($data['shop_address']) == '') {
+                $this->error[] = 'Địa chỉ shop không được trống';
+            }
+            if(isset($data['shop_category']) && trim($data['shop_category']) == '') {
+                $this->error[] = 'Shop chưa chọn danh mục sản phẩm';
             }
             return true;
         }
