@@ -51,33 +51,32 @@ class Product extends Eloquent
     public static function getProductForSite($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = Product::where('product_id','>',0);
-            $query->where('product_status',CGlobal::status_show);
+            $query->where('product_status','=',CGlobal::status_show);
 
             if (isset($dataSearch['category_id'])) {
                 if (is_array($dataSearch['category_id'])) {//tim theo m?ng id danh muc
-                    $query->whereIn('category_id', join(',',$dataSearch['category_id']));
+                    $query->whereIn('category_id', $dataSearch['category_id']);
                 }
                 elseif ((int)$dataSearch['category_id'] > 0) {//theo id danh muc
-                    $query->where('category_id', (int)$dataSearch['category_id']);
+                    $query->where('category_id','=', (int)$dataSearch['category_id']);
                 }
             }
+
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
-                $query->where('user_shop_id', $dataSearch['user_shop_id']);
+                $query->where('user_shop_id','=', $dataSearch['user_shop_id']);
             }
 
             //1: shop free, 2: shop thuong: 3 shop VIP
             if (isset($dataSearch['is_shop'])) {
                 if (is_array($dataSearch['is_shop'])) {
-                    $query->whereIn('is_shop', join(',',$dataSearch['is_shop']));
+                    $query->whereIn('is_shop', $dataSearch['is_shop']);
                 }
                 elseif ((int)$dataSearch['is_shop'] > 0) {
                     $query->where('is_shop', (int)$dataSearch['is_shop']);
                 }
             }
             $total = $query->count();
-
-            $query->orderBy('is_shop', 'desc')
-                  ->orderBy('time_update', 'desc');
+            $query->orderBy('is_shop', 'desc')->orderBy('time_update', 'desc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
@@ -87,11 +86,11 @@ class Product extends Eloquent
                 $result = $query->take($limit)->skip($offset)->get();
             }
             return $result;
-
         }catch (PDOException $e){
             throw new PDOException();
         }
     }
+
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{

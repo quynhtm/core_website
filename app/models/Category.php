@@ -17,7 +17,7 @@ class Category extends Eloquent
     public static function getByID($id) {
         $category = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_CATEGORY_ID.$id) : array();
         if (sizeof($category) == 0) {
-            $category = Category::where('category_id', $id)->first();
+            $category = Category::where('category_id','=', $id)->first();
             if($category && Memcache::CACHE_ON){
                 Cache::put(Memcache::CACHE_CATEGORY_ID.$id, $category, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
@@ -28,8 +28,8 @@ class Category extends Eloquent
     public static function getAllParentCategoryId() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PARENT_CATEGORY) : array();
         if (sizeof($data) == 0) {
-            $category = Category::where('category_id' > 0)
-                ->where('category_parent_id','=', 0)
+            $category = Category::where('category_id', '>', 0)
+                ->where('category_parent_id',0)
                 ->orderBy('category_order','asc')->get();
             foreach($category as $itm) {
                 $data[$itm['category_id']] = $itm['category_name'];
@@ -43,9 +43,9 @@ class Category extends Eloquent
 
     public static function getAllChildCategoryIdByParentId($parentId = 0) {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_CHILD_CATEGORY_BY_PARENT_ID) : array();
-        if (sizeof($data) == 0) {
-            $category = Category::where('category_id' > 0)
-                ->where('category_parent_id','=', $parentId)
+        if (sizeof($data) == 0 && $parentId > 0) {
+            $category = Category::where('category_id' ,'>', 0)
+                ->where('category_parent_id',$parentId)
                 ->orderBy('category_order','asc')->get();
             foreach($category as $itm) {
                 $data[$itm['category_id']] = $itm['category_name'];

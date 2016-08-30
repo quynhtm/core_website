@@ -11,15 +11,13 @@ class SiteHomeController extends BaseSiteController
     public function index(){
         $this->header();
         $dataShow = array();
-        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status
-                product_price_sell,product_price_market,product_type_price,product_selloff,
-                user_shop_id,user_shop_name,is_shop,';//cac truong can lay
+        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
         $parentCategoryId = (int) Request::get('parent_category_id',0);
         /**
          * list SP cua shop VIP
          * */
-        $limit = $offset = CGlobal::number_show_30;
-        $total = 0;
+        $limit = CGlobal::number_show_30;
+        $total = $offset = 0;
         if($parentCategoryId > 0){
             $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
             if(sizeof($arrChildCate) > 0){
@@ -43,6 +41,7 @@ class SiteHomeController extends BaseSiteController
 
         //list danh mục cha
         $listParentCate = Category::getAllParentCategoryId();
+        //FunctionLib::debug($listParentCate);
 
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
