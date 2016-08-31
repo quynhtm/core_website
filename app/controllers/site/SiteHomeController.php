@@ -117,7 +117,7 @@ class SiteHomeController extends BaseSiteController
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         
         //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name,product_type_price,product_price_market,product_price_sell';
         $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
 
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
@@ -143,7 +143,7 @@ class SiteHomeController extends BaseSiteController
         }
 
         //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name';
+        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name,product_type_price,product_price_market,product_price_sell';
         $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
 
         $this->layout->content = View::make('site.SiteLayouts.DetailNews')

@@ -67,7 +67,13 @@
 						<ul>
 							@foreach($dataFieldProductHot as $item)
 							<li class="item">
-								<span class="sale-off">-11.1%</span>
+								@if($item->product_type_price == 1)
+									@if((float)$item->product_price_market > (float)$item->product_price_sell)
+									<span class="sale-off">
+										-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
+									</span>
+									@endif
+								@endif
 								<div class="post-thumb">
 									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
 										<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
