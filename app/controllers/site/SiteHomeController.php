@@ -7,15 +7,14 @@ class SiteHomeController extends BaseSiteController
         FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     }
 
+    private $str_field_product_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
     //trang chu
     public function index(){
         $this->header();
-        $dataShow = array();
-        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
-        $parentCategoryId = (int) Request::get('parent_category_id',0);
         /**
          * list SP cua shop VIP
          * */
+        $parentCategoryId = (int) Request::get('parent_category_id',0);
         $limit = CGlobal::number_show_30;
         $total = $offset = 0;
         if($parentCategoryId > 0){
@@ -25,7 +24,7 @@ class SiteHomeController extends BaseSiteController
             }
         }
         $searchVip['is_shop'] = CGlobal::SHOP_VIP;
-        $searchVip['field_get'] = $str_field_get;
+        $searchVip['field_get'] = $this->str_field_product_get;
         $dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
         //FunctionLib::debug($dataProVip);
 
@@ -36,7 +35,7 @@ class SiteHomeController extends BaseSiteController
         $limit = $offset = CGlobal::number_show_15;
         $searchFree['is_shop'] = array( CGlobal::SHOP_NOMAL, CGlobal::SHOP_FREE );
         $searchFree['category_id'] = 0;
-        $searchFree['field_get'] = $str_field_get;
+        $searchFree['field_get'] = $this->str_field_product_get;
         $dataProFree = Product::getProductForSite($searchFree, $limit, $offset, $total);
 
         //list danh mục cha
@@ -176,17 +175,6 @@ class SiteHomeController extends BaseSiteController
             ->with('dataNewsSame',$dataNewsSame)
             ->with('dataProVip',$dataProVip)
             ->with('user_shop', $user_shop);
-        $this->footer();
-    }
-
-
-    //trang 404
-    public function pageError(){
-        $this->header();
-        $dataShow = array();
-        $this->layout->content = View::make('site.SiteLayouts.PageError')
-            ->with('data',$dataShow)
-            ->with('user', $this->user);
         $this->footer();
     }
 
@@ -424,47 +412,28 @@ class SiteHomeController extends BaseSiteController
     
 	public function page404(){
     	$this->header();
+
+        $limit = CGlobal::number_show_30;
+        $total = $offset = 0;
+        $search['field_get'] = $this->str_field_product_get;
+        $dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
     	
-    	$str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
-    	$parentCategoryId = (int) Request::get('parent_category_id',0);
-    	/**
-    	 * list SP cua shop VIP
-    	* */
-    	$limit = CGlobal::number_show_30;
-    	$total = $offset = 0;
-    	if($parentCategoryId > 0){
-    		$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
-    		if(sizeof($arrChildCate) > 0){
-    			$searchVip['category_id'] = array_keys($arrChildCate);
-    		}
-    	}
-    	$searchVip['is_shop'] = CGlobal::SHOP_VIP;
-    	$searchVip['field_get'] = $str_field_get;
-    	$dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
-    	
-    	$this->layout->content = View::make('site.SiteLayouts.page404')->with('dataProVip',$dataProVip);
+    	$this->layout->content = View::make('site.SiteLayouts.page404')
+            ->with('dataProVip',$dataProVip);
+
     	$this->footer();
     }
     
     public function thanksBuy(){
     	$this->header();
-    	$str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
-    	$parentCategoryId = (int) Request::get('parent_category_id',0);
-    	/**
-    	 * list SP cua shop VIP
-    	* */
+
     	$limit = CGlobal::number_show_30;
     	$total = $offset = 0;
-    	if($parentCategoryId > 0){
-    		$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
-    		if(sizeof($arrChildCate) > 0){
-    			$searchVip['category_id'] = array_keys($arrChildCate);
-    		}
-    	}
-    	$searchVip['is_shop'] = CGlobal::SHOP_VIP;
-    	$searchVip['field_get'] = $str_field_get;
-    	$dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
-    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy')->with('dataProVip',$dataProVip);
+    	$search['field_get'] = $this->str_field_product_get;
+    	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
+    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy')
+            ->with('dataProVip',$dataProVip);
+
     	$this->footer();
     }
     public function searchProduct(){
