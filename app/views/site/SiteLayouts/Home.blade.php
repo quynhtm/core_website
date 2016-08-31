@@ -2,48 +2,42 @@
 	<div class="line-top">
 		<div class="box-menu-list">
 			<div class="content-box-menu">
-				<ul>
-					<li>
-						<a href="">Ẩm thực - Giải trí</a>
-						<div class="list-subcat">
-							<ul>
-								<li><a href="" title="">Buffet</a></li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<a href="">Văn phòng phẩm - Sách báo</a>
-						<div class="list-subcat">
-							<ul>
-								<li><a href="" title="">Buffet</a></li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<a href="">Dịch vụ</a>
-						<div class="list-subcat">
-							<ul>
-								<li><a href="" title="">Buffet</a></li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<a href="">Mỹ phẩm - làm đẹp</a>
-						<div class="list-subcat">
-							<ul>
-								<li><a href="" title="">Buffet</a></li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<a href="">Nhà sạch - nhà đẹp</a>
-						<div class="list-subcat">
-							<ul>
-								<li><a href="" title="">Buffet</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
+				<?php if(isset($arrCategory) && !empty($arrCategory)){?>
+                    <ul>
+                        <?php
+                        $i=0;
+                        foreach($arrCategory as $cat){
+                        $i++;
+                        if($i<=11){
+                        ?>
+                        <?php if(isset($cat['category_parent_name']) && $cat['category_parent_name'] != ''){ ?>
+                        <li>
+                            <a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($cat['category_parent_name'])),'id'=>$cat['category_id']))}}" title="<?php echo $cat['category_parent_name'] ?>"><?php echo $cat['category_parent_name'] ?></a>
+                            <?php if(isset($cat['arrSubCategory']) && !empty($cat['arrSubCategory'])) {?>
+                            <?php
+                            $url = '';
+                            if($cat['category_image_background'] != ''){
+                                $url = 'url('.FunctionLib::getThumbImage($cat['category_image_background'],$cat['category_id'],FOLDER_CATEGORY,735,428).') no-repeat bottom right';
+                            } ?>
+                            <div class="list-subcat" style="background: #fff <?php echo $url ?>">
+                                <?php
+                                $list_ul = array_chunk($cat['arrSubCategory'], 10);
+                                ?>
+                                <?php foreach($list_ul as $ul){?>
+                                <ul>
+                                    <?php foreach($ul as $sub){ ?>
+                                    <li><a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($sub['category_name'])),'id'=>$sub['category_id']))}}" title="<?php echo $sub['category_name'] ?>"><?php echo $sub['category_name'] ?></a></li>
+                                    <?php } ?>
+                                </ul>
+                                <?php } ?>
+                            </div>
+                            <?php } ?>
+                        </li>
+                        <?php } ?>
+                        <?php } ?>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
 			</div>
 		</div>
 		<div class="slider-box-mid">
