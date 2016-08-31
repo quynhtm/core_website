@@ -804,6 +804,7 @@ p {
     line-height: 1.3em;
     margin: 0;
 }
+.item-news:hover .post-title a,
 .post-title a:hover {
     color: #2858a0;
 }
@@ -1100,6 +1101,9 @@ p {
     font-size: 14px;
     line-height: 18px;
 }
+.item:hover .post-title a{
+	color: #035b82!important;
+}
 .amount-1 {
     color: #c63829;
     font-size: 18px;
@@ -1116,7 +1120,7 @@ p {
     margin-right: -20px;
 }
 .w-home .item {
-    min-height: 315px;
+    height: 330px;
     width: 17.95%;
 }
 .line-ads{
@@ -1175,6 +1179,7 @@ p {
 }
 .right-show-product-shop.body-list-item ul .item{
 	width: 22.42%;
+	height: 330px;
 }
 .item-right-ads {
     margin-bottom: 20px;
