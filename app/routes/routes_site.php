@@ -38,9 +38,10 @@ Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopL
 //login, dang ky, logout shop
 Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
 Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
-
-Route::post('thay-doi-pass.html', array('as' => 'site.user_shop_change_pass','uses' => 'SiteHomeController@shopChangePass'));
 Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
+
+Route::get('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'SiteHomeController@getChangePass'));
+Route::post('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'SiteHomeController@postChangePass'));
 
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));

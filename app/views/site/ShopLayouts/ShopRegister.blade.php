@@ -1,9 +1,10 @@
 <div class="main-view-post box-register">
 	<div class="form-send-register">
-		<h1 class="title-head">Đăng ký mở gian hàng <span>/</span> <a href="/dang-nhap.html" class="link-tab" rel="nofollow">Đăng nhập</a></h1>
+		<h1 class="title-head">Đăng ký mở gian hàng <span>/</span> <a href="{{URL::route('site.shopLogin')}}" class="link-tab" rel="nofollow">Đăng nhập</a></h1>
 		@if(isset($error) && sizeof($error))
 			@foreach ($error as $key => $msg)
-			<span class="red">{{$msg}}</span>
+				<span style="color: red">{{$msg}}</span>
+				<div class="clear1"></div>
 			@endforeach
 		@endif
 		{{ Form::open(array('class'=>'formSendLogin','method' => 'POST','url' =>"dang-ky.html")) }}

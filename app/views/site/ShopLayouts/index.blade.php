@@ -110,7 +110,7 @@
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="{{URL::route('site.user_shop_change_pass',array('id' => base64_encode($user_shop['shop_id'])))}}">
+                            <a href="{{URL::route('site.shopChangePass')}}">
                                 <i class="ace-icon fa fa-unlock"></i>
                                 Đổi mật khẩu
                             </a>
@@ -135,7 +135,7 @@
     <div id="sidebar" class="sidebar sidebar-fixed sidebar-scroll responsive">
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
             <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <a href="{{URL::route('site.home')}}" title="Trang chủ shopcuatui.com.vn"><img width="185px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>
+                <a href="{{URL::route('site.home')}}" target="_blank" title="Trang chủ shopcuatui.com.vn"><img width="185px" height="50px" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png" alt="ShopCuaTui" /></a>
             </div>
 
             <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
