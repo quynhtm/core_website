@@ -1116,6 +1116,7 @@ p {
     margin-right: -20px;
 }
 .w-home .item {
+    min-height: 315px;
     width: 17.95%;
 }
 .line-ads{

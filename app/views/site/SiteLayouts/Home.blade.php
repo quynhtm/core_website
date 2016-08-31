@@ -96,30 +96,41 @@
 		</div>
 		<div class="content-list-item w-home">
 			<ul>
-				<?php for($i=0; $i<15; $i++){?>
+				@if($dataProVip != null)
+				@foreach($dataProVip as $item)
 				<li class="item">
 						<span class="sale-off">-11.1%</span>
 						<div class="post-thumb">
-							<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
-								<img src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-0724-146674389884623/tui-xach-nam-da-bo-wt-mau-xanh-navy-0724-7.jpg" alt="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
+							<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
+								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
 							</a>
 						</div>
 						<div class="item-content">
 							<div class="title-info">
 								<h4 class="post-title">
-									<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">Sữa ong chúa Rebirth Platinum Royal Jelly</a>
+									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 								</h4>
 								<div class="item-price">
-									<span class="amount-1">550,000đ</span>
-									<span class="amount-2">619,000đ</span>
+									@if($item->product_price_sell > 0)
+									<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+									@endif
+									@if($item->product_price_market > 0)
+									<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+									@endif
+									@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+										<span class="amount-1">Liên hệ</span>
+									@endif
 								</div>
 							</div>
+							@if(!empty($user_shop))
 							<div class="mgt5 amount-call">
-								<a title="Siêu thị gia đình" class="link-shop" href="">Siêu thị gia đình</a>
-							</div>
+			                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
+			            	</div>
+			            	@endif
 						</div>
 					</li>
-				<?php } ?>
+				@endforeach
+				@endif
 			</ul>
 		</div>
 	</div>
@@ -160,30 +171,41 @@
 		</div>
 		<div class="content-list-item w-home">
 			<ul>
-				<?php for($i=0; $i<10; $i++){?>
+				@if($dataProFree != null)
+				@foreach($dataProFree as $item)
 				<li class="item">
 						<span class="sale-off">-11.1%</span>
 						<div class="post-thumb">
-							<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
-								<img src="https://static11.muachungcdn.com/thumb/250_250/i:plaza/product/product/-0-IMG_2370-146373486956484/day-nhay-co-bo-dem-so-vong-av37035.jpg" data-other-src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=603&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/603/03-33-29-09-06-2016-lnt-sua-ong-chua500k.jpg" alt="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">
+							<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
+								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
 							</a>
 						</div>
 						<div class="item-content">
 							<div class="title-info">
 								<h4 class="post-title">
-									<a href="" title="Sữa ong chúa Rebirth Platinum Royal Jelly - Shopcuatui.com.vn">Sữa ong chúa Rebirth Platinum Royal Jelly</a>
+									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 								</h4>
 								<div class="item-price">
-									<span class="amount-1">550,000đ</span>
-									<span class="amount-2">619,000đ</span>
+									@if($item->product_price_sell > 0)
+									<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+									@endif
+									@if($item->product_price_market > 0)
+									<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+									@endif
+									@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+										<span class="amount-1">Liên hệ</span>
+									@endif
 								</div>
 							</div>
+							@if(!empty($user_shop))
 							<div class="mgt5 amount-call">
-								<a title="Siêu thị gia đình" class="link-shop" href="">Siêu thị gia đình</a>
-							</div>
+			                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
+			            	</div>
+			            	@endif
 						</div>
 					</li>
-				<?php } ?>
+				@endforeach
+				@endif
 			</ul>
 		</div>
 	</div>
