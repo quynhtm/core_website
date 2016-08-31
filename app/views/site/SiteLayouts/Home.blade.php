@@ -72,26 +72,19 @@
                        <span>Sản phẩm Shop Vip</span>
                     </a>
                 </h2>
+                @if(!empty($listParentCate))
                 <div class="list-sub-cate">
+                	<?php $i=0 ?>
+                	@foreach($listParentCate as $key => $val)
+                	<?php $i++ ?>
+                	@if($i<=8)
                 	<h3 class="sub-item">
-                        <a href="">Điện thoại</a>
+                        <a href="javascript:void(0)">{{ $val }}</a>
                     </h3>
-                    <h3 class="sub-item">
-                        <a href="">Thời trang</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Mẹ và bé</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Thực phẩm</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Mỹ phẩm</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Gia dụng nội thât</a>
-                    </h3>
+                     @endif
+                    @endforeach
                 </div>
+                @endif
 			</div>
 		</div>
 		<div class="content-list-item w-home">
@@ -153,26 +146,19 @@
                        <span>Sản phẩm Shop thường</span>
                     </a>
                 </h2>
+                @if(!empty($listParentCate))
                 <div class="list-sub-cate">
+                	<?php $i=0 ?>
+                	@foreach($listParentCate as $key => $val)
+                	<?php $i++ ?>
+                	@if($i<=8)
                 	<h3 class="sub-item">
-                        <a href="">Điện thoại</a>
+                        <a href="javascript:void(0)">{{ $val }}</a>
                     </h3>
-                    <h3 class="sub-item">
-                        <a href="">Thời trang</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Mẹ và bé</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Thực phẩm</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Mỹ phẩm</a>
-                    </h3>
-                    <h3 class="sub-item">
-                        <a href="">Gia dụng nội thât</a>
-                    </h3>
+                     @endif
+                    @endforeach
                 </div>
+                @endif
 			</div>
 		</div>
 		<div class="content-list-item w-home">
