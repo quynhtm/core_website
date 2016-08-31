@@ -1,8 +1,8 @@
 <div class="main-view-post box-register">
     <div class="form-login">
-        <h1 class="title-head">Đăng nhập <span>/</span> <a href="#" class="link-tab" rel="nofollow" >Đăng ký mở gian hàng</a></h1>
+        <h1 class="title-head">Đăng nhập <span>/</span> <a href="{{URL::route('site.shopRegister')}}" class="link-tab" rel="nofollow" >Đăng ký mở gian hàng</a></h1>
             @if(isset($error) && $error != '')
-                <span class="red">{{$error}}</span>
+                <span style="color: red">{{$error}}</span>
             @endif
            {{ Form::open(array('class'=>'formSendLogin','method' => 'POST','url' =>"dang-nhap.html")) }}
             <div class="form-group">

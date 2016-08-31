@@ -26,8 +26,30 @@ class UserShop extends Eloquent
         return $shop;
     }
 
+    public static function getShopAll() {
+        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
+        if (sizeof($data) == 0) {
+            $shop = UserShop::where('shop_id', '>', 0)->get();
+            foreach($shop as $itm) {
+                $data[$itm['shop_id']] = $itm['shop_name'];
+            }
+            if(!empty($data) && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_ALL_USER_SHOP, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $data;
+    }
+
     public static function getUserByName($name){
         $shop = UserShop::where('user_shop', $name)->first();
+        return $shop;
+    }
+    public static function getUserShopByPhone($shop_phone){
+        $shop = UserShop::where('shop_phone', $shop_phone)->first();
+        return $shop;
+    }
+    public static function getUserShopByEmail($shop_email){
+        $shop = UserShop::where('shop_email', $shop_email)->first();
         return $shop;
     }
     public static function isLogin()
@@ -51,20 +73,6 @@ class UserShop extends Eloquent
             $shop->shop_time_login = time();
             $shop->save();
         }
-    }
-
-    public static function getShopAll() {
-        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
-        if (sizeof($data) == 0) {
-            $shop = UserShop::where('shop_id', '>', 0)->get();
-            foreach($shop as $itm) {
-                $data[$itm['shop_id']] = $itm['shop_name'];
-            }
-            if(!empty($data) && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_ALL_USER_SHOP, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
-            }
-        }
-        return $data;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
