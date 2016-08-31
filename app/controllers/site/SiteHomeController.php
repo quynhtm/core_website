@@ -27,9 +27,7 @@ class SiteHomeController extends BaseSiteController
         $searchVip['is_shop'] = CGlobal::SHOP_VIP;
         $searchVip['field_get'] = $str_field_get;
         $dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
-        //FunctionLib::debug($dataProVip);
-
-
+       
         /**
          * //list sản phẩm THUONG - FREE
          */
@@ -41,14 +39,19 @@ class SiteHomeController extends BaseSiteController
 
         //list danh mục cha
         $listParentCate = Category::getAllParentCategoryId();
-        //FunctionLib::debug($listParentCate);
-
+        
+        
+        //Menu category
+        $dataCategory = Category::getCategoriessAll();
+        $arrCategory = $this->getTreeCategory($dataCategory);
+        
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
             ->with('dataProVip',$dataProVip)
             ->with('dataProFree',$dataProFree)
             ->with('listParentCate',$listParentCate)
-            ->with('user_shop', $user_shop);
+            ->with('user_shop', $user_shop)
+            ->with('arrCategory', $arrCategory);
         $this->footer();
     }
 
