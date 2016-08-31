@@ -289,6 +289,7 @@ class SiteHomeController extends BaseSiteController
         $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
         $dataSave['user_password'] = addslashes(Request::get('user_password'));
         $dataSave['rep_user_password'] = addslashes(Request::get('rep_user_password'));
+        $dataSave['shop_province'] = (int)(Request::get('shop_province',-1));
 
         $dataSave['shop_phone'] = addslashes(Request::get('shop_phone'));
         $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
@@ -313,8 +314,13 @@ class SiteHomeController extends BaseSiteController
                 }
             }
         }
+        //tỉnh thành
+        $arrProvince = Province::getAllProvince();
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, $dataSave['shop_province']);
+
         $this->layout->content = View::make('site.ShopLayouts.ShopRegister')
             ->with('error',$error)
+            ->with('optionProvince',$optionProvince)
             ->with('data',$dataSave)
             ->with('user', $this->user);
         $this->footer();
@@ -322,16 +328,40 @@ class SiteHomeController extends BaseSiteController
     private function validUserInforShop($data=array()) {
         $error = array();
         if(!empty($data)) {
-            if(isset($data['user_shop']) && $data['user_shop'] == '') {
+            if(isset($data['user_shop']) && trim($data['user_shop']) == '') {
                 $error[] = 'Tên đăng nhập không được bỏ trống';
+            }else{
+                $checUserShop = UserShop::getUserByName(trim($data['user_shop']));
+                if($checUserShop){
+                    $error[] = 'Đã tồn tại tên đăng nhập này! Hãy nhập lại';
+                }
             }
-            if(isset($data['shop_phone']) && $data['shop_phone'] == '') {
+            if(isset($data['shop_phone']) && trim($data['shop_phone']) == '') {
                 $error[] = 'Điện thoại liên hệ không được bỏ trống';
+            }else{
+                $checUserShop = UserShop::getUserShopByPhone(trim($data['shop_phone']));
+                if($checUserShop){
+                    $error[] = 'Điện thoại này đã sử dụng! Hãy nhập lại';
+                }
             }
-            if(isset($data['shop_email']) && $data['shop_email'] == '') {
+            if(isset($data['shop_email']) && trim($data['shop_email']) == '') {
                 $error[] = 'Email không được bỏ trống';
+            }else{
+                $checkEmail = $this->checkRegexEmail(trim($data['shop_email']));
+                if($checkEmail){
+                    $checUserShop = UserShop::getUserShopByEmail(trim($data['shop_email']));
+                    if($checUserShop){
+                        $error[] = 'Email này đã sử dụng! Hãy nhập lại';
+                    }
+                }else{
+                    $error[] = 'Email không đúng định dạng! Hãy nhập lại';
+                }
             }
-            if(isset($data['user_password']) && $data['user_password'] == '') {
+            if(isset($data['shop_province']) && (int)$data['shop_province'] <= 0) {
+                $error[] = 'Bạn chưa chọn tỉnh thành của shop';
+            }
+
+            if(isset($data['user_password']) && trim($data['user_password']) == '') {
                 $error[] = 'Bạn chưa nhập password';
             }else{
                 if(isset($data['rep_user_password']) && $data['rep_user_password'] == '') {
@@ -343,6 +373,16 @@ class SiteHomeController extends BaseSiteController
             return $error;
         }
         return $error;
+    }
+    public static function checkRegexEmail($str=''){
+        if($str != ''){
+            $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+            if (!preg_match($regex, $str)){
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
     
     //Duy them page danh sách sản phẩm trong giỏ hàng

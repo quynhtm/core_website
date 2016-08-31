@@ -27,7 +27,7 @@ Route::get('thong-bao-tim-kiem.html',array('as' => 'site.Error','uses' => 'SiteH
 
 //trang chủ shop
 Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteHomeController@shopIndex'))->where('shop_id', '[0-9]+');
-Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.ShopListProduct','uses' =>'SiteHomeController@shopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
+Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopListProduct','uses' =>'SiteHomeController@shopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
 
 /*
  * **********************************************************************************************************************************
