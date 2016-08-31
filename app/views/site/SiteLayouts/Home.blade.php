@@ -101,7 +101,8 @@
 						@endif
 						<div class="post-thumb">
 							<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
+								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}"
+									data-other-src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], 300, 300, '', true, true)}}">
 							</a>
 						</div>
 						<div class="item-content">
@@ -121,9 +122,9 @@
 									@endif
 								</div>
 							</div>
-							@if(!empty($user_shop))
+							@if($item->user_shop_id > 0 && $item->user_shop_name != '')
 							<div class="mgt5 amount-call">
-			                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
+			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
 			            	</div>
 			            	@endif
 						</div>
@@ -176,7 +177,8 @@
 						
 						<div class="post-thumb">
 							<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}">
+								<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}"
+									data-other-src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], 300, 300, '', true, true)}}">
 							</a>
 						</div>
 						<div class="item-content">
@@ -196,11 +198,6 @@
 									@endif
 								</div>
 							</div>
-							@if(!empty($user_shop))
-							<div class="mgt5 amount-call">
-			                	<a title="{{$user_shop['shop_name']}}" class="link-shop" href="">{{$user_shop['shop_name']}}</a>
-			            	</div>
-			            	@endif
 						</div>
 					</li>
 				@endforeach

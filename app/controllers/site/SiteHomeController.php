@@ -116,14 +116,27 @@ class SiteHomeController extends BaseSiteController
         $dataNew = News::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         
-        //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name,product_type_price,product_price_market,product_price_sell';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
-
+        //Star product hot
+        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+        $parentCategoryId = (int) Request::get('parent_category_id',0);
+        $limit = CGlobal::number_show_5;
+        $total = $offset = 0;
+        if($parentCategoryId > 0){
+        	$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+        	if(sizeof($arrChildCate) > 0){
+        		$searchVip['category_id'] = array_keys($arrChildCate);
+        	}
+        }
+        $searchVip['is_shop'] = CGlobal::SHOP_VIP;
+        $searchVip['field_get'] = $str_field_get;
+        $dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
+        //End product hot
+        
+        
         $this->layout->content = View::make('site.SiteLayouts.ListNews')
             ->with('dataNew',$dataNew)
             ->with('paging', $paging)
-            ->with('dataFieldProductHot',$dataFieldProductHot);
+            ->with('dataProVip',$dataProVip);
         $this->footer();
     }
     //trang chi tiet tin tuc
@@ -142,14 +155,26 @@ class SiteHomeController extends BaseSiteController
             }
         }
 
-        //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id,category_name,product_type_price,product_price_market,product_price_sell';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
-
+        //Star product hot
+        $str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+        $parentCategoryId = (int) Request::get('parent_category_id',0);
+        $limit = CGlobal::number_show_5;
+        $total = $offset = 0;
+        if($parentCategoryId > 0){
+        	$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+        	if(sizeof($arrChildCate) > 0){
+        		$searchVip['category_id'] = array_keys($arrChildCate);
+        	}
+        }
+        $searchVip['is_shop'] = CGlobal::SHOP_VIP;
+        $searchVip['field_get'] = $str_field_get;
+        $dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
+        //End product hot
+        
         $this->layout->content = View::make('site.SiteLayouts.DetailNews')
             ->with('dataNew',$dataNew)
             ->with('dataNewsSame',$dataNewsSame)
-            ->with('dataFieldProductHot',$dataFieldProductHot)
+            ->with('dataProVip',$dataProVip)
             ->with('user_shop', $user_shop);
         $this->footer();
     }
@@ -399,13 +424,47 @@ class SiteHomeController extends BaseSiteController
     
 	public function page404(){
     	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.page404');
+    	
+    	$str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+    	$parentCategoryId = (int) Request::get('parent_category_id',0);
+    	/**
+    	 * list SP cua shop VIP
+    	* */
+    	$limit = CGlobal::number_show_30;
+    	$total = $offset = 0;
+    	if($parentCategoryId > 0){
+    		$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+    		if(sizeof($arrChildCate) > 0){
+    			$searchVip['category_id'] = array_keys($arrChildCate);
+    		}
+    	}
+    	$searchVip['is_shop'] = CGlobal::SHOP_VIP;
+    	$searchVip['field_get'] = $str_field_get;
+    	$dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
+    	
+    	$this->layout->content = View::make('site.SiteLayouts.page404')->with('dataProVip',$dataProVip);
     	$this->footer();
     }
     
     public function thanksBuy(){
     	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy');
+    	$str_field_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+    	$parentCategoryId = (int) Request::get('parent_category_id',0);
+    	/**
+    	 * list SP cua shop VIP
+    	* */
+    	$limit = CGlobal::number_show_30;
+    	$total = $offset = 0;
+    	if($parentCategoryId > 0){
+    		$arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+    		if(sizeof($arrChildCate) > 0){
+    			$searchVip['category_id'] = array_keys($arrChildCate);
+    		}
+    	}
+    	$searchVip['is_shop'] = CGlobal::SHOP_VIP;
+    	$searchVip['field_get'] = $str_field_get;
+    	$dataProVip = Product::getProductForSite($searchVip, $limit, $offset,$total);
+    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy')->with('dataProVip',$dataProVip);
     	$this->footer();
     }
     public function searchProduct(){

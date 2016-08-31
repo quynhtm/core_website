@@ -21,7 +21,8 @@ class CGlobal{
     const number_show_20 = 20;
     const number_show_15 = 15;
     const number_show_10 = 10;
-
+    const number_show_5 = 5;
+    
     const status_show = 1;
     const status_hide = 0;
     const status_block = -2;
