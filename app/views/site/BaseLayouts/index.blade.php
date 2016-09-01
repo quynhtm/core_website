@@ -14,16 +14,18 @@
     <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
     <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
 
-    {{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
+    {{-- HTML::style('assets/css/bootstrap.min.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) --}}
+	{{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
     {{ HTML::style('assets/frontend/css/site.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
-    {{CGlobal::$extraHeaderCSS}}
+	
+	{{CGlobal::$extraHeaderCSS}}
     <script type="text/javascript">
         var WEB_ROOT = "{{url('', array(), Config::get('config.SECURE'))}}";
         var DEVMODE = "{{Config::get('config.DEVMODE')}}";
         var COOKIE_DOMAIN = "{{Config::get('config.DOMAIN_COOKIE_SERVER')}}";
     </script>
     {{ HTML::script('assets/js/jquery.2.1.1.min.js', array(), Config::get('config.SECURE')) }}
-
+	{{-- HTML::script('assets/lib/bootstrap/js/bootstrap.min.js', array(), Config::get('config.SECURE')) --}}
     {{CGlobal::$extraHeaderJS}}
     @if(Config::get('config.DEVMODE') == false)
         <script>
