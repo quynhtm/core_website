@@ -1132,10 +1132,6 @@ p {
 .banner-ads > img {
     width: 100%;
 }
-.right-bottom-content-view .item .post-thumb {
-    height: auto;
-    line-height: normal;
-}
 /*List Product*/
 .left-category-shop {
     display: inline-block;
