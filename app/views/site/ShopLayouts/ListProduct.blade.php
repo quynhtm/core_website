@@ -79,7 +79,6 @@
                                 </td>
                                 <td class="text-left text-middle">
                                     Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
-                                    <br/>Sửa: {{date ('d-m-Y H:i',$item->time_update)}}
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($item->product_status == CGlobal::status_show)
@@ -90,7 +89,8 @@
                                     @endif
 
                                     <a href="{{URL::route('shop.editProduct',array('product_id' => $item->product_id,'product_name' => $item->product_name))}}" title="Sửa sản phẩm"><i class="fa fa-edit fa-2x"></i></a>
-                                    <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->product_id}},3)" title="Xóa sản phẩm"><i class="fa fa-trash fa-2x"></i></a>
+                                    <a href="javascript:void(0);" onclick="SITE.deleteProduct({{$item->product_id}})" title="Xóa sản phẩm"><i class="fa fa-trash fa-2x"></i></a>
+                                    <br/><a href="javascript:void(0);" onclick="SITE.setOnTopProduct({{$item->product_id}},3)" title="On top"><i class="fa fa-upload fa-2x"></i></a>
 
                                     <span class="img_loading" id="img_loading_{{$item->product_id}}"></span>
                                 </td>

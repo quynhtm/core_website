@@ -22,6 +22,11 @@ class ShopController extends BaseShopController
      **************************************************************************************************************************
      */
     public function shopListProduct(){
+        FunctionLib::link_js(array(
+            'js/jquery.min.js',
+            'frontend/js/site.js',
+        ));
+
         CGlobal::$pageShopTitle = "Quản lý sản phẩm | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
@@ -265,6 +270,7 @@ class ShopController extends BaseShopController
                     if($product_id > 0){//cap nhat
                         if($id_hiden == 0){
                             $dataSave['time_created'] = time();
+                            $dataSave['time_update'] = time();
                         }else{
                             $dataSave['time_update'] = time();
                         }
@@ -342,6 +348,41 @@ class ShopController extends BaseShopController
             return true;
         }
         return false;
+    }
+    //Ajax
+    public function setOnTopProduct(){
+        $is_shop = (int)Request::get('is_shop',1);
+        $product_id = (int)Request::get('product_id',0);
+        $data = array('isIntOk' => 0);
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0 && $is_shop == CGlobal::SHOP_VIP){
+            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+            if(sizeof($product) > 0){
+                $dataSave['time_update'] = time();
+                if(Product::updateData($product_id,$dataSave)){
+                    $data['isIntOk'] = 1;
+                    return Response::json($data);
+                }
+            }else{
+                return Response::json($data);
+            }
+        }
+        return Response::json($data);
+    }
+    public function deleteProduct(){
+        $product_id = (int)Request::get('product_id',0);
+        $data = array('isIntOk' => 0);
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+            if(sizeof($product) > 0){
+                if(Product::deleteData($product_id)){
+                    $data['isIntOk'] = 1;
+                    return Response::json($data);
+                }
+            }else{
+                return Response::json($data);
+            }
+        }
+        return Response::json($data);
     }
 
     /****************************************************************************************************************************
