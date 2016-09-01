@@ -1087,6 +1087,7 @@ p {
     text-align: center;
 }
 .item .post-thumb img {
+    vertical-align: middle;
     width: 100%;
 }
 .item .post-title {
