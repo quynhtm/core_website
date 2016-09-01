@@ -89,13 +89,16 @@ class SiteHomeController extends BaseSiteController
             }
         }
         //get product hot
-        $dataFieldProductHot['field_get'] = 'product_id,product_name,product_sort_desc,product_content,product_image,category_id';
-        $dataFieldProductHot = Product::getProductHot($dataFieldProductHot, 5);
+      	$limit = CGlobal::number_show_5;
+    	$total = $offset = 0;
+    	$search['field_get'] = $this->str_field_product_get;
+    	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
+    	
         
         $this->layout->content = View::make('site.SiteLayouts.DetailProduct')
             ->with('product',$product)
-            ->with('dataFieldProductHot',$dataFieldProductHot)
-            ->with('user_shop', $user_shop);
+            ->with('user_shop', $user_shop)
+        	->with('dataProVip',$dataProVip);
         $this->footer();
     }
 
