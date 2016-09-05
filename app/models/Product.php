@@ -193,6 +193,16 @@ class Product extends Eloquent
             DB::connection()->getPdo()->beginTransaction();
             $dataSave = Product::find($id);
             $dataSave->delete();
+            //xoa anh san pham
+            if($dataSave->product_image_other != ''){
+                $aryImages = unserialize($dataSave->product_image_other);
+                //FunctionLib::debug($aryImages);
+                if(sizeof($aryImages) > 0){
+                    foreach($aryImages as $ki => $name_img){
+                        FunctionLib::deleteFileAndFolder($name_img,$dataSave->product_id,CGlobal::FOLDER_PRODUCT);
+                    }
+                }
+            }
             if(isset($dataSave->product_id) && $dataSave->product_id > 0){
                 self::removeCache($dataSave->product_id);
             }

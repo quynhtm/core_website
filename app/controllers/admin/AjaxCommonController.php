@@ -69,9 +69,25 @@ class AjaxCommonController extends BaseAdminController
                 if ($file_name != '' && empty($aryError)) {
                     $tmpImg['name_img'] = $file_name;
                     $tmpImg['id_key'] = rand(10000, 99999);
-
                     $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 100, 100, '', true, true);
                     $tmpImg['src'] = $url_thumb;
+
+                    //cap nhat DB de quan ly cac file anh
+                    if( $type == 2 ){
+                        //img Product
+                        $this->user_shop = UserShop::user_login();
+                        if(sizeof($this->user_shop) > 0){
+                            //get mang anh other
+                            $shop_id = $this->user_shop->shop_id;
+                            $inforPro = Product::getProductByShopId($shop_id,$item_id);
+                            if($inforPro){
+                                $arrImagOther = unserialize($inforPro->product_image_other);
+                                $arrImagOther[] = $file_name;//gan anh vua upload
+                                $proUpdate['product_image_other'] = serialize($arrImagOther);
+                                Product::updateData($item_id,$proUpdate);
+                            }
+                        }
+                    }
                 }
                 $aryData['intIsOK'] = 1;
                 $aryData['id_item'] = $item_id;
@@ -152,7 +168,6 @@ class AjaxCommonController extends BaseAdminController
         return $delete_action;
     }
     function unlinkFileAndFolder($file_name = '', $id = 0, $folder = '', $is_delDir = 0){
-
         if($file_name != '') {
             //Xoa anh goc
             $paths = '';

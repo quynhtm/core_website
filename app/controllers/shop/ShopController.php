@@ -227,6 +227,10 @@ class ShopController extends BaseShopController
         $dataSave['product_image'] = $imagePrimary = addslashes(Request::get('image_primary'));
         $dataSave['product_image_hover'] = $imageHover = addslashes(Request::get('product_image_hover'));
 
+        //check lại xem SP co phai cua Shop nay ko
+        $id_hiden = Request::get('id_hiden',0);
+        $product_id = ($product_id >0)? $product_id: $id_hiden;
+
         //danh muc san pham cua shop
         $arrCateShop = array();
         if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
@@ -241,6 +245,10 @@ class ShopController extends BaseShopController
             foreach($getImgOther as $k=>$val){
                 if($val !=''){
                     $arrInputImgOther[] = $val;
+
+                    //show ra anh da Upload neu co loi
+                    $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $product_id, $val, 100, 100, '', true, true);
+                    $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                 }
             }
         }
@@ -259,9 +267,6 @@ class ShopController extends BaseShopController
         //FunctionLib::debug($dataSave);
         $this->validInforProduct($dataSave);
         if(empty($this->error)){
-            //check lại xem SP co phai cua Shop nay ko
-            $id_hiden = Request::get('id_hiden',0);
-            $product_id = ($product_id >0)? $product_id: $id_hiden;
             if($product_id > 0){
                 if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
                     $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
@@ -291,23 +296,6 @@ class ShopController extends BaseShopController
             }
             else{
                 return Redirect::route('shop.listProduct');
-            }
-        }else{
-            //lấy ảnh show
-            if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-                $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
-            }
-            if(sizeof($product) > 0){
-                //lay ảnh khác của san phẩm
-                if(!empty($product->product_image_other)){
-                    $arrImagOther = unserialize($product->product_image_other);
-                    if(sizeof($arrImagOther) > 0){
-                        foreach($arrImagOther as $k=>$val){
-                            $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $product_id, $val, 100, 100, '', true, true);
-                            $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
-                        }
-                    }
-                }
             }
         }
         //FunctionLib::debug($dataSave);

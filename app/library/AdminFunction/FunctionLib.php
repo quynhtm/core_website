@@ -443,4 +443,33 @@ class FunctionLib {
         }
         return '#';
     }
+
+    static function deleteFileAndFolder($file_name = '', $id = 0, $folder = '', $is_delDir = true){
+        if($file_name != '') {
+            $domain = Config::get('config.WEB_ROOT');
+            $dirImgThumb = $domain.'uploads/thumbs/'.$folder.'/'.$id; //thu muc chua anh Thumb
+
+            //Xoa anh goc
+            $paths = '';
+            if($folder != '' && $id >0){
+                $path = Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id;
+            }
+
+            if($file_name != ''){
+                if($path != ''){
+                    if(is_file($path.'/'.$file_name)){
+                        @unlink($path.'/'.$file_name);
+                    }
+                }
+            }
+            //Xoa thu muc
+            if($is_delDir) {
+                if($path != ''){
+                    if(is_dir($path)) {
+                        @rmdir($path);
+                    }
+                }
+            }
+        }
+    }
 }
