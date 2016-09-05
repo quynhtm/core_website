@@ -41,13 +41,12 @@ Route::group(array('prefix' => 'ajax', 'before' => ''), function () {
  * router cho phan Admin
  *
  * */
+/*login logout*/
+Route::get('quan-tri.html', array('as' => 'admin.login','uses' => 'LoginController@loginInfo'));
+Route::post('quan-tri.html', array('as' => 'admin.login','uses' => 'LoginController@login'));
 Route::group(array('prefix' => 'admin', 'before' => ''), function()
 {
-    /*login logout*/
-    Route::get('login/{url?}', array('as' => 'admin.login','uses' => 'LoginController@loginInfo'));
-    Route::post('login/{url?}', array('as' => 'admin.login','uses' => 'LoginController@login'));
     Route::get('logout', array('as' => 'admin.logout','uses' => 'LoginController@logout'));
-
     /*màn hình chính*/
     Route::get('dashboard', array('as' => 'admin.dashboard','uses' => 'DashBoardController@dashboard'));
     Route::get('convert', array('as' => 'admin.convert','uses' => 'BaseAdminController@convert'));

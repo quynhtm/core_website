@@ -44,8 +44,7 @@ Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeCon
 Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
 Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
 
-Route::get('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'SiteHomeController@getChangePass'));
-Route::post('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'SiteHomeController@postChangePass'));
+
 
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
@@ -67,6 +66,10 @@ Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopCo
 //thong tin shop
 Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@shopInfor'));
 Route::post('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@updateShopInfor'));
+
+//dôi pass
+Route::get('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopController@shopChangePass'));
+Route::post('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopController@postChangePass'));
 //don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 

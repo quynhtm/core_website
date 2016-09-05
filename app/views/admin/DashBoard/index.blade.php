@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box-header">
-                    <h3 class="box-title" style="text-align: center;">Chào mừng bạn đến hệ thống quản lý CMS của {{CGlobal::web_name}} </h3>
+                    <h3 class="box-title" style="text-align: center;">Quản lý CMS của {{CGlobal::web_name}} </h3>
                 </div>
 
                 <div class="box-body" style="margin-top: 50px">

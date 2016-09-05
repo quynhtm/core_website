@@ -316,10 +316,12 @@ class SiteHomeController extends BaseSiteController
         $error = $this->validUserInforShop($dataSave);
         if (empty($error)) {
             unset($dataSave['rep_user_password']);
+            $dataSave['user_password'] = User::encode_password(trim($dataSave['user_password']));
             //gan co dinh 1 shop khi dang ky
             $dataSave['number_limit_product'] = CGlobal::SHOP_NUMBER_PRODUCT_FREE;
             $dataSave['is_shop'] = CGlobal::SHOP_FREE;
             $dataSave['shop_created'] = time();
+
             //login luon
             $dataSave['shop_time_login'] = CGlobal::SHOP_ONLINE;
             $dataSave['is_login'] = time();

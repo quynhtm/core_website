@@ -4,7 +4,7 @@
  * Created by PhpStorm.
  * User: QuynhTM
  */
-class AjaxCommonController extends BaseAdminController
+class AjaxCommonController extends BaseSiteController
 {
     function uploadImage() {
         $id_hiden = Request::get('id', 0);
@@ -97,6 +97,7 @@ class AjaxCommonController extends BaseAdminController
         echo json_encode($aryData);
         die();
     }
+
 
     function get_image_insert_content(){
         $id_hiden = FunctionLib::getIntParam('id_hiden', 0);

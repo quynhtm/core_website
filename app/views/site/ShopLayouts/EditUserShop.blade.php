@@ -32,7 +32,7 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label">Tên shop</label>
+                        <label for="name" class="control-label">Tên shop <span class="red"> (*) </span></label>
                         <input type="text" placeholder="Tên shop" id="shop_name" name="shop_name" class="form-control input-sm" value="@if(isset($data['shop_name'])){{$data['shop_name']}}@endif">
                     </div>
                 </div>
@@ -40,13 +40,13 @@
 
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Số điện thoại</label>
+                        <label for="name" class="control-label">Số điện thoại <span class="red"> (*) </span></label>
                         <input type="text" placeholder="Số điện thoại" id="shop_phone" name="shop_phone" class="form-control input-sm" value="@if(isset($data['shop_phone'])){{$data['shop_phone']}}@endif">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="name" class="control-label">Email</label>
+                        <label for="name" class="control-label">Email <span class="red"> (*) </span></label>
                         <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
                     </div>
                 </div>
@@ -54,13 +54,13 @@
 
                 <div class="col-sm-9">
                     <div class="form-group">
-                        <label for="name" class="control-label">Địa chỉ</label>
+                        <label for="name" class="control-label">Địa chỉ <span class="red"> (*) </span></label>
                         <input type="text" placeholder="Địa chỉ" id="shop_address" name="shop_address" class="form-control input-sm" value="@if(isset($data['shop_address'])){{$data['shop_address']}}@endif">
                     </div>
                 </div>
                     <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="name" class="control-label">Tỉnh thành</label>
+                        <label for="name" class="control-label">Tỉnh thành <span class="red"> (*) </span></label>
                         <select id="shop_province" name="shop_province" class="form-control">
                             {{$optionProvince}}
                         </select>
@@ -70,14 +70,14 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label">Giới thiệu về shop</label>
+                        <label for="name" class="control-label">Giới thiệu về shop <span class="red"> (*) </span></label>
                         <textarea class="form-control input-sm" rows="8" name="shop_about" id="shop_about">@if(isset($data['shop_about'])){{$data['shop_about']}}@endif</textarea>
                     </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label">Chính sách vận chuyển</label>
+                        <label for="name" class="control-label">Chính sách vận chuyển <span class="red"> (*) </span></label>
                         <textarea class="form-control input-sm" rows="8" name="shop_transfer" id="shop_transfer">@if(isset($data['shop_transfer'])){{$data['shop_transfer']}}@endif</textarea>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 <div style="float:left; width: 30%; height: 650px;">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="name" class="control-label">Danh mục sản phẩm của shop</label>
+                            <label for="name" class="control-label">Danh mục sản phẩm của shop <span class="red"> (*) </span></label>
                         </div>
                     </div>
                     <div style="float: left; width: 100%; height: 920px;overflow: hidden; overflow-x: hidden;overflow-y: scroll">

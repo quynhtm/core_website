@@ -414,6 +414,41 @@ class ShopController extends BaseShopController
      * Thông tin shop
      * **************************************************************************************************************************
      */
+    public function shopChangePass(){
+        $data = array();
+        $shop_id = 0;
+        if($this->user_shop) {
+            $shop_id = $this->user_shop->shop_id;
+        }
+        $this->layout->content = View::make('site.ShopLayouts.ChangePass')
+            ->with('id', $shop_id)
+            ->with('user', $this->user_shop)
+            ->with('data', $data);
+    }
+    public function postChangePass(){
+        $shop_id = $this->user_shop->shop_id;
+
+        $dataSave['user_password'] = $user_password = addslashes(Request::get('user_password'));
+        $dataSave['user_password_old'] = addslashes(Request::get('user_password_old'));
+        $dataSave['user_password_reply'] = addslashes(Request::get('user_password_reply'));
+
+        if ($this->validUserInforShop($dataSave) && empty($this->error)) {
+            if ($shop_id > 0) {
+                //cap nhat
+                $userShopUpdate['user_password'] = User::encode_password(trim($user_password));
+                if (UserShop::updateData($shop_id, $userShopUpdate)) {
+                    //cập nhật lại thông tin user
+                    Session::forget('user_shop');//xóa session
+                    return Redirect::route('site.shopLogin');
+                }
+            }
+        }
+        $this->layout->content =  View::make('site.ShopLayouts.ChangePass')
+            ->with('id', $shop_id)
+            ->with('data', $dataSave)
+            ->with('error', $this->error);
+    }
+
     public function shopInfor(){
         FunctionLib::link_js(array(
             'lib/ckeditor/ckeditor.js',
@@ -511,6 +546,23 @@ class ShopController extends BaseShopController
             }
             if(isset($data['shop_category']) && trim($data['shop_category']) == '') {
                 $this->error[] = 'Shop chưa chọn danh mục sản phẩm';
+            }
+            //thay doi pass
+            if(isset($data['user_password_old']) && trim($data['user_password_old']) == '') {
+                $this->error[] = 'Bạn chưa nhập mật khẩu cũ';
+            }else{
+                if($this->user_shop->user_password !== User::encode_password(trim($data['user_password_old']))){
+                    $this->error[] = 'Mật khẩu cũ không đúng';
+                }
+            }
+            if(isset($data['user_password']) && trim($data['user_password']) == '') {
+                $this->error[] = 'Bạn chưa nhập mật khẩu mới';
+            }else{
+                if(isset($data['user_password_reply']) && $data['user_password_reply'] == '') {
+                    $this->error[] = 'Bạn chưa nhập lại mật khẩu mới';
+                }elseif(strcmp($data['user_password'],$data['user_password_reply']) != 0){
+                    $this->error[] = 'Bạn nhập lại mật khẩu mới chưa đúng';
+                }
             }
             return true;
         }

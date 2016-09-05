@@ -15,7 +15,7 @@
 							@if($item['news_image'] != '')
 							<div class="post-img">
 								<a title="{{$item['news_title']}}" href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">
-									<img alt="{{$item['news_title']}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], 300, 300, '', true, true)}}">
+									<img alt="{{$item['news_title']}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], CGlobal::sizeImage_300)}}">
 									<div class="post-format">
 										<i class="fa fa-file-text"></i>
 									</div>
@@ -76,8 +76,8 @@
 									@endif
 									<div class="post-thumb">
 										<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-											<img alt="{{$item->product_name}}" src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], 300, 300, '', true, true)}}"
-												data-other-src="{{ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], 300, 300, '', true, true)}}">
+											<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
+												data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
 										</a>
 									</div>
 									<div class="item-content">
