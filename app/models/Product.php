@@ -203,7 +203,7 @@ class Product extends Eloquent
                     }
                     //xoa anh thumb
                     $arrSizeThumb = CGlobal::$arrSizeImage;
-                    foreach($aryImages as $ki => $name_img){
+                    foreach($aryImages as $kii => $name_img){
                         foreach($arrSizeThumb as $k=>$size){
                             $sizeThumb = $size['w'].'x'.$size['h'];
                             FunctionLib::deleteFileThumb($name_img,$dataSave->product_id,CGlobal::FOLDER_PRODUCT,$sizeThumb);

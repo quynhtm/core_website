@@ -47,7 +47,7 @@ var Common = {
                     var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
                     html += "<div class='block_img_upload' >";
                     html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
-                    html += "<input type='hidden' id='sys_img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
+                    html += "<input type='hidden' id='img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
                     html += checked_img_pro;
                     html += delete_img;
                     html +="</div></li>";
@@ -140,15 +140,24 @@ var Common = {
 
     removeImage: function(key,id,nameImage,type){
         //product
-        if(jQuery("#image_primary_hover").length ){
-            var img_hover = jQuery("#image_primary_hover").val();
-            if(img_hover == nameImage){
-                jQuery("#image_primary_hover").val('');
+        if(type == 2){
+            if(jQuery("#image_primary_hover").length ){
+                var img_hover = jQuery("#image_primary_hover").val();
+                if(img_hover == nameImage){
+                    jQuery("#image_primary_hover").val('');
+                }
+            }
+            if(jQuery("#image_primary").length ){
+                var image_primary = jQuery("#image_primary").val();
+                if(image_primary == nameImage){
+                    jQuery("#image_primary").val('');
+                }
             }
         }
-
         if (confirm('Bạn có chắc xóa ảnh này?')) {
-            var urlAjaxUpload = '';
+            if(type == 2){//xóa ảnh sản phẩm
+                var urlAjaxUpload = 'shop/removeImage';
+            }
             jQuery.ajax({
                 type: "POST",
                 url: urlAjaxUpload,
@@ -158,8 +167,9 @@ var Common = {
                     dataResult = JSON.parse(data);
                     if(dataResult.intIsOK === 1){
                         jQuery('#sys_div_img_other_'+key).hide();
-                        jQuery('#sys_img_other_'+key).val('');
-                        jQuery('#sys_new_img_'+key).hide();
+                        jQuery('#chẹcked_image_'+key).hide();//anh chinh
+                        jQuery('#chẹcked_image_hover_'+key).val('');//anh hover
+                        jQuery('#img_other_'+key).val('');//anh khac
                     }else{
                         jQuery('#sys_msg_return').html(data.msg);
                     }
@@ -167,7 +177,6 @@ var Common = {
             });
         }
         jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
-        Common.getInsertImageContent(type);
     },
     insertImageContent: function(type) {
         jQuery('#sys_PopupImgOtherInsertContent').modal('show');

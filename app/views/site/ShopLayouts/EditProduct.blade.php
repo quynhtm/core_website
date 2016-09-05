@@ -120,7 +120,7 @@
                 <div style="float: left;width: 62%">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(2);">Upload ảnh </a>
+                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadImagesProduct(2);">Upload ảnh </a>
                             <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
                             <input name="product_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['product_image_hover'])){{$data['product_image_hover']}}@endif">
                         </div>
@@ -134,17 +134,17 @@
                                     <li id="sys_div_img_other_{{$key}}" style="margin: 1px!important;">
                                         <div class='block_img_upload'>
                                             <img src="{{$imgNew['src_img_other']}}" height='100' width='100'>
-                                            <input type="hidden" id="sys_img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
+                                            <input type="hidden" id="img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
                                             <div class='clear'></div>
-                                            <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
+                                            <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] ) checked="checked" @endif onclick="SITE.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
                                             <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
 
                                             <div class="clearfix"></div>
-                                            <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHover) && $imageHover == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImageHover('{{$imgNew['img_other']}}','{{$key}}');">
+                                            <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHover) && $imageHover == $imgNew['img_other'] ) checked="checked" @endif onclick="SITE.checkedImageHover('{{$imgNew['img_other']}}','{{$key}}');">
                                             <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
 
                                             <div class="clearfix"></div>
-                                            <a href="javascript:void(0);" onclick="Common.removeImage({{$key}});">Xóa ảnh</a>
+                                            <a href="javascript:void(0);" onclick="SITE.removeImage({{$key}},{{$product_id}},'{{$imgNew['img_other']}}');">Xóa ảnh</a>
                                             <span style="display: none"><b>{{$key}}</b></span>
                                         </div>
                                     </li>
@@ -170,13 +170,14 @@
                 </div>
 
                 <div class="clearfix"></div>
-                <div class="col-sm-4">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Mô tả ngắn <span class="red"> (*) </span></label>
                         <textarea class="form-control input-sm" rows="8" name="product_sort_desc" id="product_sort_desc">@if(isset($data['product_sort_desc'])){{$data['product_sort_desc']}}@endif</textarea>
                     </div>
                 </div>
-                <div class="col-sm-8">
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span></label>
                         <textarea class="form-control input-sm" rows="8" name="product_content" id="product_content">@if(isset($data['product_content'])){{$data['product_content']}}@endif</textarea>
@@ -233,18 +234,9 @@
                     { name: 'colors',      items : [ 'TextColor','BGColor' ] },
                 ],
             },
-            {height:800}
-    );CKEDITOR.replace(
-            'product_content',
-            {
-                toolbar: [
-                    { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
-                    { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
-                    { name: 'colors',      items : [ 'TextColor','BGColor' ] },
-                ],
-            },
-            {height:800}
+            {height:600}
     );
+    CKEDITOR.replace('product_content', {height:600});
 </script>
 <script type="text/javascript">
     jQuery('.formatMoney').autoNumeric('init');

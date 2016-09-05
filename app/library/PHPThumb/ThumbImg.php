@@ -64,6 +64,16 @@ if(!class_exists('ThumbImg') ){
 			}
 		}
 
+		/**
+		 * QuynhTM add
+		 * @param string $folder
+		 * @param int $id
+		 * @param string $file_name
+		 * @param int $size_image
+		 * @param string $alt
+		 * @param bool|true $returnPath
+		 * @return string
+		 */
 		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true){
 			if(!preg_match("/.jpg|.jpeg|.JPEG|.JPG|.png|.gif/",strtolower($file_name))) return ' ';
 			$width = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['w']: CGlobal::sizeImage_100;

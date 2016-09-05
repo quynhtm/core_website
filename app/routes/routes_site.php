@@ -62,6 +62,7 @@ Route::post('cap-nhat-san-pham/p-{product_id}-{product_name}.html',array('as' =>
 
 Route::post('shop/setOntop',array('as' => 'shop.setOntop','uses' =>'ShopController@setOnTopProduct'));//ajax
 Route::post('shop/deleteProduct',array('as' => 'shop.deleteProduct','uses' =>'ShopController@deleteProduct'));//ajax
+Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopController@removeImage'));//ajax
 
 //thong tin shop
 Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@shopInfor'));

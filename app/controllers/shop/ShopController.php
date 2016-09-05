@@ -67,8 +67,9 @@ class ShopController extends BaseShopController
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
             'lib/dragsort/jquery.dragsort.js',
-            'js/common.js',
+            //'js/common.js',
             'lib/number/autoNumeric.js',
+            'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Thêm sản phẩm | ".CGlobal::web_name;
@@ -112,8 +113,9 @@ class ShopController extends BaseShopController
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
             'lib/dragsort/jquery.dragsort.js',
-            'js/common.js',
+            //'js/common.js',
             'lib/number/autoNumeric.js',
+            'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
@@ -200,8 +202,9 @@ class ShopController extends BaseShopController
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
             'lib/dragsort/jquery.dragsort.js',
-            'js/common.js',
+            //'js/common.js',
             'lib/number/autoNumeric.js',
+            'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
@@ -371,6 +374,40 @@ class ShopController extends BaseShopController
             }
         }
         return Response::json($data);
+    }
+    public function removeImage(){
+        $item_id = Request::get('id',0);
+        $name_img = Request::get('nameImage','');
+        $aryData = array();
+        $aryData['intIsOK'] = -1;
+        $aryData['msg'] = "Error";
+        $aryData['nameImage'] = $name_img;
+        if($item_id > 0 && $name_img != ''){
+            //get mang anh other
+            $shop_id = $this->user_shop->shop_id;
+            $inforPro = Product::getProductByShopId($shop_id,$item_id);
+            if($inforPro) {
+                $arrImagOther = unserialize($inforPro->product_image_other);
+                foreach($arrImagOther as $ki => $img){
+                    if(strcmp($img,$name_img) == 0){
+                        unset($arrImagOther[$ki]);
+                        break;
+                    }
+                }
+                $proUpdate['product_image_other'] = serialize($arrImagOther);
+                Product::updateData($item_id,$proUpdate);
+            }
+            //anh upload
+            FunctionLib::deleteFileUpload($name_img,$item_id,CGlobal::FOLDER_PRODUCT);
+            //xoa anh thumb
+            $arrSizeThumb = CGlobal::$arrSizeImage;
+            foreach($arrSizeThumb as $k=>$size){
+                $sizeThumb = $size['w'].'x'.$size['h'];
+                FunctionLib::deleteFileThumb($name_img,$item_id,CGlobal::FOLDER_PRODUCT,$sizeThumb);
+            }
+            $aryData['intIsOK'] = 1;
+        }
+        return Response::json($aryData);
     }
 
     /****************************************************************************************************************************

@@ -13,12 +13,74 @@ SITE = {
 			jQuery(this).find('.post-thumb img').attr('data-other-src', img);
 		});
 	},
+	uploadImagesProduct: function(type) {
+		jQuery('#sys_PopupUploadImg').modal('show');
+		jQuery('.ajax-upload-dragdrop').remove();
+		var urlAjaxUpload = WEB_ROOT+'';
+		var id_hiden = document.getElementById('id_hiden').value;
+
+		var settings = {
+			url: WEB_ROOT + '/ajax/uploadImage',
+			method: "POST",
+			allowedTypes:"jpg,png,jpeg",
+			fileName: "multipleFile",
+			formData: {id: id_hiden,type: type},
+			multiple: (id_hiden==0)? false: true,
+			onSubmit:function(){
+				jQuery( "#sys_show_button_upload").hide();
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
+			},
+			onSuccess:function(files,xhr,data){
+				dataResult = JSON.parse(xhr);
+				if(dataResult.intIsOK === 1){
+					//gan lai id item cho id hiden: dung cho them moi, sua item
+					jQuery('#id_hiden').val(dataResult.id_item);
+					jQuery( "#sys_show_button_upload").show();
+
+					//add vao list sản sản phẩm khác
+					var checked_img_pro = "<div class='clear'></div><input type='radio' id='chẹcked_image_"+dataResult.info.id_key+"' name='chẹcked_image' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImage(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='chẹcked_image_"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh đại diện</label><br/>";
+					if( type == 2){
+						var checked_img_pro = checked_img_pro + "<input type='radio' id='chẹcked_image_hover"+dataResult.info.id_key+"' name='chẹcked_image_hover' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImageHover(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='chẹcked_image_hover"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh hover</label><br/>";
+					}
+					var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='SITE.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\")' >Xóa ảnh</a>";
+					var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
+					html += "<div class='block_img_upload' >";
+					html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
+					html += "<input type='hidden' id='img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
+					html += checked_img_pro;
+					html += delete_img;
+					html +="</div></li>";
+					jQuery('#sys_drag_sort').append(html);
+					//jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
+					Common.getInsertImageContent(type);
+
+					//thanh cong
+					jQuery("#status").html("<font color='green'>Upload is success</font>");
+					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
+					setTimeout( "jQuery('#status').hide();",1000 );
+					setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
+				}
+			},
+			onError: function(files,status,errMsg){
+				jQuery("#status").html("<font color='red'>Upload is Failed</font>");
+			}
+		}
+		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
+	},
+	checkedImage: function(nameImage,key){
+		if (confirm('Bạn có muốn chọn ảnh này làm ảnh đại diện?')) {
+			jQuery('#image_primary').val(nameImage);
+		}
+	},
+	checkedImageHover: function(nameImage,key){
+		jQuery('#image_primary_hover').val(nameImage);
+	},
 	setOnTopProduct: function(product_id,is_shop) {
 		if(is_shop == is_shop_vip){//shop vip mới có quyền này
 			$('#img_loading_'+product_id).show();
 			$.ajax({
 				type: "post",
-				url: 'shop/setOntop',
+				url: WEB_ROOT+'/shop/setOntop',
 				data: {product_id : product_id,is_shop : is_shop},
 				dataType: 'json',
 				success: function(res) {
@@ -40,7 +102,7 @@ SITE = {
 			$('#img_loading_'+product_id).show();
 			$.ajax({
 				type: "post",
-				url: 'shop/deleteProduct',
+				url: WEB_ROOT+'/shop/deleteProduct',
 				data: {product_id : product_id},
 				dataType: 'json',
 				success: function(res) {
@@ -54,5 +116,39 @@ SITE = {
 				}
 			});
 		}
+	},
+	removeImage: function(key,id,nameImage){
+		//product
+		if(jQuery("#image_primary_hover").length ){
+			var img_hover = jQuery("#image_primary_hover").val();
+			if(img_hover == nameImage){
+				jQuery("#image_primary_hover").val('');
+			}
+		}
+		if(jQuery("#image_primary").length ){
+			var image_primary = jQuery("#image_primary").val();
+			if(image_primary == nameImage){
+				jQuery("#image_primary").val('');
+			}
+		}
+		if (confirm('Bạn có chắc xóa ảnh này?')) {
+			jQuery.ajax({
+				type: "POST",
+				url: WEB_ROOT+'/shop/removeImage',
+				data: {id : id, nameImage : nameImage},
+				responseType: 'json',
+				success: function(data) {
+					if(data.intIsOK === 1){
+						jQuery('#sys_div_img_other_'+key).hide();
+						jQuery('#chẹcked_image_'+key).hide();//anh chinh
+						jQuery('#chẹcked_image_hover_'+key).val('');//anh hover
+						jQuery('#img_other_'+key).val('');//anh khac
+					}else{
+						jQuery('#sys_msg_return').html(data.msg);
+					}
+				}
+			});
+		}
+		jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
 	},
 }
