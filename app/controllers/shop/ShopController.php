@@ -134,7 +134,7 @@ class ShopController extends BaseShopController
                 $arrImagOther = unserialize($product->product_image_other);
                 if(sizeof($arrImagOther) > 0){
                     foreach($arrImagOther as $k=>$val){
-                        $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $product_id, $val, 100, 100, '', true, true);
+                        $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
                         $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                     }
                 }
@@ -247,7 +247,7 @@ class ShopController extends BaseShopController
                     $arrInputImgOther[] = $val;
 
                     //show ra anh da Upload neu co loi
-                    $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $product_id, $val, 100, 100, '', true, true);
+                    $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
                     $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                 }
             }

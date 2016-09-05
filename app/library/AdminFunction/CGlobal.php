@@ -22,7 +22,21 @@ class CGlobal{
     const number_show_15 = 15;
     const number_show_10 = 10;
     const number_show_5 = 5;
-    
+
+    /**
+     * Dinh nghi kich thuoc anh
+     */
+    const sizeImage_80 = 80;
+    const sizeImage_100 = 100;
+    const sizeImage_200 = 200;
+    const sizeImage_300 = 300;
+    public static $arrSizeImage = array(
+        self::sizeImage_80 =>array('w'=>self::sizeImage_80,'h'=>self::sizeImage_80),
+        self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
+        self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
+        self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
+    );
+
     const status_show = 1;
     const status_hide = 0;
     const status_block = -2;

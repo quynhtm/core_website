@@ -64,29 +64,28 @@ if(!class_exists('ThumbImg') ){
 			}
 		}
 
-		public static function getImageThumb($folder='', $id=0, $file_name='', $width=100, $height=100, $alt='', $isThumb=true, $returnPath=false){
+		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true){
 			if(!preg_match("/.jpg|.jpeg|.JPEG|.JPG|.png|.gif/",strtolower($file_name))) return ' ';
-			$domain = Config::get('config.WEB_ROOT');
-			$url_img = '';
-			if($isThumb){
-				$imagSource = Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id. '/' .$file_name;
-				$paths =  $width."x".$height.'/'.$file_name;
-				$thumbPath = Config::get('config.DIR_ROOT').'/uploads/thumbs/'.$folder.'/'.$id.'/'. $paths;
-				$url_img = $domain.'uploads/thumbs/'.$folder.'/'.$id.'/'. $paths;
-				if(!file_exists($thumbPath)){
-					if(file_exists($imagSource)){
-						$objThumb = new PHPThumb\GD($imagSource);
-						$objThumb->resize($width, $height);
-						if(!file_exists($thumbPath)){
-							if(!self::makeDir($folder, $id, $paths)){
-								return '';
-							}
-							self::saveCustom($imagSource);
+			$width = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['w']: CGlobal::sizeImage_100;
+			$height = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['h']: CGlobal::sizeImage_100;
+
+			$imagSource = Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id. '/' .$file_name;
+			$path_thumb =  $width."x".$height.'/'.$file_name;
+			$thumbPath = Config::get('config.DIR_ROOT').'/uploads/thumbs/'.$folder.'/'.$id.'/'. $path_thumb;
+			$url_img = Config::get('config.WEB_ROOT').'uploads/thumbs/'.$folder.'/'.$id.'/'. $path_thumb;
+			if(!file_exists($thumbPath)){
+				if(file_exists($imagSource)){
+					$objThumb = new PHPThumb\GD($imagSource);
+					$objThumb->resize($width, $height);
+					if(!file_exists($thumbPath)){
+						if(!self::makeDir($folder, $id, $path_thumb)){
+							return '';
 						}
-						$objThumb->show(true, $thumbPath);
-					}else{
-						$url_img = '';
+						self::saveCustom($imagSource);
 					}
+					$objThumb->show(true, $thumbPath);
+				}else{
+					$url_img = '';
 				}
 			}
 

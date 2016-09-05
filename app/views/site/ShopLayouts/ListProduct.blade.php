@@ -55,7 +55,7 @@
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
                                 <td class="text-center text-middle">
-                                    <img src="{{ ThumbImg::thumbBaseNormal(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, 100, 100, '', true, true)}}">
+                                    <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, CGlobal::sizeImage_100)}}">
                                 </td>
                                 <td class="text-left text-middle">
                                     @if($item->product_status == CGlobal::status_show)

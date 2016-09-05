@@ -69,7 +69,7 @@ class AjaxCommonController extends BaseAdminController
                 if ($file_name != '' && empty($aryError)) {
                     $tmpImg['name_img'] = $file_name;
                     $tmpImg['id_key'] = rand(10000, 99999);
-                    $url_thumb = ThumbImg::thumbBaseNormal($folder, $item_id, $file_name, 100, 100, '', true, true);
+                    $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, CGlobal::sizeImage_100);
                     $tmpImg['src'] = $url_thumb;
 
                     //cap nhat DB de quan ly cac file anh

@@ -444,17 +444,9 @@ class FunctionLib {
         return '#';
     }
 
-    static function deleteFileAndFolder($file_name = '', $id = 0, $folder = '', $is_delDir = true){
+    static function deleteFileUpload($file_name = '', $id = 0, $folder = CGlobal::FOLDER_PRODUCT, $is_delDir = true){
         if($file_name != '') {
-            $domain = Config::get('config.WEB_ROOT');
-            $dirImgThumb = $domain.'uploads/thumbs/'.$folder.'/'.$id; //thu muc chua anh Thumb
-
-            //Xoa anh goc
-            $paths = '';
-            if($folder != '' && $id >0){
-                $path = Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id;
-            }
-
+            $path = ($folder != '' && $id >0) ? Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id: '';
             if($file_name != ''){
                 if($path != ''){
                     if(is_file($path.'/'.$file_name)){
@@ -467,6 +459,33 @@ class FunctionLib {
                 if($path != ''){
                     if(is_dir($path)) {
                         @rmdir($path);
+                    }
+                }
+            }
+        }
+    }
+    static function deleteFileThumb($file_name = '', $id = 0, $folder = CGlobal::FOLDER_PRODUCT, $folderSize = '100x100', $is_delDir = true){
+        if($file_name != '') {
+            $dirRootItem = Config::get('config.DIR_ROOT').'/uploads/thumbs/'.$folder.'/'.$id;
+            $dirImgThumb = $dirRootItem.'/'.$folderSize; //thu muc chua anh Thumb
+            if($file_name != ''){
+                if($dirImgThumb != ''){
+                    if(is_file($dirImgThumb.'/'.$file_name)){
+                        @unlink($dirImgThumb.'/'.$file_name);
+                    }
+                }
+            }
+            if($is_delDir) {
+                //xoa thu muc theo size
+                if($dirImgThumb != ''){
+                    if(is_dir($dirImgThumb)) {
+                        @rmdir($dirImgThumb);
+                    }
+                }
+                //xoa thu muc theo ID
+                if($dirRootItem != ''){
+                    if(is_dir($dirRootItem)) {
+                        @rmdir($dirRootItem);
                     }
                 }
             }

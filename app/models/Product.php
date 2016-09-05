@@ -196,10 +196,18 @@ class Product extends Eloquent
             //xoa anh san pham
             if($dataSave->product_image_other != ''){
                 $aryImages = unserialize($dataSave->product_image_other);
-                //FunctionLib::debug($aryImages);
                 if(sizeof($aryImages) > 0){
+                    //xoa anh chinh
                     foreach($aryImages as $ki => $name_img){
-                        FunctionLib::deleteFileAndFolder($name_img,$dataSave->product_id,CGlobal::FOLDER_PRODUCT);
+                        FunctionLib::deleteFileUpload($name_img,$dataSave->product_id,CGlobal::FOLDER_PRODUCT);
+                    }
+                    //xoa anh thumb
+                    $arrSizeThumb = CGlobal::$arrSizeImage;
+                    foreach($aryImages as $ki => $name_img){
+                        foreach($arrSizeThumb as $k=>$size){
+                            $sizeThumb = $size['w'].'x'.$size['h'];
+                            FunctionLib::deleteFileThumb($name_img,$dataSave->product_id,CGlobal::FOLDER_PRODUCT,$sizeThumb);
+                        }
                     }
                 }
             }
