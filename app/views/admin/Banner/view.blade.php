@@ -17,12 +17,12 @@
                     {{ Form::open(array('method' => 'GET', 'role'=>'form')) }}
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
-                            <label for="news_title">Tên danh mục</label>
-                            <input type="text" class="form-control input-sm" id="news_title" name="news_title" placeholder="Tiêu đề tin tức" @if(isset($search['news_title']) && $search['news_title'] != '')value="{{$search['news_title']}}"@endif>
+                            <label for="banner_name">Tên banner</label>
+                            <input type="text" class="form-control input-sm" id="banner_name" name="banner_name" placeholder="Tiêu đề banner" @if(isset($search['banner_name']) && $search['banner_name'] != '')value="{{$search['banner_name']}}"@endif>
                         </div>
                         <div class="form-group col-lg-3">
                             <label for="category_status">Trạng thái</label>
-                            <select name="news_status" id="news_status" class="form-control input-sm">
+                            <select name="banner_status" id="banner_status" class="form-control input-sm">
                                 {{$optionStatus}}
                             </select>
                         </div>
@@ -30,7 +30,7 @@
                     <div class="panel-footer text-right">
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
                         <span class="">
-                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.news_edit')}}">
+                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.banner_edit')}}">
                                 <i class="ace-icon fa fa-plus-circle"></i>
                                 Thêm mới
                             </a>
@@ -61,10 +61,10 @@
                                 <td class="text-center">{{ $stt + $key+1 }}</td>
                                 <td class="text-center"><img src="{{$item['url_image']}}"></td>
                                 <td>
-                                    [<b>{{ $item['news_id'] }}</b>] {{ $item['news_title'] }}
+                                    [<b>{{ $item['banner_id'] }}</b>] {{ $item['banner_name'] }}
                                 </td>
                                 <td class="text-center">
-                                    @if($item['news_status'] == 1)
+                                    @if($item['banner_status'] == CGlobal::status_show)
                                         <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
                                     @else
                                         <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
@@ -72,13 +72,13 @@
                                 </td>
                                 <td class="text-center">
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.news_edit',array('id' => $item['news_id']))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                        <a href="{{URL::route('admin.banner_edit',array('id' => $item['banner_id']))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 1)
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['news_id']}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['banner_id']}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
-                                    <span class="img_loading" id="img_loading_{{$item['news_id']}}"></span>
+                                    <span class="img_loading" id="img_loading_{{$item['banner_id']}}"></span>
                                 </td>
                             </tr>
                         @endforeach

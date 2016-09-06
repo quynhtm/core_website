@@ -49,8 +49,8 @@ class BannerController extends BaseAdminController
         $search = $data = array();
         $total = 0;
 
-        $search['news_title'] = addslashes(Request::get('news_title',''));
-        $search['news_status'] = (int)Request::get('news_status',-1);
+        $search['banner_name'] = addslashes(Request::get('banner_name',''));
+        $search['banner_status'] = (int)Request::get('banner_status',-1);
         //$search['field_get'] = 'category_id,news_title,news_status';//cac truong can lay
 
         $dataSearch = Banner::searchByCondition($search, $limit, $offset,$total);
@@ -58,16 +58,16 @@ class BannerController extends BaseAdminController
 
         if(!empty($dataSearch)){
             foreach($dataSearch as $k=> $val){
-                $url_image = ($val->news_image != '')?ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $val->news_id, $val->news_image, 100, 100, '', true, true):'';
-                $data[] = array('news_id'=>$val->news_id,
-                    'news_title'=>$val->news_title,
-                    'news_status'=>$val->news_status,
+                $url_image = ($val->banner_image != '')?ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $val->banner_id, $val->banner_image, CGlobal::sizeImage_100):'';
+                $data[] = array('banner_id'=>$val->banner_id,
+                    'banner_name'=>$val->banner_name,
+                    'banner_status'=>$val->banner_status,
                     'url_image'=>$url_image,
                 );
             }
         }
         //FunctionLib::debug($dataSearch);
-        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['news_status']);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['banner_status']);
         $this->layout->content = View::make('admin.Banner.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -93,26 +93,16 @@ class BannerController extends BaseAdminController
         $arrViewImgOther = array();
         $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
-            $data = Banner::getNewByID($id);
+            $data = Banner::getBannerByID($id);
             if(sizeof($data) > 0){
-                //lay ảnh khác của san phẩm
-                $arrViewImgOther = array();
-                if(!empty($data->news_image_other)){
-                    $arrImagOther = unserialize($data->news_image_other);
-                    if(sizeof($arrImagOther) > 0){
-                        foreach($arrImagOther as $k=>$val){
-                            $url_thumb = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_NEWS, $id, $val, 120, 120, '', true, true);
-                            $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
-                        }
-                    }
-                }
                 //ảnh sản phẩm chính
-               $imageOrigin = $data->news_image;
+               $imageOrigin = $data->banner_image;
+               $urlImageOrigin = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_BANNER, $data->banner_id, $data->banner_image,CGlobal::sizeImage_200);
             }
         }
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['news_status'])? $data['news_status'] : CGlobal::status_show);
-        $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['news_category'])? $data['news_category'] : CGlobal::NEW_CATEGORY_TIN_TUC_CHUNG);
-        $optionType = FunctionLib::getOption($this->arrTypeNew, isset($data['news_type'])? $data['news_type'] : CGlobal::NEW_TYPE_TIN_TUC);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status'] : CGlobal::status_show);
+        $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['banner_category_id'])? $data['banner_category_id'] : 0);
+        $optionType = FunctionLib::getOption($this->arrTypeNew, isset($data['banner_type'])? $data['banner_type'] : 0);
 
         $this->layout->content = View::make('admin.Banner.add')
             ->with('id', $id)
@@ -202,15 +192,6 @@ class BannerController extends BaseAdminController
             return true;
         }
         return false;
-    }
-
-    function sendEmail(){
-         // test gửi email
-         Mail::send('emails.test_email', array('firstname'=>'Trương Mạnh Quỳnh'), function($message){
-             $message->to('manhquynh1984@gmail.com', 'Trương Mạnh Quỳnh')
-                 ->subject('Welcome to the Laravel 4 Auth App!');
-         });
-         die();
     }
 
 }

@@ -73,6 +73,7 @@ class CGlobal{
 
     const IMAGE_ERROR = 133;
     const FOLDER_NEWS = 'news';
+    const FOLDER_BANNER = 'banner';
     const FOLDER_PRODUCT = 'product';
 
     //shop
