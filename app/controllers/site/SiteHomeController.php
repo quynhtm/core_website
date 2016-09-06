@@ -458,12 +458,13 @@ class SiteHomeController extends BaseSiteController
     	$catid = (int)Request::get('dataCatId');
     	$type = addslashes(Request::get('dataType'));
    		if($catid > 0 && $type != ''){
+   			$offset=0;
    			if($type == 'vip'){
    				$search['is_shop'] = CGlobal::SHOP_VIP;
-   				$limit = $offset = CGlobal::number_show_30;
+   				$limit = CGlobal::number_show_30;
    			}else{
    				$search['is_shop'] = CGlobal::SHOP_NOMAL;
-   				$limit = $offset = CGlobal::number_show_15;
+   				$limit = CGlobal::number_show_15;
    			}
    			$search['category_id'] = $catid;
    			$search['field_get'] = $this->str_field_product_get;
