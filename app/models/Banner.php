@@ -1,0 +1,144 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: Quynhtm
+ */
+class Banner extends Eloquent
+{
+    protected $table = 'web_banner';
+    protected $primaryKey = 'banner_id';
+    public $timestamps = false;
+
+    //cac truong trong DB
+    protected $fillable = array('banner_id','banner_name', 'banner_link',
+        'banner_image', 'banner_image_temp', 'banner_order','banner_total_click',
+        'banner_is_target', 'banner_is_rel', 'banner_type','banner_page',
+        'banner_category_id', 'banner_status', 'banner_is_run_time','banner_start_time','banner_end_time',
+        'banner_time_click', 'banner_is_shop', 'banner_shop_id', 'banner_update_time', 'banner_create_time');
+
+    public static function getBannerByID($id) {
+        $new = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_BANNER_ID.$id) : array();
+        if (sizeof($new) == 0) {
+            $new = Banner::where('banner_id', $id)->first();
+            if($new && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_BANNER_ID.$id, $new, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $new;
+    }
+
+    public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
+        try{
+            $query = Banner::where('banner_id','>',0);
+            if (isset($dataSearch['banner_name']) && $dataSearch['banner_name'] != '') {
+                $query->where('banner_name','LIKE', '%' . $dataSearch['banner_name'] . '%');
+            }
+            if (isset($dataSearch['banner_status']) && $dataSearch['banner_status'] != -1) {
+                $query->where('banner_status', $dataSearch['banner_status']);
+            }
+            if (isset($dataSearch['banner_category_id']) && $dataSearch['banner_category_id'] > 0) {
+                $query->where('banner_category_id', $dataSearch['banner_category_id']);
+            }
+            $total = $query->count();
+            $query->orderBy('banner_id', 'desc');
+
+            //get field can lay du lieu
+            $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
+            if(!empty($fields)){
+                $result = $query->take($limit)->skip($offset)->get($fields);
+            }else{
+                $result = $query->take($limit)->skip($offset)->get();
+            }
+            return $result;
+
+        }catch (PDOException $e){
+            throw new PDOException();
+        }
+    }
+
+    /**
+     * @desc: Tao Data.
+     * @param $data
+     * @return bool
+     * @throws PDOException
+     */
+    public static function addData($dataInput)
+    {
+        try {
+            DB::connection()->getPdo()->beginTransaction();
+            $data = new Banner();
+            if (is_array($dataInput) && count($dataInput) > 0) {
+                foreach ($dataInput as $k => $v) {
+                    $data->$k = $v;
+                }
+            }
+            if ($data->save()) {
+                DB::connection()->getPdo()->commit();
+                if(isset($data->banner_id) && $data->banner_id > 0){
+                    self::removeCache($data->banner_id);
+                }
+                return $data->banner_id;
+            }
+            DB::connection()->getPdo()->commit();
+            return false;
+        } catch (PDOException $e) {
+            DB::connection()->getPdo()->rollBack();
+            throw new PDOException();
+        }
+    }
+
+    /**
+     * @desc: Update du lieu
+     * @param $id
+     * @param $data
+     * @return bool
+     * @throws PDOException
+     */
+    public static  function updateData($id, $dataInput)
+    {
+        try {
+            DB::connection()->getPdo()->beginTransaction();
+            $dataSave = Banner::find($id);
+            if (!empty($dataInput)){
+                $dataSave->update($dataInput);
+                if(isset($dataSave->banner_id) && $dataSave->banner_id > 0){
+                    self::removeCache($dataSave->banner_id);
+                }
+            }
+            DB::connection()->getPdo()->commit();
+            return true;
+        } catch (PDOException $e) {
+            DB::connection()->getPdo()->rollBack();
+            throw new PDOException();
+        }
+    }
+
+    /**
+     * @desc: Update Data.
+     * @param $id
+     * @param $status
+     * @return bool
+     * @throws PDOException
+     */
+    public static function deleteData($id){
+        try {
+            DB::connection()->getPdo()->beginTransaction();
+            $dataSave = Banner::find($id);
+            $dataSave->delete();
+            if(isset($dataSave->banner_id) && $dataSave->banner_id > 0){
+                self::removeCache($dataSave->banner_id);
+            }
+            DB::connection()->getPdo()->commit();
+            return true;
+        } catch (PDOException $e) {
+            DB::connection()->getPdo()->rollBack();
+            throw new PDOException();
+        }
+    }
+
+    public static function removeCache($id = 0){
+        if($id > 0){
+            Cache::forget(Memcache::CACHE_BANNER_ID.$id);
+        }
+    }
+}
