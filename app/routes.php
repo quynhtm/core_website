@@ -109,6 +109,12 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('news/edit/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
     Route::post('news/deleteNews', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteNews'));//ajax
 
+    /*Quản lý banner*/
+    Route::get('banner/view',array('as' => 'admin.banner_list','uses' => 'BannerController@view'));
+    Route::get('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@getBanner'))->where('id', '[0-9]+');
+    Route::post('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@postBanner'))->where('id', '[0-9]+');
+    Route::post('banner/deleteNews', array('as' => 'admin.deltete_banner_post','uses' => 'BannerController@deleteBanner'));//ajax
+
     /*Quan Ly Don Hang*/
     Route::get('order/view',array('as' => 'admin.order_list','uses' => 'OrderController@view'));
     Route::get('order/getOrder/{id}', array('as' => 'admin.order_edit','uses' => 'OrderController@getOrder'))->where('id', '[0-9]+');

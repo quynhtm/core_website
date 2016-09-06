@@ -57,16 +57,16 @@
         },
         {
             "name": "bkwld/croppa",
-            "version": "4.4.0",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BKWLD/croppa.git",
-                "reference": "575101e4c2131db0dcdf5800cadf604801f940e4"
+                "reference": "4ed1c9f4e023dbf5863ff91a8eee610865d89256"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BKWLD/croppa/zipball/575101e4c2131db0dcdf5800cadf604801f940e4",
-                "reference": "575101e4c2131db0dcdf5800cadf604801f940e4",
+                "url": "https://api.github.com/repos/BKWLD/croppa/zipball/4ed1c9f4e023dbf5863ff91a8eee610865d89256",
+                "reference": "4ed1c9f4e023dbf5863ff91a8eee610865d89256",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
@@ -102,7 +102,7 @@
                 }
             ],
             "description": "Image thumbnail creation through specially formatted URLs for Laravel",
-            "time": "2016-02-19 17:04:47"
+            "time": "2016-08-08 15:54:32"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -1397,7 +1397,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.9",
+            "version": "v2.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -1457,7 +1457,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.8.9",
+            "version": "v2.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",

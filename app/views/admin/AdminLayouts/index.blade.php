@@ -221,7 +221,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="@if(Route::currentRouteName() == 'admin.news_list')active @endif">
+            <li class="@if(Route::currentRouteName() == 'admin.news_list'
+                        || Route::currentRouteName() == 'admin.banner_list')active @endif">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-book"></i>
                     <span class="menu-text"> Quản trị Nội dung</span>
@@ -233,6 +234,13 @@
                         <a href="{{URL::route('admin.news_list')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Quản trị tin tức
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="@if(Route::currentRouteName() == 'admin.banner_list')active @endif">
+                        <a href="{{URL::route('admin.banner_list')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Banner quảng cáo
                         </a>
                         <b class="arrow"></b>
                     </li>

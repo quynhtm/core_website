@@ -28,8 +28,11 @@ class Memcache{
     //sản phẩm
     const CACHE_PRODUCT_ID    = 'cache_product_id_';
 
-    //sản phẩm
+    //tin tức
     const CACHE_NEW_ID    = 'cache_news_id_';
+
+    //banner
+    const CACHE_BANNER_ID    = 'cache_banner_id_';
 
     //Tinh thành
     const CACHE_ALL_PROVINCE = 'cache_all_province';
