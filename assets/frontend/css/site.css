@@ -1631,6 +1631,19 @@ form#txtFormPaymentCart .form-group label {
 .view-content-static {
     min-height: 150px;
 }
+.data-tab.act{
+	display:block;
+}
+.updating {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 2px;
+    color: #ff0000;
+    font-size: 20px;
+    font-style: italic;
+    padding: 100px 0;
+    text-align: center;
+    width: 100%;
+}
 /*pagging*/
 .show-box-paging {
     clear: both;

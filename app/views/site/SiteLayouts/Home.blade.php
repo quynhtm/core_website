@@ -58,11 +58,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="line-box">
+	<div class="line-box line-box-cat">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
 				<h2 class="parent-cate">
-                	<a href="">
+                	<a href="javascript:void(0)">
                        <span>Sản phẩm Shop Vip</span>
                     </a>
                 </h2>
@@ -73,7 +73,7 @@
                 	<?php $i++ ?>
                 	@if($i<=8)
                 	<h3 class="sub-item">
-                        <a href="javascript:void(0)">{{ $val }}</a>
+                        <a href="javascript:void(0)" datacatid="{{$key}}" datatype="vip">{{ $val }}</a>
                     </h3>
                      @endif
                     @endforeach
@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		<div class="content-list-item w-home">
-			<ul>
+			<ul class="data-tab data-tab-one act">
 				@if($dataProVip != null)
 				@foreach($dataProVip as $item)
 				<li class="item">
@@ -133,11 +133,11 @@
 			<img src="https://static11.muachungcdn.com/original/i:plaza/product/product/-0-HangNhatThai_1150x60-146837977178478/sunhouse-thang-7.jpg" alt="">
 		</div>
 	</div>
-	<div class="line-box">
+	<div class="line-box line-box-cat">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
 				<h2 class="parent-cate">
-                	<a href="">
+                	<a href="javascript:void(0)">
                        <span>Sản phẩm Shop thường</span>
                     </a>
                 </h2>
@@ -148,7 +148,7 @@
                 	<?php $i++ ?>
                 	@if($i<=8)
                 	<h3 class="sub-item">
-                        <a href="javascript:void(0)">{{ $val }}</a>
+                        <a href="javascript:void(0)" datacatid="{{$key}}" datatype="normal">{{ $val }}</a>
                     </h3>
                      @endif
                     @endforeach
@@ -157,7 +157,7 @@
 			</div>
 		</div>
 		<div class="content-list-item w-home">
-			<ul>
+			<ul class="data-tab data-tab-one act">
 				@if($dataProFree != null)
 				@foreach($dataProFree as $item)
 				<li class="item">

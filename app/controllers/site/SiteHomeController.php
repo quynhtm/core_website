@@ -7,7 +7,7 @@ class SiteHomeController extends BaseSiteController
         FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     }
 
-    private $str_field_product_get = 'product_id,product_name,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+    private $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
     //trang chu
     public function index(){
         $this->header();
@@ -450,5 +450,29 @@ class SiteHomeController extends BaseSiteController
     	$this->footer();
     }
     
+    //Ajax load item sub category home
+    public function ajaxLoadItemSubCategory(){
+    	if(empty($_POST)){
+    		return Redirect::route('site.home');
+    	}
+    	$catid = (int)Request::get('dataCatId');
+    	$type = addslashes(Request::get('dataType'));
+   		if($catid > 0 && $type != ''){
+   			if($type == 'vip'){
+   				$search['is_shop'] = CGlobal::SHOP_VIP;
+   				$limit = $offset = CGlobal::number_show_30;
+   			}else{
+   				$search['is_shop'] = CGlobal::SHOP_NOMAL;
+   				$limit = $offset = CGlobal::number_show_15;
+   			}
+   			$search['category_id'] = $catid;
+   			$search['field_get'] = $this->str_field_product_get;
+   			
+   			$data = Product::getProductForSite($search, $limit, $offset,$total);
+   			
+   			return View::make('site.SiteLayouts.AjaxLoadItemSubCate')->with('data', $data)->with('catid', $catid);
+   			die;
+   		}
+    }
 }
 

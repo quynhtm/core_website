@@ -1,9 +1,9 @@
 $(document).ready(function($){
-	//$('.province_id, .category_id').fancySelect(); đang bị lỗi chỗ này
+	$('.province_id, .category_id').fancySelect(); //Đã sửa
 	SITE.change_img();
+	SITE.show_tab_category_home();
 });
  var is_shop_vip = 3;
-
 SITE = {
 	change_img:function(){
 		jQuery(".item").hover(function(){
@@ -151,4 +151,41 @@ SITE = {
 		}
 		jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
 	},
+	//Duy thêm click cac tab trang chủ;
+	show_tab_category_home:function(){
+		jQuery('.sub-item a').click(function(){
+			var dataCatId = jQuery(this).attr('datacatid');
+			var dataType = jQuery(this).attr('datatype');
+			var parent = jQuery(this).parents('.line-box-cat');
+			var tabShow = parent.find('ul.data-tab.tab-'+ dataCatId).length;
+			if(dataCatId > 0){
+				if(tabShow == 0){
+					//ajax
+					jQuery.ajax({
+						type: "POST",
+						url: WEB_ROOT + '/ajax-load-item-sub-category.html',
+						data: "dataCatId=" + encodeURI(dataCatId) + "&dataType=" + encodeURI(dataType),
+						success: function(data){
+							if(data != ''){
+								parent.find('ul.data-tab').hide();
+								parent.find('.content-list-item').append(data);
+							}else{
+								return false;
+							}
+							tabShow = 1;
+						}
+					});
+				}else{
+					//show
+					parent.find('ul.data-tab').hide();
+					parent.find('ul.data-tab.tab-'+ dataCatId).show();
+				}
+				
+				parent.find('.parent-cate').click(function(){
+					parent.find('ul.data-tab').hide();
+					parent.find('ul.data-tab-one').show();
+				});
+			}
+		});
+	}
 }
