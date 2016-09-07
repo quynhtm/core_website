@@ -1711,3 +1711,51 @@ form#txtFormPaymentCart .form-group label {
     color: #777;
     cursor: not-allowed;
 }
+/*Slider*/
+.slider-box-mid .bx-wrapper .bx-pager, .bx-wrapper .bx-controls-auto {
+    bottom: 10px !important;
+}
+.slider-box-mid .bx-pager.bx-default-pager {
+    bottom: 25px !important;
+    position: absolute;
+}
+.slider-box-mid .bx-wrapper .bx-controls .bx-pager-item a {
+    background: #8e8e8e none repeat scroll 0 0;
+    border: 0 none;
+    border-radius: 100%;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 2px;
+    opacity: 0.8;
+    text-indent: 0;
+    width: 22px;
+}
+.slider-box-mid .bx-wrapper .bx-controls .bx-pager-item a.active, .slider-box-mid .bx-wrapper .bx-controls .bx-pager-item a:hover {
+    background: #fe6d01 none repeat scroll 0 0;
+}
+.bx-wrapper .bx-controls-direction {
+    display: none;
+}
+.bx-wrapper:hover .bx-controls-direction {
+    display: block;
+}
+.bx-wrapper .bx-controls-direction a {
+    display: inline-block;
+    height: 64px !important;
+    top: 43% !important;
+    width: 24px !important;
+}
+.bx-wrapper .bx-controls-direction a.bx-prev {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll 0 -25px;
+    left: 5px;
+}
+.bx-wrapper .bx-controls-direction a.bx-next {
+    background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -25px -25px;
+    right: 5px;
+}
+.slider-box-mid .bx-viewport {
+    height: 445px !important;
+}

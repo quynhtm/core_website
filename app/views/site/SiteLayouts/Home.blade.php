@@ -41,21 +41,76 @@
 			</div>
 		</div>
 		<div class="slider-box-mid">
-			<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
-			<img src="http://sanphamredep.com/uploads/images/ads/11-2015/08-35-08-07-11-2015-1.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
-		</a>
+			<div id="sliderMid">
+				<div class="slide ">
+					<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
+						<img src="http://sanphamredep.com/uploads/images/ads/11-2015/08-35-08-07-11-2015-1.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
+					</a>
+				</div>
+				<div class="slide ">
+					<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
+						<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/3/730x428/08-14-38-09-06-2016-5.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
+					</a>
+				</div>
+			</div>
+			<script type="text/javascript">
+				jQuery(document).ready(function() {
+					jQuery('#sliderMid').bxSlider({
+						slideWidth: 720,
+						slideHeight: 428,
+						minSlides: 1,
+						maxSlides: 2,
+						slideMargin: 10,
+						mode: 'fade',
+						pager: true,
+						auto: true,
+					});
+			    });
+			</script>
 		</div>
 		<div class="ads-right-mid">
 			<div class="item-right-slider">
-				<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
-					<img src="http://shopcuatui.com.vn/image.php?type_dir=banner&amp;id=22&amp;width=300&amp;height=0&amp;image=http://shopcuatui.com.vn/uploads/banner/22/08-19-38-24-05-2016-3.jpg" alt="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà">
-				</a>
+				<div id="sliderRight1">
+					<div class="slide">
+						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
+							<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/22/300x210/08-19-38-24-05-2016-3.jpg" alt="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà">
+						</a>
+					</div>
+					<div class="slide">
+						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
+							<img src="http://shopcuatui.com.vn/uploads/banner/20/09-48-59-01-06-2016-77.jpg" alt="Khuyến mãi bất ngờ từ Luminarc">
+						</a>
+					</div>
+				</div>
 			</div>
 			<div class="item-right-slider">
-				<a rel="nofollow" href="" title="Khuyến mãi bất ngờ từ Luminarc" target="_blank">
-					<img src="http://shopcuatui.com.vn/image.php?type_dir=banner&amp;id=20&amp;width=300&amp;height=0&amp;image=http://shopcuatui.com.vn/uploads/banner/20/09-48-59-01-06-2016-77.jpg" alt="Khuyến mãi bất ngờ từ Luminarc">
-				</a>
+				<div id="sliderRight2">
+					<div class="slide">
+						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
+							<img src="http://shopcuatui.com.vn/uploads/banner/20/09-48-59-01-06-2016-77.jpg" alt="Khuyến mãi bất ngờ từ Luminarc">
+						</a>
+					</div>
+					<div class="slide">
+						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
+							<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/22/300x210/08-19-38-24-05-2016-3.jpg" alt="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà">
+						</a>
+					</div>
+				</div>
 			</div>
+			<script type="text/javascript">
+				jQuery(document).ready(function() {
+					jQuery('#sliderRight1, #sliderRight2').bxSlider({
+						slideWidth: 315,
+						slideHeight: 170,
+						minSlides: 1,
+						maxSlides: 2,
+						slideMargin: 10,
+						mode: 'fade',
+						pager: false,
+						auto: true,
+					});
+				});
+			</script>
 		</div>
 	</div>
 	<div class="line-box line-box-cat">
