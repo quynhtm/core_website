@@ -547,21 +547,31 @@ class ShopController extends BaseShopController
             if(isset($data['shop_category']) && trim($data['shop_category']) == '') {
                 $this->error[] = 'Shop chưa chọn danh mục sản phẩm';
             }
+            if(isset($data['shop_transfer']) && trim($data['shop_transfer']) == '') {
+                $this->error[] = 'Chưa nhập thông tin vận chuyển';
+            }
+            if(isset($data['shop_about']) && trim($data['shop_about']) == '') {
+                $this->error[] = 'Chưa nhập giới thiệu chi tiết về shop';
+            }
             //thay doi pass
-            if(isset($data['user_password_old']) && trim($data['user_password_old']) == '') {
-                $this->error[] = 'Bạn chưa nhập mật khẩu cũ';
-            }else{
-                if($this->user_shop->user_password !== User::encode_password(trim($data['user_password_old']))){
-                    $this->error[] = 'Mật khẩu cũ không đúng';
+            if(isset($data['user_password_old'])) {
+                if(trim($data['user_password_old']) == '') {
+                    $this->error[] = 'Bạn chưa nhập mật khẩu cũ';
+                }else{
+                    if($this->user_shop->user_password !== User::encode_password(trim($data['user_password_old']))){
+                        $this->error[] = 'Mật khẩu cũ không đúng';
+                    }
                 }
             }
-            if(isset($data['user_password']) && trim($data['user_password']) == '') {
-                $this->error[] = 'Bạn chưa nhập mật khẩu mới';
-            }else{
-                if(isset($data['user_password_reply']) && $data['user_password_reply'] == '') {
-                    $this->error[] = 'Bạn chưa nhập lại mật khẩu mới';
-                }elseif(strcmp($data['user_password'],$data['user_password_reply']) != 0){
-                    $this->error[] = 'Bạn nhập lại mật khẩu mới chưa đúng';
+            if(isset($data['user_password'])) {
+                if(trim($data['user_password']) == '') {
+                    $this->error[] = 'Bạn chưa nhập mật khẩu mới';
+                }else{
+                    if(isset($data['user_password_reply']) && $data['user_password_reply'] == '') {
+                        $this->error[] = 'Bạn chưa nhập lại mật khẩu mới';
+                    }elseif(strcmp($data['user_password'],$data['user_password_reply']) != 0){
+                        $this->error[] = 'Bạn nhập lại mật khẩu mới chưa đúng';
+                    }
                 }
             }
             return true;
