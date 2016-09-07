@@ -16,6 +16,7 @@ class CGlobal{
     public static $pageShopTitle = 'Shop Admin';
 
     const web_name = 'Website';
+    const num_scroll_page = 2;
     const number_limit_show = 30;
     const number_show_30 = 30;
     const number_show_20 = 20;

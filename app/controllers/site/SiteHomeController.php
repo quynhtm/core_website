@@ -10,7 +10,11 @@ class SiteHomeController extends BaseSiteController
     private $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
     //trang chu
     public function index(){
-        $this->header();
+    	
+    	FunctionLib::site_css('lib/bxslider/bxslider.css', CGlobal::$POS_HEAD);
+    	FunctionLib::site_js('lib/bxslider/bxslider.js', CGlobal::$POS_END);
+    	
+    	$this->header();
         /**
          * list SP cua shop VIP
          * */
@@ -56,12 +60,37 @@ class SiteHomeController extends BaseSiteController
 
     //trang danh sách san pham theo danh mục
     public function listProduct($cat_id){
+ 
         $this->header();
         $product = array();
         $user_shop = array();
+        $arrParrentCat = array();
+        $arrChildCate = array();
+        $paging = '';
+        if($cat_id > 0){
+        	$arrParrentCat = Category::getByID($cat_id);
+        	$arrChildCate = Category::getAllChildCategoryIdByParentId($cat_id);
+        	if(!empty($arrChildCate)){
+        		$arrCatId = array_keys($arrChildCate);
+	        	$limit = CGlobal::number_show_30;
+	        	
+	        	$total = $offset = 0;
+	        	$pageScroll = CGlobal::num_scroll_page;
+	        	$pageNo = (int) Request::get('page', 1);
+	        	
+	        	$search['category_id'] = $arrCatId;
+	        	$search['field_get'] = $this->str_field_product_get;
+	        	$product = Product::getProductForSite($search, $limit, $offset,$total);
+	        	$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        	}
+        }
+        
         $this->layout->content = View::make('site.SiteLayouts.ListProduct')
             ->with('product',$product)
-            ->with('user_shop', $user_shop);
+            ->with('user_shop', $user_shop)
+        	->with('arrParrentCat', $arrParrentCat)
+        	->with('arrChildCate', $arrChildCate)
+        	->with('paging', $paging);
         $this->footer();
     }
     public function detailProduct($cat_name, $pro_id, $pro_name){
