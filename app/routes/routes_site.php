@@ -29,7 +29,7 @@ Route::get('gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'Site
 Route::get('404.html',array('as' => 'site.page404','uses' =>'SiteHomeController@page404'));
 Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteHomeController@thanksBuy'));
 
-Route::match(['GET','POST'],'ajax-load-item-sub-category.html',array('as' => 'site.ajaxLoadItemSubCategory','uses' =>'SiteHomeController@ajaxLoadItemSubCategory'));
+Route::post('load-product-with-category.html',array('as' => 'site.ajaxLoadItemSubCategory','uses' =>'SiteHomeController@ajaxLoadItemSubCategory'));//ajax
 
 
 //trang chủ shop

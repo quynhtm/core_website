@@ -192,6 +192,33 @@ class BannerController extends BaseAdminController
             return true;
         }
         return false;
+
+
+        $pid = (int)Request::get('pid');
+        $psize = addslashes(Request::get('psize'));
+        $pnum = (int)Request::get('pnum');
+
+        if($pid > 0 && $pnum > 0){
+            $result = Product::getProductByID($pid);
+            $num_cart = 0;
+            if(sizeof($result) != 0){
+                $data = array();
+                if(Session::has('shopcart')){
+                    $data = Session::get('shopcart');
+                    $data[$pid][$psize] += 1;
+                }else{
+                    $data[$pid][$psize] = 1;
+                }
+                Session::put('shopcart', $data, 60*24);//2gio
+                echo 1;
+            }else{
+                if(Session::has('shopcart')){
+                    Session::forget('shopcart');
+                }
+                echo 0;
+            }
+        }
+        exit();
     }
 
 }

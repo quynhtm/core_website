@@ -163,7 +163,7 @@ SITE = {
 					//ajax
 					jQuery.ajax({
 						type: "POST",
-						url: WEB_ROOT + '/ajax-load-item-sub-category.html',
+						url: WEB_ROOT + '/load-product-with-category.html',
 						data: "dataCatId=" + encodeURI(dataCatId) + "&dataType=" + encodeURI(dataType),
 						success: function(data){
 							if(data != ''){

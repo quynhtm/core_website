@@ -455,10 +455,10 @@ class SiteHomeController extends BaseSiteController
     	if(empty($_POST)){
     		return Redirect::route('site.home');
     	}
-    	$catid = (int)Request::get('dataCatId');
+        $parentCategoryId = (int)Request::get('dataCatId');
     	$type = addslashes(Request::get('dataType'));
-   		if($catid > 0 && $type != ''){
-   			$offset=0;
+   		if($parentCategoryId > 0 && $type != ''){
+   			/*$offset=0;
    			if($type == 'vip'){
    				$search['is_shop'] = CGlobal::SHOP_VIP;
    				$limit = CGlobal::number_show_30;
@@ -468,10 +468,22 @@ class SiteHomeController extends BaseSiteController
    			}
    			$search['category_id'] = $catid;
    			$search['field_get'] = $this->str_field_product_get;
+   			$data = Product::getProductForSite($search, $limit, $offset,$total);*/
+
+
+            $limit = ($type == 'vip')? CGlobal::number_show_30 : CGlobal::number_show_15;
+            $total = $offset = 0;
+            if($parentCategoryId > 0){
+                $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+                if(sizeof($arrChildCate) > 0){
+                    $search['category_id'] = array_keys($arrChildCate);
+                }
+            }
+            $search['is_shop'] = ($type == 'vip')? CGlobal::SHOP_VIP: array(CGlobal::SHOP_NOMAL,CGlobal::SHOP_FREE);
+            $search['field_get'] = $this->str_field_product_get;
+            $data = Product::getProductForSite($search, $limit, $offset,$total);
    			
-   			$data = Product::getProductForSite($search, $limit, $offset,$total);
-   			
-   			return View::make('site.SiteLayouts.AjaxLoadItemSubCate')->with('data', $data)->with('catid', $catid);
+   			return View::make('site.SiteLayouts.AjaxLoadItemSubCate')->with('data', $data)->with('catid', $parentCategoryId);
    			die;
    		}
     }
