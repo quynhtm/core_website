@@ -48,7 +48,7 @@ class Product extends Eloquent
         return array();
     }
 
-    public static function getProductForSite($dataSearch = array(), $limit =0, $offset=0, &$total){
+    public static function getProductForSite($dataSearch = array(), $limit =0, $offset = 0, &$total){
         try{
             $query = Product::where('product_id','>',0);
             $query->where('product_status','=',CGlobal::status_show);
@@ -60,6 +60,15 @@ class Product extends Eloquent
                 elseif ((int)$dataSearch['category_id'] > 0) {//theo id danh muc
                     $query->where('category_id','=', (int)$dataSearch['category_id']);
                 }
+            }
+
+            if (isset($dataSearch['category_parent_id']) && $dataSearch['category_parent_id'] > 0) {
+                $arrCatId = array();
+                $arrChildCate = Category::getAllChildCategoryIdByParentId($dataSearch['category_parent_id']);
+                if(!empty($arrChildCate)){
+                    $arrCatId = array_keys($arrChildCate);
+                }
+                $query->whereIn('category_id', $arrCatId);
             }
 
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
@@ -79,7 +88,9 @@ class Product extends Eloquent
             $query->orderBy('is_shop', 'desc')->orderBy('time_update', 'desc');
 
             //get field can lay du lieu
-            $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
+            $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+            $fields_get = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '')?trim($dataSearch['field_get']) : $str_field_product_get;
+            $fields = (trim($fields_get) != '') ? explode(',',trim($fields_get)): array();
             if(!empty($fields)){
                 $result = $query->take($limit)->skip($offset)->get($fields);
             }else{

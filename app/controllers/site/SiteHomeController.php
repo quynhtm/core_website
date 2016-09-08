@@ -60,37 +60,35 @@ class SiteHomeController extends BaseSiteController
 
     //trang danh sách san pham theo danh mục
     public function listProduct($cat_id){
- 
         $this->header();
+
         $product = array();
-        $user_shop = array();
         $arrParrentCat = array();
-        $arrChildCate = array();
         $paging = '';
         if($cat_id > 0){
-        	$arrParrentCat = Category::getByID($cat_id);
-        	$arrChildCate = Category::getAllChildCategoryIdByParentId($cat_id);
-        	if(!empty($arrChildCate)){
-        		$arrCatId = array_keys($arrChildCate);
-	        	$limit = CGlobal::number_show_30;
-	        	
-	        	$total = $offset = 0;
-	        	$pageScroll = CGlobal::num_scroll_page;
-	        	$pageNo = (int) Request::get('page', 1);
-	        	
-	        	$search['category_id'] = $arrCatId;
-	        	$search['field_get'] = $this->str_field_product_get;
-	        	$product = Product::getProductForSite($search, $limit, $offset,$total);
-	        	$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
-        	}
+        	$categoryParrentCat = Category::getByID($cat_id);
+            if($categoryParrentCat){
+                if($categoryParrentCat->category_parent_id == 0){
+                    $search['category_parent_id'] = $categoryParrentCat->category_id;
+                }else{
+                    $search['category_id'] = $categoryParrentCat->category_id;
+                }
+                $search['category_name'] = $categoryParrentCat->category_name;
+                $pageNo = (int) Request::get('page_no', 1);
+                $limit = CGlobal::number_show_30;
+                $offset = ($pageNo - 1) * $limit;
+                $total = 0;
+                $pageScroll = CGlobal::num_scroll_page;
+                $pageNo = (int) Request::get('page_no', 1);
+                $product = Product::getProductForSite($search, $limit, $offset,$total);
+                $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+            }
         }
-        
         $this->layout->content = View::make('site.SiteLayouts.ListProduct')
             ->with('product',$product)
-            ->with('user_shop', $user_shop)
         	->with('arrParrentCat', $arrParrentCat)
-        	->with('arrChildCate', $arrChildCate)
         	->with('paging', $paging);
+
         $this->footer();
     }
     public function detailProduct($cat_name, $pro_id, $pro_name){
