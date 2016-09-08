@@ -36,6 +36,7 @@ class UserShopController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
             return Redirect::route('admin.dashboard');
         }
+        UserShop::updateShopLogout();//cap nhat shop login mà chưa logout
 
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
