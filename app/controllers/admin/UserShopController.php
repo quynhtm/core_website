@@ -21,12 +21,19 @@ class UserShopController extends BaseAdminController
 
         //Include style.
         FunctionLib::link_css(array(
-            'lib/cssUpload.css',
+            'lib/upload/cssUpload.css',
         ));
 
         //Include javascript.
         FunctionLib::link_js(array(
+            'lib/upload/jquery.uploadfile.js',
             'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            'js/common.js',
+            'admin/js/admin.js',
+            //'lib/dragsort/jquery.dragsort.js',
+            //'lib/number/autoNumeric.js',
+            //'frontend/js/site.js',
         ));
         CGlobal::$pageAdminTitle = 'Quản lý User Shop';
     }
@@ -90,8 +97,10 @@ class UserShopController extends BaseAdminController
                 $data['shop_about'] = $item->shop_about;
                 $data['shop_transfer'] = $item->shop_transfer;
                 $data['shop_category'] = $item->shop_category;
-                $data['is_shop'] = $item->is_shop;
                 $data['shop_status'] = $item->shop_status;
+                $data['is_shop'] = $item->is_shop;
+                $data['time_start_vip'] = $item->time_start_vip;
+                $data['time_end_vip'] = $item->time_end_vip;
             }
         }
         //FunctionLib::debug($data);
@@ -119,6 +128,9 @@ class UserShopController extends BaseAdminController
         $dataSave['shop_address'] = addslashes(Request::get('shop_address'));
         $dataSave['shop_about'] = addslashes(Request::get('shop_about'));
         $dataSave['shop_transfer'] = addslashes(Request::get('shop_transfer'));
+
+        $dataSave['time_start_vip'] = strtotime(Request::get('time_start_vip',''));
+        $dataSave['time_end_vip'] = strtotime(Request::get('time_end_vip',''));
 
         $dataSave['is_shop'] = (int)Request::get('is_shop', 0);
         $dataSave['shop_status'] = (int)Request::get('shop_status', 0);

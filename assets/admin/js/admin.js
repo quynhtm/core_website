@@ -124,4 +124,11 @@ var Admin = {
         }
         $("#sys_mulitplefileuploader").uploadFile(settings);
     },
+    changeIsShop: function(is_shop, shop_id){
+        if(is_shop == 1 || is_shop == 2){
+            $('#block_time_vip').hide();
+        }else{
+            $('#block_time_vip').show();
+        }
+    }
 }

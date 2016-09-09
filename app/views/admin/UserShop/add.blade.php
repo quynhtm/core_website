@@ -64,21 +64,34 @@
                 </div>
                 <div class="clearfix"></div>
 
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Kiểu shop</label>
-                        <select name="is_shop" id="is_shop" class="form-control input-sm">
-                            {{$optionIsShop}}
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
                         <label for="name" class="control-label">Trạng thái</label>
                         <select name="shop_status" id="shop_status" class="form-control input-sm">
                             {{$optionStatus}}
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Kiểu shop</label>
+                        <select name="is_shop" id="is_shop" class="form-control input-sm" onchange="Admin.changeIsShop(this.value,{{$id}});">
+                            {{$optionIsShop}}
+                        </select>
+                    </div>
+                </div>
+                <div id="block_time_vip"@if(isset($data['is_shop']) && $data['is_shop'] != CGlobal::SHOP_VIP) style="display: none"@endif>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Thời gian bắt đầu</label>
+                            <input type="text" class="form-control" id="time_start_vip" name="time_start_vip"  data-date-format="dd-mm-yyyy" value="@if(isset($data['time_start_vip']) && $data['time_start_vip'] > 0){{date('d-m-Y',$data['time_start_vip'])}}@endif">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Thời gian kết thúc</label>
+                            <input type="text" class="form-control" id="time_end_vip" name="time_end_vip"  data-date-format="dd-mm-yyyy" value="@if(isset($data['time_end_vip']) && $data['time_end_vip'] > 0){{date('d-m-Y',$data['time_end_vip'])}}@endif">
+                        </div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -137,6 +150,10 @@
 </div>
 <!--Popup upload ảnh-->
 <script>
+    $(document).ready(function(){
+        var checkin = $('#time_start_vip').datepicker({ });
+        var checkout = $('#time_end_vip').datepicker({ });
+    });
     CKEDITOR.replace(
             'shop_about',
             {
