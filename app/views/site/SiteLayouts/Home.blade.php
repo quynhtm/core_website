@@ -173,7 +173,7 @@
 							</div>
 							@if($item->user_shop_id > 0 && $item->user_shop_name != '')
 							<div class="mgt5 amount-call">
-			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
+			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{FunctionLib::safe_title($item->user_shop_name)}}.html">{{$item->user_shop_name}}</a>
 			            	</div>
 			            	@endif
 						</div>

@@ -1759,3 +1759,22 @@ form#txtFormPaymentCart .form-group label {
 .slider-box-mid .bx-viewport {
     height: 445px !important;
 }
+
+/*Slider trang shop*/
+.body-list-item .banner-shop-content {
+    display: inline-block;
+    height: 245px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    width: 100%;;
+}
+.body-list-item .banner-shop-content img {
+    width: 100%;
+}
+.banner-shop-content .bx-viewport {
+    height: 245px !important;
+}
+.body-list-item .bx-wrapper .bx-pager, 
+.body-list-item .bx-wrapper .bx-controls-auto {
+    bottom: 5px;
+}

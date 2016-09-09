@@ -1,9 +1,9 @@
 <div class="container">
 	<div class="link-breadcrumb">
 		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
-		@if(sizeof($arrParrentCat) != 0)
+		@if(sizeof($categoryParrentCat) != 0)
 		<i class="fa fa-angle-double-right"></i>
-		<a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($arrParrentCat->category_name)),'id'=>$arrParrentCat->category_id))}}" title="{{$arrParrentCat->category_name}}">{{$arrParrentCat->category_name}}</a>
+		<a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($categoryParrentCat->category_name)),'id'=>$categoryParrentCat->category_id))}}" title="{{$categoryParrentCat->category_name}}">{{$categoryParrentCat->category_name}}</a>
 		@endif
 	</div>
 	<div class="main-view-post">
@@ -11,7 +11,7 @@
 			<div class="left-category-shop">
 				@if(!empty($arrChildCate))
 				<div class="wrapp-category-menu">
-					<div class="title-category-parent">{{$arrParrentCat->category_name}}</div>
+					<div class="title-category-parent">{{$categoryParrentCat->category_name}}</div>
 					<ul>
 						@foreach($arrChildCate as $key=>$cat)
 						<li><a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($cat)),'id'=>$key))}}" title="{{$cat}}">{{$cat}}</a></li>
@@ -19,7 +19,7 @@
 					</ul>
 				</div>
 				@endif
-				@if(sizeof($arrParrentCat) != 0)
+				@if(sizeof($categoryParrentCat) != 0)
 				<div class="content-right-product">
 					<div id="fb-root"></div>
 						<script>(function(d, s, id) {
@@ -29,7 +29,7 @@
 						  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
 						  fjs.parentNode.insertBefore(js, fjs);
 						}(document, 'script', 'facebook-jssdk'));</script>
-					<div class="fb-like" data-href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($arrParrentCat->category_name)),'id'=>$arrParrentCat->category_id))}}"
+					<div class="fb-like" data-href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($categoryParrentCat->category_name)),'id'=>$categoryParrentCat->category_id))}}"
 						data-layout="button_count" data-action="like" 
 						data-show-faces="false" data-share="true">
 					</div>
@@ -80,7 +80,7 @@
 							</div>
 							@if($item->user_shop_id > 0 && $item->user_shop_name != '')
 							<div class="mgt5 amount-call">
-			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
+			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{FunctionLib::safe_title($item->user_shop_name)}}.html">{{$item->user_shop_name}}</a>
 			            	</div>
 			            	@endif
 						</div>
