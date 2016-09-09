@@ -48,6 +48,14 @@ class Product extends Eloquent
         return array();
     }
 
+    public static function getListProductOfShopId($shop_id = 0, $field_get = array()) {
+        if($shop_id > 0){
+            $query = Product::where('user_shop_id','=',$shop_id);
+            return $result = (!empty($field_get)) ? $query->get($field_get) : $query->get();
+        }
+        return array();
+    }
+
     public static function getProductForSite($dataSearch = array(), $limit =0, $offset = 0, &$total){
         try{
             $query = Product::where('product_id','>',0);
