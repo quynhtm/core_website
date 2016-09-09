@@ -74,9 +74,9 @@ class UserShop extends Eloquent
             $shop->save();
         }
     }
+
+    //cap nhat nhung shop da het session
     public static function updateShopLogout(){
-        //cap nhat nhung shop da het session
-        $time = time();
         $yesterday = time() - (24 * 60 * 60);
         $query = UserShop::where('shop_id','>',0)->where('is_login','=',1);
         $query->where('shop_time_login', '<=', $yesterday);
@@ -87,7 +87,6 @@ class UserShop extends Eloquent
                 $shop->update($dataInput);
             }
         }
-        //FunctionLib::debug($result);
     }
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{

@@ -53,12 +53,12 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
-                            <th width="35%">Thông tin shop</th>
-                            <th width="15%">Địa chỉ</th>
-                            <th width="10%" class="text-center">Loại gian hàng</th>
-                            <th width="8%" class="text-center">Online</th>
-                            <th width="8%" class="text-center">Ngày tạo</th>
-                            <th width="15%" class="text-center">Thao tác</th>
+                            <th width="30%">Thông tin shop</th>
+                            <th width="20%">Địa chỉ</th>
+                            <th width="15%">Loại gian hàng</th>
+                            <th width="8%" class="text-center text-middle">Online</th>
+                            <th width="8%" class="text-center text-middle">Ngày tạo</th>
+                            <th width="10%" class="text-center text-middle">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,9 +69,9 @@
                                     <input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->shop_id}}">
                                 </td>
                                 <td>
-                                    [<b>{{ $item->shop_id }}</b>] {{ $item->user_shop }}
+                                    [<b>{{ $item->shop_id }}</b>] <a href="{{Url::route('shop.home',array('shop_id'=>$item->shop_id,'shop_name'=>$item->shop_name))}}" title="xem trang shop nay" target="_blank">{{ $item->user_shop }}</a>
                                     @if($item->shop_name != '')
-                                        <br/>{{ $item->shop_name }}
+                                        <br/><b>{{ $item->shop_name }}</b>
                                     @endif
                                     @if($item->user_shop != '')
                                         <br/>{{ $item->shop_phone }}
@@ -81,14 +81,14 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->shop_address }}</td>
-                                <td class="text-center">
+                                <td>
                                     @if(isset($arrIsShop[$item->is_shop])){{ $arrIsShop[$item->is_shop] }}@else --- @endif
                                     @if($item->is_shop != CGlobal::SHOP_VIP)
                                         <br/>Limit up:{{ $item->number_limit_product }}
                                         <br/>∑ up:{{ $item->total_product_up }}
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center text-middle">
                                     @if($item->is_login == CGlobal::SHOP_ONLINE)
                                         <i class="fa fa-smile-o fa-2x green"></i>
                                         <br/>{{date('H:i:s d-m-Y',$item->shop_time_login)}}
@@ -97,7 +97,7 @@
                                         <br/>{{date('H:i:s d-m-Y',$item->shop_time_logout)}}
                                     @endif
                                 </td>
-                                <td class="text-center">{{date('H:i:s d-m-Y',$item->shop_created)}}</td>
+                                <td class="text-center text-middle">{{date('H:i:s d-m-Y',$item->shop_created)}}</td>
 
                                 <td class="text-center text-middle">
                                     @if($item->shop_status == 1)

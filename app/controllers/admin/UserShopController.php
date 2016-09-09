@@ -155,10 +155,6 @@ class UserShopController extends BaseAdminController
             $userShop = UserShop::find($shop_id);
             if($userShop){
                 Session::put('user_shop', $userShop, 60*24);
-                //cập nhật login
-                $dataUpdate['is_login'] = CGlobal::SHOP_ONLINE;
-                $dataUpdate['shop_time_login'] = time();
-                UserShop::updateData($userShop->shop_id,$dataUpdate);
                 return Redirect::route('shop.adminShop');
             }
         }
@@ -186,9 +182,19 @@ class UserShopController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($result);
         }
-        $id = (int)Request::get('id', 0);
-        if ($id > 0 && UserShop::deleteData($id)) {
-            $result['isIntOk'] = 1;
+        $shop_id = (int)Request::get('id', 0);
+        if ($shop_id > 0 && UserShop::deleteData($shop_id)) {
+            //xóa các sản phẩm của shop nay
+            $deleteProduct = false;
+            $array_product = Product::getListProductOfShopId($shop_id,array('product_id','user_shop_id'));
+            if($array_product && sizeof($array_product) > 0){
+                foreach($array_product as $product){
+                    if(Product::deleteData($product->product_id)){
+                        $deleteProduct = true;
+                    }
+                }
+            }
+            $result['isIntOk'] = ($deleteProduct)? 1: 0;
         }
         return Response::json($result);
     }
