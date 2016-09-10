@@ -5,7 +5,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{URL::route('admin.dashboard')}}">Home</a>
             </li>
-            <li class="active">Quản lý tin tức</li>
+            <li class="active">Quản lý banner quảng cáo</li>
         </ul><!-- /.breadcrumb -->
     </div>
 
@@ -42,43 +42,59 @@
                     </div>
                     {{ Form::close() }}
                 </div>
-                @if(sizeof($data) > 0)
+                @if($data && sizeof($data) > 0)
                     <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> item @endif </div>
                     <br>
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
-                            <th width="5%" class="text-center">Ảnh</th>
-                            <th width="60%">Tên bài viết</th>
-                            <th width="15%" class="text-center">Trạng thái</th>
-                            <th width="15%" class="text-center">Thao tác</th>
+                            <th width="10%" class="text-center">Ảnh</th>
+                            <th width="30%">Tên banner</th>
+                            <th width="20%">Thông tin banner</th>
+                            <th width="10%" class="text-center">Ngày chạy</th>
+                            <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center">{{ $stt + $key+1 }}</td>
-                                <td class="text-center"><img src="{{$item['url_image']}}"></td>
+                                <td class="text-center"><img src="{{$item->banner_id}}"></td>
                                 <td>
-                                    [<b>{{ $item['banner_id'] }}</b>] {{ $item['banner_name'] }}
+                                    [<b>{{ $item->banner_id }}</b>] {{ $item->banner_name }}
+                                </td>
+                                <td>
+                                    <b>Loại: </b>@if(isset($arrTypeBanner[$item->banner_type])){{$arrTypeBanner[$item->banner_type]}}@else ---- @endif
+                                    <br/><b>Page: </b>@if(isset($arrPage[$item->banner_page])){{$arrPage[$item->banner_page]}}@else ---- @endif
+                                    <br/><b>Shop: </b>@if(isset($arrIsShop[$item->banner_is_shop])){{$arrIsShop[$item->banner_is_shop]}}@else ---- @endif
+                                    <br/><b>Danh mục: </b>{{$item->banner_category_id}}
+
+                                    <br/>@if($item->banner_is_rel == 1)Follow @else Nofollow @endif
                                 </td>
                                 <td class="text-center">
-                                    @if($item['banner_status'] == CGlobal::status_show)
+                                    @if($item->banner_is_run_time == CGlobal::BANNER_IS_RUN_TIME)
+                                        S:{{date('d-m-Y h:i:s',$item->banner_start_time)}}
+                                        <br/>E:{{date('d-m-Y h:i:s',$item->banner_end_time)}}
+                                    @else
+                                        Không giới hạn ngày chạy
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($item->banner_status  == CGlobal::status_show)
                                         <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
                                     @else
                                         <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
-                                </td>
-                                <td class="text-center">
+
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.banner_edit',array('id' => $item['banner_id']))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                        <a href="{{URL::route('admin.banner_edit',array('id' => $item->banner_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 1)
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['banner_id']}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->banner_id}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
-                                    <span class="img_loading" id="img_loading_{{$item['banner_id']}}"></span>
+                                    <span class="img_loading" id="img_loading_{{$item->banner_id}}"></span>
                                 </td>
                             </tr>
                         @endforeach

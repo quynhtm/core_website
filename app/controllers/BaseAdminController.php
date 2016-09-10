@@ -9,6 +9,7 @@ class BaseAdminController extends BaseController
     public function __construct()
     {
         if (!User::isLogin()) {
+
             Redirect::route('admin.login',array('url'=>self::buildUrlEncode(URL::current())))->send();
         }
 

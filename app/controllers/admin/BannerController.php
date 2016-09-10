@@ -12,17 +12,33 @@ class BannerController extends BaseAdminController
     private $permission_create = 'banner_create';
     private $permission_edit = 'banner_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+
+    private $arrTarget = array(-1 => '--Chọn target link--', CGlobal::BANNER_NOT_TARGET_BLANK => 'Link trên site', CGlobal::BANNER_TARGET_BLANK => 'Mở tab mới');
+    private $arrRunTime = array(-1 => '--Chọn thời gian chạy--', CGlobal::BANNER_NOT_RUN_TIME => 'Chạy mãi mãi', CGlobal::BANNER_IS_RUN_TIME => 'Chạy theo thời gian');
+    private $arrIsShop = array(-1 => '--Tất cả--', CGlobal::BANNER_NOT_SHOP => 'Banner của site', CGlobal::BANNER_IS_SHOP => 'Banner của shop');
+    private $arrRel = array(CGlobal::LINK_NOFOLLOW => 'Nofollow', CGlobal::LINK_FOLLOW => 'Follow');
+
+    private $arrTypeBanner = array(-1 => '---Chọn loại Banner--',
+        CGlobal::BANNER_TYPE_HOME_BIG => 'Banner home slider to',
+        CGlobal::BANNER_TYPE_HOME_RIGHT_1 => 'Banner home phải slider 1',
+        CGlobal::BANNER_TYPE_HOME_RIGHT_2 => 'Banner home phải slider 2',
+        CGlobal::BANNER_TYPE_HOME_SMALL => 'Banner home nhỏ',
+        CGlobal::BANNER_TYPE_HOME_LEFT => 'Banner trái-phải',
+        CGlobal::BANNER_TYPE_HOME_LIST => 'Banner trang list');
+
+    private $arrPage = array(-1 => '--Chọn page--',
+        CGlobal::BANNER_PAGE_HOME => 'Page trang chủ',
+        CGlobal::BANNER_PAGE_LIST => 'Page danh sách',
+        CGlobal::BANNER_PAGE_DETAIL=> 'Page chi tiết',
+        CGlobal::BANNER_PAGE_CATEGORY => 'Page danh mục');
+
     private $error = array();
-    private $arrCategoryNew = array();
-    private $arrTypeNew = array();
+    private $arrCategoryParent = array();
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->arrCategoryNew = CGlobal::$arrCategoryNew;
-        $this->arrTypeNew = CGlobal::$arrTypeNew;
-
+        $this->arrCategoryParent = Category::getAllParentCategoryId();;
         //Include style.
         FunctionLib::link_css(array(
             'lib/upload/cssUpload.css',
@@ -33,7 +49,7 @@ class BannerController extends BaseAdminController
             'lib/upload/jquery.uploadfile.js',
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
-            'lib/dragsort/jquery.dragsort.js',
+            //'lib/dragsort/jquery.dragsort.js',
             'js/common.js',
         ));
     }
@@ -56,16 +72,6 @@ class BannerController extends BaseAdminController
         $dataSearch = Banner::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
 
-        if(!empty($dataSearch)){
-            foreach($dataSearch as $k=> $val){
-                $url_image = ($val->banner_image != '')?ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $val->banner_id, $val->banner_image, CGlobal::sizeImage_100):'';
-                $data[] = array('banner_id'=>$val->banner_id,
-                    'banner_name'=>$val->banner_name,
-                    'banner_status'=>$val->banner_status,
-                    'url_image'=>$url_image,
-                );
-            }
-        }
         //FunctionLib::debug($dataSearch);
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['banner_status']);
         $this->layout->content = View::make('admin.Banner.view')
@@ -73,10 +79,13 @@ class BannerController extends BaseAdminController
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
             ->with('sizeShow', count($data))
-            ->with('data', $data)
+            ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
             ->with('arrStatus', $this->arrStatus)
+            ->with('arrTypeBanner', $this->arrTypeBanner)
+            ->with('arrPage', $this->arrPage)
+            ->with('arrIsShop', $this->arrIsShop)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
@@ -93,16 +102,32 @@ class BannerController extends BaseAdminController
         $arrViewImgOther = array();
         $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
-            $data = Banner::getBannerByID($id);
-            if(sizeof($data) > 0){
-                //ảnh sản phẩm chính
-               $imageOrigin = $data->banner_image;
-               $urlImageOrigin = ThumbImg::thumbBaseNormal(CGlobal::FOLDER_BANNER, $data->banner_id, $data->banner_image,CGlobal::sizeImage_200);
-            }
+            $banner = Banner::getBannerByID($id);
+            $data = array('banner_id'=>$banner->banner_id,
+                'banner_name'=>$banner->banner_name,
+                'banner_image'=>$banner->banner_image,
+                'banner_link'=>$banner->banner_link,
+                'banner_order'=>$banner->banner_order,
+                'banner_is_target'=>$banner->banner_is_target,
+                'banner_is_rel'=>$banner->banner_is_rel,
+                'banner_type'=>$banner->banner_type,
+                'banner_page'=>$banner->banner_page,
+                'banner_category_id'=>$banner->banner_category_id,
+                'banner_is_run_time'=>$banner->banner_is_run_time,
+                'banner_start_time'=>$banner->banner_start_time,
+                'banner_end_time'=>$banner->banner_end_time,
+                'banner_is_shop'=>$banner->banner_is_shop,
+                'banner_shop_id'=>$banner->banner_shop_id,
+                'banner_status'=>$banner->banner_status);
         }
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status'] : CGlobal::status_show);
-        $optionCategory = FunctionLib::getOption($this->arrCategoryNew, isset($data['banner_category_id'])? $data['banner_category_id'] : 0);
-        $optionType = FunctionLib::getOption($this->arrTypeNew, isset($data['banner_type'])? $data['banner_type'] : 0);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::STASTUS_HIDE);
+        $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
+        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['banner_is_shop'])? $data['banner_is_shop']: CGlobal::BANNER_NOT_SHOP);
+        $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);
+        $optionPage = FunctionLib::getOption($this->arrPage, isset($data['banner_page'])? $data['banner_page']: -1);
+        $optionTarget = FunctionLib::getOption($this->arrTarget, isset($data['banner_is_target'])? $data['banner_is_target']: CGlobal::BANNER_TARGET_BLANK);
+        $optionCategory = FunctionLib::getOption(array(0=>'Chọn danh mục quảng cáo')+$this->arrCategoryParent, isset($data['banner_category_id'])? $data['banner_category_id']: 0);
+        $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
 
         $this->layout->content = View::make('admin.Banner.add')
             ->with('id', $id)
@@ -112,7 +137,12 @@ class BannerController extends BaseAdminController
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('optionStatus', $optionStatus)
             ->with('optionCategory', $optionCategory)
-            ->with('optionType', $optionType)
+            ->with('optionRunTime', $optionRunTime)
+            ->with('optionIsShop', $optionIsShop)
+            ->with('optionTypeBanner', $optionTypeBanner)
+            ->with('optionTarget', $optionTarget)
+            ->with('optionRel', $optionRel)
+            ->with('optionPage', $optionPage)
             ->with('arrStatus', $this->arrStatus);
     }
     public function postBanner($id=0) {
