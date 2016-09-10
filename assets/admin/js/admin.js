@@ -30,9 +30,9 @@ var Admin = {
             $('#img_loading_'+id).show();
             if(type == 1){ //cap nhat danh muc
                var url_ajax = WEB_ROOT + '/admin/category/updateStatusCategory';
-            }else if(type == 2){//user shop
+            }/*else if(type == 2){//user shop
                 var url_ajax = WEB_ROOT + '/admin/userShop/updateStatusUserShop';
-            }
+            }*/
 
             $.ajax({
                 type: "post",
@@ -125,10 +125,41 @@ var Admin = {
         $("#sys_mulitplefileuploader").uploadFile(settings);
     },
     changeIsShop: function(is_shop, shop_id){
-        if(is_shop == 1 || is_shop == 2){
-            $('#block_time_vip').hide();
-        }else{
-            $('#block_time_vip').show();
+        if(is_shop > 0){
+            $('#img_loading').show();
+            $.ajax({
+                type: "post",
+                url: WEB_ROOT + '/admin/userShop/setIsShop',
+                data: {shop_id : shop_id, is_shop:is_shop},
+                dataType: 'json',
+                success: function(res) {
+                    $('#img_loading').hide();
+                    if(res.isIntOk == 1){
+                        alert('Bạn đã thực hiện thành công');
+                    }else{
+                        alert('Không thể thực hiện được thao tác.');
+                    }
+                }
+            });
+        }
+    },
+    changeStatusShop: function(shop_status, shop_id){
+        if(shop_id > 0){
+            $('#img_loading').show();
+            $.ajax({
+                type: "post",
+                url: WEB_ROOT + '/admin/userShop/updateStatusUserShop',
+                data: {shop_id : shop_id, shop_status:shop_status},
+                dataType: 'json',
+                success: function(res) {
+                    $('#img_loading').hide();
+                    if(res.isIntOk == 1){
+                        alert('Bạn đã thực hiện thành công');
+                    }else{
+                        alert('Không thể thực hiện được thao tác.');
+                    }
+                }
+            });
         }
     }
 }

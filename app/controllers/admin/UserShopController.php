@@ -188,8 +188,7 @@ class UserShopController extends BaseAdminController
     }
 
     //ajax
-    public function deleteUserShop()
-    {
+    public function deleteUserShop(){
         $result = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($result);
@@ -212,19 +211,76 @@ class UserShopController extends BaseAdminController
     }
 
     //ajax
-    public function updateStatusUserShop()
-    {
-        $id = (int)Request::get('id', 0);
-        $shop_status = (int)Request::get('status', CGlobal::status_hide);
+    public function setIsShop(){
+        $shop_id = (int)Request::get('shop_id', 0);
+        $is_shop = (int)Request::get('is_shop', CGlobal::SHOP_FREE);
         $result = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)){
             return Response::json($result);
         }
-
-        if ($id > 0) {
-            $dataSave['shop_status'] = ($shop_status == CGlobal::status_hide)? CGlobal::status_show : CGlobal::status_hide;
-            if(UserShop::updateData($id, $dataSave)) {
-                $result['isIntOk'] = 1;
+        if ($shop_id > 0) {
+            $dataSave['is_shop'] = $is_shop;
+            if($is_shop == CGlobal::SHOP_VIP){
+                $dataSave['time_start_vip'] = time();
+                $dataSave['time_end_vip'] =  mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1);
+            }else{
+                $dataSave['time_start_vip'] = 0;
+                $dataSave['time_end_vip'] = 0;
+            }
+            if(UserShop::updateData($shop_id, $dataSave)) {
+                //cap nhật sản phẩm theo is_shop
+                $array_product = Product::getListProductOfShopId($shop_id,array('product_id','user_shop_id'));
+                $updateProduct = false;
+                if($array_product && sizeof($array_product) > 0){
+                    $inforShop = UserShop::getByID($shop_id);
+                    if($inforShop){
+                        $arryUpdatePro = array(
+                            'user_shop_id'=>$inforShop->shop_id,
+                            'is_shop'=>$is_shop,
+                            'user_shop_name'=>$inforShop->shop_name,
+                            'shop_province'=>$inforShop->shop_province,);
+                        foreach($array_product as $product){
+                            if(Product::updateData($product->product_id,$arryUpdatePro)){
+                                $updateProduct = true;
+                            }
+                        }
+                    }
+                }
+                $result['isIntOk'] = ($updateProduct)? 1: 0;
+            }
+        }
+        return Response::json($result);
+    }
+    //ajax
+    public function updateStatusUserShop(){
+        $shop_id = (int)Request::get('shop_id', 0);
+        $shop_status = (int)Request::get('shop_status', CGlobal::SHOP_FREE);
+        $result = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)){
+            return Response::json($result);
+        }
+        if ($shop_id > 0) {
+            $dataSave['shop_status'] = $shop_status;
+            if(UserShop::updateData($shop_id, $dataSave)) {
+                //cap nhật sản phẩm theo trang thái của shop
+                $array_product = Product::getListProductOfShopId($shop_id,array('product_id','user_shop_id'));
+                $updateProduct = false;
+                if($array_product && sizeof($array_product) > 0){
+                    $inforShop = UserShop::getByID($shop_id);
+                    if($inforShop){
+                        $arryUpdatePro = array(
+                            'user_shop_id'=>$inforShop->shop_id,
+                            'product_status'=>$shop_status,
+                            'user_shop_name'=>$inforShop->shop_name,
+                            'shop_province'=>$inforShop->shop_province,);
+                        foreach($array_product as $product){
+                            if(Product::updateData($product->product_id,$arryUpdatePro)){
+                                $updateProduct = true;
+                            }
+                        }
+                    }
+                }
+                $result['isIntOk'] = ($updateProduct)? 1: 0;
             }
         }
         return Response::json($result);

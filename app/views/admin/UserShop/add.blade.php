@@ -67,7 +67,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="name" class="control-label">Trạng thái</label>
-                        <select name="shop_status" id="shop_status" class="form-control input-sm">
+                        <select name="shop_status" id="shop_status" class="form-control input-sm" onchange="Admin.changeStatusShop(this.value,{{$id}});">
                             {{$optionStatus}}
                         </select>
                     </div>
@@ -78,6 +78,7 @@
                         <select name="is_shop" id="is_shop" class="form-control input-sm" onchange="Admin.changeIsShop(this.value,{{$id}});">
                             {{$optionIsShop}}
                         </select>
+                        <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading">
                     </div>
                 </div>
                 <div id="block_time_vip"@if(isset($data['is_shop']) && $data['is_shop'] != CGlobal::SHOP_VIP) style="display: none"@endif>

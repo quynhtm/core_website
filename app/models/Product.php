@@ -185,7 +185,7 @@ class Product extends Eloquent
     {
         try {
             DB::connection()->getPdo()->beginTransaction();
-            $dataSave = Product::find($id);
+            $dataSave = Product::getProductByID($id);
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
                 if(isset($dataSave->product_id) && $dataSave->product_id > 0){

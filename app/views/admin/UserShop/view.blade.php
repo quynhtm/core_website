@@ -101,10 +101,10 @@
 
                                 <td class="text-center text-middle">
                                     @if($item->shop_status == 1)
-                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item->shop_id}},{{$item->shop_status}},2)"title="Hiện"><i class="fa fa-check fa-2x"></i></a>
+                                        <a href="javascript:void(0);"title="Hiện"><i class="fa fa-check fa-2x"></i></a>
                                     @endif
                                     @if($item->shop_status == 0)
-                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item->shop_id}},{{$item->shop_status}},2)"style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
+                                        <a href="javascript:void(0);"style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
                                     @if($item->shop_status == -2)
                                         <a href="javascript:void(0);" style="color: red" title="Khóa"><i class="fa fa-close fa-2x"></i></a>
