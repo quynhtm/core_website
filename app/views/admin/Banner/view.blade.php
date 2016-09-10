@@ -59,8 +59,8 @@
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
-                                <td class="text-center">{{ $stt + $key+1 }}</td>
-                                <td class="text-center"><img src="{{$item->banner_id}}"></td>
+                                <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
+                                <td class="text-center text-middle"><img src="{{$item->banner_id}}"></td>
                                 <td>
                                     [<b>{{ $item->banner_id }}</b>] {{ $item->banner_name }}
                                 </td>
@@ -72,7 +72,7 @@
 
                                     <br/>@if($item->banner_is_rel == 1)Follow @else Nofollow @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center text-middle">
                                     @if($item->banner_is_run_time == CGlobal::BANNER_IS_RUN_TIME)
                                         S:{{date('d-m-Y h:i:s',$item->banner_start_time)}}
                                         <br/>E:{{date('d-m-Y h:i:s',$item->banner_end_time)}}
@@ -80,7 +80,7 @@
                                         Không giới hạn ngày chạy
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center text-middle">
                                     @if($item->banner_status  == CGlobal::status_show)
                                         <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
                                     @else

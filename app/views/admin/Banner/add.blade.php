@@ -23,27 +23,91 @@
                     </div>
                 @endif
                 <div style="float: left;width: 60%">
-                <div class="col-sm-12">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label for="name" class="control-label">Tên banner <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
+                        <input type="text" placeholder="Tên banner" id="banner_name" name="banner_name"  class="form-control input-sm" value="@if(isset($data['banner_name'])){{$data['banner_name']}}@endif">
                     </div>
                 </div>
-                <div class="clearfix"></div>
-                <div class="col-sm-12">
+                <div class="col-sm-8">
                     <div class="form-group">
                         <label for="name" class="control-label">Link URL <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
+                        <input type="text" placeholder="url banner" id="banner_link" name="banner_link"  class="form-control input-sm" value="@if(isset($data['banner_link'])){{$data['banner_link']}}@endif">
                     </div>
                 </div>
                 <div class="clearfix"></div>
 
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="name" class="control-label">Thời gian chạy QC<span class="red"> (*) </span></label>
+                        <label for="name" class="control-label">Loại quảng cáo</label>
                         <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
+                            <select name="banner_type" id="banner_type" class="form-control input-sm">
+                                {{$optionTypeBanner}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Page quảng cáo</label>
+                        <div class="form-group">
+                            <select name="banner_page" id="banner_page" class="form-control input-sm">
+                                {{$optionPage}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Danh mục quảng cáo</label>
+                        <div class="form-group">
+                            <select name="banner_category_id" id="banner_category_id" class="form-control input-sm">
                                 {{$optionCategory}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Quảng cáo cho</label>
+                        <div class="form-group">
+                            <select name="banner_is_shop" id="banner_is_shop" class="form-control input-sm">
+                                {{$optionIsShop}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Banner của Shop</label>
+                        <div class="form-group">
+                            <select name="banner_shop_id" id="banner_shop_id" class="form-control input-sm">
+                                {{$optionShopName}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Trạng thái</label>
+                        <div class="form-group">
+                            <select name="banner_status" id="banner_status" class="form-control input-sm">
+                                {{$optionStatus}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Thời gian chạy QC </label>
+                        <div class="form-group">
+                            <select name="banner_is_run_time" id="banner_is_run_time" class="form-control input-sm">
+                                {{$optionRunTime}}
                             </select>
                         </div>
                     </div>
@@ -64,14 +128,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"></div>
 
+                <div class="clearfix"></div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="name" class="control-label">Taget bank</label>
                         <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
+                            <select name="banner_is_target" id="banner_is_target" class="form-control input-sm">
+                                {{$optionTarget}}
                             </select>
                         </div>
                     </div>
@@ -80,70 +144,17 @@
                     <div class="form-group">
                         <label for="name" class="control-label">Nofollow</label>
                         <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
+                            <select name="banner_is_rel" id="banner_is_rel" class="form-control input-sm">
+                                {{$optionRel}}
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Trạng thái</label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
 
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Loại quảng cáo</label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Page quảng cáo</label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Quảng cáo cho</label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Danh mục quảng cáo</label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="name" class="control-label">Vị trí hiển thị</label>
-                        <input type="text" placeholder="Vị trí hiển thị" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
+                        <input type="text" placeholder="Vị trí hiển thị" id="banner_order" name="banner_order"  class="form-control input-sm" value="@if(isset($data['banner_order'])){{$data['banner_order']}}@endif">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -153,7 +164,7 @@
                 <div style="float: left;width: 40%">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadImagesProduct(2);">Upload ảnh </a>
+                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(3);">Upload ảnh </a>
                             <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
                             <input name="product_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['product_image_hover'])){{$data['product_image_hover']}}@endif">
                         </div>

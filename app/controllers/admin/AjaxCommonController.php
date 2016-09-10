@@ -20,6 +20,9 @@ class AjaxCommonController extends BaseSiteController
             case 2://img Product
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_PRODUCT, $type);
                 break;
+            case 3://img banner
+                $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_BANNER, $type);
+                break;
             default:
                 break;
         }

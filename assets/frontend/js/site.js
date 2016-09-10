@@ -1,5 +1,5 @@
 $(document).ready(function($){
-	$('.province_id, .category_id').fancySelect(); //Đã sửa
+	//$('.province_id, .category_id').fancySelect(); //Đã sửa
 	SITE.change_img();
 	SITE.show_tab_category_home();
 });
@@ -13,10 +13,54 @@ SITE = {
 			jQuery(this).find('.post-thumb img').attr('data-other-src', img);
 		});
 	},
+	uploadOneImages: function(type) {
+		jQuery('#sys_PopupUploadImg').modal('show');
+		jQuery('.ajax-upload-dragdrop').remove();
+		var id_hiden = document.getElementById('id_hiden').value;
+
+		var settings = {
+			url: WEB_ROOT + '/ajax/uploadImage',
+			method: "POST",
+			allowedTypes:"jpg,png,jpeg",
+			fileName: "multipleFile",
+			formData: {id: id_hiden,type: type},
+			multiple: false,//up 1 anh
+			onSubmit:function(){
+				jQuery( "#sys_show_button_upload").hide();
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
+			},
+			onSuccess:function(files,xhr,data){
+				dataResult = JSON.parse(xhr);
+				if(dataResult.intIsOK === 1){
+					//gan lai id item cho id hiden: dung cho them moi, sua item
+					jQuery('#id_hiden').val(dataResult.id_item);
+					jQuery( "#sys_show_button_upload").show();
+
+					var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='SITE.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\")' >Xóa ảnh</a>";
+					var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
+					html += "<div class='block_img_upload' >";
+					html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
+					html += "<input type='hidden' id='img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
+					html += delete_img;
+					html +="</div></li>";
+					jQuery('#sys_drag_sort').append(html);
+
+					//thanh cong
+					jQuery("#status").html("<font color='green'>Upload is success</font>");
+					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
+					setTimeout( "jQuery('#status').hide();",1000 );
+					setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
+				}
+			},
+			onError: function(files,status,errMsg){
+				jQuery("#status").html("<font color='red'>Upload is Failed</font>");
+			}
+		}
+		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
+	},
 	uploadImagesProduct: function(type) {
 		jQuery('#sys_PopupUploadImg').modal('show');
 		jQuery('.ajax-upload-dragdrop').remove();
-		var urlAjaxUpload = WEB_ROOT+'';
 		var id_hiden = document.getElementById('id_hiden').value;
 
 		var settings = {
@@ -51,8 +95,6 @@ SITE = {
 					html += delete_img;
 					html +="</div></li>";
 					jQuery('#sys_drag_sort').append(html);
-					//jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
-					Common.getInsertImageContent(type);
 
 					//thanh cong
 					jQuery("#status").html("<font color='green'>Upload is success</font>");
