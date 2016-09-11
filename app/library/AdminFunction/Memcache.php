@@ -33,6 +33,7 @@ class Memcache{
 
     //banner
     const CACHE_BANNER_ID    = 'cache_banner_id_';
+    const CACHE_BANNER_ADVANCED    = 'cache_banner_advanced';
 
     //Tinh thành
     const CACHE_ALL_PROVINCE = 'cache_all_province';

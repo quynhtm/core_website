@@ -122,7 +122,7 @@ class BannerController extends BaseAdminController
                 'banner_shop_id'=>$banner->banner_shop_id,
                 'banner_status'=>$banner->banner_status);
         }
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::STASTUS_HIDE);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::status_show);
         $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
         $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['banner_is_shop'])? $data['banner_is_shop']: CGlobal::BANNER_NOT_SHOP);
         $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);

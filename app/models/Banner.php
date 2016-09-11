@@ -16,6 +16,29 @@ class Banner extends Eloquent
         'banner_category_id', 'banner_status', 'banner_is_run_time','banner_start_time','banner_end_time',
         'banner_time_click', 'banner_is_shop', 'banner_shop_id', 'banner_update_time', 'banner_create_time');
 
+    public static function getBannerAdvanced($banner_type = 0, $banner_page = 0, $banner_category_id = 0, $banner_shop_id = 0){
+        $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$banner_type.'_'.$banner_page.'_'.$banner_category_id.'_'.$banner_shop_id;
+        $bannerAdvanced = (Memcache::CACHE_ON)? Cache::get($key_cache) : array();
+        if (sizeof($bannerAdvanced) == 0) {
+            $banner = Category::where('banner_id' ,'>', 0)
+                ->where('banner_status',CGlobal::status_show)
+                ->where('banner_type',$banner_type)
+                ->where('banner_page',$banner_page)
+                ->where('banner_category_id',$banner_category_id)
+                ->where('banner_shop_id',$banner_shop_id)
+                ->orderBy('banner_order','asc')->get();
+            if($banner){
+                foreach($banner as $itm) {
+                    $bannerAdvanced[$itm['banner_id']] = $itm;
+                }
+            }
+            if($bannerAdvanced && Memcache::CACHE_ON){
+                Cache::put($key_cache, $bannerAdvanced, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+            }
+        }
+        return $bannerAdvanced;
+    }
+
     public static function getBannerByID($id) {
         $new = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_BANNER_ID.$id) : array();
         if (sizeof($new) == 0) {
@@ -126,6 +149,19 @@ class Banner extends Eloquent
             $dataSave = Banner::find($id);
             $dataSave->delete();
             if(isset($dataSave->banner_id) && $dataSave->banner_id > 0){
+                if($dataSave->banner_image != ''){//xoa anh c?
+                    //xoa anh upload
+                    FunctionLib::deleteFileUpload($dataSave->banner_image,$dataSave->banner_id,CGlobal::FOLDER_BANNER);
+                    //xóa anh thumb
+                    $arrSizeThumb = CGlobal::$arrBannerSizeImage;
+                    foreach($arrSizeThumb as $k=>$size){
+                        $sizeThumb = $size['w'].'x'.$size['h'];
+                        FunctionLib::deleteFileThumb($dataSave->banner_image,$dataSave->banner_id,CGlobal::FOLDER_BANNER,$sizeThumb);
+                    }
+                }
+                //xóa cache banner show
+                $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$dataSave->banner_type.'_'.$dataSave->banner_page.'_'.$dataSave->banner_category_id.'_'.$dataSave->banner_shop_id;
+                Cache::forget($key_cache);
                 self::removeCache($dataSave->banner_id);
             }
             DB::connection()->getPdo()->commit();
