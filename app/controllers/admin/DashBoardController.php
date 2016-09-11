@@ -7,7 +7,7 @@
  */
 
 class DashBoardController extends BaseAdminController{
-
+    private $error = array();
     public function __construct()
     {
         parent::__construct();
@@ -15,7 +15,11 @@ class DashBoardController extends BaseAdminController{
 
     public function dashboard()
     {
-        $this->layout->content = View::make('admin.DashBoard.index');
+        $error = Request::get('error',0);
+        if($error == 1){
+            $this->error[] = 'Bạn không có quyền truy cập.';
+        }
+        $this->layout->content = View::make('admin.DashBoard.index')->with('error',$this->error);
     }
 
 }

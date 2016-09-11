@@ -10,10 +10,16 @@ class ShopController extends BaseShopController
     {
         parent::__construct();
     }
+    /*
+     * Trang shopAdmin
+     */
     public function shopAdmin(){
-        $dataShow = array();
+        $error = Request::get('error',0);
+        if($error == 1){
+            $this->error[] = 'Shop Vip mới có chức năng này.';
+        }
         $this->layout->content = View::make('site.ShopLayouts.ShopHome')
-            ->with('data',$dataShow)
+            ->with('error',$this->error)
             ->with('user', $this->user_shop);
     }
 

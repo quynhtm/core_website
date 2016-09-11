@@ -41,7 +41,7 @@ class NewsController extends BaseAdminController
     public function view() {
         //Check phan quyen.
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
@@ -87,7 +87,7 @@ class NewsController extends BaseAdminController
 
     public function getNews($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
         $arrViewImgOther = array();
@@ -127,7 +127,7 @@ class NewsController extends BaseAdminController
     }
     public function postNews($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $dataSave['news_title'] = addslashes(Request::get('news_title'));
         $dataSave['news_desc_sort'] = addslashes(Request::get('news_desc_sort'));
@@ -178,8 +178,7 @@ class NewsController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function deleteNews()
-    {
+    public function deleteNews(){
         $data = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($data);

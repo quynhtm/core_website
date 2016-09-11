@@ -31,7 +31,7 @@ class ProductController extends BaseAdminController
     public function view() {
         //Check phan quyen.
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
@@ -76,7 +76,7 @@ class ProductController extends BaseAdminController
 
     public function getProduct($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
         if($id > 0) {
@@ -96,7 +96,7 @@ class ProductController extends BaseAdminController
 
     public function postProduct($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $dataSave['category_name'] = addslashes(Request::get('category_name'));
@@ -141,8 +141,7 @@ class ProductController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function deleteItem()
-    {
+    public function deleteItem(){
         $data = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($data);

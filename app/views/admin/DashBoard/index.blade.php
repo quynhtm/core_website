@@ -14,7 +14,13 @@
                 <div class="box-header">
                     <h3 class="box-title" style="text-align: center;">Quản lý CMS của {{CGlobal::web_name}} </h3>
                 </div>
-
+                @if(isset($error) && !empty($error))
+                    <div class="alert alert-danger" role="alert">
+                        @foreach($error as $itmError)
+                            <p><b>{{ $itmError }}</b></p>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="box-body" style="margin-top: 50px">
                     @if($is_root || in_array('user_view',$aryPermission))
                     <div class="col-sm-6 col-md-3">
@@ -86,6 +92,16 @@
                             <div class="thumbnail text-center">
                                 <i class="fa fa-globe fa-5x"></i><br/>
                                 <span>Quảng cáo</span>
+                            </div>
+                        </a>
+                    </div>
+                    @endif
+                    @if($is_root || in_array('banner_view',$aryPermission))
+                    <div class="col-sm-6 col-md-3">
+                        <a class="quick-btn a_control" href="{{URL::route('admin.provider_list')}}">
+                            <div class="thumbnail text-center">
+                                <i class="fa fa-briefcase fa-5x"></i><br/>
+                                <span>Nhà cung cấp của Shop</span>
                             </div>
                         </a>
                     </div>

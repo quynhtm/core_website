@@ -23,7 +23,7 @@ class ProviderController extends BaseAdminController
     public function view() {
         //Check phan quyen.
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $pageNo = (int) Request::get('page_no',1);
@@ -64,7 +64,7 @@ class ProviderController extends BaseAdminController
 
     public function getUserShop($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
         if($id > 0) {
@@ -95,7 +95,7 @@ class ProviderController extends BaseAdminController
 
     public function postUserShop($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $dataSave['provider_name'] = addslashes(Request::get('provider_name'));
         $dataSave['provider_phone'] = addslashes(Request::get('provider_phone'));

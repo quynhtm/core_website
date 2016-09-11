@@ -23,7 +23,7 @@ class UserController extends BaseAdminController
         CGlobal::$pageAdminTitle  = "Quản trị User | Admin CMS";
         //check permission
         if (!$this->is_root && !in_array($this->permission_view, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $page_no = Request::get('page_no', 1);
         $dataSearch['user_status'] = Request::get('user_status', 0);
@@ -57,7 +57,7 @@ class UserController extends BaseAdminController
     public function createInfo(){
         CGlobal::$pageAdminTitle = "Tạo mới User | Admin CMS";
         if (!$this->is_root && !in_array($this->permission_create, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $arrGroupUser = GroupUser::getListGroupUser();
         $this->layout->content = View::make('admin.User.create')
@@ -68,7 +68,7 @@ class UserController extends BaseAdminController
         CGlobal::$pageAdminTitle = "Tạo mới User | Admin CMS";
         //check permission
         if(!$this->is_root && !in_array($this->permission_create, $this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $error = array();
         $data['user_name'] = htmlspecialchars(trim(Request::get('user_name', '')));
@@ -122,7 +122,7 @@ class UserController extends BaseAdminController
         CGlobal::$pageAdminTitle = "Sửa nhóm User | Admin Seo";
 //        //check permission
         if (!$this->is_root && !in_array($this->permission_edit, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $data = User::getUserById($id);
@@ -137,7 +137,7 @@ class UserController extends BaseAdminController
     public function edit($id){
         //check permission
         if (!$this->is_root && !in_array($this->permission_edit, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $error = array();
@@ -185,7 +185,7 @@ class UserController extends BaseAdminController
         $id = base64_decode($ids);
         $user = User::user_login();
         if (!$this->is_root && !in_array($this->permission_change_pass, $this->permission) && (int)$id !== (int)$user['user_id']) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $this->layout->content = View::make('admin.User.change')
             ->with('id', $id)
@@ -199,7 +199,7 @@ class UserController extends BaseAdminController
         $user = User::user_login();
         //check permission
         if (!$this->is_root && !in_array($this->permission_change_pass, $this->permission) && (int)$id !== (int)$user['user_id']) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $error = array();

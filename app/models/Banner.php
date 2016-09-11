@@ -9,6 +9,8 @@ class Banner extends Eloquent
     protected $primaryKey = 'banner_id';
     public $timestamps = false;
 
+
+
     //cac truong trong DB
     protected $fillable = array('banner_id','banner_name', 'banner_link',
         'banner_image', 'banner_image_temp', 'banner_order','banner_total_click',

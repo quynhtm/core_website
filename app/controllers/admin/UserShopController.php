@@ -41,7 +41,7 @@ class UserShopController extends BaseAdminController
     public function view() {
         //Check phan quyen.
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         UserShop::updateShopLogout();//cap nhat shop login mà chưa logout
 
@@ -82,7 +82,7 @@ class UserShopController extends BaseAdminController
 
     public function getUserShop($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
         if($id > 0) {
@@ -118,7 +118,7 @@ class UserShopController extends BaseAdminController
 
     public function postUserShop($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $dataSave['shop_name'] = addslashes(Request::get('shop_name'));
@@ -161,7 +161,7 @@ class UserShopController extends BaseAdminController
 
     public function loginToShop($shop_id=0) {
         if(!$this->is_root){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         if($shop_id > 0){
             $userShop = UserShop::find($shop_id);

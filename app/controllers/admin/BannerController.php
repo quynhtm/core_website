@@ -12,7 +12,6 @@ class BannerController extends BaseAdminController
     private $permission_create = 'banner_create';
     private $permission_edit = 'banner_edit';
     private $arrStatus = array(-1 => '--Chọn trạng thái--', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
-
     private $arrTarget = array(-1 => '--Chọn target link--', CGlobal::BANNER_NOT_TARGET_BLANK => 'Link trên site', CGlobal::BANNER_TARGET_BLANK => 'Mở tab mới');
     private $arrRunTime = array(-1 => '--Chọn thời gian chạy--', CGlobal::BANNER_NOT_RUN_TIME => 'Chạy mãi mãi', CGlobal::BANNER_IS_RUN_TIME => 'Chạy theo thời gian');
     private $arrIsShop = array(-1 => '--Tất cả--', CGlobal::BANNER_NOT_SHOP => 'Banner của site', CGlobal::BANNER_IS_SHOP => 'Banner của shop');
@@ -59,7 +58,7 @@ class BannerController extends BaseAdminController
     public function view() {
         //Check phan quyen.
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
@@ -98,7 +97,7 @@ class BannerController extends BaseAdminController
 
     public function getBanner($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
         $arrViewImgOther = array();
@@ -151,7 +150,7 @@ class BannerController extends BaseAdminController
     }
     public function postBanner($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $data['banner_name'] = addslashes(Request::get('banner_name'));
@@ -220,7 +219,6 @@ class BannerController extends BaseAdminController
         }
         return Response::json($data);
     }
-
     private function valid($data=array()) {
         if(!empty($data)) {
             if(isset($data['category_name']) && $data['category_name'] == '') {
@@ -233,5 +231,4 @@ class BannerController extends BaseAdminController
         }
         return false;
     }
-
 }

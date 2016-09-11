@@ -17,7 +17,7 @@ class GroupUserController extends BaseAdminController
     {
         //check permission
         if (!in_array($this->permission_view, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $page_no = Request::get('page_no', 1);//phan trang
@@ -75,7 +75,7 @@ class GroupUserController extends BaseAdminController
     {
 //        CGlobal::$pageTitle = "Tạo nhóm User | Admin Seo";
         if (!in_array($this->permission_create, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         // Show the page
         $listPermission = Permission::getListPermission();
@@ -89,7 +89,7 @@ class GroupUserController extends BaseAdminController
     {
         //check permission
         if (!in_array($this->permission_create, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $error = array();
@@ -142,7 +142,7 @@ class GroupUserController extends BaseAdminController
     {
 //        CGlobal::$pageTitle = "Sửa nhóm User | Admin Seo";
         if (!in_array($this->permission_edit, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
         $data = GroupUser::find($id);//lay dl permission theo id
@@ -170,7 +170,7 @@ class GroupUserController extends BaseAdminController
     {
         //check permission
         if (!in_array($this->permission_edit, $this->permission)) {
-            return Redirect::route('admin.dashboard');
+            return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $error = array();
         $data['group_user_name'] = htmlspecialchars(trim(Request::get('group_user_name', '')));

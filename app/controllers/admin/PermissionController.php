@@ -19,10 +19,9 @@ class PermissionController extends BaseAdminController
         parent::__construct();
     }
 
-    public function view()
-    {
+    public function view(){
 //        if (!in_array($this->permission_view, $this->permission)) {
-//            return Redirect::route('admin.dashboard');
+//            return Redirect::route('admin.dashboard',array('error'=>1));
 //        }
 
         $dataSearch = $dataResponse = $data = array();
@@ -78,7 +77,7 @@ class PermissionController extends BaseAdminController
     {
 //        CGlobal::$pageTitle = "Tạo mới quyền | Admin Seo";
 //        if (!in_array($this->permission_create, $this->permission)) {
-//            return Redirect::route('admin.dashboard');
+//            return Redirect::route('admin.dashboard',array('error'=>1));
 //        }
         //$optionStatus = FunctionLib::getOption($this->arrStatus, 1);
         // Show the page
@@ -91,7 +90,7 @@ class PermissionController extends BaseAdminController
     {
 //        //check permission
 //        if (!in_array($this->permission_create, $this->permission)) {
-//            return Redirect::route('admin.dashboard');
+//            return Redirect::route('admin.dashboard',array('error'=>1));
 //        }
         $error = array();
         $data['permission_code'] = htmlspecialchars(trim(Request::get('permission_code', '')));
@@ -143,7 +142,7 @@ class PermissionController extends BaseAdminController
     {
 //        CGlobal::$pageTitle = "Sửa quyền | Admin Seo";
 //        if (!in_array($this->permission_edit, $this->permission)) {
-//            return Redirect::route('admin.dashboard');
+//            return Redirect::route('admin.dashboard',array('error'=>1));
 //        }
         $data = Permission::find($id);//lay dl permission theo id
 //        $groupPermission = new GroupUserPermission();
@@ -167,7 +166,7 @@ class PermissionController extends BaseAdminController
     {
         //check permission
 //        if (!in_array($this->permission_edit, $this->permission)) {
-//            return Redirect::route('admin.dashboard');
+//            return Redirect::route('admin.dashboard',array('error'=>1));
 //        }
         $error = array();
         $data['permission_code'] = htmlspecialchars(trim(Request::get('permission_code', '')));
@@ -206,9 +205,5 @@ class PermissionController extends BaseAdminController
                     ->with('arrStatus', $this->arrStatus);
             }
         }
-
-        parent::debug();
     }
-
-
 }
