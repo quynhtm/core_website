@@ -34,16 +34,12 @@ SITE = {
 				if(dataResult.intIsOK === 1){
 					//gan lai id item cho id hiden: dung cho them moi, sua item
 					jQuery('#id_hiden').val(dataResult.id_item);
+					jQuery('#image_primary').val(dataResult.info.name_img);//anh chính
 					jQuery( "#sys_show_button_upload").show();
 
-					var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='SITE.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\")' >Xóa ảnh</a>";
-					var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
-					html += "<div class='block_img_upload' >";
-					html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
-					html += "<input type='hidden' id='img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
-					html += delete_img;
-					html +="</div></li>";
-					jQuery('#sys_drag_sort').append(html);
+					var html= "";
+					html += "<img src='" + dataResult.info.src + "'/>";
+					jQuery('#block_img_upload').html(html);
 
 					//thanh cong
 					jQuery("#status").html("<font color='green'>Upload is success</font>");

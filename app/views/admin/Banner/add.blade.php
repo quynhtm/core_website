@@ -166,10 +166,19 @@
                         <div class="form-group">
                             <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(3);">Upload ảnh </a>
                             <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
-                            <input name="product_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['product_image_hover'])){{$data['product_image_hover']}}@endif">
                         </div>
                     </div>
                     <div class="clearfix"></div>
+                    <div class="col-sm-12">
+                        <!--hien thi anh-->
+                        <div id="block_img_upload">
+                            @if(isset($data['banner_image']) && $data['banner_image']!= '')
+                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $data['banner_id'], $data['banner_image'], CGlobal::sizeImage_300)}}">
+                                <div class="clearfix"></div>
+                                <a href="javascript: void(0);" onclick="Common.removeImageItem({{$data['banner_id']}},'{{$data['banner_image']}}',3);">Xóa ảnh</a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
 

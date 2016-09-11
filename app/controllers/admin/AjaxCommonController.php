@@ -6,6 +6,7 @@
  */
 class AjaxCommonController extends BaseSiteController
 {
+    private  $sizeImageShowUpload = CGlobal::sizeImage_100;
     function uploadImage() {
         $id_hiden = Request::get('id', 0);
         $type = Request::get('type', 1);
@@ -21,6 +22,7 @@ class AjaxCommonController extends BaseSiteController
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_PRODUCT, $type);
                 break;
             case 3://img banner
+                $this->sizeImageShowUpload = CGlobal::sizeImage_300;
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_BANNER, $type);
                 break;
             default:
@@ -35,6 +37,7 @@ class AjaxCommonController extends BaseSiteController
         $aryData['intIsOK'] = -1;
         $aryData['msg'] = "Upload Img!";
         $item_id = 0; // id doi tuong dang upload
+
         if (!empty($dataImg)) {
             if($id_hiden == 0){
                 switch( $type ){
@@ -55,6 +58,12 @@ class AjaxCommonController extends BaseSiteController
                             $item_id = Product::addData($new_row);
                         }
                         break;
+                    case 3://img banner
+                        $new_row['banner_create_time'] = time();
+                        $new_row['banner_status'] = CGlobal::IMAGE_ERROR;
+                        $item_id = Banner::addData($new_row);
+                        $sizeImageShowUpload = CGlobal::sizeImage_300;
+                        break;
                     default:
                         break;
                 }
@@ -72,7 +81,7 @@ class AjaxCommonController extends BaseSiteController
                 if ($file_name != '' && empty($aryError)) {
                     $tmpImg['name_img'] = $file_name;
                     $tmpImg['id_key'] = rand(10000, 99999);
-                    $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, CGlobal::sizeImage_100);
+                    $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, $this->sizeImageShowUpload);
                     $tmpImg['src'] = $url_thumb;
 
                     //cap nhat DB de quan ly cac file anh
@@ -91,6 +100,22 @@ class AjaxCommonController extends BaseSiteController
                             }
                         }
                     }
+                    if($type == 3){//anh banner
+                        $banner = Banner::getBannerByID($item_id);
+                        if($banner){
+                            if($banner->banner_image != ''){//xoa anh c?
+                                //xoa anh upload
+                                FunctionLib::deleteFileUpload($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER);
+                                //xóa anh thumb
+                                $arrSizeThumb = CGlobal::$arrBannerSizeImage;
+                                foreach($arrSizeThumb as $k=>$size){
+                                    $sizeThumb = $size['w'].'x'.$size['h'];
+                                    FunctionLib::deleteFileThumb($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER,$sizeThumb);
+                                }
+                            }
+                            Banner::updateData($item_id,array('banner_image'=>$file_name));//cap nhat anh moi
+                        }
+                    }
                 }
                 $aryData['intIsOK'] = 1;
                 $aryData['id_item'] = $item_id;
@@ -101,6 +126,39 @@ class AjaxCommonController extends BaseSiteController
         die();
     }
 
+    public function removeImageCommon(){
+        $item_id = (int)Request::get('item_id',0);
+        $type = (int)Request::get('type',1);
+        $nameImage = trim(Request::get('nameImage',''));
+
+        $aryData = array();
+        $aryData['intIsOK'] = -1;
+        if($item_id > 0 && $nameImage != ''){
+            switch( $type ){
+                case 1://img news
+                    break;
+                case 3 ://xóa ?nh banner
+                    $banner = Banner::getBannerByID($item_id);
+                    if($banner){
+                        if($banner->banner_image != '' && strcmp(trim($banner->banner_image),$nameImage) == 0){//xoa anh c?
+                            //xoa anh upload
+                            FunctionLib::deleteFileUpload($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER);
+                            //xóa anh thumb
+                            $arrSizeThumb = CGlobal::$arrBannerSizeImage;
+                            foreach($arrSizeThumb as $k=>$size){
+                                $sizeThumb = $size['w'].'x'.$size['h'];
+                                FunctionLib::deleteFileThumb($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER,$sizeThumb);
+                            }
+                            $aryData['intIsOK'] = 1;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return Response::json($aryData);
+    }
 
     function get_image_insert_content(){
         $id_hiden = FunctionLib::getIntParam('id_hiden', 0);

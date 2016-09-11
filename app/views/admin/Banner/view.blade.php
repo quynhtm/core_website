@@ -60,7 +60,9 @@
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
-                                <td class="text-center text-middle"><img src="{{$item->banner_id}}"></td>
+                                <td class="text-center text-middle">
+                                    <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_100)}}">
+                                </td>
                                 <td>
                                     [<b>{{ $item->banner_id }}</b>] {{ $item->banner_name }}
                                 </td>
@@ -88,7 +90,7 @@
                                     @endif
 
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.banner_edit',array('id' => $item->banner_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                        &nbsp;&nbsp;&nbsp; <a href="{{URL::route('admin.banner_edit',array('id' => $item->banner_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 1)
                                        &nbsp;&nbsp;&nbsp;

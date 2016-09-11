@@ -25,14 +25,23 @@ class CGlobal{
     const number_show_5 = 5;
 
     /**
-     * Dinh nghi kich thuoc anh
+     * Dinh nghi kich thuoc anh Sản phẩm
      */
     const sizeImage_80 = 80;
-    const sizeImage_100 = 100;
+    const sizeImage_100 = 100;//dung common
     const sizeImage_200 = 200;
     const sizeImage_300 = 300;
     public static $arrSizeImage = array(
         self::sizeImage_80 =>array('w'=>self::sizeImage_80,'h'=>self::sizeImage_80),
+        self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
+        self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
+        self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
+    );
+
+    /**
+     * Dinh nghi kich thuoc anh Banner
+     */
+    public static $arrBannerSizeImage = array(
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),

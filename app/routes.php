@@ -35,6 +35,7 @@ Route::group(array('prefix' => '/', 'before' => ''), function () {
  * */
 Route::group(array('prefix' => 'ajax', 'before' => ''), function () {
     Route::post('uploadImage', array('as' => 'ajax.uploadImage','uses' => 'AjaxCommonController@uploadImage'));
+    Route::post('removeImageCommon', array('as' => 'ajax.removeImageCommon','uses' => 'AjaxCommonController@removeImageCommon'));
 });
 
 /*

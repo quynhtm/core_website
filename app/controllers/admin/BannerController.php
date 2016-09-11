@@ -52,7 +52,7 @@ class BannerController extends BaseAdminController
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
             'frontend/js/site.js',
-            //'js/common.js',
+            'js/common.js',
         ));
     }
 
@@ -156,7 +156,7 @@ class BannerController extends BaseAdminController
 
         $data['banner_name'] = addslashes(Request::get('banner_name'));
         $data['banner_link'] = addslashes(Request::get('banner_link'));
-        $data['banner_image'] = addslashes(Request::get('banner_image'));
+        $data['banner_image'] = addslashes(Request::get('image_primary'));//ảnh chính
         $data['banner_order'] = addslashes(Request::get('banner_order'));
 
         $data['banner_is_target'] = (int)Request::get('banner_is_target');
