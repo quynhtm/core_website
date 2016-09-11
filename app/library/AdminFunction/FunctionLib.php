@@ -505,4 +505,29 @@ class FunctionLib {
             }
         }
     }
+     static function getBannerAdvanced($banner_type = 0, $banner_page = 0, $banner_category_id = 0, $banner_shop_id = 0){
+         $result = array();
+         $arrBanner = Banner::getBannerAdvanced($banner_type, $banner_page, $banner_category_id, $banner_shop_id);
+         if($arrBanner && sizeof($arrBanner) > 0){
+            foreach($arrBanner as $banner){
+                //banner chạy thời gian
+                if($banner->banner_is_run_time == CGlobal::BANNER_IS_RUN_TIME){
+                    $today = time();
+                    if($banner->banner_start_time < $today && $banner->banner_end_time > $today){
+                        $result[] = $banner;
+                    }
+                }
+                //banner của shop dang hoat dong
+                elseif($banner->banner_is_shop == CGlobal::BANNER_IS_SHOP && $banner->banner_shop_id > 0){
+                    $arrShopShow = UserShop::getShopAll();
+                    if(in_array($banner->banner_shop_id,array_keys($arrShopShow))){
+                        $result[] = $banner;
+                    }
+                }else{
+                    $result[] = $banner;
+                }
+            }
+         }
+         return $result;
+     }
 }

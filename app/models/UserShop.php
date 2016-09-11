@@ -29,7 +29,7 @@ class UserShop extends Eloquent
     public static function getShopAll() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
         if (sizeof($data) == 0) {
-            $shop = UserShop::where('shop_id', '>', 0)->get();
+            $shop = UserShop::where('shop_id', '>', 0)->where('shop_status', CGlobal::status_show)->get();
             foreach($shop as $itm) {
                 $data[$itm['shop_id']] = $itm['shop_name'];
             }
