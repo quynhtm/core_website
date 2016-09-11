@@ -100,8 +100,6 @@ class BannerController extends BaseAdminController
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $data = array();
-        $arrViewImgOther = array();
-        $imageOrigin = $urlImageOrigin = '';
         if($id > 0) {
             $banner = Banner::getBannerByID($id);
             $data = array('banner_id'=>$banner->banner_id,
@@ -134,9 +132,6 @@ class BannerController extends BaseAdminController
         $this->layout->content = View::make('admin.Banner.add')
             ->with('id', $id)
             ->with('data', $data)
-            ->with('imageOrigin', $imageOrigin)
-            ->with('urlImageOrigin', $urlImageOrigin)
-            ->with('arrViewImgOther', $arrViewImgOther)
             ->with('optionStatus', $optionStatus)
             ->with('optionCategory', $optionCategory)
             ->with('optionRunTime', $optionRunTime)

@@ -5,190 +5,188 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{URL::route('shop.adminShop')}}">Quản trị shop</a>
             </li>
-            <li>
-                <a href="{{URL::route('shop.listProduct')}}">Danh sách sản phẩm</a>
-            </li>
-            <li class="active">@if(isset($product_id) && $product_id > 0)Sửa sản phẩm @else Tạo mới sản phẩm @endif</li>
+            <li><a href="{{URL::route('shop.listBanner')}}"> Banner quảng cáo</a></li>
+            <li class="active">@if($id > 0)Cập nhật banner @else Tạo mới banner @endif</li>
         </ul><!-- /.breadcrumb -->
     </div>
 
-    <div class="page-content marginTop10">
-        <div class="row ">
+    <div class="page-content marginTop30">
+        <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editProduct',array('product_id'=>$product_id,'product_name'=>(isset($product_id) && $product_id > 0)?strtolower(FunctionLib::safe_title($data['product_name'])):strtolower(FunctionLib::safe_title('thêm sản phẩm')))),'files' => true))}}
-                @if(isset($error) && !empty($error))
+                {{Form::open(array('method' => 'POST','role'=>'form','files' => true))}}
+                @if(isset($error))
                     <div class="alert alert-danger" role="alert">
                         @foreach($error as $itmError)
                             <p>{{ $itmError }}</p>
                         @endforeach
                     </div>
                 @endif
-
-                <div style="float: left;width: 38%">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Tên sản phẩm <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Danh mục<span class="red"> (*) </span></label>
+                <div style="float: left;width: 60%">
+                    <div class="col-sm-4">
                         <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
+                            <label for="name" class="control-label">Tên banner <span class="red"> (*) </span></label>
+                            <input type="text" placeholder="Tên banner" id="banner_name" name="banner_name"  class="form-control input-sm" value="@if(isset($data['banner_name'])){{$data['banner_name']}}@endif">
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Thuộc nhà cung cấp</label>
+                    <div class="col-sm-8">
                         <div class="form-group">
-                            <select name="provider_id" id="provider_id" class="form-control input-sm">
-                                {{$optionStatusProduct}}
-                            </select>
+                            <label for="name" class="control-label">Link URL <span class="red"> (*) </span></label>
+                            <input type="text" placeholder="url banner" id="banner_link" name="banner_link"  class="form-control input-sm" value="@if(isset($data['banner_link'])){{$data['banner_link']}}@endif">
                         </div>
                     </div>
-                </div>
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Loại sản phẩm</label>
+                    <div class="col-sm-4">
                         <div class="form-group">
-                            <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
-                                {{$optionTypeProduct}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Kiểu hiển thị giá<span class="red"> (*) </span></label>
+                            <label for="name" class="control-label">Loại quảng cáo</label>
                             <div class="form-group">
-                                <select name="product_type_price" id="product_type_price" class="form-control input-sm">
-                                    {{$optionTypePrice}}
+                                <select name="banner_type" id="banner_type" class="form-control input-sm">
+                                    {{$optionTypeBanner}}
                                 </select>
                             </div>
                         </div>
                     </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Trạng thái Ẩn/Hiện</label>
+                    <div class="col-sm-4">
                         <div class="form-group">
-                            <select name="product_status" id="product_status" class="form-control input-sm">
-                                {{$optionStatusProduct}}
-                            </select>
+                            <label for="name" class="control-label">Page quảng cáo</label>
+                            <div class="form-group">
+                                <select name="banner_page" id="banner_page" class="form-control input-sm">
+                                    {{$optionPage}}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá bán <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Giá bán" id="product_price_sell" name="product_price_sell" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_sell'])){{$data['product_price_sell']}}@endif">
-                    </div>
-                </div>
-                <div class="clearfix"></div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Thông tin khuyến mại</label>
-                        <div class="clearfix"></div>
-                        <textarea rows="5" cols="8" name="product_selloff" class="form-control input-sm">@if(isset($data['product_selloff'])){{$data['product_selloff']}}@endif</textarea>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Danh mục quảng cáo</label>
+                            <div class="form-group">
+                                <select name="banner_category_id" id="banner_category_id" class="form-control input-sm">
+                                    {{$optionCategory}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá thị trường</label>
-                        <input type="text" placeholder="Giá thị trường" id="product_price_market" name="product_price_market" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_market'])){{$data['product_price_market']}}@endif">
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Quảng cáo cho</label>
+                            <div class="form-group">
+                                <select name="banner_is_shop" id="banner_is_shop" class="form-control input-sm">
+                                    {{$optionIsShop}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div><div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá nhập</label>
-                        <input type="text" placeholder="Giá nhập" id="product_price_input" name="product_price_input" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_input'])){{$data['product_price_input']}}@endif">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Banner của Shop</label>
+                            <div class="form-group">
+                                <select name="banner_shop_id" id="banner_shop_id" class="form-control input-sm">
+                                    {{$optionShopName}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="clearfix"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Trạng thái</label>
+                            <div class="form-group">
+                                <select name="banner_status" id="banner_status" class="form-control input-sm">
+                                    {{$optionStatus}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Thời gian chạy QC </label>
+                            <div class="form-group">
+                                <select name="banner_is_run_time" id="banner_is_run_time" class="form-control input-sm">
+                                    {{$optionRunTime}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Ngày bắt đầu</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="banner_start_time" name="banner_start_time"  data-date-format="dd-mm-yyyy" value="@if(isset($data['banner_start_time']) && $data['banner_start_time'] > 0){{date('d-m-Y',$data['banner_start_time'])}}@endif">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Ngày kết thúc</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="banner_end_time" name="banner_end_time"  data-date-format="dd-mm-yyyy" value="@if(isset($data['banner_end_time']) && $data['banner_end_time'] > 0){{date('d-m-Y',$data['banner_end_time'])}}@endif">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Taget bank</label>
+                            <div class="form-group">
+                                <select name="banner_is_target" id="banner_is_target" class="form-control input-sm">
+                                    {{$optionTarget}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Nofollow</label>
+                            <div class="form-group">
+                                <select name="banner_is_rel" id="banner_is_rel" class="form-control input-sm">
+                                    {{$optionRel}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Vị trí hiển thị</label>
+                            <input type="text" placeholder="Vị trí hiển thị" id="banner_order" name="banner_order"  class="form-control input-sm" value="@if(isset($data['banner_order'])){{$data['banner_order']}}@endif">
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
                 </div>
 
-                <div style="float: left;width: 62%">
+                <div style="float: left;width: 40%">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadImagesProduct(2);">Upload ảnh </a>
+                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(3);">Upload ảnh </a>
                             <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
-                            <input name="product_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['product_image_hover'])){{$data['product_image_hover']}}@endif">
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-sm-12">
                         <!--hien thi anh-->
-                        <ul id="sys_drag_sort" class="ul_drag_sort">
-                            @if(isset($arrViewImgOther))
-                                @foreach ($arrViewImgOther as $key => $imgNew)
-                                    <li id="sys_div_img_other_{{$key}}" style="margin: 1px!important;">
-                                        <div class='block_img_upload'>
-                                            <img src="{{$imgNew['src_img_other']}}" height='100' width='100'>
-                                            <input type="hidden" id="img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
-                                            <div class='clear'></div>
-                                            <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] ) checked="checked" @endif onclick="SITE.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
-                                            <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
-
-                                            <div class="clearfix"></div>
-                                            <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHover) && $imageHover == $imgNew['img_other'] ) checked="checked" @endif onclick="SITE.checkedImageHover('{{$imgNew['img_other']}}','{{$key}}');">
-                                            <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
-
-                                            <div class="clearfix"></div>
-                                            <a href="javascript:void(0);" onclick="SITE.removeImage({{$key}},{{$product_id}},'{{$imgNew['img_other']}}');">Xóa ảnh</a>
-                                            <span style="display: none"><b>{{$key}}</b></span>
-                                        </div>
-                                    </li>
-                                    @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] )
-                                        <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="{{$key}}">
-                                    @endif
-                                @endforeach
-                            @else
-                                <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="-1">
+                        <div id="block_img_upload">
+                            @if(isset($data['banner_image']) && $data['banner_image']!= '')
+                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $data['banner_id'], $data['banner_image'], CGlobal::sizeImage_300)}}">
+                                <div class="clearfix"></div>
+                                <a href="javascript: void(0);" onclick="Common.removeImageItem({{$data['banner_id']}},'{{$data['banner_image']}}',3);">Xóa ảnh</a>
                             @endif
-                        </ul>
-
-                        <input name="list1SortOrder" id ='list1SortOrder' type="hidden" />
-                        <script type="text/javascript">
-                            $("#sys_drag_sort").dragsort({ dragSelector: "div", dragBetween: true, dragEnd: saveOrder });
-                            function saveOrder() {
-                                var data = $("#sys_drag_sort li div span").map(function() { return $(this).children().html(); }).get();
-                                $("input[name=list1SortOrder]").val(data.join(","));
-                            };
-                        </script>
-                        <!--ket thuc hien thi anh-->
+                        </div>
                     </div>
                 </div>
 
-                <div class="clearfix"></div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Mô tả ngắn <span class="red"> (*) </span></label>
-                        <textarea class="form-control input-sm" rows="8" name="product_sort_desc" id="product_sort_desc">@if(isset($data['product_sort_desc'])){{$data['product_sort_desc']}}@endif</textarea>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span></label>
-                        <textarea class="form-control input-sm" rows="8" name="product_content" id="product_content">@if(isset($data['product_content'])){{$data['product_content']}}@endif</textarea>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
 
+                <div class="clearfix"></div>
                 <div class="form-group col-sm-12 text-left">
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
-                <input type="hidden" id="id_hiden" name="id_hiden" value="{{$product_id}}"/>
+                <input type="hidden" id="id_hiden" name="id_hiden" value="{{$id}}"/>
                 {{ Form::close() }}
                         <!-- PAGE CONTENT ENDS -->
             </div>
@@ -224,29 +222,10 @@
     </div>
 </div>
 <!--Popup upload ảnh-->
+
 <script>
-    CKEDITOR.replace(
-            'product_sort_desc',
-            {
-                toolbar: [
-                    { name: 'document',    items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
-                    { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
-                    { name: 'colors',      items : [ 'TextColor','BGColor' ] },
-                ],
-            },
-            {height:600}
-    );
-    CKEDITOR.replace('product_content', {height:600});
-</script>
-<script type="text/javascript">
-    jQuery('.formatMoney').autoNumeric('init');
-    //kéo thả ảnh
-    jQuery("#sys_drag_sort").dragsort({ dragSelector: "div", dragBetween: true, dragEnd: saveOrder });
-    function saveOrder() {
-        var data = jQuery("#sys_drag_sort li div span").map(function() { return jQuery(this).children().html(); }).get();
-        jQuery("input[name=list1SortOrder]").val(data.join(","));
-    };
-    function insertImgContent(src){
-        CKEDITOR.instances.news_content.insertHtml('<img src="'+src+'"/>');
-    }
+    $(document).ready(function(){
+        var checkin = $('#banner_start_time').datepicker({ });
+        var checkout = $('#banner_end_time').datepicker({ });
+    });
 </script>
