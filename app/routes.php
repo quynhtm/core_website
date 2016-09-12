@@ -115,7 +115,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::any('banner/view',array('as' => 'admin.banner_list','uses' => 'BannerController@view'));
     Route::get('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@getBanner'))->where('id', '[0-9]+');
     Route::post('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@postBanner'))->where('id', '[0-9]+');
-    Route::post('banner/deleteNews', array('as' => 'admin.deltete_banner_post','uses' => 'BannerController@deleteBanner'));//ajax
+    Route::post('banner/deleteBanner', array('as' => 'admin.deleteBanner','uses' => 'BannerController@deleteBanner'));//ajax
 
     /*Quan Ly Don Hang*/
     Route::get('order/view',array('as' => 'admin.order_list','uses' => 'OrderController@view'));

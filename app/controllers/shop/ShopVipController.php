@@ -8,20 +8,16 @@ class ShopVipController extends BaseShopController
     private $arrIsShop = array(-1 => '--Tất cả--', CGlobal::BANNER_NOT_SHOP => 'Banner của site', CGlobal::BANNER_IS_SHOP => 'Banner của shop');
     private $arrRel = array(CGlobal::LINK_NOFOLLOW => 'Nofollow', CGlobal::LINK_FOLLOW => 'Follow');
     private $arrTypeBanner = array(-1 => '---Chọn loại Banner--',
-        CGlobal::BANNER_TYPE_HOME_BIG => 'Banner home slider to',
-        CGlobal::BANNER_TYPE_HOME_RIGHT_1 => 'Banner home phải slider 1',
-        CGlobal::BANNER_TYPE_HOME_RIGHT_2 => 'Banner home phải slider 2',
-        CGlobal::BANNER_TYPE_HOME_SMALL => 'Banner home nhỏ',
+        CGlobal::BANNER_TYPE_HOME_BIG => 'Banner shop home ',
         CGlobal::BANNER_TYPE_HOME_LEFT => 'Banner trái-phải',
         CGlobal::BANNER_TYPE_HOME_LIST => 'Banner trang list');
 
     private $arrPage = array(-1 => '--Chọn page--',
         CGlobal::BANNER_PAGE_HOME => 'Page trang chủ',
-        CGlobal::BANNER_PAGE_LIST => 'Page danh sách',
-        CGlobal::BANNER_PAGE_DETAIL=> 'Page chi tiết',
-        CGlobal::BANNER_PAGE_CATEGORY => 'Page danh mục');
+        CGlobal::BANNER_PAGE_LIST => 'Page danh sách');
 
     private $error = array();
+    private $shop_id = 0;
     public function __construct()
     {
         parent::__construct();
@@ -29,6 +25,7 @@ class ShopVipController extends BaseShopController
         if(isset($this->user_shop->is_shop) && $this->user_shop->is_shop != CGlobal::SHOP_VIP){
             Redirect::route('shop.adminShop',array('error'=>1))->send();
         }
+        $this->shop_id = isset($this->user_shop->shop_id)?$this->user_shop->shop_id:0;
     }
 
     /**************************************************************************************************************************
@@ -59,6 +56,7 @@ class ShopVipController extends BaseShopController
 
         $search['banner_name'] = addslashes(Request::get('banner_name',''));
         $search['banner_status'] = (int)Request::get('banner_status',-1);
+        $search['banner_shop_id'] = $this->shop_id;
         //$search['field_get'] = 'category_id,news_title,news_status';//cac truong can lay
 
         $dataSearch = Banner::searchByCondition($search, $limit, $offset,$total);
@@ -79,7 +77,7 @@ class ShopVipController extends BaseShopController
             ->with('arrPage', $this->arrPage)
             ->with('arrIsShop', $this->arrIsShop);
     }
-    public function getAddBanner(){
+    public function getAddBanner($banner_id = 0){
         //Include style.
         FunctionLib::link_css(array(
             'lib/upload/cssUpload.css',
@@ -97,26 +95,20 @@ class ShopVipController extends BaseShopController
         CGlobal::$pageShopTitle = "Thêm quảng cáo | ".CGlobal::web_name;
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::status_show);
         $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
-        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['banner_is_shop'])? $data['banner_is_shop']: CGlobal::BANNER_NOT_SHOP);
         $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);
         $optionPage = FunctionLib::getOption($this->arrPage, isset($data['banner_page'])? $data['banner_page']: -1);
         $optionTarget = FunctionLib::getOption($this->arrTarget, isset($data['banner_is_target'])? $data['banner_is_target']: CGlobal::BANNER_TARGET_BLANK);
-        $optionCategory = FunctionLib::getOption(array(0=>'--- Chọn danh mục quảng cáo ---')+array(), isset($data['banner_category_id'])? $data['banner_category_id']: 0);
-        $optionShopName = FunctionLib::getOption(array(0=>'--- Chọn shop ---')+array(), isset($data['banner_shop_id'])? $data['banner_shop_id']: 0);
         $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
 
         $this->layout->content = View::make('site.ShopVip.EditBanner')
-            ->with('id', 0)
+            ->with('id', $banner_id)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
-            ->with('optionCategory', $optionCategory)
             ->with('optionRunTime', $optionRunTime)
-            ->with('optionIsShop', $optionIsShop)
             ->with('optionTypeBanner', $optionTypeBanner)
             ->with('optionTarget', $optionTarget)
             ->with('optionRel', $optionRel)
             ->with('optionPage', $optionPage)
-            ->with('optionShopName', $optionShopName)
             ->with('arrStatus', $this->arrStatus);
     }
     public function getEditBanner($banner_id = 0){
@@ -133,10 +125,10 @@ class ShopVipController extends BaseShopController
             'frontend/js/site.js',
             'js/common.js',
         ));
-
+        CGlobal::$pageShopTitle = "Sửa quảng cáo | ".CGlobal::web_name;
         $data = array();
         if($banner_id > 0) {
-            $banner = Banner::getBannerByID($banner_id);
+            $banner = Banner::getBannerShopByID($banner_id,$this->shop_id);
             $data = array('banner_id'=>$banner->banner_id,
                 'banner_name'=>$banner->banner_name,
                 'banner_image'=>$banner->banner_image,
@@ -155,27 +147,21 @@ class ShopVipController extends BaseShopController
                 'banner_status'=>$banner->banner_status);
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::status_show);
-        $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
-        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['banner_is_shop'])? $data['banner_is_shop']: CGlobal::BANNER_NOT_SHOP);
+        $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_IS_RUN_TIME);
         $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);
         $optionPage = FunctionLib::getOption($this->arrPage, isset($data['banner_page'])? $data['banner_page']: -1);
         $optionTarget = FunctionLib::getOption($this->arrTarget, isset($data['banner_is_target'])? $data['banner_is_target']: CGlobal::BANNER_TARGET_BLANK);
-        $optionCategory = FunctionLib::getOption(array(0=>'--- Chọn danh mục quảng cáo ---')+array(), isset($data['banner_category_id'])? $data['banner_category_id']: 0);
-        $optionShopName = FunctionLib::getOption(array(0=>'--- Chọn shop ---')+array(), isset($data['banner_shop_id'])? $data['banner_shop_id']: 0);
         $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
 
         $this->layout->content = View::make('site.ShopVip.EditBanner')
             ->with('id', $banner_id)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
-            ->with('optionCategory', $optionCategory)
             ->with('optionRunTime', $optionRunTime)
-            ->with('optionIsShop', $optionIsShop)
             ->with('optionTypeBanner', $optionTypeBanner)
             ->with('optionTarget', $optionTarget)
             ->with('optionRel', $optionRel)
             ->with('optionPage', $optionPage)
-            ->with('optionShopName', $optionShopName)
             ->with('arrStatus', $this->arrStatus);
     }
     public function postEditBanner($banner_id = 0){
@@ -204,77 +190,81 @@ class ShopVipController extends BaseShopController
         $data['banner_type'] = (int)Request::get('banner_type');
         $data['banner_page'] = (int)Request::get('banner_page');
         $data['banner_category_id'] = (int)Request::get('banner_category_id');
-        $data['banner_is_run_time'] = (int)Request::get('banner_is_run_time');
-        $data['banner_start_time'] = (int)Request::get('banner_start_time');
-        $data['banner_end_time'] = (int)Request::get('banner_end_time');
-        $data['banner_is_shop'] = (int)Request::get('banner_is_shop');
-        $data['banner_shop_id'] = (int)Request::get('banner_shop_id');
+        $data['banner_start_time'] = Request::get('banner_start_time');
+        $data['banner_end_time'] = Request::get('banner_end_time');
         $data['banner_status'] = (int)Request::get('banner_status');
+        $data['banner_is_run_time'] = CGlobal::BANNER_IS_RUN_TIME;
+        $data['banner_is_shop'] = CGlobal::BANNER_IS_SHOP;
+        $data['banner_shop_id'] = $this->shop_id;
         $id_hiden = (int)Request::get('id_hiden', 0);
 
-        //FunctionLib::debug($data);
-        if($this->valid($data) && empty($this->error)) {
+        if($this->validBanner($data) && empty($this->error)) {
             $id = ($banner_id == 0)?$id_hiden: $banner_id;
             if($id > 0) {
                 //cap nhat
+                $data['banner_start_time'] = strtotime($data['banner_start_time']);
+                $data['banner_end_time'] = strtotime($data['banner_end_time']);
                 if(Banner::updateData($id, $data)) {
-                    return Redirect::route('admin.banner_list');
+                    return Redirect::route('shop.listBanner');
                 }
             }
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::STASTUS_HIDE);
         $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
-        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($data['banner_is_shop'])? $data['banner_is_shop']: CGlobal::BANNER_NOT_SHOP);
         $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);
         $optionPage = FunctionLib::getOption($this->arrPage, isset($data['banner_page'])? $data['banner_page']: -1);
         $optionTarget = FunctionLib::getOption($this->arrTarget, isset($data['banner_is_target'])? $data['banner_is_target']: CGlobal::BANNER_TARGET_BLANK);
-        $optionCategory = FunctionLib::getOption(array(0=>'--- Chọn danh mục quảng cáo ---')+array(), isset($data['banner_category_id'])? $data['banner_category_id']: 0);
-        $optionShopName = FunctionLib::getOption(array(0=>'--- Chọn shop ---')+array(), isset($data['banner_shop_id'])? $data['banner_shop_id']: 0);
         $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
 
-        $this->layout->content =  View::make('admin.Banner.add')
-            ->with('id', $id)
+        //để hien thi loi
+        $data['banner_start_time'] = strtotime($data['banner_start_time']);
+        $data['banner_end_time'] = strtotime($data['banner_end_time']);
+
+        $this->layout->content =  View::make('site.ShopVip.EditBanner')
+            ->with('id', $banner_id)
             ->with('error', $this->error)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
-            ->with('optionCategory', $optionCategory)
             ->with('optionRunTime', $optionRunTime)
-            ->with('optionIsShop', $optionIsShop)
             ->with('optionTypeBanner', $optionTypeBanner)
             ->with('optionTarget', $optionTarget)
             ->with('optionRel', $optionRel)
             ->with('optionPage', $optionPage)
-            ->with('optionShopName', $optionShopName)
             ->with('arrStatus', $this->arrStatus);
     }
-    private function validBanner($data=array()) {
+    public function validBanner($data=array()) {
         if(!empty($data)) {
-            if(isset($data['product_name']) && trim($data['product_name']) == '') {
-                $this->error[] = 'Tên sản phẩm không được bỏ trống';
+            if(isset($data['banner_name']) && trim($data['banner_name']) == '') {
+                $this->error[] = 'Tên banner không được bỏ trống';
             }
-            if(isset($data['product_image']) && trim($data['product_image']) == '') {
-                $this->error[] = 'Chưa up ảnh sản phẩm';
+            if(isset($data['banner_link']) && trim($data['banner_link']) == '') {
+                $this->error[] = 'Chưa có link view cho banner';
             }
-            if(isset($data['category_id']) && $data['category_id'] == -1) {
-                $this->error[] = 'Chưa chọn danh mục';
+            if(isset($data['banner_image']) && trim($data['banner_image']) == '') {
+                $this->error[] = 'Chưa up ảnh banner quảng cáo';
             }
-            if(isset($data['product_type_price']) && $data['product_type_price'] == CGlobal::TYPE_PRICE_NUMBER) {
-                if(isset($data['product_price_sell']) && $data['product_price_sell'] <= 0) {
-                    $this->error[] = 'Chưa nhập giá bán';
+            if(isset($data['banner_is_run_time']) && $data['banner_is_run_time'] == 1) {
+                if(isset($data['banner_start_time']) && $data['banner_start_time'] == '' ) {
+                   $this->error[] = 'Chưa chọn thời gian bắt đầu chạy cho banner';
+                }
+                if(isset($data['banner_end_time']) && $data['banner_end_time'] == '') {
+                    $this->error[] = 'Chưa chọn thời gian kết thúc cho banner';
+                }
+                if(isset($data['banner_end_time']) && isset($data['banner_start_time'])  && (strtotime($data['banner_start_time']) > strtotime($data['banner_end_time']))) {
+                    $this->error[] = 'Thời gian bắt đầu lớn hơn thời gian kết thúc';
                 }
             }
-            return true;
         }
-        return false;
+        return true;
     }
     //Ajax
     public function deleteBanner(){
-        $product_id = (int)Request::get('product_id',0);
+        $banner_id = (int)Request::get('banner_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
-            if(sizeof($product) > 0){
-                if(Product::deleteData($product_id)){
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $banner_id > 0){
+            $banner = Banner::getBannerShopByID($banner_id,$this->user_shop->shop_id);
+            if(sizeof($banner) > 0){
+                if(Banner::deleteData($banner_id)){
                     $data['isIntOk'] = 1;
                     return Response::json($data);
                 }

@@ -155,6 +155,26 @@ SITE = {
 			});
 		}
 	},
+	deleteBanner: function(banner_id) {
+		if(confirm('Bạn có muốn xóa banner này không?')) {
+			$('#img_loading_'+banner_id).show();
+			$.ajax({
+				type: "post",
+				url: WEB_ROOT+'/shop/deleteBanner',
+				data: {banner_id : banner_id},
+				dataType: 'json',
+				success: function(res) {
+					$('#img_loading_'+banner_id).hide();
+					if(res.isIntOk == 1){
+						alert('Bạn đã thực hiện thành công');
+						window.location.reload();
+					}else{
+						alert('Không thể thực hiện được thao tác.');
+					}
+				}
+			});
+		}
+	},
 	removeImage: function(key,id,nameImage){
 		//product
 		if(jQuery("#image_primary_hover").length ){

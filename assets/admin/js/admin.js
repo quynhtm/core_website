@@ -7,6 +7,8 @@ var Admin = {
                 url_ajax = 'deleteNews';
             }else if(type == 2){
                 url_ajax = 'deleteUserShop';
+            }else if(type == 3){
+                url_ajax = 'deleteBanner';
             }
             $.ajax({
                 type: "post",

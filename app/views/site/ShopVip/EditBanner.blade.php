@@ -14,8 +14,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-                {{Form::open(array('method' => 'POST','role'=>'form','files' => true))}}
-                @if(isset($error))
+                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editBanner',array('banner_id'=>$id,'banner_name'=>(isset($id) && $id > 0)?strtolower(FunctionLib::safe_title($data['banner_name'])):strtolower(FunctionLib::safe_title('thêm sản phẩm')))),'files' => true))}}
+                @if(isset($error) && sizeof($error) >0)
                     <div class="alert alert-danger" role="alert">
                         @foreach($error as $itmError)
                             <p>{{ $itmError }}</p>
@@ -57,39 +57,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Danh mục quảng cáo</label>
-                            <div class="form-group">
-                                <select name="banner_category_id" id="banner_category_id" class="form-control input-sm">
-                                    {{$optionCategory}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Quảng cáo cho</label>
-                            <div class="form-group">
-                                <select name="banner_is_shop" id="banner_is_shop" class="form-control input-sm">
-                                    {{$optionIsShop}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Banner của Shop</label>
-                            <div class="form-group">
-                                <select name="banner_shop_id" id="banner_shop_id" class="form-control input-sm">
-                                    {{$optionShopName}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="name" class="control-label">Trạng thái</label>
@@ -106,7 +73,7 @@
                         <div class="form-group">
                             <label for="name" class="control-label">Thời gian chạy QC </label>
                             <div class="form-group">
-                                <select name="banner_is_run_time" id="banner_is_run_time" class="form-control input-sm">
+                                <select name="banner_is_run_time" id="banner_is_run_time" class="form-control input-sm" disabled>
                                     {{$optionRunTime}}
                                 </select>
                             </div>
@@ -165,17 +132,17 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(3);">Upload ảnh </a>
-                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
+                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['banner_image'])){{$data['banner_image']}}@endif">
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-sm-12">
                         <!--hien thi anh-->
                         <div id="block_img_upload">
-                            @if(isset($data['banner_image']) && $data['banner_image']!= '')
-                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $data['banner_id'], $data['banner_image'], CGlobal::sizeImage_300)}}">
+                            @if(isset($data['banner_image']) && $data['banner_image']!= '' && isset($id))
+                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $id, $data['banner_image'], CGlobal::sizeImage_300)}}">
                                 <div class="clearfix"></div>
-                                <a href="javascript: void(0);" onclick="Common.removeImageItem({{$data['banner_id']}},'{{$data['banner_image']}}',3);">Xóa ảnh</a>
+                                <a href="javascript: void(0);" onclick="Common.removeImageItem({{$id}},'{{$data['banner_image']}}',3);">Xóa ảnh</a>
                             @endif
                         </div>
                     </div>
