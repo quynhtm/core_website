@@ -40,18 +40,16 @@
                 <?php } ?>
 			</div>
 		</div>
+		@if(sizeof($arrSlider) != 0)
 		<div class="slider-box-mid">
 			<div id="sliderMid">
+				@foreach($arrSlider as $item)
 				<div class="slide ">
-					<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
-						<img src="http://sanphamredep.com/uploads/images/ads/11-2015/08-35-08-07-11-2015-1.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
+					<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+						<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_750)}}" alt="{{$item->banner_name}}">
 					</a>
 				</div>
-				<div class="slide ">
-					<a rel="nofollow" title="Hòa nhịp bóng đá, tặng lịch Euro" href="" class="nivo-imageLink">
-						<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/3/730x428/08-14-38-09-06-2016-5.jpg" alt="Hòa nhịp bóng đá, tặng lịch Euro">
-					</a>
-				</div>
+				@endforeach
 			</div>
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
@@ -68,35 +66,35 @@
 			    });
 			</script>
 		</div>
+		@endif
+		@if(sizeof($arrSliderRight1) != 0 || sizeof($arrSliderRight2) != 0)
 		<div class="ads-right-mid">
+			@if(sizeof($arrSliderRight1) != 0)
 			<div class="item-right-slider">
 				<div id="sliderRight1">
-					<div class="slide">
-						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
-							<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/22/300x210/08-19-38-24-05-2016-3.jpg" alt="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà">
+					@foreach($arrSliderRight1 as $item)
+					<div class="slide ">
+						<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+							<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_750)}}" alt="{{$item->banner_name}}">
 						</a>
 					</div>
-					<div class="slide">
-						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
-							<img src="http://shopcuatui.com.vn/uploads/banner/20/09-48-59-01-06-2016-77.jpg" alt="Khuyến mãi bất ngờ từ Luminarc">
-						</a>
-					</div>
+					@endforeach
 				</div>
 			</div>
+			@endif
+			@if(sizeof($arrSliderRight2) != 0)
 			<div class="item-right-slider">
 				<div id="sliderRight2">
-					<div class="slide">
-						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
-							<img src="http://shopcuatui.com.vn/uploads/banner/20/09-48-59-01-06-2016-77.jpg" alt="Khuyến mãi bất ngờ từ Luminarc">
+					@foreach($arrSliderRight2 as $item)
+					<div class="slide ">
+						<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+							<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_750)}}" alt="{{$item->banner_name}}">
 						</a>
 					</div>
-					<div class="slide">
-						<a rel="nofollow" href="" title="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà" target="_blank">
-							<img src="http://dev.sanphamredep.com/uploads/thumbs/banner/22/300x210/08-19-38-24-05-2016-3.jpg" alt="Đồng hành cùng Euro 2016 - Sút bóng tích điểm nhận quà">
-						</a>
-					</div>
+					@endforeach
 				</div>
 			</div>
+			@endif
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
 					jQuery('#sliderRight1, #sliderRight2').bxSlider({
@@ -112,6 +110,7 @@
 				});
 			</script>
 		</div>
+		@endif
 	</div>
 	<div class="line-box line-box-cat">
 		<div class="cate-box">
@@ -139,8 +138,8 @@
 		<div class="content-list-item w-home">
 			<ul class="data-tab data-tab-one act">
 				@if($dataProVip != null)
-				@foreach($dataProVip as $item)
-				<li class="item">
+				@foreach($dataProVip as $key=>$item)
+				<li class="item @if(($key+1)%5 == 0) item-not-mg @endif">
 						@if($item->product_type_price == 1)
 							@if((float)$item->product_price_market > (float)$item->product_price_sell)
 							<span class="sale-off">

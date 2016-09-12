@@ -1,5 +1,5 @@
 $(document).ready(function($){
-	//$('.province_id, .category_id').fancySelect(); //Đã sửa
+	jQuery('.province_id, .category_id').fancySelect();
 	SITE.change_img();
 	SITE.show_tab_category_home();
 });

@@ -35,13 +35,17 @@
 					</div>
 				</div>
 				@endif
+				@if(sizeof($arrBannerLeft) != 0)
 				<div class="content-line-ads">
+					@foreach($arrBannerLeft as $item)
 					<div class="item-right-ads">
-						<a rel="nofollow" href="" title="Giờ vàng giá sốc mua thần tốc" target="_blank">
-							<img src="http://shopcuatui.com.vn/image.php?type_dir=banner&amp;id=17&amp;width=300&amp;height=0&amp;image=http://shopcuatui.com.vn/uploads/banner/17/08-11-10-09-06-2016-77.jpg" alt="Giờ vàng giá sốc mua thần tốc">
+						<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+							<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::freeSizeImage_300)}}" alt="{{$item->banner_name}}">
 						</a>
 					</div>
+					@endforeach
 				</div>
+				@endif
 			</div>
 			<div class="right-show-product-shop body-list-item">
 				<ul>

@@ -22,7 +22,7 @@ class Banner extends Eloquent
         $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$banner_type.'_'.$banner_page.'_'.$banner_category_id.'_'.$banner_shop_id;
         $bannerAdvanced = (Memcache::CACHE_ON)? Cache::get($key_cache) : array();
         if (sizeof($bannerAdvanced) == 0) {
-            $banner = Category::where('banner_id' ,'>', 0)
+            $banner = Banner::where('banner_id' ,'>', 0)
                 ->where('banner_status',CGlobal::status_show)
                 ->where('banner_type',$banner_type)
                 ->where('banner_page',$banner_page)
@@ -154,14 +154,14 @@ class Banner extends Eloquent
                 if($dataSave->banner_image != ''){//xoa anh c?
                     //xoa anh upload
                     FunctionLib::deleteFileUpload($dataSave->banner_image,$dataSave->banner_id,CGlobal::FOLDER_BANNER);
-                    //xóa anh thumb
+                    //xï¿½a anh thumb
                     $arrSizeThumb = CGlobal::$arrBannerSizeImage;
                     foreach($arrSizeThumb as $k=>$size){
                         $sizeThumb = $size['w'].'x'.$size['h'];
                         FunctionLib::deleteFileThumb($dataSave->banner_image,$dataSave->banner_id,CGlobal::FOLDER_BANNER,$sizeThumb);
                     }
                 }
-                //xóa cache banner show
+                //xï¿½a cache banner show
                 $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$dataSave->banner_type.'_'.$dataSave->banner_page.'_'.$dataSave->banner_category_id.'_'.$dataSave->banner_shop_id;
                 Cache::forget($key_cache);
                 self::removeCache($dataSave->banner_id);

@@ -4,6 +4,7 @@ div.fancy-select {
     font-size: 13px;
     font-weight: bold;
     position: relative;
+	width: 35%;
 }
 div.fancy-select.disabled {
 	opacity: 0.5;
@@ -25,7 +26,7 @@ div.fancy-select div.trigger{
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 220px;
+    width: 80%;
 	font-weight: normal;
 	transition: all 240ms ease-out;
 	-webkit-transition: all 240ms ease-out;
@@ -66,7 +67,7 @@ div.fancy-select ul.options {
 	max-height: 500px;
 	overflow: auto;
 	background: #f2f2f2;
-	min-width: 200px;
+	min-width: 50%;
 
 	transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
 	-webkit-transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;

@@ -47,13 +47,21 @@ class SiteHomeController extends BaseSiteController
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
         
+        //Slider
+        $arrSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_HOME, 0, 0);
+        $arrSliderRight1 = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_RIGHT_1, CGlobal::BANNER_PAGE_HOME, 0, 0);
+        $arrSliderRight2 = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_RIGHT_2, CGlobal::BANNER_PAGE_HOME, 0, 0);
+       
         $user_shop = array();
         $this->layout->content = View::make('site.SiteLayouts.Home')
             ->with('dataProVip',$dataProVip)
             ->with('dataProFree',$dataProFree)
             ->with('listParentCate',$listParentCate)
             ->with('user_shop', $user_shop)
-            ->with('arrCategory', $arrCategory);
+            ->with('arrCategory', $arrCategory)
+        	->with('arrSlider', $arrSlider)
+	        ->with('arrSliderRight1', $arrSliderRight1)
+	        ->with('arrSliderRight2', $arrSliderRight2);
         $this->footer();
     }
 
@@ -86,12 +94,15 @@ class SiteHomeController extends BaseSiteController
                 $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
             }
         }
-      
+        
+       $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+       //FunctionLib::debug($arrBannerLeft);
         $this->layout->content = View::make('site.SiteLayouts.ListProduct')
             ->with('product',$product)
             ->with('arrChildCate',$arrChildCate)
         	->with('categoryParrentCat', $categoryParrentCat)
-        	->with('paging', $paging);
+        	->with('paging', $paging)
+        	->with('arrBannerLeft', $arrBannerLeft);
 
         $this->footer();
     }
