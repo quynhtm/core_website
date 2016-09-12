@@ -165,7 +165,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(3);">Upload ảnh </a>
-                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['product_image'])){{$data['product_image']}}@endif">
+                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['banner_image'])){{$data['banner_image']}}@endif">
                         </div>
                     </div>
                     <div class="clearfix"></div>
