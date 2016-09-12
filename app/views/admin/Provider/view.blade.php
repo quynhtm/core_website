@@ -5,7 +5,7 @@
                 <i class="ace-icon fa fa-home home-icon"></i>
                 <a href="{{URL::route('admin.dashboard')}}">Home</a>
             </li>
-            <li class="active">Danh sách Shop</li>
+            <li class="active">Danh sách nhà cung cấp của shop</li>
         </ul><!-- /.breadcrumb -->
     </div>
 
@@ -17,24 +17,35 @@
                     {{ Form::open(array('method' => 'GET', 'role'=>'form')) }}
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
-                            <label for="category_name">Tên đăng nhập</label>
-                            <input type="text" class="form-control input-sm" id="user_shop" name="user_shop" placeholder="Tên đăng nhập" @if(isset($search['user_shop']) && $search['user_shop'] != '')value="{{$search['user_shop']}}"@endif>
+                            <label for="category_name">Tên nhà cung cấp</label>
+                            <input type="text" class="form-control input-sm" id="provider_name" name="provider_name" placeholder="Tên đăng nhập" @if(isset($search['provider_name']) && $search['provider_name'] != '')value="{{$search['provider_name']}}"@endif>
                         </div>
                         <div class="form-group col-lg-3">
-                            <label for="category_name">Tên shop</label>
+                            <label for="category_name">Email nhà cung cấp</label>
                             <input type="text" class="form-control input-sm" id="shop_name" name="shop_name" placeholder="Tên hiển thị của shop" @if(isset($search['shop_name']) && $search['shop_name'] != '')value="{{$search['shop_name']}}"@endif>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="category_name">Phone nhà cung cấp</label>
+                            <input type="text" class="form-control input-sm" id="shop_name" name="shop_name" placeholder="Tên hiển thị của shop" @if(isset($search['shop_name']) && $search['shop_name'] != '')value="{{$search['shop_name']}}"@endif>
+                        </div>
+                        <div class="clearfix"></div>
                         <div class="form-group col-lg-3">
                             <label for="shop_status">Trạng thái</label>
                             <select name="shop_status" id="shop_status" class="form-control input-sm">
                                 {{$optionStatus}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="shop_status">Thuộc shop</label>
+                            <select name="provider_shop_id" id="provider_shop_id" class="form-control input-sm">
+                                {{$optionShop}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
                         <span class="">
-                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.userShop_edit')}}">
+                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.provider_edit')}}">
                                 <i class="ace-icon fa fa-plus-circle"></i>
                                 Thêm mới
                             </a>
@@ -53,12 +64,11 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
-                            <th width="35%">Thông tin shop</th>
-                            <th width="15%">Địa chỉ</th>
-                            <th width="10%" class="text-center">Loại gian hàng</th>
-                            <th width="8%" class="text-center">Online</th>
-                            <th width="8%" class="text-center">Ngày tạo</th>
-                            <th width="15%" class="text-center">Thao tác</th>
+                            <th width="30%">Tên NCC</th>
+                            <th width="20%">Thông tin NCC</th>
+                            <th width="15%" class="text-center">Thuộc shop</th>
+                            <th width="20%" class="text-center">Note của NCC</th>
+                            <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,54 +79,39 @@
                                     <input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->shop_id}}">
                                 </td>
                                 <td>
-                                    [<b>{{ $item->shop_id }}</b>] {{ $item->user_shop }}
-                                    @if($item->shop_name != '')
-                                        <br/>{{ $item->shop_name }}
-                                    @endif
-                                    @if($item->user_shop != '')
-                                        <br/>{{ $item->shop_phone }}
-                                    @endif
-                                    @if($item->shop_email != '')
-                                        <br/>{{ $item->shop_email }}
-                                    @endif
+                                    [<b>{{ $item->provider_id }}</b>] {{ $item->provider_name }}
+                                    <br/>{{date('d-m-Y H:i:s',$item->provider_time_creater)}}
                                 </td>
-                                <td>{{ $item->shop_address }}</td>
-                                <td class="text-center">
-                                    @if(isset($arrIsShop[$item->is_shop])){{ $arrIsShop[$item->is_shop] }}@else --- @endif
-                                    @if($item->is_shop != CGlobal::SHOP_VIP)
-                                        <br/>Limit up:{{ $item->number_limit_product }}
-                                        <br/>∑ up:{{ $item->total_product_up }}
+                                <td>
+                                    @if($item->provider_phone != '')
+                                        {{ $item->provider_phone }}
+                                    @endif
+                                    @if($item->provider_email != '')
+                                        <br/>{{ $item->provider_email }}
+                                    @endif
+                                    @if($item->provider_address != '')
+                                        <br/>{{ $item->provider_address }}
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if($item->is_login == CGlobal::SHOP_ONLINE)
-                                        <i class="fa fa-smile-o fa-2x green"></i>
-                                        <br/>{{date('H:i:s d-m-Y',$item->shop_time_login)}}
-                                    @else
-                                        <i class="fa fa-meh-o fa-2x red"></i>
-                                        <br/>{{date('H:i:s d-m-Y',$item->shop_time_logout)}}
-                                    @endif
+                                    [<b>{{ $item->provider_shop_id }}</b>] {{ $item->provider_shop_name }}
                                 </td>
-                                <td class="text-center">{{date('H:i:s d-m-Y',$item->shop_created)}}</td>
-
+                                <td class="text-center">
+                                    {{ $item->provider_note }}
+                                </td>
                                 <td class="text-center text-middle">
-                                    @if($item->shop_status == 1)
-                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item->shop_id}},{{$item->shop_status}},2)"title="Hiện"><i class="fa fa-check fa-2x"></i></a>
+                                    @if($item->provider_status == CGlobal::status_show)
+                                        <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
+                                    @else
+                                         <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
-                                    @if($item->shop_status == 0)
-                                        <a href="javascript:void(0);" onclick="Admin.updateStatusItem({{$item->shop_id}},{{$item->shop_status}},2)"style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
-                                    @endif
-                                    @if($item->shop_status == -2)
-                                        <a href="javascript:void(0);" style="color: red" title="Khóa"><i class="fa fa-close fa-2x"></i></a>
-                                    @endif
-
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.userShop_edit',array('id' => $item->shop_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                        <a href="{{URL::route('admin.provider_edit',array('id' => $item->provider_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 2)
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->shop_id}},2)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->provider_id}},4)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
-                                    <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->shop_id}}">
+                                    <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->provider_id}}">
                                 </td>
                             </tr>
                         @endforeach

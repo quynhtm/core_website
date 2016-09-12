@@ -57,6 +57,9 @@ class Provider extends Eloquent
             if (isset($dataSearch['provider_id']) && $dataSearch['provider_id'] > 0) {
                 $query->where('provider_id', $dataSearch['provider_id']);
             }
+            if (isset($dataSearch['provider_shop_id']) && $dataSearch['provider_shop_id'] > 0) {
+                $query->where('provider_shop_id', $dataSearch['provider_shop_id']);
+            }
             $total = $query->count();
             $query->orderBy('provider_time_creater', 'desc');
 

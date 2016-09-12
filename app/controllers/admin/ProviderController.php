@@ -12,12 +12,14 @@ class ProviderController extends BaseAdminController
     private $permission_create = 'provider_create';
     private $permission_edit = 'provider_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', CGlobal::status_block => 'Khóa');
-    private $arrIsShop = array(-1 => 'Tất cả', CGlobal::SHOP_FREE => 'Shop Free', CGlobal::SHOP_NOMAL => 'Shop thường', CGlobal::SHOP_VIP => 'Shop Vip');
+    private $arrShop = array();
     private $error = array();
 
     public function __construct()
     {
         parent::__construct();
+        $this->arrShop = UserShop::getShopAll();
+
     }
 
     public function view() {
@@ -37,6 +39,7 @@ class ProviderController extends BaseAdminController
         $search['provider_phone'] = addslashes(Request::get('provider_phone',''));
         $search['provider_email'] = addslashes(Request::get('provider_email',''));
         $search['provider_status'] = (int)Request::get('provider_status',-1);
+        $search['provider_shop_id'] = (int)Request::get('provider_shop_id',0);
         //$search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
 
         $dataSearch = Provider::searchByCondition($search, $limit, $offset,$total);
@@ -44,6 +47,7 @@ class ProviderController extends BaseAdminController
 
         //FunctionLib::debug($dataSearch);
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['provider_status']);
+        $optionShop = FunctionLib::getOption(array(0=>'-- Chọn Shop ---') + $this->arrShop, $search['provider_shop_id']);
         $this->layout->content = View::make('admin.Provider.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -52,8 +56,7 @@ class ProviderController extends BaseAdminController
             ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus)
-            ->with('arrIsShop', $this->arrIsShop)
+            ->with('optionShop', $optionShop)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
@@ -62,7 +65,7 @@ class ProviderController extends BaseAdminController
             ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0);//dùng common
     }
 
-    public function getUserShop($id=0) {
+    public function getProvider($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
@@ -83,17 +86,19 @@ class ProviderController extends BaseAdminController
             }
         }
         //FunctionLib::debug($data);
+        $optionShop = FunctionLib::getOption(array(0=>'-- Chọn Shop ---') + $this->arrShop, isset($data['provider_shop_id'])? $data['provider_shop_id'] : 0);
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['provider_status'])? $data['provider_status'] : -1);
         $this->layout->content = View::make('admin.Provider.add')
             ->with('id', $id)
+            ->with('error', $this->error)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
+            ->with('optionShop', $optionShop)
             ->with('optionIsShop', array())
-            ->with('arrIsShop', $this->arrIsShop)
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function postUserShop($id=0) {
+    public function postProvider($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
@@ -102,7 +107,7 @@ class ProviderController extends BaseAdminController
         $dataSave['provider_address'] = addslashes(Request::get('provider_address'));
         $dataSave['provider_email'] = addslashes(Request::get('provider_email'));
         $dataSave['provider_shop_id'] = addslashes(Request::get('provider_shop_id'));
-        $dataSave['provider_shop_name'] = addslashes(Request::get('provider_shop_name'));
+        $dataSave['provider_shop_name'] = isset($this->arrShop[$dataSave['provider_shop_id']])? $this->arrShop[$dataSave['provider_shop_id']] : '';
         $dataSave['provider_note'] = addslashes(Request::get('provider_note'));
         $dataSave['provider_time_creater'] = time();
         $dataSave['provider_status'] = (int)Request::get('provider_status', CGlobal::status_hide);
@@ -120,14 +125,14 @@ class ProviderController extends BaseAdminController
                 }
             }
         }
-        $optionIsShop = FunctionLib::getOption($this->arrIsShop, isset($dataSave['is_shop'])? $dataSave['is_shop'] : -1);
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['shop_status'])? $dataSave['shop_status'] : -1);
+        $optionShop = FunctionLib::getOption(array(0=>'-- Chọn Shop ---') + $this->arrShop, isset($dataSave['provider_shop_id'])? $dataSave['provider_shop_id'] : 0);
         $this->layout->content =  View::make('admin.Provider.add')
             ->with('id', $id)
             ->with('data', $dataSave)
-            ->with('optionStatus', $optionStatus)
-            ->with('optionIsShop', $optionIsShop)
             ->with('error', $this->error)
+            ->with('optionStatus', $optionStatus)
+            ->with('optionShop', $optionShop)
             ->with('arrStatus', $this->arrStatus);
     }
 
@@ -142,8 +147,7 @@ class ProviderController extends BaseAdminController
     }
 
     //ajax
-    public function deleteUserShop()
-    {
+    public function deleteProvider(){
         $result = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($result);
@@ -151,25 +155,6 @@ class ProviderController extends BaseAdminController
         $id = (int)Request::get('id', 0);
         if ($id > 0 && Provider::deleteData($id)) {
             $result['isIntOk'] = 1;
-        }
-        return Response::json($result);
-    }
-
-    //ajax
-    public function updateStatusUserShop()
-    {
-        $id = (int)Request::get('id', 0);
-        $shop_status = (int)Request::get('status', CGlobal::status_hide);
-        $result = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
-            return Response::json($result);
-        }
-
-        if ($id > 0) {
-            $dataSave['shop_status'] = ($shop_status == CGlobal::status_hide)? CGlobal::status_show : CGlobal::status_hide;
-            if(Provider::updateData($id, $dataSave)) {
-                $result['isIntOk'] = 1;
-            }
         }
         return Response::json($result);
     }

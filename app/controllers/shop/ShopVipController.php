@@ -274,40 +274,6 @@ class ShopVipController extends BaseShopController
         }
         return Response::json($data);
     }
-    public function removeImageBanner(){
-        $item_id = Request::get('id',0);
-        $name_img = Request::get('nameImage','');
-        $aryData = array();
-        $aryData['intIsOK'] = -1;
-        $aryData['msg'] = "Error";
-        $aryData['nameImage'] = $name_img;
-        if($item_id > 0 && $name_img != ''){
-            //get mang anh other
-            $shop_id = $this->user_shop->shop_id;
-            $inforPro = Product::getProductByShopId($shop_id,$item_id);
-            if($inforPro) {
-                $arrImagOther = unserialize($inforPro->product_image_other);
-                foreach($arrImagOther as $ki => $img){
-                    if(strcmp($img,$name_img) == 0){
-                        unset($arrImagOther[$ki]);
-                        break;
-                    }
-                }
-                $proUpdate['product_image_other'] = serialize($arrImagOther);
-                Product::updateData($item_id,$proUpdate);
-            }
-            //anh upload
-            FunctionLib::deleteFileUpload($name_img,$item_id,CGlobal::FOLDER_PRODUCT);
-            //xoa anh thumb
-            $arrSizeThumb = CGlobal::$arrSizeImage;
-            foreach($arrSizeThumb as $k=>$size){
-                $sizeThumb = $size['w'].'x'.$size['h'];
-                FunctionLib::deleteFileThumb($name_img,$item_id,CGlobal::FOLDER_PRODUCT,$sizeThumb);
-            }
-            $aryData['intIsOK'] = 1;
-        }
-        return Response::json($aryData);
-    }
 
     /**************************************************************************************************************************
      * Quản lý Nhà cung cấp
@@ -319,7 +285,7 @@ class ShopVipController extends BaseShopController
             'frontend/js/site.js',
         ));
 
-        CGlobal::$pageShopTitle = "QL banner quảng cáo | ".CGlobal::web_name;
+        CGlobal::$pageShopTitle = "QL nhà cung cấp | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
         $offset = ($pageNo - 1) * $limit;
@@ -365,7 +331,7 @@ class ShopVipController extends BaseShopController
             'frontend/js/site.js',
         ));
 
-        CGlobal::$pageShopTitle = "Thêm quảng cáo | ".CGlobal::web_name;
+        CGlobal::$pageShopTitle = "Thêm nhà cung cấp | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
@@ -411,7 +377,7 @@ class ShopVipController extends BaseShopController
             'frontend/js/site.js',
         ));
 
-        CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
+        CGlobal::$pageShopTitle = "Sửa nhà cung cấp | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
@@ -500,7 +466,7 @@ class ShopVipController extends BaseShopController
             'frontend/js/site.js',
         ));
 
-        CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
+        CGlobal::$pageShopTitle = "Sửa nhà cung cấp | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
