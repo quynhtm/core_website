@@ -505,6 +505,14 @@ class FunctionLib {
             }
         }
     }
+
+    /**
+     * @param int $banner_type
+     * @param int $banner_page
+     * @param int $banner_category_id
+     * @param int $banner_shop_id
+     * @return array
+     */
      static function getBannerAdvanced($banner_type = 0, $banner_page = 0, $banner_category_id = 0, $banner_shop_id = 0){
          $result = array();
          $arrBanner = Banner::getBannerAdvanced($banner_type, $banner_page, $banner_category_id, $banner_shop_id);
