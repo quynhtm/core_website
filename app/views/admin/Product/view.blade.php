@@ -75,10 +75,14 @@
                                     @if($item->product_price_input > 0)<br/>Giá nhập: <b>{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
                                 </td>
                                 <td class="text-left text-middle">
-                                    @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,200) }}@endif
+                                    @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,100) }}@endif
                                 </td>
                                 <td class="text-left text-middle">
-                                    Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
+                                    @if(isset($arrShop[$item->user_shop_id]))
+                                        <b>Shop:</b> {{ $arrShop[$item->user_shop_id] }}
+                                    @endif
+                                        <br/>Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
+                                        <br/>Sửa: {{date ('d-m-Y H:i',$item->time_update)}}
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($item->product_status == CGlobal::status_show)

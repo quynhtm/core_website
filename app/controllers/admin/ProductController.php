@@ -12,20 +12,14 @@ class ProductController extends BaseAdminController
     private $permission_create = 'product_create';
     private $permission_edit = 'product_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
-
+    private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
+    private $arrTypeProduct = array(-1 => '--Chọn loại sản phẩm--', CGlobal::PRODUCT_NOMAL => 'Sản phẩm bình thường', CGlobal::PRODUCT_HOT => 'Sản phẩm nổi bật', CGlobal::PRODUCT_SELLOFF => 'Sản phẩm giảm giá');
+    private $error =  array();
+    private $arrShop =  array();
     public function __construct()
     {
         parent::__construct();
-
-        //Include style.
-        FunctionLib::link_css(array(
-            'lib/cssUpload.css',
-        ));
-
-        //Include javascript.
-        FunctionLib::link_js(array(
-            'lib/jquery.uploadfile.js',
-        ));
+        $this->arrShop = UserShop::getShopAll();
     }
 
     public function view() {
@@ -58,6 +52,7 @@ class ProductController extends BaseAdminController
             ->with('sizeShow', count($data))
             ->with('data', $dataSearch)
             ->with('search', $search)
+            ->with('arrShop', $this->arrShop)
             ->with('optionStatus', $optionStatus)
 
             ->with('is_root', $this->is_root)//dùng common
@@ -71,14 +66,27 @@ class ProductController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
+        FunctionLib::link_css(array(
+            'lib/upload/cssUpload.css',
+        ));
+
+        //Include javascript.
+        FunctionLib::link_js(array(
+            'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            'lib/dragsort/jquery.dragsort.js',
+            //'js/common.js',
+            'lib/number/autoNumeric.js',
+            'frontend/js/site.js',
+        ));
+
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id,$product_id);
-        }
+        $product = Product::getProductByID($id);
         if(empty($product)){
-            return Redirect::route('shop.listProduct');
+            return Redirect::route('admin.product_list');
         }
 
         //lấy ảnh show
@@ -88,7 +96,7 @@ class ProductController extends BaseAdminController
                 $arrImagOther = unserialize($product->product_image_other);
                 if(sizeof($arrImagOther) > 0){
                     foreach($arrImagOther as $k=>$val){
-                        $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
+                        $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $id, $val, CGlobal::sizeImage_100);
                         $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                     }
                 }
@@ -119,20 +127,21 @@ class ProductController extends BaseAdminController
 
 
         //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
+        $arrCategory = array();
+        $arrCategoryAll = Category::buildTreeCategory();
+        foreach($arrCategoryAll as $k =>$cat){
+            $arrCategory[$cat['category_id']] = $cat['padding_left'].$cat['category_name'];
         }
+        //FunctionLib::debug($arrCategoryAll);
 
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
-        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCategory,isset($product->category_id)? $product->category_id: -1);
+        $optionStatusProduct = FunctionLib::getOption($this->arrStatus,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
 
         $this->layout->content = View::make('admin.Product.add')
             ->with('error', $this->error)
-            ->with('product_id', $product_id)
+            ->with('id', $id)
             ->with('data', $dataShow)
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
@@ -147,7 +156,20 @@ class ProductController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
+        FunctionLib::link_css(array(
+            'lib/upload/cssUpload.css',
+        ));
 
+        //Include javascript.
+        FunctionLib::link_js(array(
+            'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            'lib/dragsort/jquery.dragsort.js',
+            //'js/common.js',
+            'lib/number/autoNumeric.js',
+            'frontend/js/site.js',
+        ));
         $dataSave['category_name'] = addslashes(Request::get('category_name'));
         $dataSave['category_icons'] = addslashes(Request::get('category_icons'));
         $dataSave['category_image_background'] = addslashes(Request::get('category_image_background'));
