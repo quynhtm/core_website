@@ -1,5 +1,4 @@
 $(document).ready(function($){
-	jQuery('.province_id, .category_id').fancySelect();
 	SITE.change_img();
 	SITE.show_tab_category_home();
 });
