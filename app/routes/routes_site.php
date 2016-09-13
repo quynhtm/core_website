@@ -71,6 +71,9 @@ Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopCo
 //don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 
+//quan lý liên hệ với quản trị
+Route::get('lien-he-quan-tri.html',array('as' => 'shop.lisContact','uses' =>'ShopController@shopLisContact'));
+
 //quan ly banner của shop VIP
 Route::get('quan-ly-quang-cao.html',array('as' => 'shop.listBanner','uses' =>'ShopVipController@listBanner'));
 Route::get('them-quang-cao.html',array('as' => 'shop.addBanner','uses' =>'ShopVipController@getAddBanner'));

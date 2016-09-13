@@ -28,6 +28,7 @@ class ContactController extends BaseAdminController
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
 
+        die('xxxx');
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
         $offset = ($pageNo - 1) * $limit;
@@ -147,7 +148,7 @@ class ContactController extends BaseAdminController
     }
 
     //ajax
-    public function deleteProvider(){
+    public function deleteContact(){
         $result = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
             return Response::json($result);

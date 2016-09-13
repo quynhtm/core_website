@@ -5,14 +5,15 @@
  */
 class Contact extends Eloquent
 {
-    protected $table = 'web_provider';
+    protected $table = 'web_contact';
     protected $primaryKey = 'contact_id';
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('contact_id','provider_name', 'provider_phone','provider_address','provider_email',
-        'provider_shop_id','provider_shop_name','provider_status',
-        'provider_note', 'provider_time_creater');
+    protected $fillable = array('contact_id','contact_title', 'contact_content','contact_content_reply','contact_user_id_send',
+        'contact_user_name_send','contact_phone_send','contact_email_send',
+        'contact_status','contact_time_creater','contact_user_id_update','contact_user_name_update',
+        'contact_type', 'contact_reason', 'contact_time_update');
 
     public static function getByID($id) {
         $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
@@ -33,20 +34,6 @@ class Contact extends Eloquent
             }
         }
         return array();
-    }
-
-    public static function getShopAll() {
-        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PROVIDER) : array();
-        if (sizeof($data) == 0) {
-            $shop = Contact::where('contact_id', '>', 0)->get();
-            foreach($shop as $itm) {
-                $data[$itm['contact_id']] = $itm['provider_name'];
-            }
-            if(!empty($data) && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_ALL_PROVIDER, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
-            }
-        }
-        return $data;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){

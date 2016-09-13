@@ -48,6 +48,14 @@
                             </div>
                         </a>
                     </div>
+                    <div class="col-sm-6 col-md-3">
+                        <a class="quick-btn a_control" href="{{URL::route('shop.lisContact')}}">
+                            <div class="thumbnail text-center">
+                                <i class="fa fa-envelope-o fa-5x"></i><br/>
+                                <span>Liên hệ với quản trị</span>
+                            </div>
+                        </a>
+                    </div>
 
                     <div class="clearfix"></div>
                     <div class="col-sm-6 col-md-3">
