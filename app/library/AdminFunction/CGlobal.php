@@ -27,6 +27,9 @@ class CGlobal{
     /**
      * Dinh nghi kich thuoc anh Sản phẩm
      */
+    const type_thumb_image_product = 1;
+    const type_thumb_image_banner = 2;
+    
     const sizeImage_80 = 80;
     const sizeImage_100 = 100;//dung common
     const sizeImage_200 = 200;
@@ -52,8 +55,12 @@ class CGlobal{
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
+    	
+    	self::sizeImage_750 =>array('w'=>self::sizeImage_750,'h'=>self::sizeImage_450),
+    	self::freeSizeImage_300 =>array('w'=>self::freeSizeImage_300,'h'=>0),
     );
-
+	
+    
     const status_show = 1;
     const status_hide = 0;
     const status_block = -2;

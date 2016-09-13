@@ -74,11 +74,15 @@ if(!class_exists('ThumbImg') ){
 		 * @param bool|true $returnPath
 		 * @return string
 		 */
-		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true){
+		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true, $type=1){
 			if(!preg_match("/.jpg|.jpeg|.JPEG|.JPG|.png|.gif/",strtolower($file_name))) return ' ';
-			$width = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['w']: CGlobal::sizeImage_100;
-			$height = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['h']: CGlobal::sizeImage_100;
-
+			if($type == CGlobal::type_thumb_image_banner){
+				$width = isset(CGlobal::$arrBannerSizeImage[$size_image])? CGlobal::$arrBannerSizeImage[$size_image]['w']: CGlobal::sizeImage_100;
+				$height = isset(CGlobal::$arrBannerSizeImage[$size_image])? CGlobal::$arrBannerSizeImage[$size_image]['h']: CGlobal::sizeImage_100;
+			}else{
+				$width = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['w']: CGlobal::sizeImage_100;
+				$height = isset(CGlobal::$arrSizeImage[$size_image])? CGlobal::$arrSizeImage[$size_image]['h']: CGlobal::sizeImage_100;
+			}
 			$imagSource = Config::get('config.DIR_ROOT').'/uploads/' .$folder. '/'. $id. '/' .$file_name;
 			$path_thumb =  $width."x".$height.'/'.$file_name;
 			$thumbPath = Config::get('config.DIR_ROOT').'/uploads/thumbs/'.$folder.'/'.$id.'/'. $path_thumb;
