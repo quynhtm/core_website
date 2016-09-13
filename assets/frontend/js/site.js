@@ -1,6 +1,8 @@
 $(document).ready(function($){
 	SITE.change_img();
 	SITE.show_tab_category_home();
+	SITE.hover_img_detail_product();
+	SITE.tab_select_detail_product();
 });
  var is_shop_vip = 3;
 SITE = {
@@ -263,6 +265,24 @@ SITE = {
 					parent.find('ul.data-tab-one').show();
 				});
 			}
+		});
+	},
+	hover_img_detail_product:function(){
+		jQuery('.list-thumb-img .slick-slide').hover(function(){
+			var path_hover = jQuery(this).attr('data');
+			jQuery('.list-thumb-img .item-slick').removeClass('act');
+			jQuery(this).addClass('act');
+			jQuery('.max-thumb-img img').attr('src', path_hover);
+			jQuery('.max-thumb-img a').attr('href', path_hover);
+		});
+	},
+	tab_select_detail_product:function(){
+		jQuery(".left-bottom-content-view .tab li").click(function(){
+			jQuery(".left-bottom-content-view .tab li").removeClass("act");
+			jQuery(this).addClass('act');
+			var datatab = jQuery(this).attr('data-tab');
+			jQuery('.left-bottom-content-view .show-tab').removeClass('act');
+			jQuery('.left-bottom-content-view .show-tab-'+datatab).addClass('act');
 		});
 	}
 }

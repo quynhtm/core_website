@@ -1,51 +1,90 @@
 <div class="container">
 	<div class="link-breadcrumb">
-		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
+		<a href="{{URL::route('site.home')}}" title="Trang chủ">Trang chủ</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="http://shopcuatui.com.vn/gian-hang/53/EnMax-98.html" title="EnMax 98">EnMax 98</a>
+		<a href="{{URL::route('shop.home',array('shop_id' => $product->user_shop_id,'shop_name' => FunctionLib::safe_title($product->user_shop_name)))}}" title="{{$product->user_shop_name}}">{{$product->user_shop_name}}</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="http://shopcuatui.com.vn/gian-hang/53/c196/Thuc-pham-chuc-nang.html" title="Thực phẩm chức năng">Thực phẩm chức năng</a>
+		<a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($product->category_name)),'id'=>$product->category_id))}}" title="{{$product->category_name}}">{{$product->category_name}}</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="http://shopcuatui.com.vn/san-pham/p702/Cham-soc-da-toc-bang-dau-dua-nguyen-chat.html" title="Chăm sóc da, tóc bằng dầu dừa nguyên chất - Shopcuatui.com.vn">Chăm sóc da, tóc bằng dầu dừa nguyên chất</a>
+		<a href="{{FunctionLib::buildLinkDetailProduct($product->product_id, $product->product_name, $product->category_name)}}" title="{{$product->product_name}}">{{$product->product_name}}</a>
 	</div>
 	
 	<div class="main-view-post .box-detail-product">
 		<div class="wrap-main-view">
 			<div class="top-content-view">
+				<script type="text/javascript">
+					    $(document).ready(function(){
+					    	$("#slick").slick({
+						        dots: false,
+						        infinite: true,
+						        slidesToShow: 5,
+						        slidesToScroll: 3,
+						        vertical: true,
+						     });
+						});
+					</script>
 				<div class="left-slider-img">
-					<ul class="list-thumb-img">
-						<li>
-							<a href="javascript:void(0)" data-zoom="http://shopcuatui.com.vn/uploads/thumbs/product/702/400x500/03-49-05-22-08-2016-tinh-dau-dua.jpg" class="act">
-								<img src="http://shopcuatui.com.vn/uploads/thumbs/product/702/100x100/03-49-05-22-08-2016-tinh-dau-dua.jpg" alt="Chăm sóc da, tóc bằng dầu dừa nguyên chất - Shopcuatui.com.vn">
-							</a>
-						</li>
-					</ul>
+					<div class="list-thumb-img">
+						<div id="slick">
+							<?php 
+							if($product->product_image_other != ''){
+							$product_image_other = unserialize($product->product_image_other);
+							if(is_array($product_image_other)){
+							?>
+							@foreach($product_image_other as $img)
+							<div class="item-slick" data="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product->product_id, $img, CGlobal::sizeImage_600, '', true, CGlobal::type_thumb_image_product)}}">
+								<a href="javascript:void(0)">
+									<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product->product_id, $img, CGlobal::sizeImage_300, '', true, CGlobal::type_thumb_image_product)}}" alt="{{$product->product_name}}">
+								</a>
+							</div>
+							@endforeach
+							<?php } }?>
+						</div>
+					</div>
+					@if($product->product_image != '')
 					<div class="max-thumb-img">
-						<a href="javascript:void(0)" title="">
-							<img src="http://shopcuatui.com.vn/uploads/thumbs/product/702/400x500/03-49-05-22-08-2016-tinh-dau-dua.jpg" alt="Chăm sóc da, tóc bằng dầu dừa nguyên chất - Shopcuatui.com.vn">
+						<a href="javascript:void(0)" title="{{$product->product_name}}">
+							<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product->product_id, $product->product_image, CGlobal::sizeImage_600, '', true, CGlobal::type_thumb_image_product)}}" alt="{{$product->product_name}}">
 						</a>
 					</div>
+					@endif
 				</div>
 				<div class="center-des-product">
-					<h1>Chăm sóc da, tóc bằng dầu dừa nguyên chất</h1>
+					<h1>{{$product->product_name}}</h1>
+					@if($product->product_type_price == 1)
+					
+					@if($product->product_price_market > 0)
 					<div class="row-price">
 						<div class="lbl-row">Giá thị trường:</div>
-						<div class="price-origin">158,000<span class="td-border">đ</span></div>
+						<div class="price-origin">{{FunctionLib::numberFormat($product->product_price_market)}}đ</span></div>
 					</div>
+					@endif
+					
+					@if($product->product_price_sell > 0)
 					<div class="row-price">
 						<div class="lbl-row lbl-price-sale">Giá bán:</div>
-						<div class="price-sale">110,000<span class="td-border">đ</span></div>
-					</div>	
+						<div class="price-sale">{{FunctionLib::numberFormat($product->product_price_sell)}}<span class="td-border">đ</span></div>
+					</div>
+					@endif
+					
+					@else
+					<div class="lbl-row lbl-price-sale">Giá bán:</div>
+						<div class="price-sale">Liên hệ</div>
+					@endif
+					
 					<div class="features-point">
 						<div class="lbl-point">Mô tả sản phẩm</div>
-						<div class="des-point">
-							<p>Dầu dừa được xem là một loại sữa dưỡng thể rất an toàn, giúp da mềm mại ngăn ngừa khô da, trị&nbsp;da nứt nẻ,&nbsp;thích hợp với mọi loại da, mọi lứa tuổi, không lo bị kích ứng da. Trị gầu và&nbsp;đem lại mái tóc mềm mượt, ngăn ngừa tóc rụng.</p>
-						</div>
+						@if($product->product_sort_desc != '')
+						<div class="des-point">{{$product->product_sort_desc}}</div>
+						@endif
+						@if($product->product_selloff != '')
 						<div class="box-promotion">
 							<div class="lbl-point">Thông tin khuyến mãi</div>
-							<div class="box-content-promotion">giảm giá 30%</div>
+							<div class="box-content-promotion">{{$product->product_selloff}}</div>
 						</div>
+						@endif
 					</div>
+					
 				</div>
 				<div class="right-des-product">
 					<div class="content-right-product">
@@ -57,7 +96,7 @@
 							  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
 							  fjs.parentNode.insertBefore(js, fjs);
 							}(document, 'script', 'facebook-jssdk'));</script>
-						<div class="fb-like" data-href="http://shopcuatui.com.vn/danh-muc/c90/Thuc-pham.html"
+						<div class="fb-like" data-href="{{FunctionLib::buildLinkDetailProduct($product->product_id, $product->product_name, $product->category_name)}}"
 							data-layout="button_count" data-action="like" 
 							data-show-faces="false" data-share="true">
 						</div>
@@ -66,32 +105,25 @@
 						<div class="order-number">
 							<label for="buy-number">Số lượng</label>
 							<select class="sl-num" id="buy-num" name="buy-num">
-                            	<option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-								<option value="10">10</option>
+                            	@for($i=1; $i<=10; $i++)
+                            	<option value="{{$i}}">{{$i}}</option>
+                            	@endfor
 							</select>
 						</div>
 						<div id="buttonFormBuySubmit" data-pid="702" class="buynow btn">Mua ngay</div>
 					</div>
 					<div class="content-right-product">
 						<div class="order-number-phone">
-							<p><b>Đặt nhanh qua điện thoại</b></p>
-							<div class="number-phone">
-								<div class="fa fa-phone"></div>
-								<span>0932292136</span>
-							</div>
-							<p><a href="" title="Shop: EnMax 98">EnMax 98</a></p>
-							<p><b>Thông tin liên hệ: </b></p>
-							<p>phanngoc289@gmail.com</p>
-							<p>98 Hoàng Văn Thái, Thanh Xuân, HN</p>
+						<p><b>Đặt nhanh qua điện thoại</b></p>
+						<div class="number-phone">
+							<div class="fa fa-phone"></div>
+							<span>{{$user_shop->shop_phone}}</span>
 						</div>
+						<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
+						<p><b>Thông tin liên hệ: </b></p>
+						<p>{{$user_shop->shop_email}}</p>
+						<p>{{$user_shop->shop_address}}</p>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -153,10 +185,26 @@
 						<li data-tab="4" class="">Giới thiệu Shop</li>
 					</ul>
 					<div class="content-bottom-content-view">
-						<div class="show-tab show-tab-1 act">Tab 1</div>
-						<div class="show-tab show-tab-2">Tab 2</div>
-						<div class="show-tab show-tab-3">Tab 3</div>
-						<div class="show-tab show-tab-4">Tab 4</div>
+						<div class="show-tab show-tab-1 act">{{$product->product_content}}</div>
+						<div class="show-tab show-tab-2">
+							<div class="social-comment">
+								<div class="content-comment-facebook">
+									<div class="socialFacebook">
+										<div id="fb-root"></div>
+										<script>(function(d, s, id) {
+										  var js, fjs = d.getElementsByTagName(s)[0];
+										  if (d.getElementById(id)) return;
+										  js = d.createElement(s); js.id = id;
+										  js.src = "//connect.facebook.net/vi_VN/all.js#xfbml=1&appId=342626259177944";
+										  fjs.parentNode.insertBefore(js, fjs);
+										}(document, 'script', 'facebook-jssdk'));</script>
+										<div class="fb-comments" data-href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}" data-width="800px" data-num-posts="10"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="show-tab show-tab-3">@if($user_shop->shop_transfer != '') {{$user_shop->shop_transfer}} @else Đang cập nhật... @endif</div>
+						<div class="show-tab show-tab-4">@if($user_shop->shop_about != '') {{$user_shop->shop_about}} @else Đang cập nhật... @endif</div>
 					</div>
 				</div>
 				<div class="right-bottom-content-view">

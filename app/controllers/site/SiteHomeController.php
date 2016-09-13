@@ -107,12 +107,17 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     public function detailProduct($cat_name, $pro_id, $pro_name){
-        $this->header();
+        
+    	FunctionLib::site_css('lib/slickslider/slick.css', CGlobal::$POS_HEAD);
+    	FunctionLib::site_js('lib/slickslider/slick.min.js', CGlobal::$POS_END);
+
+    	$this->header();
         $product = array();
         $user_shop = array();
         if($pro_id > 0){
             $product = Product::getProductByID($pro_id);
             //FunctionLib::debug($product);
+            $user_shop = UserShop::getByID($product->user_shop_id);
             if ($product) {
                 //check s?n ph?m có b? khóa hay ?n khong
                 if($product->product_status == CGlobal::status_hide || $product->product_status == CGlobal::status_block){
