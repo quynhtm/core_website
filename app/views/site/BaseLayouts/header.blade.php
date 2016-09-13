@@ -27,6 +27,11 @@
                             </select>
                             <input type="submit" class="btn-search" value="Tìm kiếm"/>
                         </form>
+						<script type="text/javascript">
+							$(document).ready(function($){
+								jQuery('.province_id, .category_id').fancySelect();
+							});
+						</script>
                     </div>
                 </div>
                 <div class="box-right-focus">
