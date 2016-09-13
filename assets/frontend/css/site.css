@@ -1052,7 +1052,7 @@ p {
     box-shadow: 0 0 2px #aaa;
     display: inline-block;
     float: left;
-    margin: 5px 18px 15px 0;
+    margin: 5px 0.8% 20px 0.8%;
     overflow: hidden;
     padding: 2px;
     position: relative;
@@ -1122,7 +1122,7 @@ p {
 }
 .w-home .item {
     height: 330px;
-    width: 17.85%;
+    width: 17.5%;
 }
 .line-ads{
     clear: both;
