@@ -33,39 +33,32 @@ class ProductController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission)&& !in_array($this->permission_view,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
+        CGlobal::$pageShopTitle = "Quản lý sản phẩm | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
         $offset = ($pageNo - 1) * $limit;
         $search = $data = array();
         $total = 0;
 
-        $search['category_id'] = addslashes(Request::get('category_id',''));
-        $search['category_name'] = addslashes(Request::get('category_name',''));
-        $search['category_status'] = (int)Request::get('category_status',-1);
-        $search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
+        $search['product_name'] = addslashes(Request::get('product_name',''));
+        $search['product_status'] = (int)Request::get('product_status',-1);
+        $search['category_id'] = (int)Request::get('category_id',-1);
+        $search['user_shop_id'] = (int)Request::get('user_shop_id',-1);
+        //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
         $dataSearch = Product::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
+        //FunctionLib::debug($search);
 
-        if(!empty($dataSearch)){
-            foreach($dataSearch as $k=> $val){
-                $data[] = array('category_id'=>$val->category_id,
-                    'category_name'=>$val->category_name,
-                    'category_status'=>$val->category_status,
-                );
-            }
-        }
-        //FunctionLib::debug($dataSearch);
-        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['category_status']);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['product_status']);
         $this->layout->content = View::make('admin.Product.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
             ->with('sizeShow', count($data))
-            ->with('data', $data)
+            ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
@@ -78,20 +71,76 @@ class ProductController extends BaseAdminController
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
-        $data = array();
-        if($id > 0) {
-            $data = Category::find($id);
-            if(isset($data['category_image_background']) && $data['category_image_background'] != ''){
-                $data['url_src_icon'] = URL::to('/').'/images/category/'.$data['category_image_background'];
-            }
+        $product = array();
+        $arrViewImgOther = array();
+        $imagePrimary = $imageHover = '';
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->user_shop->shop_id,$product_id);
+        }
+        if(empty($product)){
+            return Redirect::route('shop.listProduct');
         }
 
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['category_status'])? $data['category_status'] : -1);
+        //lấy ảnh show
+        if(sizeof($product) > 0){
+            //lay ảnh khác của san phẩm
+            if(!empty($product->product_image_other)){
+                $arrImagOther = unserialize($product->product_image_other);
+                if(sizeof($arrImagOther) > 0){
+                    foreach($arrImagOther as $k=>$val){
+                        $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
+                        $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
+                    }
+                }
+            }
+            //ảnh sản phẩm chính
+            $imagePrimary = $product->product_image;
+            $imageHover = $product->product_image_hover;
+        }
+
+        $dataShow = array('product_id'=>$product->product_id,
+            'product_name'=>$product->product_name,
+            'category_id'=>$product->category_id,
+            'provider_id'=>$product->provider_id,
+            'product_price_sell'=>$product->product_price_sell,
+            'product_price_market'=>$product->product_price_market,
+            'product_price_input'=>$product->product_price_input,
+            'product_type_price'=>$product->product_type_price,
+            'product_selloff'=>$product->product_selloff,
+            'product_is_hot'=>$product->product_is_hot,
+            'product_sort_desc'=>$product->product_sort_desc,
+            'product_content'=>$product->product_content,
+            'product_image'=>$product->product_image,
+            'product_image_hover'=>$product->product_image_hover,
+            'product_image_other'=>$product->product_image_other,
+            'product_order'=>$product->product_order,
+            'quality_input'=>$product->quality_input,
+            'product_status'=>$product->product_status);
+
+
+        //danh muc san pham cua shop
+        $arrCateShop = array();
+        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
+            $arrCateId = explode(',',$this->user_shop->shop_category);
+            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
+        }
+
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
+        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
+        $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
+        $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
+
         $this->layout->content = View::make('admin.Product.add')
-            ->with('id', $id)
-            ->with('data', $data)
-            ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus);
+            ->with('error', $this->error)
+            ->with('product_id', $product_id)
+            ->with('data', $dataShow)
+            ->with('arrViewImgOther', $arrViewImgOther)
+            ->with('imagePrimary', $imagePrimary)
+            ->with('imageHover', $imageHover)
+            ->with('optionCategory', $optionCategory)
+            ->with('optionStatusProduct', $optionStatusProduct)
+            ->with('optionTypePrice', $optionTypePrice)
+            ->with('optionTypeProduct', $optionTypeProduct);
     }
 
     public function postProduct($id=0) {

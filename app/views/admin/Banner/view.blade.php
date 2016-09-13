@@ -94,7 +94,7 @@
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 1)
                                        &nbsp;&nbsp;&nbsp;
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->banner_id}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->banner_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
                                     <span class="img_loading" id="img_loading_{{$item->banner_id}}"></span>
                                 </td>
