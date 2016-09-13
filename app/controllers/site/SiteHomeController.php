@@ -85,7 +85,7 @@ class SiteHomeController extends BaseSiteController
                 }
                 $search['category_name'] = FunctionLib::safe_title($categoryParrentCat->category_name);
                 $pageNo = (int) Request::get('page_no', 1);
-                $limit = CGlobal::number_show_30;
+                $limit = CGlobal::number_show_20;
                 $offset = ($pageNo - 1) * $limit;
                 $total = 0;
                 $pageScroll = CGlobal::num_scroll_page;
@@ -252,7 +252,7 @@ class SiteHomeController extends BaseSiteController
     		
     		$search['user_shop_id'] = $shop_id;
     		$pageNo = (int) Request::get('page_no', 1);
-    		$limit = CGlobal::number_show_30;
+    		$limit = CGlobal::number_show_20;
     		$offset = ($pageNo - 1) * $limit;
     		$total = 0;
     		$pageScroll = CGlobal::num_scroll_page;
@@ -261,12 +261,17 @@ class SiteHomeController extends BaseSiteController
     		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
     	}
     	
+    	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
+    	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+    	$arrBannerSlider = array();
     	$this->layout->content = View::make('site.SiteLayouts.ShopHome')
     	->with('product',$product)
     	->with('arrChildCate',$arrChildCate)
     	->with('categoryParrentCat', $categoryParrentCat)
     	->with('paging', $paging)
-    	->with('user_shop', $user_shop);
+    	->with('user_shop', $user_shop)
+    	->with('arrBannerSlider', $arrBannerSlider)
+    	->with('arrBannerLeft', $arrBannerLeft);
     	
     	$this->footer();
 
