@@ -35,6 +35,7 @@ class CGlobal{
     const sizeImage_200 = 200;
     const sizeImage_300 = 300;
     const sizeImage_450 = 450;
+    const sizeImage_600 = 600;
     const sizeImage_750 = 750;
     const freeSizeImage_300 = 301;
     
@@ -43,6 +44,7 @@ class CGlobal{
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
+    	self::sizeImage_600 =>array('w'=>self::sizeImage_600,'h'=>self::sizeImage_600),
     );
 
     /**

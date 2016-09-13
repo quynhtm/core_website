@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="link-breadcrumb">
-		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
+		<a href="{{URL::route('site.home')}}" title="Trang chủ">Trang chủ</a>
 		@if(sizeof($categoryParrentCat) != 0)
 		<i class="fa fa-angle-double-right"></i>
 		<a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($categoryParrentCat->category_name)),'id'=>$categoryParrentCat->category_id))}}" title="{{$categoryParrentCat->category_name}}">{{$categoryParrentCat->category_name}}</a>
@@ -85,7 +85,7 @@
 							</div>
 							@if($item->user_shop_id > 0 && $item->user_shop_name != '' && $item->is_shop == CGlobal::SHOP_VIP)
 							<div class="mgt5 amount-call">
-			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{FunctionLib::safe_title($item->user_shop_name)}}.html">{{$item->user_shop_name}}</a>
+			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{URL::route('shop.home',array('shop_id' => $item->user_shop_id,'shop_name' => FunctionLib::safe_title($item->user_shop_name)))}}">{{$item->user_shop_name}}</a>
 			            	</div>
 			            	@endif
 						</div>
