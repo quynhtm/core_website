@@ -65,6 +65,30 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
+    //trang list sản phẩm mới
+    public function listNewProduct(){
+        $this->header();
+
+        $product = array();
+        $pageNo = (int) Request::get('page_no', 1);
+        $limit = CGlobal::number_show_20;
+        $offset = ($pageNo - 1) * $limit;
+        $total = 0;
+        $pageScroll = CGlobal::num_scroll_page;
+        $pageNo = (int) Request::get('page_no', 1);
+        $product = Product::getProductForSite(array(), $limit, $offset,$total);
+        $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, array()) : '';
+
+        $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+       //FunctionLib::debug($arrBannerLeft);
+        $this->layout->content = View::make('site.SiteLayouts.ListProductNew')
+            ->with('product',$product)
+        	->with('paging', $paging)
+        	->with('arrBannerLeft', $arrBannerLeft);
+
+        $this->footer();
+    }
+
     //trang danh sách san pham theo danh mục
     public function listProduct($cat_id){
         $this->header();
@@ -77,7 +101,7 @@ class SiteHomeController extends BaseSiteController
             if($categoryParrentCat){
                 //Get child cate in parent cate
             	$arrChildCate = Category::getAllChildCategoryIdByParentId($cat_id);
-            	
+
             	if($categoryParrentCat->category_parent_id == 0){
                     $search['category_parent_id'] = $categoryParrentCat->category_id;
                 }else{
@@ -94,7 +118,7 @@ class SiteHomeController extends BaseSiteController
                 $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
             }
         }
-        
+
        $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
        //FunctionLib::debug($arrBannerLeft);
         $this->layout->content = View::make('site.SiteLayouts.ListProduct')
