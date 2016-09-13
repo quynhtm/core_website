@@ -614,5 +614,46 @@ class ShopController extends BaseShopController
             ->with('user', $this->user_shop);
     }
 
+    /****************************************************************************************************************************
+     * Quản lý liên hệ với quản trị site của shop
+     * **************************************************************************************************************************
+     */
+    public function shopLisContact(){
+        CGlobal::$pageShopTitle = "Quản lý đơn hàng | ".CGlobal::web_name;
+        $pageNo = (int) Request::get('page_no',1);
+        $limit = CGlobal::number_limit_show;
+        $offset = ($pageNo - 1) * $limit;
+        $search = $data = array();
+        $total = 0;
+
+        $search['order_id'] = addslashes(Request::get('order_id',''));
+        $search['order_product_name'] = addslashes(Request::get('order_product_name',''));
+        $search['order_status'] = (int)Request::get('order_status',-1);
+        $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
+        //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
+
+        $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Order::searchByCondition($search, $limit, $offset,$total): array();
+        $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
+        //FunctionLib::debug($dataSearch);
+
+        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
+            CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
+            CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
+            CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
+            CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
+        $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['order_status']);
+
+        $this->layout->content = View::make('site.ShopLayouts.ListOrder')
+            ->with('paging', $paging)
+            ->with('stt', ($pageNo-1)*$limit)
+            ->with('total', $total)
+            ->with('sizeShow', count($data))
+            ->with('data', $dataSearch)
+            ->with('search', $search)
+            ->with('optionStatus', $optionStatus)
+            ->with('arrStatus', $arrStatusOrder)
+            ->with('user', $this->user_shop);
+    }
+
 }
 
