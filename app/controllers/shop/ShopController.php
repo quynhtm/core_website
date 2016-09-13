@@ -83,13 +83,9 @@ class ShopController extends BaseShopController
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
-        //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
 
+        //danh muc san pham cua shop
+        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
 
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,CGlobal::status_hide);
@@ -174,13 +170,9 @@ class ShopController extends BaseShopController
 
 
         //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
-
+        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
+
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
@@ -242,11 +234,7 @@ class ShopController extends BaseShopController
         $product_id = ($product_id >0)? $product_id: $id_hiden;
 
         //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
+        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
 
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
@@ -309,7 +297,6 @@ class ShopController extends BaseShopController
             }
         }
         //FunctionLib::debug($dataSave);
-
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,$dataSave['category_id']);
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);

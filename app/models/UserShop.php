@@ -26,6 +26,24 @@ class UserShop extends Eloquent
         return $shop;
     }
 
+    public static function getCategoryShopById($id) {
+        $categoryShop = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_CATEGORY_SHOP_ID.$id) : array();
+        if (sizeof($categoryShop) == 0) {
+            $shop = UserShop::getByID($id);
+            if (sizeof($shop) > 0) {
+                if (isset($shop->shop_category) && $shop->shop_category != '') {
+                    $arrCateId = explode(',', $shop->shop_category);
+                    $categoryShop = Category::getCategoryByArrayId($arrCateId);
+                    if($categoryShop && Memcache::CACHE_ON){
+                        Cache::put(Memcache::CACHE_CATEGORY_SHOP_ID.$id, $categoryShop, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                    }
+                    return $categoryShop;
+                }
+            }
+        }
+        return $categoryShop;
+    }
+
     public static function getShopAll() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_USER_SHOP) : array();
         if (sizeof($data) == 0) {
@@ -207,6 +225,7 @@ class UserShop extends Eloquent
     public static function removeCache($id = 0){
         if($id > 0){
             Cache::forget(Memcache::CACHE_USER_SHOP_ID.$id);
+            Cache::forget(Memcache::CACHE_CATEGORY_SHOP_ID.$id);
         }
         Cache::forget(Memcache::CACHE_ALL_USER_SHOP);
     }
