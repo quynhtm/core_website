@@ -36,16 +36,13 @@ class CGlobal{
     const sizeImage_300 = 300;
     const sizeImage_450 = 450;
     const sizeImage_750 = 750;
-    const freeSizeImage_300 = 300;
+    const freeSizeImage_300 = 301;
     
     public static $arrSizeImage = array(
         self::sizeImage_80 =>array('w'=>self::sizeImage_80,'h'=>self::sizeImage_80),
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
-    	self::sizeImage_750 =>array('w'=>self::sizeImage_750,'h'=>self::sizeImage_450),
-    		
-    	self::freeSizeImage_300 =>array('w'=>self::freeSizeImage_300,'h'=>0),
     );
 
     /**
