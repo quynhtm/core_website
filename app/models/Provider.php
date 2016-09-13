@@ -15,14 +15,24 @@ class Provider extends Eloquent
         'provider_note', 'provider_time_creater');
 
     public static function getByID($id) {
-        $shop = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
-        if (sizeof($shop) == 0) {
-            $shop = Provider::where('provider_id', $id)->first();
-            if($shop && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_PROVIDER_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+        $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
+        if (sizeof($provider) == 0) {
+            $provider = Provider::where('provider_id', $id)->first();
+            if($provider && Memcache::CACHE_ON){
+                Cache::put(Memcache::CACHE_PROVIDER_ID.$id, $provider, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
         }
-        return $shop;
+        return $provider;
+    }
+
+    public static function getProviderShopByID($id,$shop_id) {
+        $provider = Provider::getByID($id);
+        if (sizeof($provider) > 0) {
+            if($provider->provider_shop_id == $shop_id){
+                return $provider;
+            }
+        }
+        return array();
     }
 
     public static function getShopAll() {

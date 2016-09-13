@@ -85,7 +85,7 @@
                                     @else
                                         <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
-                                    &nbsp;&nbsp; <a href="{{URL::route('shop.editBanner',array('banner_id' => $item->banner_id,'banner_name' => $item->banner_name))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                    &nbsp;&nbsp; <a href="{{URL::route('shop.editBanner',array('banner_id' => $item->banner_id,'banner_name' => FunctionLib::safe_title($item->banner_name)))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     &nbsp;&nbsp; <a href="javascript:void(0);" onclick="SITE.deleteBanner({{$item->banner_id}})" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     <span class="img_loading" id="img_loading_{{$item->banner_id}}"></span>
                                 </td>

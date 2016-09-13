@@ -18,6 +18,7 @@ class ShopVipController extends BaseShopController
 
     private $error = array();
     private $shop_id = 0;
+    private $shop_name = '';
     public function __construct()
     {
         parent::__construct();
@@ -26,6 +27,7 @@ class ShopVipController extends BaseShopController
             Redirect::route('shop.adminShop',array('error'=>1))->send();
         }
         $this->shop_id = isset($this->user_shop->shop_id)?$this->user_shop->shop_id:0;
+        $this->shop_name = isset($this->user_shop->shop_name)?$this->user_shop->shop_name:'';
     }
 
     /**************************************************************************************************************************
@@ -93,12 +95,12 @@ class ShopVipController extends BaseShopController
         ));
         $data = array();
         CGlobal::$pageShopTitle = "Thêm quảng cáo | ".CGlobal::web_name;
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['banner_status'])? $data['banner_status']: CGlobal::status_show);
-        $optionRunTime = FunctionLib::getOption($this->arrRunTime, isset($data['banner_is_run_time'])? $data['banner_is_run_time']: CGlobal::BANNER_NOT_RUN_TIME);
-        $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, isset($data['banner_type'])? $data['banner_type']: -1);
-        $optionPage = FunctionLib::getOption($this->arrPage, isset($data['banner_page'])? $data['banner_page']: -1);
-        $optionTarget = FunctionLib::getOption($this->arrTarget, isset($data['banner_is_target'])? $data['banner_is_target']: CGlobal::BANNER_TARGET_BLANK);
-        $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, CGlobal::status_show);
+        $optionRunTime = FunctionLib::getOption($this->arrRunTime, CGlobal::BANNER_NOT_RUN_TIME);
+        $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, -1);
+        $optionPage = FunctionLib::getOption($this->arrPage, -1);
+        $optionTarget = FunctionLib::getOption($this->arrTarget, CGlobal::BANNER_TARGET_BLANK);
+        $optionRel = FunctionLib::getOption($this->arrRel, CGlobal::LINK_NOFOLLOW);
 
         $this->layout->content = View::make('site.ShopVip.EditBanner')
             ->with('id', $banner_id)
@@ -261,7 +263,7 @@ class ShopVipController extends BaseShopController
     public function deleteBanner(){
         $banner_id = (int)Request::get('banner_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $banner_id > 0){
+        if($this->shop_id > 0 && $banner_id > 0){
             $banner = Banner::getBannerShopByID($banner_id,$this->user_shop->shop_id);
             if(sizeof($banner) > 0){
                 if(Banner::deleteData($banner_id)){
@@ -292,15 +294,19 @@ class ShopVipController extends BaseShopController
         $search = $data = array();
         $total = 0;
 
-        $search['banner_name'] = addslashes(Request::get('banner_name',''));
-        $search['banner_status'] = (int)Request::get('banner_status',-1);
-        //$search['field_get'] = 'category_id,news_title,news_status';//cac truong can lay
+        $search['provider_id'] = addslashes(Request::get('provider_id',''));
+        $search['provider_name'] = addslashes(Request::get('provider_name',''));
+        $search['provider_phone'] = addslashes(Request::get('provider_phone',''));
+        $search['provider_email'] = addslashes(Request::get('provider_email',''));
+        $search['provider_status'] = (int)Request::get('provider_status',-1);
+        $search['provider_shop_id'] = $this->shop_id;
+        //$search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
 
-        $dataSearch = Banner::searchByCondition($search, $limit, $offset,$total);
+        $dataSearch = Provider::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
 
         //FunctionLib::debug($dataSearch);
-        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['banner_status']);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['provider_status']);
         $this->layout->content = View::make('site.ShopVip.ListProvider')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -308,292 +314,103 @@ class ShopVipController extends BaseShopController
             ->with('sizeShow', count($data))
             ->with('data', $dataSearch)
             ->with('search', $search)
-            ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus)
-            ->with('arrTypeBanner', $this->arrTypeBanner)
-            ->with('arrPage', $this->arrPage)
-            ->with('arrIsShop', $this->arrIsShop);
-    }
-    public function getAddProvider($product_id = 0){
-        //Include style.
-        FunctionLib::link_css(array(
-            'lib/upload/cssUpload.css',
-        ));
+            ->with('optionStatus', $optionStatus);
 
-        //Include javascript.
+    }
+    public function getAddProvider($provider_id = 0){
         FunctionLib::link_js(array(
-            'lib/upload/jquery.uploadfile.js',
-            'lib/ckeditor/ckeditor.js',
-            'lib/ckeditor/config.js',
-            'lib/dragsort/jquery.dragsort.js',
-            //'js/common.js',
-            'lib/number/autoNumeric.js',
+            'js/jquery.min.js',
             'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Thêm nhà cung cấp | ".CGlobal::web_name;
-        $product = array();
-        $arrViewImgOther = array();
-        $imagePrimary = $imageHover = '';
-        //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
-
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
-
-        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,CGlobal::status_hide);
-        $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,CGlobal::TYPE_PRICE_NUMBER);
-        $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,CGlobal::PRODUCT_NOMAL);
-
+        $data = array();
+        //FunctionLib::debug($data);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, CGlobal::status_hide);
         $this->layout->content = View::make('site.ShopVip.EditProvider')
+            ->with('id', $provider_id)
             ->with('error', $this->error)
-            ->with('product_id', $product_id)
-            ->with('data', $product)
-            ->with('arrViewImgOther', $arrViewImgOther)
-            ->with('imagePrimary', $imagePrimary)
-            ->with('imageHover', $imageHover)
-            ->with('optionCategory', $optionCategory)
-            ->with('optionStatusProduct', $optionStatusProduct)
-            ->with('optionTypePrice', $optionTypePrice)
-            ->with('optionTypeProduct', $optionTypeProduct);
+            ->with('data', $data)
+            ->with('optionStatus', $optionStatus)
+            ->with('optionIsShop', array())
+            ->with('arrStatus', $this->arrStatus);
     }
-    public function getEditProvider($product_id = 0){
-        //Include style.
-        FunctionLib::link_css(array(
-            'lib/upload/cssUpload.css',
-        ));
-
-        //Include javascript.
+    public function getEditProvider($provider_id = 0){
         FunctionLib::link_js(array(
-            'lib/upload/jquery.uploadfile.js',
-            'lib/ckeditor/ckeditor.js',
-            'lib/ckeditor/config.js',
-            'lib/dragsort/jquery.dragsort.js',
-            //'js/common.js',
-            'lib/number/autoNumeric.js',
+            'js/jquery.min.js',
             'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Sửa nhà cung cấp | ".CGlobal::web_name;
-        $product = array();
-        $arrViewImgOther = array();
-        $imagePrimary = $imageHover = '';
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id,$product_id);
-        }
-        if(empty($product)){
-            return Redirect::route('shop.listProduct');
-        }
-
-        //lấy ảnh show
-        if(sizeof($product) > 0){
-            //lay ảnh khác của san phẩm
-            if(!empty($product->product_image_other)){
-                $arrImagOther = unserialize($product->product_image_other);
-                if(sizeof($arrImagOther) > 0){
-                    foreach($arrImagOther as $k=>$val){
-                        $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
-                        $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
-                    }
-                }
+        $data = array();
+        if($provider_id > 0) {
+            $item = Provider::getProviderShopByID($provider_id,$this->shop_id);
+            if(sizeof($item) > 0){
+                $data['provider_id'] = $item->provider_id;
+                $data['provider_name'] = $item->provider_name;
+                $data['provider_phone'] = $item->provider_phone;
+                $data['provider_address'] = $item->provider_address;
+                $data['provider_email'] = $item->provider_email;
+                $data['provider_shop_id'] = $item->provider_shop_id;
+                $data['provider_shop_name'] = $item->provider_shop_name;
+                $data['provider_status'] = $item->provider_status;
+                $data['provider_note'] = $item->provider_note;
+                $data['provider_time_creater'] = $item->provider_time_creater;
             }
-            //ảnh sản phẩm chính
-            $imagePrimary = $product->product_image;
-            $imageHover = $product->product_image_hover;
         }
-
-        $dataShow = array('product_id'=>$product->product_id,
-            'product_name'=>$product->product_name,
-            'category_id'=>$product->category_id,
-            'provider_id'=>$product->provider_id,
-            'product_price_sell'=>$product->product_price_sell,
-            'product_price_market'=>$product->product_price_market,
-            'product_price_input'=>$product->product_price_input,
-            'product_type_price'=>$product->product_type_price,
-            'product_selloff'=>$product->product_selloff,
-            'product_is_hot'=>$product->product_is_hot,
-            'product_sort_desc'=>$product->product_sort_desc,
-            'product_content'=>$product->product_content,
-            'product_image'=>$product->product_image,
-            'product_image_hover'=>$product->product_image_hover,
-            'product_image_other'=>$product->product_image_other,
-            'product_order'=>$product->product_order,
-            'quality_input'=>$product->quality_input,
-            'product_status'=>$product->product_status);
-
-
-        //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
-
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
-        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
-        $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
-        $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
-
+        //FunctionLib::debug($data);
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['provider_status'])? $data['provider_status'] : -1);
         $this->layout->content = View::make('site.ShopVip.EditProvider')
+            ->with('id', $provider_id)
             ->with('error', $this->error)
-            ->with('product_id', $product_id)
-            ->with('data', $dataShow)
-            ->with('arrViewImgOther', $arrViewImgOther)
-            ->with('imagePrimary', $imagePrimary)
-            ->with('imageHover', $imageHover)
-            ->with('optionCategory', $optionCategory)
-            ->with('optionStatusProduct', $optionStatusProduct)
-            ->with('optionTypePrice', $optionTypePrice)
-            ->with('optionTypeProduct', $optionTypeProduct);
+            ->with('data', $data)
+            ->with('optionStatus', $optionStatus)
+            ->with('optionIsShop', array())
+            ->with('arrStatus', $this->arrStatus);
     }
-    public function postEditProvider($product_id = 0){
+    public function postEditProvider($provider_id = 0){
         //Include style.
-        FunctionLib::link_css(array(
-            'lib/upload/cssUpload.css',
-        ));
-
-        //Include javascript.
         FunctionLib::link_js(array(
-            'lib/upload/jquery.uploadfile.js',
-            'lib/ckeditor/ckeditor.js',
-            'lib/ckeditor/config.js',
-            'lib/dragsort/jquery.dragsort.js',
-            //'js/common.js',
-            'lib/number/autoNumeric.js',
+            'js/jquery.min.js',
             'frontend/js/site.js',
         ));
 
         CGlobal::$pageShopTitle = "Sửa nhà cung cấp | ".CGlobal::web_name;
-        $product = array();
-        $arrViewImgOther = array();
-        $imagePrimary = $imageHover = '';
+        $dataSave['provider_name'] = addslashes(Request::get('provider_name'));
+        $dataSave['provider_phone'] = addslashes(Request::get('provider_phone'));
+        $dataSave['provider_address'] = addslashes(Request::get('provider_address'));
+        $dataSave['provider_email'] = addslashes(Request::get('provider_email'));
+        $dataSave['provider_shop_id'] = $this->shop_id;
+        $dataSave['provider_shop_name'] = $this->shop_name;
+        $dataSave['provider_note'] = addslashes(Request::get('provider_note'));
+        $dataSave['provider_time_creater'] = time();
+        $dataSave['provider_status'] = (int)Request::get('provider_status', CGlobal::status_hide);
 
-        $dataSave['product_name'] = addslashes(Request::get('product_name'));
-        $dataSave['category_id'] = addslashes(Request::get('category_id'));
-        $dataSave['product_selloff'] = addslashes(Request::get('product_selloff'));
-        $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot'));
-        $dataSave['product_status'] = addslashes(Request::get('product_status'));
-        $dataSave['product_type_price'] = addslashes(Request::get('product_type_price'));
-        $dataSave['product_sort_desc'] = addslashes(Request::get('product_sort_desc'));
-        $dataSave['product_content'] = addslashes(Request::get('product_content'));
-        $dataSave['product_order'] = addslashes(Request::get('product_order'));
-        $dataSave['quality_input'] = addslashes(Request::get('quality_input'));
-
-        $dataSave['product_price_sell'] = (int)str_replace('.','',Request::get('product_price_sell'));
-        $dataSave['product_price_market'] = (int)str_replace('.','',Request::get('product_price_market'));
-        $dataSave['product_price_input'] = (int)str_replace('.','',Request::get('product_price_input'));
-
-        $dataSave['product_image'] = $imagePrimary = addslashes(Request::get('image_primary'));
-        $dataSave['product_image_hover'] = $imageHover = addslashes(Request::get('product_image_hover'));
-
-        //check lại xem SP co phai cua Shop nay ko
-        $id_hiden = Request::get('id_hiden',0);
-        $product_id = ($product_id >0)? $product_id: $id_hiden;
-
-        //danh muc san pham cua shop
-        $arrCateShop = array();
-        if(isset($this->user_shop->shop_category) && $this->user_shop->shop_category !=''){
-            $arrCateId = explode(',',$this->user_shop->shop_category);
-            $arrCateShop = Category::getCategoryByArrayId($arrCateId);
-        }
-
-        //lay lai vi tri sap xep cua anh khac
-        $arrInputImgOther = array();
-        $getImgOther = Request::get('img_other',array());
-        if(!empty($getImgOther)){
-            foreach($getImgOther as $k=>$val){
-                if($val !=''){
-                    $arrInputImgOther[] = $val;
-
-                    //show ra anh da Upload neu co loi
-                    $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
-                    $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
+        if($this->validProvider($dataSave) && empty($this->error)) {
+            if($provider_id > 0) {
+                //cap nhat
+                if(Provider::updateData($provider_id, $dataSave)) {
+                    return Redirect::route('shop.listProvider');
+                }
+            } else {
+                //them moi
+                if(Provider::addData($dataSave)) {
+                    return Redirect::route('shop.listProvider');
                 }
             }
         }
-        if (!empty($arrInputImgOther) && count($arrInputImgOther) > 0) {
-            //neu ko co anh chinh, lay anh chinh la cai anh dau tien
-            if($dataSave['product_image'] == ''){
-                $dataSave['product_image'] = $arrInputImgOther[0];
-            }
-            //neu ko co anh hove, lay anh hove la cai anh dau tien
-            if($dataSave['product_image_hover'] == ''){
-                $dataSave['product_image_hover'] = (isset($arrInputImgOther[1]))?$arrInputImgOther[1]:$arrInputImgOther[0];
-            }
-            $dataSave['product_image_other'] = serialize($arrInputImgOther);
-        }
-
-        //FunctionLib::debug($dataSave);
-        $this->validInforProduct($dataSave);
-        if(empty($this->error)){
-            if($product_id > 0){
-                if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-                    $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
-                }
-                if(!empty($product)){
-                    if($product_id > 0){//cap nhat
-                        if($id_hiden == 0){
-                            $dataSave['time_created'] = time();
-                            $dataSave['time_update'] = time();
-                        }else{
-                            $dataSave['time_update'] = time();
-                        }
-                        //lay tên danh mục
-                        $dataSave['category_name'] = isset($arrCateShop[$dataSave['category_id']])?$arrCateShop[$dataSave['category_id']]: '';
-                        $dataSave['user_shop_id'] = $this->user_shop->shop_id;
-                        $dataSave['user_shop_name'] = $this->user_shop->user_shop_name;
-                        $dataSave['is_shop'] = $this->user_shop->is_shop;
-                        $dataSave['shop_province'] = $this->user_shop->shop_province;
-
-                        if(Product::updateData($product_id,$dataSave)){
-                            return Redirect::route('shop.listProduct');
-                        }
-                    }
-                }else{
-                    return Redirect::route('shop.listProduct');
-                }
-            }
-            else{
-                return Redirect::route('shop.listProduct');
-            }
-        }
-        //FunctionLib::debug($dataSave);
-
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,$dataSave['category_id']);
-        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
-        $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);
-        $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,$dataSave['product_is_hot']);
-
-        $this->layout->content = View::make('site.ShopVip.EditProvider')
-            ->with('error', $this->error)
-            ->with('product_id', $product_id)
+        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['shop_status'])? $dataSave['shop_status'] : -1);
+        $this->layout->content =  View::make('site.ShopVip.EditProvider')
+            ->with('id', $provider_id)
             ->with('data', $dataSave)
-            ->with('arrViewImgOther', $arrViewImgOther)
-            ->with('imagePrimary', $imagePrimary)
-            ->with('imageHover', $imageHover)
-            ->with('optionCategory', $optionCategory)
-            ->with('optionStatusProduct', $optionStatusProduct)
-            ->with('optionTypePrice', $optionTypePrice)
-            ->with('optionTypeProduct', $optionTypeProduct);
+            ->with('error', $this->error)
+            ->with('optionStatus', $optionStatus)
+            ->with('arrStatus', $this->arrStatus);
     }
     private function validProvider($data=array()) {
         if(!empty($data)) {
-            if(isset($data['product_name']) && trim($data['product_name']) == '') {
-                $this->error[] = 'Tên sản phẩm không được bỏ trống';
-            }
-            if(isset($data['product_image']) && trim($data['product_image']) == '') {
-                $this->error[] = 'Chưa up ảnh sản phẩm';
-            }
-            if(isset($data['category_id']) && $data['category_id'] == -1) {
-                $this->error[] = 'Chưa chọn danh mục';
-            }
-            if(isset($data['product_type_price']) && $data['product_type_price'] == CGlobal::TYPE_PRICE_NUMBER) {
-                if(isset($data['product_price_sell']) && $data['product_price_sell'] <= 0) {
-                    $this->error[] = 'Chưa nhập giá bán';
-                }
+            if(isset($data['provider_name']) && trim($data['provider_name']) == '') {
+                $this->error[] = 'Tên nhà cung cấp không được bỏ trống';
             }
             return true;
         }
@@ -601,12 +418,12 @@ class ShopVipController extends BaseShopController
     }
     //Ajax
     public function deleteProvider(){
-        $product_id = (int)Request::get('product_id',0);
+        $provider_id = (int)Request::get('provider_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
-            if(sizeof($product) > 0){
-                if(Product::deleteData($product_id)){
+        if($this->shop_id > 0 && $provider_id > 0){
+            $provider = Provider::getProviderShopByID($provider_id,$this->shop_id);
+            if(sizeof($provider) > 0){
+                if(Provider::deleteData($provider_id)){
                     $data['isIntOk'] = 1;
                     return Response::json($data);
                 }

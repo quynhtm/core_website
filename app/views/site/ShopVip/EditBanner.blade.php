@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editBanner',array('banner_id'=>$id,'banner_name'=>(isset($id) && $id > 0)?strtolower(FunctionLib::safe_title($data['banner_name'])):strtolower(FunctionLib::safe_title('thêm sản phẩm')))),'files' => true))}}
+                {{Form::open(array('role'=>'form','method' => 'POST','url' =>URL::route('shop.editBanner',array('banner_id'=>$id,'banner_name'=>(isset($id) && $id > 0)?strtolower(FunctionLib::safe_title($data['banner_name'])):strtolower(FunctionLib::safe_title('thêm quảng cáo')))),'files' => true))}}
                 @if(isset($error) && sizeof($error) >0)
                     <div class="alert alert-danger" role="alert">
                         @foreach($error as $itmError)
