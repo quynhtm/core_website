@@ -189,7 +189,7 @@
                 </ul>
             </li>
 
-            <li class="@if(Route::currentRouteName() == 'shop.listProduct')active @endif">
+            <li class="@if(Route::currentRouteName() == 'shop.listProduct' || Route::currentRouteName() == 'shop.listProvider')active @endif">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-gift"></i>
                     <span class="menu-text"> Sản phẩm </span>
@@ -201,6 +201,13 @@
                         <a href="{{URL::route('shop.listProduct')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Quản lý sản phẩm
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="@if(Route::currentRouteName() == 'shop.listProvider')active @endif">
+                        <a href="{{URL::route('shop.listProvider')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Quản lý nhà cung cấp
                         </a>
                         <b class="arrow"></b>
                     </li>
@@ -219,6 +226,23 @@
                         <a href="{{URL::route('shop.listOrder')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Danh sách đơn hàng
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                </ul>
+            </li>
+            <li class="@if(Route::currentRouteName() == 'shop.listBanner')active @endif">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-book"></i>
+                    <span class="menu-text"> Quản lý Nội dung</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li class="@if(Route::currentRouteName() == 'shop.listBanner')active @endif">
+                        <a href="{{URL::route('shop.listBanner')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Banner quảng cáo
                         </a>
                         <b class="arrow"></b>
                     </li>

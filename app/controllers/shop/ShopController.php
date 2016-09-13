@@ -14,6 +14,7 @@ class ShopController extends BaseShopController
      * Trang shopAdmin
      */
     public function shopAdmin(){
+        CGlobal::$pageShopTitle = "Quản trị Shop | ".CGlobal::web_name;
         $error = Request::get('error',0);
         if($error == 1){
             $this->error[] = 'Shop Vip mới có chức năng này.';
