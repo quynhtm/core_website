@@ -263,7 +263,7 @@ class SiteHomeController extends BaseSiteController
     	
     	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
     	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
-    	$arrBannerSlider = array();
+    	
     	$this->layout->content = View::make('site.SiteLayouts.ShopHome')
     	->with('product',$product)
     	->with('arrChildCate',$arrChildCate)
