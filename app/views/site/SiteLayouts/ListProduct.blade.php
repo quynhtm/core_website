@@ -71,18 +71,19 @@
 									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 								</h4>
 								<div class="item-price">
-									@if($item->product_price_sell > 0)
-									<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
-									@endif
-									@if($item->product_price_market > 0)
-									<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
-									@endif
-									@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+									@if($item->product_type_price == 1)
+										@if($item->product_price_sell > 0)
+										<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+										@endif
+										@if($item->product_price_market > 0)
+										<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+										@endif
+									@else
 										<span class="amount-1">Liên hệ</span>
 									@endif
 								</div>
 							</div>
-							@if($item->user_shop_id > 0 && $item->user_shop_name != '')
+							@if($item->user_shop_id > 0 && $item->user_shop_name != '' && $item->is_shop == CGlobal::SHOP_VIP)
 							<div class="mgt5 amount-call">
 			                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{FunctionLib::safe_title($item->user_shop_name)}}.html">{{$item->user_shop_name}}</a>
 			            	</div>

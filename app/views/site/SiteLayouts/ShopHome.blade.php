@@ -34,37 +34,46 @@
 					</div>
 				</div>
 				<div class="content-right-product">
-						<div class="order-number-phone">
-							<p><b>Đặt nhanh qua điện thoại</b></p>
-							<div class="number-phone">
-								<div class="fa fa-phone"></div>
-								<span>{{$user_shop->shop_phone}}</span>
-							</div>
-							<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
-							<p><b>Thông tin liên hệ: </b></p>
-							<p>{{$user_shop->shop_email}}</p>
-							<p>{{$user_shop->shop_address}}</p>
+					<div class="order-number-phone">
+						<p><b>Đặt nhanh qua điện thoại</b></p>
+						<div class="number-phone">
+							<div class="fa fa-phone"></div>
+							<span>{{$user_shop->shop_phone}}</span>
 						</div>
+						<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
+						<p><b>Thông tin liên hệ: </b></p>
+						<p>{{$user_shop->shop_email}}</p>
+						<p>{{$user_shop->shop_address}}</p>
 					</div>
+				</div>
+				@if(sizeof($arrBannerLeft) != 0)
+				<div class="content-line-ads">
+					@foreach($arrBannerLeft as $item)
+					<div class="item-right-ads">
+						<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+							<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::freeSizeImage_300, '', true, CGlobal::type_thumb_image_banner)}}" alt="{{$item->banner_name}}">
+						</a>
+					</div>
+					@endforeach
+				</div>
+				@endif
 			</div>
 			<div class="right-show-product-shop body-list-item">
+				@if(sizeof($arrBannerSlider) != 0)
 				<div class="banner-shop-content">
 					<div id="sliderShop">
+						@foreach($arrBannerSlider as $item)
 						<div class="slide ">
-							<a target="_blank" href="" title="Danh mục mẹ và bé" rel="nofollow">
-								<img alt="Danh mục mẹ và bé" src="http://shopcuatui.com.vn/uploads/banner/8/11-14-24-27-04-2016-banner-web-thoitrangbegai.jpg">
+							<a @if($item->banner_is_rel == CGlobal::LINK_NOFOLLOW) rel="nofollow" @endif @if($item->banner_is_target == CGlobal::BANNER_TARGET_BLANK) target="_blank" @endif title="{{$item->banner_name}}" href="@if($item->banner_link != '') {{$item->banner_link}} @else javascript:void(0) @endif">
+								<img src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_750, '', true, CGlobal::type_thumb_image_banner)}}" alt="{{$item->banner_name}}">
 							</a>
 						</div>
-						<div class="slide ">
-							<a target="_blank" href="" title="Danh mục mẹ và bé" rel="nofollow">
-								<img alt="Danh mục mẹ và bé" src="http://shopcuatui.com.vn/uploads/banner/7/02-07-37-22-04-2016-bi-quyet-lam-trang-da-cap-toc-bang-my-pham.jpg">
-							</a>
-						</div>
+						@endforeach
 					</div>
 					<script type="text/javascript">
 						jQuery(document).ready(function() {
 							jQuery('#sliderShop').bxSlider({
-								slideWidth: 1170,
+								slideWidth: 1020,
 								slideHeight: 245,
 								minSlides: 1,
 								maxSlides: 2,
@@ -76,6 +85,11 @@
 					    });
 					</script>
 				</div>
+				@else
+				<div class="banner-shop-content">
+					<img src="{{Config::get('config.WEB_ROOT').CGlobal::banner_slider_default_shop}}" alt="ShopCuaTui.com.vn">
+				</div>
+				@endif
 				<ul>
 					@if(sizeof($product) != 0)
 					@foreach($product as $item)
@@ -99,13 +113,14 @@
 									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
 								</h4>
 								<div class="item-price">
-									@if($item->product_price_sell > 0)
-									<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
-									@endif
-									@if($item->product_price_market > 0)
-									<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
-									@endif
-									@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+									@if($item->product_type_price == 1)
+										@if($item->product_price_sell > 0)
+										<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+										@endif
+										@if($item->product_price_market > 0)
+										<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+										@endif
+									@else
 										<span class="amount-1">Liên hệ</span>
 									@endif
 								</div>

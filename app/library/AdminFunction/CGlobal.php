@@ -146,5 +146,7 @@ class CGlobal{
 
     const LINK_NOFOLLOW = 0;
     const LINK_FOLLOW = 1;
+    
+    const banner_slider_default_shop = 'uploads/banner/default.jpg';
 
 }
