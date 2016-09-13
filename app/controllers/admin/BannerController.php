@@ -159,8 +159,8 @@ class BannerController extends BaseAdminController
         $data['banner_page'] = (int)Request::get('banner_page');
         $data['banner_category_id'] = (int)Request::get('banner_category_id');
         $data['banner_is_run_time'] = (int)Request::get('banner_is_run_time');
-        $data['banner_start_time'] = (int)Request::get('banner_start_time');
-        $data['banner_end_time'] = (int)Request::get('banner_end_time');
+        $data['banner_start_time'] = Request::get('banner_start_time');
+        $data['banner_end_time'] = Request::get('banner_end_time');
         $data['banner_is_shop'] = (int)Request::get('banner_is_shop');
         $data['banner_shop_id'] = (int)Request::get('banner_shop_id');
         $data['banner_status'] = (int)Request::get('banner_status');
@@ -171,6 +171,8 @@ class BannerController extends BaseAdminController
             $id = ($id == 0)?$id_hiden: $id;
             if($id > 0) {
                 //cap nhat
+                $data['banner_start_time'] = strtotime($data['banner_start_time']);
+                $data['banner_end_time'] = strtotime($data['banner_end_time']);
                 if(Banner::updateData($id, $data)) {
                     return Redirect::route('admin.banner_list');
                 }
@@ -186,6 +188,8 @@ class BannerController extends BaseAdminController
         $optionShopName = FunctionLib::getOption(array(0=>'--- Chọn shop ---')+$this->arrShop, isset($data['banner_shop_id'])? $data['banner_shop_id']: 0);
         $optionRel = FunctionLib::getOption($this->arrRel, isset($data['banner_is_rel'])? $data['banner_is_rel']: CGlobal::LINK_NOFOLLOW);
 
+        $data['banner_start_time'] = strtotime($data['banner_start_time']);
+        $data['banner_end_time'] = strtotime($data['banner_end_time']);
         $this->layout->content =  View::make('admin.Banner.add')
             ->with('id', $id)
             ->with('error', $this->error)
@@ -216,14 +220,27 @@ class BannerController extends BaseAdminController
     }
     private function valid($data=array()) {
         if(!empty($data)) {
-            if(isset($data['category_name']) && $data['category_name'] == '') {
-                $this->error[] = 'Tên danh mục không được trống';
+            if(isset($data['banner_name']) && trim($data['banner_name']) == '') {
+                $this->error[] = 'Tên banner không được bỏ trống';
             }
-            if(isset($data['category_status']) && $data['category_status'] == -1) {
-                $this->error[] = 'Bạn chưa chọn trạng thái cho danh mục';
+            if(isset($data['banner_link']) && trim($data['banner_link']) == '') {
+                $this->error[] = 'Chưa có link view cho banner';
             }
-            return true;
+            if(isset($data['banner_image']) && trim($data['banner_image']) == '') {
+                $this->error[] = 'Chưa up ảnh banner quảng cáo';
+            }
+            if(isset($data['banner_is_run_time']) && $data['banner_is_run_time'] == 1) {
+                if(isset($data['banner_start_time']) && $data['banner_start_time'] == '' ) {
+                    $this->error[] = 'Chưa chọn thời gian bắt đầu chạy cho banner';
+                }
+                if(isset($data['banner_end_time']) && $data['banner_end_time'] == '') {
+                    $this->error[] = 'Chưa chọn thời gian kết thúc cho banner';
+                }
+                if(isset($data['banner_end_time']) && isset($data['banner_start_time'])  && (strtotime($data['banner_start_time']) > strtotime($data['banner_end_time']))) {
+                    $this->error[] = 'Thời gian bắt đầu lớn hơn thời gian kết thúc';
+                }
+            }
         }
-        return false;
+        return true;
     }
 }

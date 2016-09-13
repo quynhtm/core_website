@@ -64,19 +64,17 @@
                                 </td>
                                 <td>
                                     [<b>{{ $item->banner_id }}</b>] {{ $item->banner_name }}
+                                    <br/><a href="{{ $item->banner_link }}" target="_blank">{{ $item->banner_link }}</a>
                                 </td>
                                 <td>
                                     <b>Loại: </b>@if(isset($arrTypeBanner[$item->banner_type])){{$arrTypeBanner[$item->banner_type]}}@else ---- @endif
                                     <br/><b>Page: </b>@if(isset($arrPage[$item->banner_page])){{$arrPage[$item->banner_page]}}@else ---- @endif
-                                    <br/><b>Shop: </b>@if(isset($arrIsShop[$item->banner_is_shop])){{$arrIsShop[$item->banner_is_shop]}}@else ---- @endif
-                                    <br/><b>Danh mục: </b>{{$item->banner_category_id}}
-
                                     <br/>@if($item->banner_is_rel == 1)Follow @else Nofollow @endif
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($item->banner_is_run_time == CGlobal::BANNER_IS_RUN_TIME)
-                                        S:{{date('d-m-Y h:i:s',$item->banner_start_time)}}
-                                        <br/>E:{{date('d-m-Y h:i:s',$item->banner_end_time)}}
+                                        S:{{date('d-m-Y',$item->banner_start_time)}}
+                                        <br/>E:{{date('d-m-Y',$item->banner_end_time)}}
                                     @else
                                         Không giới hạn ngày chạy
                                     @endif
@@ -87,9 +85,8 @@
                                     @else
                                         <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
                                     @endif
-                                    &nbsp;&nbsp;&nbsp; <a href="{{URL::route('shop.editBanner',array('banner_id' => $item->banner_id,'banner_name' => $item->banner_name))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->banner_id}},1)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                    &nbsp;&nbsp; <a href="{{URL::route('shop.editBanner',array('banner_id' => $item->banner_id,'banner_name' => $item->banner_name))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
+                                    &nbsp;&nbsp; <a href="javascript:void(0);" onclick="SITE.deleteBanner({{$item->banner_id}})" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     <span class="img_loading" id="img_loading_{{$item->banner_id}}"></span>
                                 </td>
                             </tr>

@@ -51,6 +51,15 @@ class Banner extends Eloquent
         }
         return $new;
     }
+    public static function getBannerShopByID($id,$shop_id) {
+        $banner = Banner::getBannerByID($id);
+        if(sizeof($banner)>0){
+            if($banner->banner_shop_id == $shop_id){
+                return $banner;
+            }
+        }
+        return array();
+    }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
@@ -63,6 +72,9 @@ class Banner extends Eloquent
             }
             if (isset($dataSearch['banner_category_id']) && $dataSearch['banner_category_id'] > 0) {
                 $query->where('banner_category_id', $dataSearch['banner_category_id']);
+            }
+            if (isset($dataSearch['banner_shop_id']) && $dataSearch['banner_shop_id'] > 0) {
+                $query->where('banner_shop_id', $dataSearch['banner_shop_id']);
             }
             $total = $query->count();
             $query->orderBy('banner_id', 'desc');

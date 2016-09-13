@@ -94,10 +94,9 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
     //Quản lý nhà cung cấp
     Route::get('provider/view',array('as' => 'admin.provider_list','uses' => 'ProviderController@view'));
-    Route::get('provider/getProvider/{id?}', array('as' => 'admin.provider_edit','uses' => 'ProviderController@getProvider'))->where('id', '[0-9]+');
-    Route::post('provider/postProvider/{id?}', array('as' => 'admin.provider_edit_post','uses' => 'ProviderController@postProvider'))->where('id', '[0-9]+');
-    Route::post('provider/deleteProvider', array('as' => 'admin.deltete_provider_post','uses' => 'ProviderController@deleteProvider'));//ajax
-    Route::post('provider/updateStatusProvider', array('as' => 'admin.status_provider_post','uses' => 'ProviderController@updateStatusProvider'));//ajax
+    Route::get('provider/edit/{id?}', array('as' => 'admin.provider_edit','uses' => 'ProviderController@getProvider'))->where('id', '[0-9]+');
+    Route::post('provider/edit/{id?}', array('as' => 'admin.provider_edit','uses' => 'ProviderController@postProvider'))->where('id', '[0-9]+');
+    Route::post('provider/deleteProvider', array('as' => 'admin.deltete_provider','uses' => 'ProviderController@deleteProvider'));//ajax
 
     /*Quản lý San Pham*/
     Route::get('product/view',array('as' => 'admin.product_list','uses' => 'ProductController@view'));
@@ -115,7 +114,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::any('banner/view',array('as' => 'admin.banner_list','uses' => 'BannerController@view'));
     Route::get('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@getBanner'))->where('id', '[0-9]+');
     Route::post('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@postBanner'))->where('id', '[0-9]+');
-    Route::post('banner/deleteNews', array('as' => 'admin.deltete_banner_post','uses' => 'BannerController@deleteBanner'));//ajax
+    Route::post('banner/deleteBanner', array('as' => 'admin.deleteBanner','uses' => 'BannerController@deleteBanner'));//ajax
 
     /*Quan Ly Don Hang*/
     Route::get('order/view',array('as' => 'admin.order_list','uses' => 'OrderController@view'));
