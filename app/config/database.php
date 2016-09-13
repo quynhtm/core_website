@@ -64,7 +64,7 @@ return array(
 //			'prefix'    => '',
 //		),
 
-//localhost: admin/admin!1234
+//localhost:
         'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
