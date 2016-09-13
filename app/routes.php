@@ -110,6 +110,12 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('news/edit/{id?}', array('as' => 'admin.news_edit','uses' => 'NewsController@postNews'))->where('id', '[0-9]+');
     Route::post('news/deleteNews', array('as' => 'admin.deltete_news_post','uses' => 'NewsController@deleteNews'));//ajax
 
+    //*Quản lý Liên hệ*/
+    Route::get('contact/view',array('as' => 'admin.contact_list','uses' => 'NewsController@view'));
+    Route::get('contact/edit/{id?}', array('as' => 'admin.contact_edit','uses' => 'NewsController@getContact'))->where('id', '[0-9]+');
+    Route::post('contact/edit/{id?}', array('as' => 'admin.contact_edit','uses' => 'NewsController@postContact'))->where('id', '[0-9]+');
+    Route::post('contact/deleteContact', array('as' => 'admin.deltete_contact','uses' => 'NewsController@deleteContact'));//ajax
+
     /*Quản lý banner*/
     Route::any('banner/view',array('as' => 'admin.banner_list','uses' => 'BannerController@view'));
     Route::get('banner/edit/{id?}', array('as' => 'admin.banner_edit','uses' => 'BannerController@getBanner'))->where('id', '[0-9]+');

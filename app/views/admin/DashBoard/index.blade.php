@@ -106,6 +106,17 @@
                         </a>
                     </div>
                     @endif
+
+                    @if($is_root || in_array('contact_view',$aryPermission))
+                    <div class="col-sm-6 col-md-3">
+                        <a class="quick-btn a_control" href="{{URL::route('admin.contact_list')}}">
+                            <div class="thumbnail text-center">
+                                <i class="fa fa-envelope-o fa-5x"></i><br/>
+                                <span>Liên hệ của Shop</span>
+                            </div>
+                        </a>
+                    </div>
+                    @endif
                  </div>
             </div><!-- /.col -->
         </div><!-- /.row -->
