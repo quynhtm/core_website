@@ -1149,7 +1149,7 @@ p {
 .title-category-parent {
     font-size: 13px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     padding-bottom: 5px;
     text-transform: uppercase;
 }
@@ -1777,4 +1777,7 @@ form#txtFormPaymentCart .form-group label {
 .body-list-item .bx-wrapper .bx-pager, 
 .body-list-item .bx-wrapper .bx-controls-auto {
     bottom: 5px;
+}
+.wrapp-category-menu > ul {
+    margin-left: 10px;
 }
