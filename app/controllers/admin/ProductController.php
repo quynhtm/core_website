@@ -20,6 +20,22 @@ class ProductController extends BaseAdminController
     {
         parent::__construct();
         $this->arrShop = UserShop::getShopAll();
+        //Include style.
+        FunctionLib::link_css(array(
+            'lib/upload/cssUpload.css',
+        ));
+
+        //Include javascript.
+        FunctionLib::link_js(array(
+            'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            'js/common.js',
+            'admin/js/admin.js',
+            'lib/dragsort/jquery.dragsort.js',
+            'lib/number/autoNumeric.js',
+            //'frontend/js/site.js',
+        ));
     }
 
     public function view() {
@@ -220,6 +236,26 @@ class ProductController extends BaseAdminController
         $id = (int)Request::get('id', 0);
         if ($id > 0 && Product::deleteData($id)) {
             $data['isIntOk'] = 1;
+        }
+        return Response::json($data);
+    }
+
+    public function deleteMultiProduct(){
+        $data = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+            return Response::json($data);
+        }
+        $dataId = Request::get('dataId',array());
+        $arrData['isIntOk'] = 0;
+        if(empty($dataId)) {
+            return Response::json($data);
+        }
+        if(sizeof($dataId) > 0){
+            foreach($dataId as $k =>$id){
+                if ($id > 0 && Product::deleteData($id)) {
+                    $data['isIntOk'] = 1;
+                }
+            }
         }
         return Response::json($data);
     }

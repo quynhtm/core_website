@@ -26,13 +26,16 @@
                                 {{$optionStatus}}
                             </select>
                         </div>
-                    </div>
-                    <div class="panel-footer text-right">
-                        <span class="">
+                        <div class="form-group col-lg-12 text-right">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
-                            <!--<a class="btn btn-warning btn-sm" href="{{URL::route('shop.addProduct')}}"><i class="fa fa-edit"></i> Thêm SP mới</a>-->
-                        </span>
+                        </div>
                     </div>
+                    @if($is_root)
+                    <div class="panel-footer text-right">
+                        <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.removeAllItems(1);"><i class="fa fa-trash"></i> Xóa nhiều SP </a>
+                        <span class="img_loading" id="img_loading_delete_all"></span>
+                    </div>
+                    @endif
                     {{ Form::close() }}
                 </div>
                 @if(sizeof($data) > 0)
@@ -41,7 +44,7 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
-                            <th width="3%" class="text-center">STT</th>
+                            <th width="3%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
                             <th width="8%" class="text-center">Ảnh SP</th>
                             <th width="24%">Thông tin sản phẩm</th>
                             <th width="15%">Giá bán</th>
@@ -53,7 +56,10 @@
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
-                                <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
+                                <td class="text-center text-middle">
+                                    {{ $stt + $key+1 }}<br/>
+                                    <input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->product_id}}">
+                                </td>
                                 <td class="text-center text-middle">
                                     <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item->product_id, $item->product_image, CGlobal::sizeImage_100)}}">
                                 </td>
@@ -85,18 +91,22 @@
                                         <br/>Sửa: {{date ('d-m-Y H:i',$item->time_update)}}
                                 </td>
                                 <td class="text-center text-middle">
-                                    @if($item->product_status == CGlobal::status_show)
-                                        <i class="fa fa-check fa-2x green" title="Hiển thị"></i>
+                                    @if($item->is_block == CGlobal::PRODUCT_BLOCK)
+                                        <i class="fa fa-lock fa-2x red" title="Bị khóa"></i>
+                                    @else
+                                        @if($item->product_status == CGlobal::status_show)
+                                            <i class="fa fa-check fa-2x green" title="Hiển thị"></i>
+                                        @endif
+                                        @if($item->product_status == CGlobal::status_hide)
+                                            <i class="fa fa-close fa-2x red" title="Đang ẩn"></i>
+                                        @endif
+                                        @if($item->product_status == CGlobal::IMAGE_ERROR)
+                                            <i class="fa fa-bug fa-2x red" title="Sản phẩm bị lỗi"></i>
+                                        @endif
                                     @endif
-                                    @if($item->product_status == CGlobal::status_hide)
-                                        <i class="fa fa-close fa-2x red" title="Đang ẩn"></i>
+                                    @if($is_root || $permission_full ==1|| $permission_edit ==1  )
+                                        <a href="{{URL::route('admin.product_edit',array('id' => $item->product_id))}}" title="Sửa sản phẩm"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
-                                    <a href="{{URL::route('admin.product_edit',array('id' => $item->product_id))}}" title="Sửa sản phẩm"><i class="fa fa-edit fa-2x"></i></a>
-
-                                    <!--
-                                    <a href="javascript:void(0);" onclick="SITE.deleteProduct({{$item->product_id}})" title="Xóa sản phẩm"><i class="fa fa-trash fa-2x"></i></a>
-                                    <br/><a href="javascript:void(0);" onclick="SITE.setOnTopProduct({{$item->product_id}},{{$item->is_shop}})" title="On top"><i class="fa fa-upload fa-2x"></i></a>
-                                    -->
                                     <span class="img_loading" id="img_loading_{{$item->product_id}}"></span>
                                 </td>
                             </tr>

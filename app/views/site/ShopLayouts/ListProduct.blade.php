@@ -81,13 +81,19 @@
                                     Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
                                 </td>
                                 <td class="text-center text-middle">
-                                    @if($item->product_status == CGlobal::status_show)
-                                        <i class="fa fa-check fa-2x green" title="Hiển thị"></i>
+                                    @if($item->is_block == CGlobal::PRODUCT_BLOCK)
+                                        <i class="fa fa-lock fa-2x red" title="Bị khóa"></i>
+                                    @else
+                                        @if($item->product_status == CGlobal::status_show)
+                                            <i class="fa fa-check fa-2x green" title="Hiển thị"></i>
+                                        @endif
+                                        @if($item->product_status == CGlobal::status_hide)
+                                            <i class="fa fa-close fa-2x red" title="Đang ẩn"></i>
+                                        @endif
+                                        @if($item->product_status == CGlobal::IMAGE_ERROR)
+                                            <i class="fa fa-close fa-2x red" title="Sản phẩm bị lỗi"></i>
+                                        @endif
                                     @endif
-                                    @if($item->product_status == CGlobal::status_hide)
-                                        <i class="fa fa-close fa-2x red" title="Đang ẩn"></i>
-                                    @endif
-
                                     <a href="{{URL::route('shop.editProduct',array('product_id' => $item->product_id,'product_name' => $item->product_name))}}" title="Sửa sản phẩm"><i class="fa fa-edit fa-2x"></i></a>
                                     <a href="javascript:void(0);" onclick="SITE.deleteProduct({{$item->product_id}})" title="Xóa sản phẩm"><i class="fa fa-trash fa-2x"></i></a>
                                     <br/><a href="javascript:void(0);" onclick="SITE.setOnTopProduct({{$item->product_id}},{{$item->is_shop}})" title="On top"><i class="fa fa-upload fa-2x"></i></a>

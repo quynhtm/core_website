@@ -60,6 +60,7 @@ class Product extends Eloquent
         try{
             $query = Product::where('product_id','>',0);
             $query->where('product_status','=',CGlobal::status_show);
+            $query->where('is_block','=',CGlobal::PRODUCT_NOT_BLOCK);
 
             if (isset($dataSearch['category_id'])) {
                 if (is_array($dataSearch['category_id'])) {//tim theo m?ng id danh muc

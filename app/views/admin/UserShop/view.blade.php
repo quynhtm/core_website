@@ -118,7 +118,7 @@
                                     @endif
                                     <br/>
                                     @if($is_root)
-                                        <a href="{{Config::get('config.WEB_ROOT')}}admin/userShop/loginToShop/{{$item->shop_id}}" style="color: red" title="Đăng nhập vào shop" target="_blank"><i class="fa fa-sign-in fa-2x"></i></a>
+                                        <a href=" {{URL::route('admin.loginToShop',array('id' => $item->shop_id))}}" style="color: red" title="Đăng nhập vào shop" target="_blank"><i class="fa fa-sign-in fa-2x"></i></a>
                                     @endif
                                     <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->shop_id}}">
                                 </td>
@@ -141,10 +141,3 @@
         <!-- /.row -->
     </div><!-- /.page-content -->
 </div>
-<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
-    $(document).ready(function() {
-        $("#checkAll").click(function () {
-            $(".check").prop('checked', $(this).prop('checked'));
-        });
-    });
-</script>

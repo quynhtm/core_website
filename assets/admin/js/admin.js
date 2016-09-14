@@ -1,3 +1,8 @@
+$(document).ready(function() {
+    $("#checkAll").click(function () {
+        $(".check").prop('checked', $(this).prop('checked'));
+    });
+});
 var Admin = {
     deleteItem: function(id,type) {
         if(confirm('Bạn có muốn xóa Item này không?')) {
@@ -27,6 +32,44 @@ var Admin = {
                     }
                 }
             });
+        }
+    },
+    removeAllItems: function(type){
+        var dataId = [];
+        var i = 0;
+        $("input[name*='checkItems']").each(function () {
+            if ($(this).is(":checked")) {
+                dataId[i] = $(this).val();
+                i++;
+            }
+        });
+        if(dataId.length == 0) {
+            alert('Bạn chưa chọn items để thao tác.');
+            return false;
+        }
+        var url_ajax = '';
+        if(type == 1){ //xoa sản phẩm
+            url_ajax = 'deleteMultiProduct';
+        }
+        if(url_ajax != ''){
+            if(confirm('Bạn có muốn thực hiện thao tác này?')) {
+                $('#img_loading_delete_all').show();
+                $.ajax({
+                    type: "post",
+                    url: url_ajax,
+                    data: {dataId: dataId},
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#img_loading_delete_all').hide();
+                        if (res.isIntOk == 1) {
+                            alert('Bạn đã thực hiện thành công');
+                            window.location.reload();
+                        } else {
+                            alert('Không thể thực hiện được thao tác.');
+                        }
+                    }
+                });
+            }
         }
     },
     updateStatusItem: function(id,status,type) {

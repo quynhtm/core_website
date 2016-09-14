@@ -7,7 +7,7 @@ class SiteHomeController extends BaseSiteController
         FunctionLib::site_css('font-awesome/4.2.0/css/font-awesome.min.css', CGlobal::$POS_HEAD);
     }
 
-    private $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+    private $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop,is_block';//cac truong can lay
     //trang chu
     public function index(){
     	
@@ -89,6 +89,13 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
 
+    //trang tìm kiếm
+    public function searchProduct(){
+        $this->header();
+        $this->layout->content = View::make('site.SiteLayouts.searchProduct');
+        $this->footer();
+    }
+
     //trang danh sách san pham theo danh mục
     public function listProduct($cat_id){
         $this->header();
@@ -143,8 +150,8 @@ class SiteHomeController extends BaseSiteController
             //FunctionLib::debug($product);
             $user_shop = UserShop::getByID($product->user_shop_id);
             if ($product) {
-                //check s?n ph?m có b? khóa hay ?n khong
-                if($product->product_status == CGlobal::status_hide || $product->product_status == CGlobal::status_block){
+                //check xem sản phẩm có khi khóa hay ẩn hay không
+                if($product->product_status == CGlobal::status_hide || $product->is_block == CGlobal::PRODUCT_BLOCK){
                     return Redirect::route('site.Error');
                 }
                 $url = URL::current();
@@ -165,14 +172,12 @@ class SiteHomeController extends BaseSiteController
     	$search['field_get'] = $this->str_field_product_get;
     	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
     	
-        
         $this->layout->content = View::make('site.SiteLayouts.DetailProduct')
             ->with('product',$product)
             ->with('user_shop', $user_shop)
         	->with('dataProVip',$dataProVip);
         $this->footer();
     }
-
 
     //trang list tin tuc
     public function homeNew(){
@@ -540,11 +545,7 @@ class SiteHomeController extends BaseSiteController
     	$this->footer();
     }
 
-    public function searchProduct(){
-    	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.searchProduct');
-    	$this->footer();
-    }
+
     
     //Ajax load item sub category home
     public function ajaxLoadItemSubCategory(){
