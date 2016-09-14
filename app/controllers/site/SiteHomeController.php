@@ -66,7 +66,7 @@ class SiteHomeController extends BaseSiteController
     }
 
     //trang list sản phẩm mới
-    public function listNewProduct(){
+    public function listProductNew(){
         $this->header();
 
         $product = array();
@@ -76,12 +76,12 @@ class SiteHomeController extends BaseSiteController
         $total = 0;
         $pageScroll = CGlobal::num_scroll_page;
         $pageNo = (int) Request::get('page_no', 1);
-        $product = Product::getProductForSite(array(), $limit, $offset,$total);
+        $product = Product::getProductForSite($this->str_field_product_get, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, array()) : '';
 
         $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
-       //FunctionLib::debug($arrBannerLeft);
-        $this->layout->content = View::make('site.SiteLayouts.ListProductNew')
+ 
+        $this->layout->content = View::make('site.SiteLayouts.listProductNew')
             ->with('product',$product)
         	->with('paging', $paging)
         	->with('arrBannerLeft', $arrBannerLeft);
