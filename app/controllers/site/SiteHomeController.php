@@ -248,7 +248,7 @@ class SiteHomeController extends BaseSiteController
     	$this->header();
     	
     	$product = array();
-    	$categoryParrentCat = $arrChildCate = array();
+    	$arrChildCate = array();
     	$paging = '';
     	
     	$user_shop = UserShop::getByID($shop_id);
@@ -272,7 +272,6 @@ class SiteHomeController extends BaseSiteController
     	$this->layout->content = View::make('site.SiteLayouts.ShopHome')
     	->with('product',$product)
     	->with('arrChildCate',$arrChildCate)
-    	->with('categoryParrentCat', $categoryParrentCat)
     	->with('paging', $paging)
     	->with('user_shop', $user_shop)
     	->with('arrBannerSlider', $arrBannerSlider)
