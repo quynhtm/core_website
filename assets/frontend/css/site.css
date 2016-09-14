@@ -905,7 +905,7 @@ p {
 }
 .content-right-bottom-content-view ul li {
 	height: auto;
-	width: 98%;
+	width: 99%;
 	margin: 0 0 15px;
 }
 .mgt5 {
@@ -1390,6 +1390,12 @@ p {
     clear: both;
     margin-top: 20px;
     width: 100%;
+}
+.content-center-content-view > ul {
+    margin: 0 -1.8% 0 -0.8%;
+}
+.phone.content-center-content-view > ul {
+    margin: 0 -1% 0 -0.8%;
 }
 .bottom-content-view {
     clear: both;
