@@ -81,12 +81,11 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->shop_address }}</td>
-                                <td>
+                                <td class="text-middle">
                                     @if(isset($arrIsShop[$item->is_shop])){{ $arrIsShop[$item->is_shop] }}@else --- @endif
-                                    @if($item->is_shop != CGlobal::SHOP_VIP)
-                                        <br/>Limit up:{{ $item->number_limit_product }}
-                                        <br/>∑ up:{{ $item->shop_up_product }}
-                                    @endif
+                                    <br/>∑ đã đăng SP:{{ $item->shop_up_product }}
+                                    <br/>∑ limit up SP:{{ $item->number_limit_product }}
+                                    <br/>∑ share URL:{{ $item->shop_number_share }}
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($item->is_login == CGlobal::SHOP_ONLINE)

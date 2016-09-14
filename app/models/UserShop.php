@@ -10,9 +10,12 @@ class UserShop extends Eloquent
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('shop_id','shop_name', 'user_shop','number_limit_product','is_shop','is_login','shop_time_login','shop_time_logout',
+    protected $fillable = array('shop_id','shop_name', 'user_shop','is_shop','is_login','shop_time_login','shop_time_logout',
         'user_password', 'shop_phone', 'shop_address','shop_province','shop_category',
-        'shop_category_name','shop_about','shop_transfer','time_start_vip','time_end_vip','shop_up_product','shup_number_share',
+        'shop_category_name','shop_about','shop_transfer','time_start_vip','time_end_vip',
+        'shop_up_product',//khi nh?p s?n ph?m cái này +1
+        'shop_number_share',//khi share s? công number_limit_product + 1
+        'number_limit_product',//thay ??i khi share url shop
         'shop_email', 'shop_status', 'shop_created');
 
     public static function getByID($id) {
