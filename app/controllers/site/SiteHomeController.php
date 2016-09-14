@@ -471,7 +471,7 @@ class SiteHomeController extends BaseSiteController
             if(isset($data['shop_email']) && trim($data['shop_email']) == '') {
                 $error[] = 'Email không được bỏ trống';
             }else{
-                $checkEmail = $this->checkRegexEmail(trim($data['shop_email']));
+                $checkEmail = FunctionLib::checkRegexEmail(trim($data['shop_email']));
                 if($checkEmail){
                     $checUserShop = UserShop::getUserShopByEmail(trim($data['shop_email']));
                     if($checUserShop){
@@ -498,29 +498,7 @@ class SiteHomeController extends BaseSiteController
         }
         return $error;
     }
-    public static function checkRegexEmail($str=''){
-        if($str != ''){
-            $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
-            if (!preg_match($regex, $str)){
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-    
-    //Duy them page danh sách sản phẩm trong giỏ hàng
-    public function listCartOrder(){
-    	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.listCartOrder');
-    	$this->footer();
-    }
-    public function sendCartOrder(){
-    	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.sendCartOrder');
-    	$this->footer();
-    }
-    
+
 	public function page404(){
     	$this->header();
 
@@ -534,19 +512,7 @@ class SiteHomeController extends BaseSiteController
 
     	$this->footer();
     }
-    
-    public function thanksBuy(){
-    	$this->header();
 
-    	$limit = CGlobal::number_show_30;
-    	$total = $offset = 0;
-    	$search['field_get'] = $this->str_field_product_get;
-    	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
-    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy')
-            ->with('dataProVip',$dataProVip);
-
-    	$this->footer();
-    }
     public function searchProduct(){
     	$this->header();
     	$this->layout->content = View::make('site.SiteLayouts.searchProduct');

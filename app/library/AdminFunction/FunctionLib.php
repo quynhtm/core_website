@@ -406,7 +406,18 @@ class FunctionLib {
         }
         return $number;
     }
-		
+
+    public static function checkRegexEmail($str=''){
+        if($str != ''){
+            $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+            if (!preg_match($regex, $str)){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     static function substring($str, $length = 100, $replacer='...'){
     	$str = strip_tags($str);
     	if(strlen($str) <= $length){

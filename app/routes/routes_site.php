@@ -12,6 +12,9 @@
 /*home*/
 Route::any('/', array('as' => 'site.home','uses' => 'SiteHomeController@index'));
 
+Route::get('404.html',array('as' => 'site.page404','uses' =>'SiteHomeController@page404'));
+Route::post('load-product-with-category.html',array('as' => 'site.ajaxLoadItemSubCategory','uses' =>'SiteHomeController@ajaxLoadItemSubCategory'));//ajax
+
 /*product*/
 Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@searchProduct'));
 Route::get('san-pham-moi.html',array('as' => 'site.product_new','uses' => 'SiteHomeController@listProductNew'));
@@ -23,14 +26,10 @@ Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'Sit
 Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@homeNew'));
 Route::get('tin-tuc-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
-//Duy them page danh sách sản phẩm trong giỏ hàng
-Route::get('gio-hang.html',array('as' => 'site.listCartOrder','uses' =>'SiteHomeController@listCartOrder'));
-Route::get('gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteHomeController@sendCartOrder'));
-
-Route::get('404.html',array('as' => 'site.page404','uses' =>'SiteHomeController@page404'));
-Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteHomeController@thanksBuy'));
-
-Route::post('load-product-with-category.html',array('as' => 'site.ajaxLoadItemSubCategory','uses' =>'SiteHomeController@ajaxLoadItemSubCategory'));//ajax
+//Phần liên quan đến giỏ hàng, đặt hàng, khách mua hàng
+Route::get('gio-hang.html',array('as' => 'site.listCartOrder','uses' =>'SiteOrderController@listCartOrder'));
+Route::get('gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteOrderController@sendCartOrder'));
+Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteOrderController@thanksBuy'));
 
 //trang chủ shop
 Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteHomeController@shopIndex'))->where('shop_id', '[0-9]+');
