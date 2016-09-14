@@ -11,7 +11,7 @@
 			<div class="left-category-shop">
 				@if(!empty($arrChildCate))
 				<div class="wrapp-category-menu">
-					<div class="title-category-parent">{{$categoryParrentCat->category_name}}</div>
+					<div class="title-category-parent">Danh mục sản phẩm</div>
 					<ul>
 						@foreach($arrChildCate as $key=>$cat)
 						<li><a href="{{URL::route('site.listProduct', array('name'=>strtolower(FunctionLib::safe_title($cat)),'id'=>$key))}}" title="{{$cat}}">{{$cat}}</a></li>

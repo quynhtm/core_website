@@ -248,13 +248,13 @@ class SiteHomeController extends BaseSiteController
     	$this->header();
     	
     	$product = array();
-    	$categoryParrentCat = $arrChildCate = array();
+    	$arrChildCate = array();
     	$paging = '';
     	
     	$user_shop = UserShop::getByID($shop_id);
     	
     	if(sizeof($user_shop) != 0){
-    		
+    		$arrChildCate = UserShop::getCategoryShopById($shop_id);
     		$search['user_shop_id'] = $shop_id;
     		$pageNo = (int) Request::get('page_no', 1);
     		$limit = CGlobal::number_show_20;
@@ -272,7 +272,6 @@ class SiteHomeController extends BaseSiteController
     	$this->layout->content = View::make('site.SiteLayouts.ShopHome')
     	->with('product',$product)
     	->with('arrChildCate',$arrChildCate)
-    	->with('categoryParrentCat', $categoryParrentCat)
     	->with('paging', $paging)
     	->with('user_shop', $user_shop)
     	->with('arrBannerSlider', $arrBannerSlider)
