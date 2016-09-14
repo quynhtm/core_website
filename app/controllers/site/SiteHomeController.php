@@ -267,32 +267,30 @@ class SiteHomeController extends BaseSiteController
 		
     	FunctionLib::site_css('lib/bxslider/bxslider.css', CGlobal::$POS_HEAD);
     	FunctionLib::site_js('lib/bxslider/bxslider.js', CGlobal::$POS_END);
-    	
-    	$user_shop = array();
     	$this->header();
     	
-    	$product = array();
-    	$arrChildCate = array();
+    	$arrChildCate = $user_shop = $product = $arrBannerSlider = $arrBannerLeft = array();
     	$paging = '';
     	
-    	$user_shop = UserShop::getByID($shop_id);
-    	
-    	if(sizeof($user_shop) != 0){
-    		$arrChildCate = UserShop::getCategoryShopById($shop_id);
-    		$search['user_shop_id'] = $shop_id;
-    		$pageNo = (int) Request::get('page_no', 1);
-    		$limit = CGlobal::number_show_20;
-    		$offset = ($pageNo - 1) * $limit;
-    		$total = 0;
-    		$pageScroll = CGlobal::num_scroll_page;
-    		$pageNo = (int) Request::get('page_no', 1);
-    		$product = Product::getProductForSite($search, $limit, $offset,$total);
-    		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+    	if($shop_id > 0){
+    		$user_shop = UserShop::getByID($shop_id);
+	    	if(sizeof($user_shop) != 0){
+	    		$arrChildCate = UserShop::getCategoryShopById($shop_id);
+	    		$search['user_shop_id'] = $shop_id;
+	    		$pageNo = (int) Request::get('page_no', 1);
+	    		$limit = CGlobal::number_show_20;
+	    		$offset = ($pageNo - 1) * $limit;
+	    		$total = 0;
+	    		$pageScroll = CGlobal::num_scroll_page;
+	    		$pageNo = (int) Request::get('page_no', 1);
+	    		$product = Product::getProductForSite($search, $limit, $offset,$total);
+	    		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+	    	}
+	    	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
+	    	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+    	}else{
+    		return Redirect::route('site.page404');
     	}
-    	
-    	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
-    	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
-    	
     	$this->layout->content = View::make('site.SiteLayouts.ShopHome')
     	->with('product',$product)
     	->with('arrChildCate',$arrChildCate)
@@ -309,11 +307,40 @@ class SiteHomeController extends BaseSiteController
      */
     public function shopListProduct($shop_id = 0,$cat_id = 0){
         $this->header();
-        $product = array();
-        $user_shop = array();
-        $this->layout->content = View::make('site.SiteLayouts.ShopHome')
-            ->with('product',$product)
-            ->with('user_shop', $user_shop);
+       
+        $arrChildCate = $user_shop = $product = $arrBannerSlider = $arrBannerLeft = $arrCatShow = array();
+        $paging = '';
+        
+        if($shop_id > 0){
+        	$user_shop = UserShop::getByID($shop_id);
+        	if(sizeof($user_shop) != 0){
+        		$arrChildCate = UserShop::getCategoryShopById($shop_id);
+        		$arrCatShow = Category::getByID($cat_id);
+        		$search['user_shop_id'] = $shop_id;
+        		$search['category_id'] = $cat_id;
+        		$pageNo = (int) Request::get('page_no', 1);
+        		$limit = CGlobal::number_show_20;
+        		$offset = ($pageNo - 1) * $limit;
+        		$total = 0;
+        		$pageScroll = CGlobal::num_scroll_page;
+        		$pageNo = (int) Request::get('page_no', 1);
+        		$product = Product::getProductForSite($search, $limit, $offset,$total);
+        		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        	}
+        	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
+        	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+        }else{
+        	return Redirect::route('site.page404');
+        }
+       
+        $this->layout->content = View::make('site.SiteLayouts.shopListProduct')
+					            ->with('product',$product)
+						    	->with('arrChildCate',$arrChildCate)
+						    	->with('paging', $paging)
+						    	->with('user_shop', $user_shop)
+						    	->with('arrBannerSlider', $arrBannerSlider)
+						    	->with('arrBannerLeft', $arrBannerLeft)
+        						->with('arrCatShow', $arrCatShow);
         $this->footer();
     }
 

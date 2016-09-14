@@ -341,11 +341,8 @@ p {
     left: 0;
     position: absolute;
     top: 8px;
-    width: 20%;
+    width: 232px;
     z-index: 2;
-}
-.box-menu-title:hover{
-	background: #fe6d01;
 }
 .list-product-new{
     display: inline-block;
@@ -485,6 +482,7 @@ p {
 .box-menu-hover.act .title-cat-menu,
 .box-menu-hover:hover .title-cat-menu{
     color: #fff;
+	 background: #ff6d01;
 }
 .box-menu-hover:hover .ic-line{
 	background: #fff;
