@@ -10,28 +10,29 @@ class SiteOrderController extends BaseSiteController
     private $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
 
 
-    //Duy them page danh sách sản phẩm trong giỏ hàng
+	/*********************************************************************************************************************************
+	 * Phần đặt hàng
+	 *********************************************************************************************************************************
+	 */
     public function listCartOrder(){
     	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.listCartOrder');
+    	$this->layout->content = View::make('site.SiteOrder.listCartOrder');
     	$this->footer();
     }
     public function sendCartOrder(){
     	$this->header();
-    	$this->layout->content = View::make('site.SiteLayouts.sendCartOrder');
+    	$this->layout->content = View::make('site.SiteOrder.sendCartOrder');
     	$this->footer();
     }
 
     public function thanksBuy(){
     	$this->header();
-
     	$limit = CGlobal::number_show_30;
     	$total = $offset = 0;
     	$search['field_get'] = $this->str_field_product_get;
     	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
-    	$this->layout->content = View::make('site.SiteLayouts.thanksBuy')
+    	$this->layout->content = View::make('site.SiteOrder.thanksBuy')
             ->with('dataProVip',$dataProVip);
-
     	$this->footer();
     }
 }
