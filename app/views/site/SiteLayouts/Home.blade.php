@@ -135,7 +135,7 @@
                 @endif
 			</div>
 		</div>
-		<div class="content-list-item w-home">
+		<div class="content-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
 			<ul class="data-tab data-tab-one act">
 				@if($dataProVip != null)
 				@foreach($dataProVip as $key=>$item)
@@ -210,7 +210,7 @@
                 @endif
 			</div>
 		</div>
-		<div class="content-list-item w-home">
+		<div class="content-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
 			<ul class="data-tab data-tab-one act">
 				@if($dataProFree != null)
 				@foreach($dataProFree as $item)

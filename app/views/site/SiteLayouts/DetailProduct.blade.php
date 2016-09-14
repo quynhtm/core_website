@@ -23,7 +23,7 @@
 						     });
 						});
 					</script>
-				<div class="left-slider-img">
+				<div class="left-slider-img {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
 					<div class="list-thumb-img">
 						<div id="slick">
 							<?php 

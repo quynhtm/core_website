@@ -102,10 +102,9 @@ p {
 #logo {
     border-radius: 5px;
     float: left;
-    margin-right: 15px;
     margin-top: 8px;
     overflow: hidden;
-    width: 230px;
+    width: 20%;
 }
 #logo img{
     border-radius: 4px;
@@ -128,6 +127,9 @@ p {
     border: 2px solid #fe6d01;
     display: inline-block;
     float: left;
+    height: 30px;
+    position: relative;
+    white-space: nowrap;
     width: 95%;
 }
 .provices_id {
@@ -140,22 +142,26 @@ p {
     height: 30px;
     width: 50%;
 }
-.btn-search{
-    background: #fe6d01;
+.btn-search {
+    background: #fe6d01 none repeat scroll 0 0;
     border: medium none;
     color: #fff;
     cursor: pointer;
     float: right;
     font-style: italic;
     font-weight: bold;
-    padding: 6px 15px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    width: 15%;
 }
 .btn-search:hover {
     background: #f16000;
 }
 .box-right-focus {
     display: inline-block;
-    float: left;
+    float: right;
+    width: 28%;
 }
 .support-contact .icon-book{
     font-size: 30px;
@@ -326,17 +332,17 @@ p {
     position: relative;
     width: 100%;
 }
-.box-menu-title{
+.box-menu-title {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    cursor: pointer;
     display: inline-block;
     float: left;
     left: 0;
-	top:8px;
     position: absolute;
-    width: 232px;
+    top: 8px;
+    width: 20%;
     z-index: 2;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	cursor: pointer;
 }
 .box-menu-title:hover{
 	background: #fe6d01;
@@ -391,15 +397,19 @@ p {
 .shop-create {
     display: inline-block;
     float: left;
-    width: 220px;
+    width: 30%;
+	overflow: hidden;
 }
-.part1-right-ultity{
-	display:inline-block;
-	float:left;
+.part1-right-ultity {
+    display: inline-block;
+    float: left;
+    width: 30%;
 }
 .part2-right-ultity{
 	display:inline-block;
-	float:right;
+	float:left;
+	width: 68%;
+	white-space: nowrap;
 }
 .right-ultity i {
     margin-right: 5px;
@@ -417,7 +427,8 @@ p {
 .shop-transfer {
     display: inline-block;
     float: left;
-    width: 220px;
+    width: 30%;
+	overflow: hidden;
 }
 .shop-transfer i {
     background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -34px -95px;
@@ -429,7 +440,8 @@ p {
 .shop-diversity {
     display: inline-block;
     float: left;
-    width: 220px;
+    width: 30%;
+	overflow: hidden;
 }
 .shop-diversity i {
     background: rgba(0, 0, 0, 0) url("../img/icon.png") no-repeat scroll -93px -95px;
@@ -722,7 +734,7 @@ p {
     display: inline-block;
     float: left;
     padding: 5px 10px;
-    width: 75%;
+    width: 79.2%;
 }
 .title-news, .title-video {
     border-bottom: 1px dotted #ddd;
@@ -832,7 +844,7 @@ p {
 .right-news-view {
     display: inline-block;
     float: right;
-    width: 22%;
+    width: 17.9%;
 }
 .content-right-product {
     border: 1px solid #e4e4e4;
@@ -848,7 +860,7 @@ p {
     border: 1px solid #ddd;
     display: inline-block;
     padding: 4px;
-    width: 131px;
+    width: 60%;
 }
 .btn {
     -moz-user-select: none;
@@ -893,7 +905,7 @@ p {
 }
 .content-right-bottom-content-view ul li {
 	height: auto;
-	width:96%;
+	width: 98%;
 	margin: 0 0 15px;
 }
 .mgt5 {
@@ -1044,20 +1056,24 @@ p {
     border-radius: 2px;
     display: block;
     overflow: hidden;
-    padding: 10px 2px 2px;
+    padding: 10px 1px 2px;
 }
 /*Begin Item Product*/
+.data-tab {
+    margin: 0 -1.8% 0 -0.8%;
+}
 .item {
     background: #fff none repeat scroll 0 0;
+    border: 2px solid transparent;
     box-shadow: 0 0 2px #aaa;
     display: inline-block;
     float: left;
-    margin: 5px 0.8% 20px 0.8%;
+    height: 330px;
+    margin: 5px 0.8% 20px;
     overflow: hidden;
-    padding: 2px;
     position: relative;
-	transition: all 1s ease 0s;
-	border:2px solid transparent;
+    transition: all 1s ease 0s;
+    width: 17.9%;
 }
 .item:hover {
 	box-shadow: 0 0 2px #fe6d01;
@@ -1116,14 +1132,10 @@ p {
     position: relative;
     text-decoration: line-through;
 }
+.phone .data-tab {
+    margin: 0 -1% 0 -0.8%;
+}
 /*End Item Product*/
-.w-home > ul {
-    margin-right: -20px;
-}
-.w-home .item {
-    height: 330px;
-    width: 17.5%;
-}
 .line-ads{
     clear: both;
     width: 100%;
@@ -1137,7 +1149,7 @@ p {
 .left-category-shop {
     display: inline-block;
     float: left;
-    width: 18.5%;
+    width: 17.9%;
 }
 .wrapp-category-menu {
     background: #e5e5e5 none repeat scroll 0 0;
@@ -1166,17 +1178,19 @@ p {
 .left-category-shop ul li a.act {
     color: #0388cd;
 }
-.right-show-product-shop.body-list-item {
-    display: inline-block;
+.body-list-item {
+   	display: inline-block;
     float: right;
-    width: 80%;
+    width: 81.5%;
 }
-.right-show-product-shop.body-list-item ul {
+.body-list-item ul {
+    margin-right: -33px;
+}
+.body-list-item.phone ul {
     margin-right: -20px;
 }
-.right-show-product-shop.body-list-item ul .item{
+.body-list-item ul .item{
 	width: 22.42%;
-	height: 330px;
 }
 .item-right-ads {
     margin-bottom: 20px;
@@ -1213,7 +1227,7 @@ p {
 .left-slider-img {
     display: inline-block;
     float: left;
-    width: 425px;
+    width: 34%;
 }
 .list-thumb-img {
     float: left;
@@ -1245,8 +1259,12 @@ p {
     max-height: 400px;
     overflow: hidden;
     position: relative;
-    width: 350px;
+    width: 82%;
 	margin-top: 5px;
+}
+
+.phone.left-slider-img .max-thumb-img{
+    width: 75%;
 }
 .left-slider-img .max-thumb-img img {
     width: 100%;
@@ -1255,7 +1273,7 @@ p {
     display: inline-block;
     float: left;
     margin-left: 10px;
-    width: 520px;
+    width: 46%;
 }
 .center-des-product h1 {
     color: #444;
@@ -1317,7 +1335,7 @@ p {
 .right-des-product {
     display: inline-block;
     float: right;
-    width: 280px;
+    width: 17.9%;
 }
 .right-des-product .order-number {
     margin-bottom: 10px;
@@ -1382,8 +1400,7 @@ p {
 .left-bottom-content-view {
     display: inline-block;
     float: left;
-    text-align: justify;
-    width: 995px;
+    width: 80.2%;
 }
 .bottom-content-view .tab {
     border-bottom: 1px solid #ddd;
@@ -1425,9 +1442,6 @@ p {
 .bottom-content-view .right-bottom-content-view{
 	display: inline-block;
     float: right;
-    width: 260px;
-}
-.content-center-content-view .item {
     width: 17.9%;
 }
 .content-center-content-view .item .post-title {
@@ -1491,10 +1505,13 @@ table.list-shop-cart-item {
     font-weight: normal;
     line-height: 1.42857;
     margin-bottom: 0;
-    padding: 6px 12px;
+    margin-top: -3px;
+    padding: 1px;
     text-align: center;
+    text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
+    width: 35%;
 }
 .btn-primary:hover {
     background-color: #286090;
@@ -1759,14 +1776,15 @@ form#txtFormPaymentCart .form-group label {
 .slider-box-mid .bx-viewport {
     height: 445px !important;
 }
-
 /*Slider trang shop*/
 .body-list-item .banner-shop-content {
     display: inline-block;
+    float: right;
     height: 245px;
     margin-bottom: 20px;
+    margin-top: 2px;
     overflow: hidden;
-    width: 100%;;
+    width: 99.3%;
 }
 .body-list-item .banner-shop-content img {
     width: 100%;

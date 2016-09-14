@@ -58,7 +58,7 @@
 				</div>
 				@endif
 			</div>
-			<div class="right-show-product-shop body-list-item">
+			<div class="right-show-product-shop body-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
 				@if(sizeof($arrBannerSlider) != 0)
 				<div class="banner-shop-content">
 					<div id="sliderShop">
