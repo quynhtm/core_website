@@ -216,7 +216,7 @@ class ShopController extends BaseShopController
         $dataSave['product_selloff'] = addslashes(Request::get('product_selloff'));
         $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot'));
         $dataSave['product_status'] = addslashes(Request::get('product_status'));
-        $dataSave['product_type_price'] = addslashes(Request::get('product_type_price'));
+        $dataSave['product_type_price'] = addslashes(Request::get('product_type_price',CGlobal::TYPE_PRICE_NUMBER));
         $dataSave['product_sort_desc'] = addslashes(Request::get('product_sort_desc'));
         $dataSave['product_content'] = addslashes(Request::get('product_content'));
         $dataSave['product_order'] = addslashes(Request::get('product_order'));
@@ -283,6 +283,7 @@ class ShopController extends BaseShopController
                         $dataSave['user_shop_name'] = $this->user_shop->user_shop_name;
                         $dataSave['is_shop'] = $this->user_shop->is_shop;
                         $dataSave['shop_province'] = $this->user_shop->shop_province;
+                        $dataSave['is_block'] = CGlobal::PRODUCT_NOT_BLOCK;
 
                         if(Product::updateData($product_id,$dataSave)){
                             return Redirect::route('shop.listProduct');

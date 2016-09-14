@@ -98,9 +98,13 @@
                                     @endif
                                 </td>
                                 <td class="text-middle">
-                                    @if($item->product_price_market > 0)Thị trường: <b class="green">{{ FunctionLib::numberFormat($item->product_price_market) }} đ</b><br/>@endif
-                                    Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->product_price_sell) }} đ</b>
-                                    @if($item->product_price_input > 0)<br/>Giá nhập: <b>{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
+                                    @if($item->product_type_price == CGlobal::TYPE_PRICE_CONTACT)
+                                        Giá bán: <b class="red"> Liên hệ </b>
+                                    @else
+                                        @if($item->product_price_market > 0)Thị trường: <b class="green">{{ FunctionLib::numberFormat($item->product_price_market) }} đ</b><br/>@endif
+                                        Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->product_price_sell) }} đ</b>
+                                        @if($item->product_price_input > 0)<br/>Giá nhập: <b>{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
+                                    @endif
                                 </td>
                                 <td class="text-left text-middle">
                                     @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,100) }}@endif

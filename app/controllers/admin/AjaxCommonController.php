@@ -50,12 +50,21 @@ class AjaxCommonController extends BaseSiteController
                         $this->user_shop = UserShop::user_login();
                         if(sizeof($this->user_shop) > 0){
                             $new_row['time_created'] = time();
-                            $new_row['product_status'] = CGlobal::IMAGE_ERROR;
+                            $new_row['product_status'] = CGlobal::status_hide;
                             $new_row['user_shop_id'] = $this->user_shop->shop_id;
                             $new_row['user_shop_name'] = $this->user_shop->user_shop_name;
                             $new_row['is_shop'] = $this->user_shop->is_shop;
                             $new_row['shop_province'] = $this->user_shop->shop_province;
                             $item_id = Product::addData($new_row);
+
+                            //cap nhat lai so l??t up san ph?m cho shop
+                            $userShopUpdate['shop_up_product'] = $this->user_shop->shop_up_product+1;
+                            UserShop::updateData($this->user_shop->shop_id, $userShopUpdate);
+                            $userShop = UserShop::getByID($this->user_shop->shop_id);
+                            if($userShop){
+                                Session::forget('user_shop');//xóa session
+                                Session::put('user_shop', $userShop, 60*24);
+                            }
                         }
                         break;
                     case 3://img banner

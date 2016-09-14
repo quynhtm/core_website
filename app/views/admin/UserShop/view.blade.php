@@ -85,7 +85,7 @@
                                     @if(isset($arrIsShop[$item->is_shop])){{ $arrIsShop[$item->is_shop] }}@else --- @endif
                                     @if($item->is_shop != CGlobal::SHOP_VIP)
                                         <br/>Limit up:{{ $item->number_limit_product }}
-                                        <br/>∑ up:{{ $item->total_product_up }}
+                                        <br/>∑ up:{{ $item->shop_up_product }}
                                     @endif
                                 </td>
                                 <td class="text-center text-middle">

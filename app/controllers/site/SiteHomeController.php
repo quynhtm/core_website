@@ -381,11 +381,11 @@ class SiteHomeController extends BaseSiteController
                         $error = 'Tài khoản bị khóa!';
                     } elseif ($userShop->shop_status == CGlobal::status_show) {
                         if ($userShop->user_password == User::encode_password($password)) {
-                            Session::put('user_shop', $userShop, 60*24);
                             //cập nhật login
                             $dataUpdate['is_login'] = CGlobal::SHOP_ONLINE;
                             $dataUpdate['shop_time_login'] = time();
                             UserShop::updateData($userShop->shop_id,$dataUpdate);
+                            Session::put('user_shop', $userShop, 60*24);
 
                             if ($url === '' || $url === 'login') {
                                 return Redirect::route('shop.adminShop');

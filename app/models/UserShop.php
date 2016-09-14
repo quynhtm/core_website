@@ -12,7 +12,7 @@ class UserShop extends Eloquent
     //cac truong trong DB
     protected $fillable = array('shop_id','shop_name', 'user_shop','number_limit_product','is_shop','is_login','shop_time_login','shop_time_logout',
         'user_password', 'shop_phone', 'shop_address','shop_province','shop_category',
-        'shop_category_name','shop_about','shop_transfer','time_start_vip','time_end_vip','shop_string_category_id','total_product_up',
+        'shop_category_name','shop_about','shop_transfer','time_start_vip','time_end_vip','shop_up_product','shup_number_share',
         'shop_email', 'shop_status', 'shop_created');
 
     public static function getByID($id) {
