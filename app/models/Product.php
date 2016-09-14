@@ -97,7 +97,7 @@ class Product extends Eloquent
             $query->orderBy('is_shop', 'desc')->orderBy('time_update', 'desc');
 
             //get field can lay du lieu
-            $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop';//cac truong can lay
+            $str_field_product_get = 'product_id,product_name,category_id,category_name,product_image,product_image_hover,product_status,product_price_sell,product_price_market,product_type_price,product_selloff,user_shop_id,user_shop_name,is_shop,is_block';//cac truong can lay
             $fields_get = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '')?trim($dataSearch['field_get']) : $str_field_product_get;
             $fields = (trim($fields_get) != '') ? explode(',',trim($fields_get)): array();
             if(!empty($fields)){
@@ -117,6 +117,9 @@ class Product extends Eloquent
             $query = Product::where('product_id','>',0);
             if (isset($dataSearch['product_name']) && $dataSearch['product_name'] != '') {
                 $query->where('product_name','LIKE', '%' . $dataSearch['product_name'] . '%');
+            }
+            if (isset($dataSearch['is_block']) && $dataSearch['is_block'] != -1) {
+                $query->where('is_block', $dataSearch['is_block']);
             }
             if (isset($dataSearch['product_status']) && $dataSearch['product_status'] != -1) {
                 $query->where('product_status', $dataSearch['product_status']);

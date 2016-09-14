@@ -26,6 +26,21 @@
                                 {{$optionStatus}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Kiểu khóa SP</label>
+                            <select name="is_block" id="is_block" class="form-control input-sm">
+                                {{$optionBlock}}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Sản phẩm của Shop</label>
+                            <select name="user_shop_id" id="user_shop_id" class="form-control input-sm chosen-select-deselect" tabindex="12" data-placeholder="Chọn tên shop">
+                                <option value=""></option>
+                                @foreach($arrShop as $shop_id => $shopName)
+                                    <option value="{{$shop_id}}" @if($search['user_shop_id'] == $shop_id) selected="selected" @endif>{{$shopName}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group col-lg-12 text-right">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
                         </div>
@@ -132,3 +147,16 @@
         </div>
     </div><!-- /.page-content -->
 </div>
+<script type="text/javascript">
+    //tim kiem cho shop
+    var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Không có kết quả'}
+        //      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>

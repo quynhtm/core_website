@@ -13,6 +13,7 @@ class ProductController extends BaseAdminController
     private $permission_edit = 'product_edit';
     private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', 2 => 'Khóa SP', 3 => 'Mở khóa SP');
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+    private $arrBlock = array(-1 => 'Chọn kiểu khóa SP', CGlobal::PRODUCT_NOT_BLOCK => 'Đang mở', CGlobal::PRODUCT_BLOCK => 'Đang khóa');
     private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
     private $arrTypeProduct = array(-1 => '--Chọn loại sản phẩm--', CGlobal::PRODUCT_NOMAL => 'Sản phẩm bình thường', CGlobal::PRODUCT_HOT => 'Sản phẩm nổi bật', CGlobal::PRODUCT_SELLOFF => 'Sản phẩm giảm giá');
     private $error =  array();
@@ -55,6 +56,7 @@ class ProductController extends BaseAdminController
         $search['product_status'] = (int)Request::get('product_status',-1);
         $search['category_id'] = (int)Request::get('category_id',-1);
         $search['user_shop_id'] = (int)Request::get('user_shop_id',-1);
+        $search['is_block'] = (int)Request::get('is_block',-1);
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
         $dataSearch = Product::searchByCondition($search, $limit, $offset,$total);
@@ -62,6 +64,7 @@ class ProductController extends BaseAdminController
         //FunctionLib::debug($search);
 
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['product_status']);
+        $optionBlock = FunctionLib::getOption($this->arrBlock, $search['is_block']);
         $optionStatusUpdate = FunctionLib::getOption($this->arrStatusUpdate, -1);
         $this->layout->content = View::make('admin.Product.view')
             ->with('paging', $paging)
@@ -72,9 +75,9 @@ class ProductController extends BaseAdminController
             ->with('search', $search)
             ->with('arrShop', $this->arrShop)
             ->with('optionStatus', $optionStatus)
+            ->with('optionBlock', $optionBlock)
 
             ->with('optionStatusUpdate', $optionStatusUpdate)
-
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
             ->with('permission_delete', in_array($this->permission_delete, $this->permission) ? 1 : 0)//dùng common
