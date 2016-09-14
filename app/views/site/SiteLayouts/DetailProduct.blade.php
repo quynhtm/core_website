@@ -9,7 +9,7 @@
 		<a href="{{FunctionLib::buildLinkDetailProduct($product->product_id, $product->product_name, $product->category_name)}}" title="{{$product->product_name}}">{{$product->product_name}}</a>
 	</div>
 	
-	<div class="main-view-post .box-detail-product">
+	<div class="main-view-post box-detail-product">
 		<div class="wrap-main-view">
 			<div class="top-content-view">
 				<script type="text/javascript">
