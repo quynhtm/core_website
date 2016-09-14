@@ -254,7 +254,7 @@ class SiteHomeController extends BaseSiteController
     	$user_shop = UserShop::getByID($shop_id);
     	
     	if(sizeof($user_shop) != 0){
-    		
+    		$arrChildCate = UserShop::getCategoryShopById($shop_id);
     		$search['user_shop_id'] = $shop_id;
     		$pageNo = (int) Request::get('page_no', 1);
     		$limit = CGlobal::number_show_20;
