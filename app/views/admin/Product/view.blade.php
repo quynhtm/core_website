@@ -30,9 +30,16 @@
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
                         </div>
                     </div>
+
                     @if($is_root)
                     <div class="panel-footer text-right">
                         <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.removeAllItems(1);"><i class="fa fa-trash"></i> Xóa nhiều SP </a>
+                        <div class="col-lg-3">
+                            <select name="product_status_update" id="product_status_update" class="form-control input-sm">
+                                {{$optionStatusUpdate}}
+                            </select>
+                        </div>
+                        <a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="Admin.setStastusBlockProduct();"><i class="fa fa-refresh"></i> Đổi trạng thái </a>
                         <span class="img_loading" id="img_loading_delete_all"></span>
                     </div>
                     @endif

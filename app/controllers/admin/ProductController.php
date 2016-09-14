@@ -11,6 +11,7 @@ class ProductController extends BaseAdminController
     private $permission_delete = 'product_delete';
     private $permission_create = 'product_create';
     private $permission_edit = 'product_edit';
+    private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', 2 => 'Khóa SP', 3 => 'Mở khóa SP');
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
     private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
     private $arrTypeProduct = array(-1 => '--Chọn loại sản phẩm--', CGlobal::PRODUCT_NOMAL => 'Sản phẩm bình thường', CGlobal::PRODUCT_HOT => 'Sản phẩm nổi bật', CGlobal::PRODUCT_SELLOFF => 'Sản phẩm giảm giá');
@@ -61,6 +62,7 @@ class ProductController extends BaseAdminController
         //FunctionLib::debug($search);
 
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['product_status']);
+        $optionStatusUpdate = FunctionLib::getOption($this->arrStatusUpdate, -1);
         $this->layout->content = View::make('admin.Product.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -70,6 +72,8 @@ class ProductController extends BaseAdminController
             ->with('search', $search)
             ->with('arrShop', $this->arrShop)
             ->with('optionStatus', $optionStatus)
+
+            ->with('optionStatusUpdate', $optionStatusUpdate)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
@@ -167,11 +171,11 @@ class ProductController extends BaseAdminController
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
     }
-
     public function postProduct($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
+        die('Không có chức năng này trong admin');
         FunctionLib::link_css(array(
             'lib/upload/cssUpload.css',
         ));
@@ -228,18 +232,7 @@ class ProductController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
 
-    public function deleteItem(){
-        $data = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
-            return Response::json($data);
-        }
-        $id = (int)Request::get('id', 0);
-        if ($id > 0 && Product::deleteData($id)) {
-            $data['isIntOk'] = 1;
-        }
-        return Response::json($data);
-    }
-
+    //ajax
     public function deleteMultiProduct(){
         $data = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
@@ -254,6 +247,41 @@ class ProductController extends BaseAdminController
             foreach($dataId as $k =>$id){
                 if ($id > 0 && Product::deleteData($id)) {
                     $data['isIntOk'] = 1;
+                }
+            }
+        }
+        return Response::json($data);
+    }
+    public function setStastusBlockProduct(){
+        $data = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+            return Response::json($data);
+        }
+        $valueInput = (int)Request::get('valueInput',-1);
+        $dataId = Request::get('dataId',array());
+        $arrData['isIntOk'] = 0;
+        if(empty($dataId)) {
+            return Response::json($data);
+        }
+        if(sizeof($dataId) > 0 && $valueInput > -1){
+            $arrUpdate = array();
+            switch( $valueInput ) {
+                case 0://ẩn sản phẩm
+                case 1://hiển thị sản phẩm
+                    $arrUpdate['product_status'] = $valueInput;
+                    break;
+                case 2://Khóa sản phẩm
+                case 3://Mở khóa sản phẩm
+                    $arrUpdate['is_block'] = ($valueInput == 2)? CGlobal::PRODUCT_BLOCK : CGlobal::PRODUCT_NOT_BLOCK;
+                    break;
+                default:
+                    break;
+            }
+            if(sizeof($arrUpdate) > 0){
+                foreach($dataId as $k =>$id){
+                    if ($id > 0 && Product::updateData($id,$arrUpdate)) {
+                        $data['isIntOk'] = 1;
+                    }
                 }
             }
         }

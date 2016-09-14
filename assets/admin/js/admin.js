@@ -72,6 +72,47 @@ var Admin = {
             }
         }
     },
+    setStastusBlockProduct: function(){
+        var dataId = [];
+        var i = 0;
+        $("input[name*='checkItems']").each(function () {
+            if ($(this).is(":checked")) {
+                dataId[i] = $(this).val();
+                i++;
+            }
+        });
+        if(dataId.length == 0) {
+            alert('Bạn chưa chọn items để thao tác.');
+            return false;
+        }
+        var valueInput = $('#product_status_update').val();
+        if(parseInt(valueInput) == -1){
+            alert('Bạn chưa chọn trạng thái để cập nhật.');
+            return false;
+        }
+        var url_ajax = 'setStastusBlockProduct';
+
+        if(url_ajax != '' && parseInt(valueInput) > -1){
+            if(confirm('Bạn có muốn thực hiện thao tác này?')) {
+                $('#img_loading_delete_all').show();
+                $.ajax({
+                    type: "post",
+                    url: url_ajax,
+                    data: {dataId: dataId, valueInput:valueInput},
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#img_loading_delete_all').hide();
+                        if (res.isIntOk == 1) {
+                            alert('Bạn đã thực hiện thành công');
+                            window.location.reload();
+                        } else {
+                            alert('Không thể thực hiện được thao tác.');
+                        }
+                    }
+                });
+            }
+        }
+    },
     updateStatusItem: function(id,status,type) {
         if(confirm('Bạn có muốn thay đổi trạng thái Item này không?')) {
             $('#img_loading_'+id).show();
