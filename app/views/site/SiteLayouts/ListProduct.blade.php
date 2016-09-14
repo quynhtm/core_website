@@ -47,7 +47,7 @@
 				</div>
 				@endif
 			</div>
-			<div class="right-show-product-shop body-list-item">
+			<div class="right-show-product-shop body-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
 				<ul>
 					@if(sizeof($product) != 0)
 					@foreach($product as $item)

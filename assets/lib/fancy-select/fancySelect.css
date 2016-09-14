@@ -1,10 +1,11 @@
 div.fancy-select {
     color: #555;
     display: inline-block;
+    float: left;
     font-size: 13px;
     font-weight: bold;
     position: relative;
-	width: 35%;
+    width: 35%;
 }
 div.fancy-select.disabled {
 	opacity: 0.5;
@@ -26,7 +27,7 @@ div.fancy-select div.trigger{
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 80%;
+    width: 62%;
 	font-weight: normal;
 	transition: all 240ms ease-out;
 	-webkit-transition: all 240ms ease-out;
