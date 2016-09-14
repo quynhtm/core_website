@@ -103,6 +103,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('product/getProduct/{id}', array('as' => 'admin.product_edit','uses' => 'ProductController@getProduct'))->where('id', '[0-9]+');
     Route::post('product/postProduct/{id}', array('as' => 'admin.product_edit_post','uses' => 'ProductController@postProduct'))->where('id', '[0-9]+');
     Route::post('product/deleteItem', array('as' => 'admin.deltete_product_post','uses' => 'ProductController@deleteItem'));//ajax
+    Route::post('product/deleteMultiProduct', array('as' => 'admin.deleteMultiProduct','uses' => 'ProductController@deleteMultiProduct'));//ajax
 
     /*Quản lý tin tức*/
     Route::get('news/view',array('as' => 'admin.news_list','uses' => 'NewsController@view'));
