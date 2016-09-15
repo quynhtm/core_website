@@ -68,7 +68,7 @@
                     </div>
 
                     @if(isset($numCart) && $numCart > 0)
-                    <a href="#" title="Giỏ hàng" rel="nofollow">
+                    <a href="{{URL::route('site.listCartOrder')}}" title="Giỏ hàng" rel="nofollow">
                         <div class="shopping-cart">
                             <span class="num-item">{{$numCart}}</span>
                         </div>
