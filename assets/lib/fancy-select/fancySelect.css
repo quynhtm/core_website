@@ -69,7 +69,7 @@ div.fancy-select ul.options {
 	overflow: auto;
 	background: #f2f2f2;
 	min-width: 50%;
-
+	padding-left: 0;
 	transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
 	-webkit-transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;
 	-moz-transition: opacity 300ms ease-out, top 300ms ease-out, visibility 300ms ease-out;

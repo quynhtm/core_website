@@ -51,7 +51,7 @@
 							@endforeach
 							@endforeach
 							<tr>
-					            <td colspan="3"><b>Tổng số tiền thanh toán:</b></td>
+					            <td colspan="4"><b>Tổng số tiền thanh toán:</b></td>
 					            <td colspan="2"><b>{{FunctionLib::numberFormat((int)$total)}}</b><sup>đ</sup></td>
 					         </tr>
 						</tbody>
