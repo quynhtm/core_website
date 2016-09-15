@@ -27,9 +27,13 @@ Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeControl
 Route::get('tin-tuc-{id}/{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('id', '[0-9]+');
 
 //Phần liên quan đến giỏ hàng, đặt hàng, khách mua hàng
-Route::get('gio-hang.html',array('as' => 'site.listCartOrder','uses' =>'SiteOrderController@listCartOrder'));
-Route::get('gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteOrderController@sendCartOrder'));
+Route::post('them-vao-gio-hang.html', array('as' => 'site.ajaxAddCart','uses' => 'SiteOrderController@ajaxAddCart'));
+Route::match(['GET','POST'], 'gio-hang.html',array('as' => 'site.listCartOrder','uses' =>'SiteOrderController@listCartOrder'));
+Route::match(['GET','POST'], 'xoa-mot-san-pham-trong-gio-hang.html', array('as' => 'site.deleteOneItemInCart','uses' => 'SiteOrderController@deleteOneItemInCart'));
+Route::match(['GET','POST'], 'xoa-gio-hang.html', array('as' => 'site.deleteAllItemInCart','uses' => 'SiteOrderController@deleteAllItemInCart'));
+Route::match(['GET','POST'], 'gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteOrderController@sendCartOrder'));
 Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteOrderController@thanksBuy'));
+
 
 //trang chủ shop
 Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteHomeController@shopIndex'))->where('shop_id', '[0-9]+');

@@ -8,19 +8,43 @@
 							<div class="title-pay-cart">Chi tiết đơn hàng</div>
 							<table class="list-pay">
 					            <tbody>
+									@if(sizeof($dataItem) != 0)
+									<?php $total = 0; ?>
+									@foreach($dataItem as $key=>$item)
+									@foreach($dataCart as $k=>$v)
+									@if($item->product_id == $k)
+									<?php 
+							         	if($item->product_price_sell > 0){
+							         		$total += (int)$item->product_price_sell * $v;
+							         	}
+							         ?>
 									<tr>
 										<td width="10%">
-											<a class="img" href="" title="Nhau thai cừu úc Maxi sheep placenta 50000mg">
-												<img src="http://shopcuatui.com.vn/image.php?type_dir=product&amp;id=604&amp;width=300&amp;height=300&amp;image=http://shopcuatui.com.vn/uploads/product/604/04-58-16-09-06-2016-lnt-nhau-thai-cuu-ucn720kb770k.jpg" alt="Nhau thai cừu úc Maxi sheep placenta 50000mg" width="60">
+											<a class="img" target="_blank" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
+												<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_80)}}">
 											</a>
 										</td>
 										<td>
-											<span class="title">Nhau thai cừu úc Maxi sheep placenta 50000mg</span>
+											<span class="title">{{$item->product_name}}</span>
 										</td>
 										<td width="20%">
-											<span class="price">770,000đ x 1</span>
+											<span class="price">
+												@if($item->product_price_sell > 0)
+								          			{{FunctionLib::numberFormat((int)$item->product_price_sell)}}<sup>đ</sup> x {{$v}}
+									          	@else
+									          		Liên hệ
+									          	@endif
+								          	</span>
 										</td>
 									</tr>
+									@endif
+									@endforeach
+									@endforeach
+									<tr>
+							            <td colspan="2"><b>Tổng số tiền thanh toán:</b></td>
+							            <td colspan="1"><b>{{FunctionLib::numberFormat((int)$total)}}</b><sup>đ</sup></td>
+							         </tr>
+							         @endif
 								</tbody>
 							</table>
 					    </div>
@@ -28,7 +52,7 @@
 					<div class="right-order-send">
 						<div class="content-post-cart">
 							<div class="title-pay-cart">Địa chỉ giao hàng</div>
-							<form method="post" action="" name="txtFormPaymentCart" id="txtFormPaymentCart" class="txtFormPaymentCart">
+							{{Form::open(array('method' => 'POST', 'id'=>'txtFormPaymentCart', 'class'=>'txtFormPaymentCart', 'name'=>'txtFormPaymentCart'))}}
 								<div class="form-group">
 									<label>Họ và tên<span>(*)</span></label>
 									<input id="txtName" class="form-control" name="txtName" maxlength="255" type="text">
@@ -50,9 +74,8 @@
 									<textarea id="txtMessage" class="form-control" rows="5" name="txtMessage" maxlength="1000"></textarea>
 									<span class="des">VD: thời gian nhận hàng...</span>
 								</div>
-								 <input name="txtFormName" id="txtFormName" value="txtFormName" type="hidden">
-								<button type="submit" id="submitPaymentOrder" class="btn btn-primary">Gửi đơn hàng</button>
-							</form>
+								<button type="submit" id="submitPaymentOrder" class="btndefault btn btn-primary">Gửi đơn hàng</button>
+							{{Form::close()}}
 						</div>
 					</div>
 				</div>

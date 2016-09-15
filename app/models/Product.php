@@ -61,7 +61,16 @@ class Product extends Eloquent
             $query = Product::where('product_id','>',0);
             $query->where('product_status','=',CGlobal::status_show);
             $query->where('is_block','=',CGlobal::PRODUCT_NOT_BLOCK);
-
+			//Duy add: get list product in array id
+            if (isset($dataSearch['product_id'])) {
+            	if (is_array($dataSearch['product_id'])) {
+            		$query->whereIn('product_id', $dataSearch['product_id']);
+            	}
+            	elseif ((int)$dataSearch['product_id'] > 0) {
+            		$query->where('product_id','=', (int)$dataSearch['product_id']);
+            	}
+            }
+            
             if (isset($dataSearch['category_id'])) {
                 if (is_array($dataSearch['category_id'])) {//tim theo m?ng id danh muc
                     $query->whereIn('category_id', $dataSearch['category_id']);
