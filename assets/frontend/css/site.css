@@ -1,4 +1,4 @@
-z/*Default*/
+/*Default*/
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +24,7 @@ ul,
 ol,
 li{
     list-style: none;
+	padding: 0;
 }
 p {
     margin: 0 0 10px;
