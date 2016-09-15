@@ -20,6 +20,9 @@ class Memcache{
     const CACHE_ALL_PROVIDER = 'cache_all_provider';
     const CACHE_PROVIDER_ID = 'cache_provider_id_';
 
+    //shop share
+    const CACHE_SHARE_SHOP_ID = 'cache_share_shop_id_';
+
     //danh mục
     const CACHE_ALL_CATEGORY    = 'cache_all_category';
     const CACHE_ALL_PARENT_CATEGORY    = 'cache_all_parent_category';

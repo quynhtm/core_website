@@ -12,15 +12,24 @@ class ShopShare extends Eloquent
     //cac truong trong DB
     protected $fillable = array('shop_share_id','shop_id', 'shop_name','shop_share_ip','shop_share_time');
 
-    public static function getByID($id) {
-        $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
-        if (sizeof($provider) == 0) {
-            $provider = ShopShare::where('shop_share_id', $id)->first();
-            if($provider && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_PROVIDER_ID.$id, $provider, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+    public static function checkIpShareShop($shop_id) {
+        //$shopShare = Cache::get(Memcache::CACHE_SHARE_SHOP_ID.$shop_id);
+        $shopShare = array();
+        if ($shopShare || sizeof($shopShare) == 0) {
+            if($shop_id > 0){
+                $data = ShopShare::where('shop_id', '=', $shop_id)
+                    ->orderBy('shop_share_time','desc')->get();
+                if($data){
+                    foreach($data as $itm) {
+                        $shopShare[$itm->shop_share_ip] = $itm->shop_id;
+                    }
+                }
+                if($shopShare){
+                    Cache::put(Memcache::CACHE_SHARE_SHOP_ID.$shop_id, $shopShare, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                }
             }
         }
-        return $provider;
+        return $shopShare? $shopShare : array();
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
@@ -65,8 +74,8 @@ class ShopShare extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                if(isset($data->shop_share_id) && $data->shop_share_id > 0){
-                    self::removeCache($data->shop_share_id);
+                if(isset($data->shop_id) && $data->shop_id > 0){
+                    self::removeCache($data->shop_id);
                 }
                 return $data->shop_share_id;
             }
@@ -131,11 +140,10 @@ class ShopShare extends Eloquent
     /**
      * @param int $id
      */
-    public static function removeCache($id = 0){
-        if($id > 0){
-            Cache::forget(Memcache::CACHE_PROVIDER_ID.$id);
+    public static function removeCache($shop_id = 0){
+        if($shop_id > 0){
+            Cache::forget(Memcache::CACHE_SHARE_SHOP_ID.$shop_id);
         }
-        Cache::forget(Memcache::CACHE_ALL_PROVIDER);
     }
 
 }

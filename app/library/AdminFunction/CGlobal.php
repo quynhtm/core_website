@@ -15,6 +15,7 @@ class CGlobal{
     public static $pageAdminTitle = 'Dashboard Admin';
     public static $pageShopTitle = 'Shop Admin';
 
+    const code_shop_share = 'shopcuatoi';
     const web_name = 'Website';
     const num_scroll_page = 2;
     const number_limit_show = 30;
