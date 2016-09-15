@@ -1,4 +1,4 @@
-/*Default*/
+z/*Default*/
 * {
     margin: 0;
     padding: 0;
@@ -1350,6 +1350,10 @@ p {
     min-width: 55px;
     padding: 0 3px;
 }
+
+.order-number select option {
+    text-indent: 5px;
+}
 .right-des-product .buynow {
     background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #f89406, #f76b1c) repeat scroll 0 0;
     border: 1px solid #d97f00;
@@ -1491,7 +1495,10 @@ table.list-shop-cart-item {
     padding: 5px;
 }
 .list-btn-control {
-    margin-top: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
 }
 .list-btn-control .btn-primary {
     background-color: #337ab7;
@@ -1609,7 +1616,7 @@ form#txtFormPaymentCart .form-group label {
     color: #555;
     display: block;
     font-size: 14px;
-    height: 34px;
+    min-height: 25px;
     line-height: 1.42857;
     padding: 2px 10px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
@@ -1802,4 +1809,26 @@ form#txtFormPaymentCart .form-group label {
 }
 .wrapp-category-menu > ul {
     margin-left: 10px;
+}
+.loading {
+    background: #fff url("../img/loading.gif") no-repeat scroll center center;
+    height: 100%;
+    left: 0;
+    opacity: 0.4;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999999
+}
+.btndefault{
+    border-radius: 2px;
+    padding: 8px 10px;
+}
+.not-product-in-cat {
+    color: #ff0000;
+    font-size: 15px;
+    font-style: italic;
+}
+.error{
+	border:1px solid #ff0000!important;
 }

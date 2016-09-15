@@ -105,12 +105,12 @@
 						<div class="order-number">
 							<label for="buy-number">Số lượng</label>
 							<select class="sl-num" id="buy-num" name="buy-num">
-                            	@for($i=1; $i<=10; $i++)
+                            	@for($i=1; $i<=CGlobal::max_num_buy_item_product; $i++)
                             	<option value="{{$i}}">{{$i}}</option>
                             	@endfor
 							</select>
 						</div>
-						<div id="buttonFormBuySubmit" data-pid="702" class="buynow btn">Mua ngay</div>
+						<div id="buttonFormBuySubmit" data-pid="{{$product->product_id}}" class="buynow btn">Mua ngay</div>
 					</div>
 					<div class="content-right-product">
 						<div class="order-number-phone">

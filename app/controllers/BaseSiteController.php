@@ -18,7 +18,8 @@ class BaseSiteController extends BaseController
         FunctionLib::site_js('lib/fancy-select/fancySelect.js', CGlobal::$POS_END);
         FunctionLib::site_css('lib/fancy-select/fancySelect.css', CGlobal::$POS_HEAD);
         FunctionLib::site_js('frontend/js/site.js', CGlobal::$POS_END);
-
+        FunctionLib::site_js('frontend/js/cart.js', CGlobal::$POS_END);
+        
         //List provice
         $arrProvince = Province::getAllProvince();
         $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----') + $arrProvince, -1);
@@ -30,11 +31,15 @@ class BaseSiteController extends BaseController
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
         
+        //Dem Gio Hang
+        $numCart = $this->countNumCart();
+        
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
             ->with('optionParentCate', $optionParentCate)
             ->with('optionProvince', $optionProvince)
-            ->with('user_shop', $this->user);
+            ->with('user_shop', $this->user)
+        	->with('numCart', $numCart);
     }
 
     public function footer(){
@@ -76,5 +81,18 @@ class BaseSiteController extends BaseController
             FunctionLib::sortArrayASC($arrCategory,"category_order");
         }
         return $arrCategory;
+    }
+    
+    public function countNumCart(){
+    	$cartItem = 0;
+    	if(Session::has('cart')){
+    		$data = Session::get('cart');
+    		foreach($data as $v){
+    			if($v){
+    				$cartItem += $v;
+    			}
+    		}
+    	}
+    	return $cartItem;
     }
 }
