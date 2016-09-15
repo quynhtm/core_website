@@ -7,7 +7,7 @@
 		<h2>Password Reset</h2>
 
 		<div>
-			?ang test g?i email
+			Dang test gui email
 		</div>
 	</body>
 </html>

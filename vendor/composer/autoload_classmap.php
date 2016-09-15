@@ -1352,6 +1352,7 @@ return array(
     'Renderer' => $vendorDir . '/dompdf/dompdf/include/renderer.cls.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'ShopController' => $baseDir . '/app/controllers/shop/ShopController.php',
+    'ShopShare' => $baseDir . '/app/models/ShopShare.php',
     'ShopVipController' => $baseDir . '/app/controllers/shop/ShopVipController.php',
     'SingularValueDecomposition' => $baseDir . '/app/library/class_phpexcel/PHPExcel/Shared/JAMA/SingularValueDecomposition.php',
     'SiteHomeController' => $baseDir . '/app/controllers/site/SiteHomeController.php',

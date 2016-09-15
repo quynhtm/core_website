@@ -64,6 +64,43 @@ class SiteHomeController extends BaseSiteController
 	        ->with('arrSliderRight2', $arrSliderRight2);
         $this->footer();
     }
+    //Ajax load item sub category home
+    public function ajaxLoadItemSubCategory(){
+        if(empty($_POST)){
+            return Redirect::route('site.home');
+        }
+        $parentCategoryId = (int)Request::get('dataCatId');
+        $type = addslashes(Request::get('dataType'));
+        if($parentCategoryId > 0 && $type != ''){
+            /*$offset=0;
+            if($type == 'vip'){
+                $search['is_shop'] = CGlobal::SHOP_VIP;
+                $limit = CGlobal::number_show_30;
+            }else{
+                $search['is_shop'] = CGlobal::SHOP_NOMAL;
+                $limit = CGlobal::number_show_15;
+            }
+            $search['category_id'] = $catid;
+            $search['field_get'] = $this->str_field_product_get;
+            $data = Product::getProductForSite($search, $limit, $offset,$total);*/
+
+
+            $limit = ($type == 'vip')? CGlobal::number_show_30 : CGlobal::number_show_15;
+            $total = $offset = 0;
+            if($parentCategoryId > 0){
+                $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
+                if(sizeof($arrChildCate) > 0){
+                    $search['category_id'] = array_keys($arrChildCate);
+                }
+            }
+            $search['is_shop'] = ($type == 'vip')? CGlobal::SHOP_VIP: array(CGlobal::SHOP_NOMAL,CGlobal::SHOP_FREE);
+            $search['field_get'] = $this->str_field_product_get;
+            $data = Product::getProductForSite($search, $limit, $offset,$total);
+
+            return View::make('site.SiteLayouts.AjaxLoadItemSubCate')->with('data', $data)->with('catid', $parentCategoryId);
+            die;
+        }
+    }
 
     //trang list sản phẩm mới
     public function listProductNew(){
@@ -276,23 +313,58 @@ class SiteHomeController extends BaseSiteController
     	
     	$arrChildCate = $user_shop = $product = $arrBannerSlider = $arrBannerLeft = array();
     	$paging = '';
-    	
-    	if($shop_id > 0){
-    		$user_shop = UserShop::getByID($shop_id);
-	    	if(sizeof($user_shop) != 0){
-	    		$arrChildCate = UserShop::getCategoryShopById($shop_id);
-	    		$search['user_shop_id'] = $shop_id;
-	    		$pageNo = (int) Request::get('page_no', 1);
-	    		$limit = CGlobal::number_show_20;
-	    		$offset = ($pageNo - 1) * $limit;
-	    		$total = 0;
-	    		$pageScroll = CGlobal::num_scroll_page;
-	    		$pageNo = (int) Request::get('page_no', 1);
-	    		$product = Product::getProductForSite($search, $limit, $offset,$total);
-	    		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
-	    	}
+        $user_shop = UserShop::getByID($shop_id);
+    	if($user_shop && sizeof($user_shop) > 0){
+            //check shop thỏa mãn thì đi tiếp
+            if($user_shop->shop_status != CGlobal::status_show){
+                return Redirect::route('site.page404');
+            }
+
+            $arrChildCate = UserShop::getCategoryShopById($user_shop->shop_id);
+            $search['user_shop_id'] = $shop_id;
+            $pageNo = (int) Request::get('page_no', 1);
+            $limit = CGlobal::number_show_20;
+            $offset = ($pageNo - 1) * $limit;
+            $total = 0;
+            $pageScroll = CGlobal::num_scroll_page;
+            $pageNo = (int) Request::get('page_no', 1);
+            $product = Product::getProductForSite($search, $limit, $offset,$total);
+            $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+
+            //quảng cáo của shop
 	    	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
 	    	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+
+            //cap nhat luot share neu co
+            $codeShare = trim(Request::get('shop_share', ''));
+            if($codeShare != ''){
+                $string_1 = base64_decode($codeShare);
+                $pos1 = strrpos($string_1, "_");
+                $string_2 = substr($string_1, (strlen(CGlobal::code_shop_share) + 1), strlen($string_1));
+                $string_3 = substr($string_2, 0, $pos1);
+                $pos2 = strrpos($string_3, "_");
+                $shopIdShare = (int)substr($string_3, 0, $pos2);
+
+                if((int)$user_shop->shop_id === $shopIdShare){
+                    $hostIp = Request::getClientIp(); //$ip = $_SERVER['REMOTE_ADDR'];
+                    $shopShare = ShopShare::checkIpShareShop($user_shop->shop_id);
+                    if(!in_array($hostIp,array_keys($shopShare))){
+                        $shop_share = ShopShare::addData(array('shop_share_ip'=>$hostIp,'shop_id'=>$user_shop->shop_id,'shop_name'=>$user_shop->shop_name));
+                        if($shop_share){
+                            //cap nhat user
+                            $userShopUpdate['shop_number_share'] = $user_shop->shop_number_share + 1;
+                            $userShopUpdate['number_limit_product'] = $user_shop->number_limit_product + 1;
+                            UserShop::updateData($user_shop->shop_id, $userShopUpdate);
+                            if(Session::has('user_shop')){
+                                $userShop = UserShop::getByID($user_shop->shop_id);
+                                Session::forget('user_shop');//xóa session
+                                Session::put('user_shop', $userShop, 60*24);
+                            }
+                        }
+                    }
+                    //echo 'dã vào day'; die;
+                }
+            }
     	}else{
     		return Redirect::route('site.page404');
     	}
@@ -543,46 +615,6 @@ class SiteHomeController extends BaseSiteController
             ->with('dataProVip',$dataProVip);
 
     	$this->footer();
-    }
-
-
-    
-    //Ajax load item sub category home
-    public function ajaxLoadItemSubCategory(){
-    	if(empty($_POST)){
-    		return Redirect::route('site.home');
-    	}
-        $parentCategoryId = (int)Request::get('dataCatId');
-    	$type = addslashes(Request::get('dataType'));
-   		if($parentCategoryId > 0 && $type != ''){
-   			/*$offset=0;
-   			if($type == 'vip'){
-   				$search['is_shop'] = CGlobal::SHOP_VIP;
-   				$limit = CGlobal::number_show_30;
-   			}else{
-   				$search['is_shop'] = CGlobal::SHOP_NOMAL;
-   				$limit = CGlobal::number_show_15;
-   			}
-   			$search['category_id'] = $catid;
-   			$search['field_get'] = $this->str_field_product_get;
-   			$data = Product::getProductForSite($search, $limit, $offset,$total);*/
-
-
-            $limit = ($type == 'vip')? CGlobal::number_show_30 : CGlobal::number_show_15;
-            $total = $offset = 0;
-            if($parentCategoryId > 0){
-                $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
-                if(sizeof($arrChildCate) > 0){
-                    $search['category_id'] = array_keys($arrChildCate);
-                }
-            }
-            $search['is_shop'] = ($type == 'vip')? CGlobal::SHOP_VIP: array(CGlobal::SHOP_NOMAL,CGlobal::SHOP_FREE);
-            $search['field_get'] = $this->str_field_product_get;
-            $data = Product::getProductForSite($search, $limit, $offset,$total);
-   			
-   			return View::make('site.SiteLayouts.AjaxLoadItemSubCate')->with('data', $data)->with('catid', $parentCategoryId);
-   			die;
-   		}
     }
 }
 

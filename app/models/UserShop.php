@@ -13,17 +13,19 @@ class UserShop extends Eloquent
     protected $fillable = array('shop_id','shop_name', 'user_shop','is_shop','is_login','shop_time_login','shop_time_logout',
         'user_password', 'shop_phone', 'shop_address','shop_province','shop_category',
         'shop_category_name','shop_about','shop_transfer','time_start_vip','time_end_vip',
-        'shop_up_product',//khi nh?p s?n ph?m c�i n�y +1
-        'shop_number_share',//khi share s? c�ng number_limit_product + 1
-        'number_limit_product',//thay ??i khi share url shop
+        'shop_up_product',//khi nhập sản phẩm cái này +1
+        'shop_number_share',//khi share sẽ công number_limit_product + 1
+        'number_limit_product',//thay đổi khi share url shop +1
         'shop_email', 'shop_status', 'shop_created');
 
     public static function getByID($id) {
         $shop = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_USER_SHOP_ID.$id) : array();
-        if (sizeof($shop) == 0) {
-            $shop = UserShop::where('shop_id', $id)->first();
-            if($shop && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+        if($id > 0){
+            if (sizeof($shop) == 0) {
+                $shop = UserShop::where('shop_id', $id)->first();
+                if($shop && Memcache::CACHE_ON){
+                    Cache::put(Memcache::CACHE_USER_SHOP_ID.$id, $shop, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                }
             }
         }
         return $shop;

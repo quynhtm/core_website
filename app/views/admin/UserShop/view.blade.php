@@ -69,7 +69,7 @@
                                     <input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->shop_id}}">
                                 </td>
                                 <td>
-                                    [<b>{{ $item->shop_id }}</b>] <a href="{{Url::route('shop.home',array('shop_id'=>$item->shop_id,'shop_name'=>$item->shop_name))}}" title="xem trang shop nay" target="_blank">{{ $item->user_shop }}</a>
+                                    [<b>{{ $item->shop_id }}</b>] <a href="{{URL::route('shop.home',array('shop_id'=>$item->shop_id,'shop_name'=>FunctionLib::safe_title($item->shop_name)))}}" title="xem trang shop nay" target="_blank">{{ $item->user_shop }}</a>
                                     @if($item->shop_name != '')
                                         <br/><b>{{ $item->shop_name }}</b>
                                     @endif

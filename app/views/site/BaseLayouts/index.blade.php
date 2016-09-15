@@ -4,7 +4,7 @@
     <title>@if(isset($title)){{$title}}@else {{CGlobal::web_name}} @endif</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="fb:app_id" content="11336688" />
-    <meta name="google-site-verification" content="ssdbfsdfsjfecncalnw" />
+    <meta name="google-site-verification" content="lJpAlY8qAQ365SzwbRN9_UEySpftXGaB4zgKeZgwKyk" />
     <meta property="og:title" content="@if(isset($title_seo)){{$title_seo}}@else {{CGlobal::web_name}}" @endif/>
     <meta property="og:type" content="product" />
     <meta property="og:url" content="@if(isset($url_seo) && $url_seo != ''){{$url_seo}} @else {{Config::get('config.WEB_ROOT')}} @endif" />
@@ -14,10 +14,7 @@
     <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
     <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
 
-    {{-- HTML::style('assets/css/bootstrap.min.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) --}}
-	{{ HTML::style('assets/v9/css/jquery.popupcommon.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
     {{ HTML::style('assets/frontend/css/site.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
-	
 	{{CGlobal::$extraHeaderCSS}}
     <script type="text/javascript">
         var WEB_ROOT = "{{url('', array(), Config::get('config.SECURE'))}}";
@@ -25,15 +22,15 @@
         var COOKIE_DOMAIN = "{{Config::get('config.DOMAIN_COOKIE_SERVER')}}";
     </script>
     {{ HTML::script('assets/js/jquery.2.1.1.min.js', array(), Config::get('config.SECURE')) }}
-	{{-- HTML::script('assets/lib/bootstrap/js/bootstrap.min.js', array(), Config::get('config.SECURE')) --}}
     {{CGlobal::$extraHeaderJS}}
     @if(Config::get('config.DEVMODE') == false)
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-16561602-19', 'auto');
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-76848213-1', 'auto');
             ga('send', 'pageview');
         </script>
     @endif

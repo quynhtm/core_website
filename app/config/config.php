@@ -20,6 +20,7 @@ return array(
     'WEB_ROOT' => $strWebroot,
     'DIR_ROOT' => $dir_root,
 	'SECURE' => false,
+	'DOMAIN_COOKIE_SERVER' => 'shopcuatoi.com.vn',
 	'CACHE_QUERY' => false,
 );
 

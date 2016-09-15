@@ -19,8 +19,13 @@ class ShopController extends BaseShopController
         if($error == 1){
             $this->error[] = 'Shop Vip mới có chức năng này.';
         }
+        $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->user_shop->shop_id,
+            'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
+            'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));
+        //echo $urlShopShare; die;
         $this->layout->content = View::make('site.ShopLayouts.ShopHome')
             ->with('error',$this->error)
+            ->with('urlShopShare',$urlShopShare)
             ->with('user', $this->user_shop);
     }
 
