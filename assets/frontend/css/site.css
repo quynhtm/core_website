@@ -733,7 +733,7 @@ p {
     display: inline-block;
     float: left;
     padding: 5px 10px;
-    width: 79.2%;
+    width: 78.7%;
 }
 .title-news, .title-video {
     border-bottom: 1px dotted #ddd;
@@ -843,7 +843,7 @@ p {
 .right-news-view {
     display: inline-block;
     float: right;
-    width: 17.9%;
+    width: 18.7%;
 }
 .content-right-product {
     border: 1px solid #e4e4e4;
