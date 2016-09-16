@@ -3,22 +3,21 @@
     padding-top: 20px;
     padding-bottom: 100px;
 }
-.box-register {
-    background: #f7f7f7;
+.box-reg-login{
+    background: rgba(0, 0, 0, 0) url("../img/bg-reg.png") no-repeat scroll 0 50px;
     display: block;
     margin: 0 auto;
-    width: 95%;
+    width: 90%;
 }
 .form-send-register {
-    margin: 0 auto;
+    margin: 0 auto 0 400px;
     width: 650px;
 }
 .form-login{
-    margin: 0 auto;
-    width: 345px;
+    margin: 0 auto 0 400px;
+    width: 415px;
 }
-.form-send-register h1.title-head,
-.form-login h1.title-head {
+.box-reg-login .title-head {
     display: inline-block;
     font-size: 25px;
     margin-top: 10px;
@@ -32,14 +31,14 @@
 }
 .link-tab {
     color: #555;
-    font-size: 18px;
+    font-size: 15px;
 }
-.box-register .form-group {
+.box-reg-login .form-group {
     display: inline-block;
     margin-bottom: 5px;
     width: 100%;
 }
-.box-register label {
+.box-reg-login label {
     display: inline-block;
     float: left;
     font-weight: normal;
@@ -51,7 +50,7 @@
 .control-label span {
     color: #ff0000;
 }
-.box-register .form-control {
+.box-reg-login .form-control {
     border-radius: 2px;
     box-shadow: none;
     display: inline-block;
@@ -68,49 +67,39 @@
     line-height: 1.42857;
     padding: 2px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-
 }
 .btn {
-    -moz-user-select: none;
-    background-image: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857;
-    margin-bottom: 0;
     padding: 6px 12px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
 }
 .btn-primary {
     background-color: #337ab7;
     border-color: #2e6da4;
     color: #fff;
 }
-.box-register .form-left-reg {
+.form-login .btn {
+    margin-top: 5px;
+}
+.box-reg-login .form-left-reg {
     display: inline-block;
     float: left;
     margin-right: 10px;
     width: 48%;
 }
-.box-register .form-right-reg {
+.box-reg-login .form-right-reg {
     display: inline-block;
     float: right;
     width: 45%;
 }
 select.form-control {
-    height: 34px;
-    line-height: 34px;
+    height: 32px;
+    line-height: 32px;
     width: 305px !important;
 }
-.box-register .agree input {
+.box-reg-login .agree input {
     float: left;
      margin: 4px 5px 0 0;
 }
-.box-register .agree label {
+.box-reg-login .agree label {
     display: inline-block;
     float: left;
     font-size: 14px;

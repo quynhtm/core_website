@@ -1,4 +1,4 @@
-<div class="main-view-post box-register">
+<div class="main-view-post box-reg-login">
 	<div class="form-send-register">
 		<h1 class="title-head">Đăng ký mở gian hàng <span>/</span> <a href="{{URL::route('site.shopLogin')}}" class="link-tab" rel="nofollow">Đăng nhập</a></h1>
 		@if(isset($error) && sizeof($error))
