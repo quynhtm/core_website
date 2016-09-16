@@ -26,6 +26,17 @@ class Province extends Eloquent
         }
         return $data;
     }
+    
+    public static function getByID($id) {
+    	$result = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
+    	if (sizeof($result) == 0) {
+    		$result = Province::where('province_id','=', $id)->first();
+    		if($result && Memcache::CACHE_ON){
+    			Cache::put(Memcache::CACHE_PROVIDER_ID.$id, $result, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+    		}
+    	}
+    	return $result;
+    }
 
     /**
      * @desc: Tao Data.

@@ -1833,3 +1833,7 @@ form#txtFormPaymentCart .form-group label {
 .error{
 	border:1px solid #ff0000!important;
 }
+.title-news span {
+    font-size: 15px;
+    font-weight: normal;
+}

@@ -72,19 +72,6 @@ class SiteHomeController extends BaseSiteController
         $parentCategoryId = (int)Request::get('dataCatId');
         $type = addslashes(Request::get('dataType'));
         if($parentCategoryId > 0 && $type != ''){
-            /*$offset=0;
-            if($type == 'vip'){
-                $search['is_shop'] = CGlobal::SHOP_VIP;
-                $limit = CGlobal::number_show_30;
-            }else{
-                $search['is_shop'] = CGlobal::SHOP_NOMAL;
-                $limit = CGlobal::number_show_15;
-            }
-            $search['category_id'] = $catid;
-            $search['field_get'] = $this->str_field_product_get;
-            $data = Product::getProductForSite($search, $limit, $offset,$total);*/
-
-
             $limit = ($type == 'vip')? CGlobal::number_show_30 : CGlobal::number_show_15;
             $total = $offset = 0;
             if($parentCategoryId > 0){
@@ -133,7 +120,7 @@ class SiteHomeController extends BaseSiteController
         $catid = (int)Request::get('category_id', -1);
         $provinceid = (int)Request::get('shop_province', -1);
         
-        $product = array();
+        $product = $arrCate = $arrProvince = array();
         $paging = '';
         $total = 0;
         if($catid>0 || $provinceid > 0){
@@ -147,6 +134,13 @@ class SiteHomeController extends BaseSiteController
         	
         	$product = Product::getProductForSite($search, $limit, $offset,$total);
         	$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        	
+        	if($catid>0){
+        		$arrCate = Category::getByID($catid);
+        	}
+        	if($provinceid>0){
+        		$arrProvince = Province::getByID($provinceid);
+        	}
         }
         
         $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
@@ -155,6 +149,8 @@ class SiteHomeController extends BaseSiteController
         ->with('product',$product)
         ->with('paging', $paging)
         ->with('total', $total)
+        ->with('arrCate', $arrCate)
+        ->with('arrProvince', $arrProvince)
         ->with('arrBannerLeft', $arrBannerLeft);
         $this->footer();
     }
