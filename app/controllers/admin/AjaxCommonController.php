@@ -211,9 +211,10 @@ class AjaxCommonController extends BaseSiteController
     function sendEmail(){
         // test g?i email
         Mail::send('emails.test_email', array('firstname'=>'Tr??ng M?nh Qu?nh'), function($message){
-            $message->to('manhquynh1984@gmail.com', 'Tr??ng M?nh Qu?nh')
+            $message->to('nguyenduypt86@gmail.com', 'Tr??ng M?nh Qu?nh')
                 ->subject('Welcome xem g?i mail có ???c không!');
         });
+
         die();
     }
 
