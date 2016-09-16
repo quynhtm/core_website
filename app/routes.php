@@ -30,6 +30,14 @@ Route::group(array('prefix' => '/', 'before' => ''), function () {
 });
 
 /*
+ * router cho cronjobs
+ *
+ * */
+Route::group(array('prefix' => 'cronjobs', 'before' => ''), function () {
+    Route::get('runJobs', array('as' => 'cronjobs.runJobs','uses' => 'CronjobsController@runJobs'));//cap nhật lại link ảnh trong content
+});
+
+/*
  * router cho Ajax
  *
  * */

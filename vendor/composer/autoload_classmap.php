@@ -73,6 +73,7 @@ return array(
     'ClassPreloader\\Parser\\NodeTraverser' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/NodeTraverser.php',
     'Contact' => $baseDir . '/app/models/Contact.php',
     'ContactController' => $baseDir . '/app/controllers/admin/ContactController.php',
+    'CronjobsController' => $baseDir . '/app/controllers/cronjobs/CronjobsController.php',
     'Crypt_AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
     'Crypt_Base' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',
     'Crypt_Blowfish' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Blowfish.php',

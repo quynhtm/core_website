@@ -143,6 +143,9 @@ class Product extends Eloquent
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
                 $query->where('user_shop_id', $dataSearch['user_shop_id']);
             }
+            if (isset($dataSearch['product_id']) && $dataSearch['product_id'] > 0) {
+                $query->where('product_id', $dataSearch['product_id']);
+            }
             $total = $query->count();
             $query->orderBy('product_id', 'desc');
 
