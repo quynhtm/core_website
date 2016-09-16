@@ -18,18 +18,18 @@
             <div class="box-top-header-right">
                 <div class="search-top-center">
                     <div class="box-search">
-                        <form name="frmsearch" id="frmsearch" class="frmsearch" method="GET" action="#">
-                            <select name="province_id" class="province_id">
+                       	{{Form::open(array('method' => 'GET', 'id'=>'frmsearch', 'class'=>'frmsearch', 'name'=>'frmsearch', 'url'=>URL::route('site.search')))}}
+                            <select name="shop_province" class="selectProvince">
                                 {{$optionProvince}}
                             </select>
-                            <select name="category_id" class="category_id">
+                            <select name="category_id" class="selectCategory">
                                 {{$optionParentCate}}
                             </select>
                             <input type="submit" class="btn-search" value="Tìm kiếm"/>
-                        </form>
+                        {{Form::close()}}
 						<script type="text/javascript">
 							$(document).ready(function($){
-								jQuery('.province_id, .category_id').fancySelect();
+								jQuery('.selectProvince, .selectCategory').fancySelect();
 							});
 						</script>
                     </div>

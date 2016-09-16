@@ -92,6 +92,10 @@ class Product extends Eloquent
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
                 $query->where('user_shop_id','=', $dataSearch['user_shop_id']);
             }
+            
+            if (isset($dataSearch['shop_province']) && $dataSearch['shop_province'] != -1) {
+            	$query->where('shop_province','=', $dataSearch['shop_province']);
+            }
 
             //1: shop free, 2: shop thuong: 3 shop VIP
             if (isset($dataSearch['is_shop'])) {

@@ -21,19 +21,21 @@ class BaseSiteController extends BaseController
         FunctionLib::site_js('frontend/js/cart.js', CGlobal::$POS_END);
         
         //List provice
+        $provinceid = (int)Request::get('shop_province', -1);
         $arrProvince = Province::getAllProvince();
-        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----') + $arrProvince, -1);
+        $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----') + $arrProvince, $provinceid);
 
         //List category
+        $catid = (int)Request::get('category_id', -1);
         $arrParentCate = Category::getAllParentCategoryId();
-        $optionParentCate = FunctionLib::getOption(array(-1=>' ---Chọn danh mục ----') + $arrParentCate, -1);
+        $optionParentCate = FunctionLib::getOption(array(-1=>' ---Chọn danh mục ----') + $arrParentCate, $catid);
         //Menu category
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
         
         //Dem Gio Hang
         $numCart = $this->countNumCart();
-        
+      
         $this->layout->header = View::make("site.BaseLayouts.header")
             ->with('arrCategory', $arrCategory)
             ->with('optionParentCate', $optionParentCate)

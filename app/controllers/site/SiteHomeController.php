@@ -129,7 +129,33 @@ class SiteHomeController extends BaseSiteController
     //trang tìm kiếm
     public function searchProduct(){
         $this->header();
-        $this->layout->content = View::make('site.SiteLayouts.searchProduct');
+        
+        $catid = (int)Request::get('category_id', -1);
+        $provinceid = (int)Request::get('shop_province', -1);
+        
+        $product = array();
+        $paging = '';
+        $total = 0;
+        if($catid>0 || $provinceid > 0){
+        	$pageNo = (int) Request::get('page_no', 1);
+        	$limit = CGlobal::number_show_20;
+        	$offset = ($pageNo - 1) * $limit;
+        	$pageScroll = CGlobal::num_scroll_page;
+        	
+        	$search['category_id'] = $catid;
+        	$search['shop_province'] = $provinceid;
+        	
+        	$product = Product::getProductForSite($search, $limit, $offset,$total);
+        	$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        }
+        
+        $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
+ 
+        $this->layout->content = View::make('site.SiteLayouts.searchProduct')
+        ->with('product',$product)
+        ->with('paging', $paging)
+        ->with('total', $total)
+        ->with('arrBannerLeft', $arrBannerLeft);
         $this->footer();
     }
 
@@ -157,7 +183,6 @@ class SiteHomeController extends BaseSiteController
                 $offset = ($pageNo - 1) * $limit;
                 $total = 0;
                 $pageScroll = CGlobal::num_scroll_page;
-                $pageNo = (int) Request::get('page_no', 1);
                 $product = Product::getProductForSite($search, $limit, $offset,$total);
                 $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
             }
@@ -327,7 +352,6 @@ class SiteHomeController extends BaseSiteController
             $offset = ($pageNo - 1) * $limit;
             $total = 0;
             $pageScroll = CGlobal::num_scroll_page;
-            $pageNo = (int) Request::get('page_no', 1);
             $product = Product::getProductForSite($search, $limit, $offset,$total);
             $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
 
@@ -400,7 +424,6 @@ class SiteHomeController extends BaseSiteController
         		$offset = ($pageNo - 1) * $limit;
         		$total = 0;
         		$pageScroll = CGlobal::num_scroll_page;
-        		$pageNo = (int) Request::get('page_no', 1);
         		$product = Product::getProductForSite($search, $limit, $offset,$total);
         		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
         	}
