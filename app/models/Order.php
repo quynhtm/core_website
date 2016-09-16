@@ -16,12 +16,19 @@ class Order extends Eloquent
         'order_product_price_sell', 'order_product_image', 'order_category_id',
         'order_category_name', 'order_product_type_price', 'order_product_province',
         'order_customer_name', 'order_customer_phone', 'order_customer_email', 'order_customer_address', 'order_customer_note',
-        'order_quality_buy', 'order_user_shop_id', 'order_user_shop_name', 'order_status', 'order_time'
-        );
+        'order_quality_buy', 'order_user_shop_id', 'order_user_shop_name', 'order_status', 'order_time');
 
     public static function getByID($id) {
         $admin = Order::where('order_id', $id)->first();
         return $admin;
+    }
+
+    public static function countOrderOfShopId($shop_id) {
+        if($shop_id > 0){
+            return $total_order = Order::where('order_user_shop_id', $shop_id)
+                ->where('order_status', CGlobal::ORDER_STATUS_NEW)->count();
+        }
+        return 0;
     }
 
     public static function getOrderAll() {

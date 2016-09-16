@@ -483,7 +483,9 @@ class SiteHomeController extends BaseSiteController
                             Session::put('user_shop', $userShop, 60*24);
 
                             if ($url === '' || $url === 'login') {
-                                return Redirect::route('shop.adminShop');
+                                //kiem tra co don hang cho vao page don hang
+                                $countOrderNew = Order::countOrderOfShopId($userShop->shop_id);
+                                return ($countOrderNew > 0)?Redirect::route('shop.listOrder'): Redirect::route('shop.adminShop');
                             } else {
                                 return Redirect::to(self::buildUrlDecode($url));
                             }

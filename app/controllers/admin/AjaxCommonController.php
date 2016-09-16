@@ -62,7 +62,7 @@ class AjaxCommonController extends BaseSiteController
                             UserShop::updateData($this->user_shop->shop_id, $userShopUpdate);
                             $userShop = UserShop::getByID($this->user_shop->shop_id);
                             if($userShop){
-                                Session::forget('user_shop');//xÛa session
+                                Session::forget('user_shop');//x√≥a session
                                 Session::put('user_shop', $userShop, 60*24);
                             }
                         }
@@ -115,7 +115,7 @@ class AjaxCommonController extends BaseSiteController
                             if($banner->banner_image != ''){//xoa anh c?
                                 //xoa anh upload
                                 FunctionLib::deleteFileUpload($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER);
-                                //xÛa anh thumb
+                                //x√≥a anh thumb
                                 $arrSizeThumb = CGlobal::$arrBannerSizeImage;
                                 foreach($arrSizeThumb as $k=>$size){
                                     $sizeThumb = $size['w'].'x'.$size['h'];
@@ -146,13 +146,13 @@ class AjaxCommonController extends BaseSiteController
             switch( $type ){
                 case 1://img news
                     break;
-                case 3 ://xÛa ?nh banner
+                case 3 ://x√≥a ?nh banner
                     $banner = Banner::getBannerByID($item_id);
                     if($banner){
                         if($banner->banner_image != '' && strcmp(trim($banner->banner_image),$nameImage) == 0){//xoa anh c?
                             //xoa anh upload
                             FunctionLib::deleteFileUpload($banner->banner_image,$item_id,CGlobal::FOLDER_BANNER);
-                            //xÛa anh thumb
+                            //x√≥a anh thumb
                             $arrSizeThumb = CGlobal::$arrBannerSizeImage;
                             foreach($arrSizeThumb as $k=>$size){
                                 $sizeThumb = $size['w'].'x'.$size['h'];
@@ -212,7 +212,7 @@ class AjaxCommonController extends BaseSiteController
         // test g?i email
         Mail::send('emails.test_email', array('firstname'=>'Tr??ng M?nh Qu?nh'), function($message){
             $message->to('nguyenduypt86@gmail.com', 'Tr??ng M?nh Qu?nh')
-                ->subject('Welcome xem g?i mail cÛ ???c khÙng!');
+                ->subject('Welcome xem g?i mail c√≥ ???c kh√¥ng!');
         });
 
         die();
