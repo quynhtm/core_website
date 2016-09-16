@@ -105,7 +105,7 @@ class SiteHomeController extends BaseSiteController
 
         $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
  
-        $this->layout->content = View::make('site.SiteLayouts.listProductNew')
+        $this->layout->content = View::make('site.SiteLayouts.ListProductNew')
             ->with('product',$product)
         	->with('paging', $paging)
         	->with('arrBannerLeft', $arrBannerLeft);
