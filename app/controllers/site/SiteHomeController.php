@@ -445,7 +445,7 @@ class SiteHomeController extends BaseSiteController
      * Login và logout, đăng ký shop
      */
     public function shopLogin(){
-        FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         if(sizeof($this->user) > 0){
             return Redirect::route('shop.adminShop');
         }
@@ -457,7 +457,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     public function login($url = ''){
-        FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $user_shop = trim(Request::get('user_shop_login', ''));
         $password = trim(Request::get('password_shop_login', ''));
@@ -515,7 +515,7 @@ class SiteHomeController extends BaseSiteController
 
     //trang register
     public function shopRegister(){
-        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         //tỉnh thành
         $arrProvince = Province::getAllProvince();
@@ -527,7 +527,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     public function postShopRegister(){
-        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataSave = $error = array();
 

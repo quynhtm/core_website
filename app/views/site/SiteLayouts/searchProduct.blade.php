@@ -24,10 +24,10 @@
 					Kết quả tìm kiếm: <span>Có {{$total}} kết quả phù hợp 
 					@if(sizeof($arrCate) != 0 || sizeof($arrProvince) != 0) với 
 					@if(sizeof($arrCate) != 0)
-						Danh mục: {{$arrCate->category_name}}
+						<i>Danh mục:</i> {{$arrCate->category_name}}
 					@endif
 					@if(sizeof($arrProvince) != 0)
-						Tỉnh/thành: {{$arrProvince->province_name}}
+						<i>Tỉnh/thành:</i> {{$arrProvince->province_name}}
 					@endif
 					@endif</span>
 				</div>

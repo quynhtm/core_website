@@ -1837,3 +1837,7 @@ form#txtFormPaymentCart .form-group label {
     font-size: 15px;
     font-weight: normal;
 }
+.title-news i {
+    color: #ff6d01;
+    font-style: normal;
+}

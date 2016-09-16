@@ -3,8 +3,7 @@
 		<h1 class="title-head">Đăng ký mở gian hàng <span>/</span> <a href="{{URL::route('site.shopLogin')}}" class="link-tab" rel="nofollow">Đăng nhập</a></h1>
 		@if(isset($error) && sizeof($error))
 			@foreach ($error as $key => $msg)
-				<span style="color: red">{{$msg}}</span>
-				<div class="clear1"></div>
+				<div class="line-error">{{$msg}}</div>
 			@endforeach
 		@endif
 		{{ Form::open(array('class'=>'formSendLogin','method' => 'POST','url' =>"dang-ky.html")) }}
