@@ -1148,7 +1148,7 @@ p {
 .left-category-shop {
     display: inline-block;
     float: left;
-    width: 17.9%;
+    width: 18.7%;
 }
 .wrapp-category-menu {
     background: #e5e5e5 none repeat scroll 0 0;
@@ -1180,7 +1180,7 @@ p {
 .body-list-item {
    	display: inline-block;
     float: right;
-    width: 81.5%;
+    width: 80.7%;
 }
 .body-list-item ul {
     margin-right: -33px;
@@ -1334,7 +1334,7 @@ p {
 .right-des-product {
     display: inline-block;
     float: right;
-    width: 17.9%;
+    width: 18.7%;
 }
 .right-des-product .order-number {
     margin-bottom: 10px;
@@ -1438,7 +1438,7 @@ p {
     display: inline-block;
     margin: 20px 0;
     padding: 0 10px;
-    width: 100%;
+    width: 98%;
 }
 .content-bottom-content-view .show-tab {
     display: none;
@@ -1451,7 +1451,7 @@ p {
 .bottom-content-view .right-bottom-content-view{
 	display: inline-block;
     float: right;
-    width: 17.9%;
+    width: 18.7%;
 }
 .content-center-content-view .item .post-title {
     height: 36px;
