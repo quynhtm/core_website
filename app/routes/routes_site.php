@@ -45,26 +45,28 @@ Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopL
  * Phai login = account Shop với thao tác đc
  * **********************************************************************************************************************************
  * */
-//login, dang ky, logout shop
+//login, dang ky, logout shop,quen mat khau
 Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
 Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
 Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
-
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
-
 Route::get('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@shopForgetPass'));
 Route::post('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@postShopForgetPass'));
-//quan ly page shop admin
-Route::get('shop-cua-tui.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
-//thong tin shop
-Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@shopInfor'));
-Route::post('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopController@updateShopInfor'));
 
+
+//Action cua shop da login
+Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopActionController@shopInfor'));
+Route::post('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopActionController@updateShopInfor'));
 //dôi pass
-Route::get('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopController@shopChangePass'));
-Route::post('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopController@postChangePass'));
+Route::get('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopActionController@shopChangePass'));
+Route::post('thay-doi-pass.html', array('as' => 'site.shopChangePass','uses' => 'ShopActionController@postChangePass'));
+//quan lý liên hệ với quản trị
+Route::get('lien-he-quan-tri.html',array('as' => 'shop.lisContact','uses' =>'ShopActionController@shopLisContact'));
 
+
+//quan ly page shop admin: quản lý sản phẩm và liên quan đến sản phẩm
+Route::get('shop-cua-tui.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
 //san phẩm của shop
 Route::get('quan-ly-san-pham.html',array('as' => 'shop.listProduct','uses' =>'ShopController@shopListProduct'));
 Route::get('them-san-pham.html',array('as' => 'shop.addProduct','uses' =>'ShopController@getAddProduct'));
@@ -73,12 +75,9 @@ Route::post('cap-nhat-san-pham/p-{product_id}-{product_name}.html',array('as' =>
 Route::post('shop/setOntop',array('as' => 'shop.setOntop','uses' =>'ShopController@setOnTopProduct'));//ajax
 Route::post('shop/deleteProduct',array('as' => 'shop.deleteProduct','uses' =>'ShopController@deleteProduct'));//ajax
 Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopController@removeImage'));//ajax
-
 //don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 
-//quan lý liên hệ với quản trị
-Route::get('lien-he-quan-tri.html',array('as' => 'shop.lisContact','uses' =>'ShopController@shopLisContact'));
 
 //quan ly banner của shop VIP
 Route::get('quan-ly-quang-cao.html',array('as' => 'shop.listBanner','uses' =>'ShopVipController@listBanner'));
