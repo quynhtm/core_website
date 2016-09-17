@@ -11,6 +11,10 @@ class SiteHomeController extends BaseSiteController
     //trang chu
     public function index(){
     	
+    	$meta_title = $meta_keywords = $meta_description= 'Thời trang nam, thời trang nữ, thời trang trẻ em, phụ kiện thời trang, đồ gia dụng';
+    	$meta_img= '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
     	FunctionLib::site_css('lib/bxslider/bxslider.css', CGlobal::$POS_HEAD);
     	FunctionLib::site_js('lib/bxslider/bxslider.js', CGlobal::$POS_END);
     	
@@ -91,7 +95,12 @@ class SiteHomeController extends BaseSiteController
 
     //trang list sản phẩm mới
     public function listProductNew(){
-        $this->header();
+        
+    	$meta_title = $meta_keywords = $meta_description= 'Sản phẩm mới';
+    	$meta_img= '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
+    	$this->header();
 
         $product = array();
         $pageNo = (int) Request::get('page_no', 1);
@@ -115,7 +124,12 @@ class SiteHomeController extends BaseSiteController
 
     //trang tìm kiếm
     public function searchProduct(){
-        $this->header();
+        
+    	$meta_title = $meta_keywords = $meta_description= 'Tìm kiếm sản phẩm';
+    	$meta_img= '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
+    	$this->header();
         
         $catid = (int)Request::get('category_id', -1);
         $provinceid = (int)Request::get('shop_province', -1);
@@ -181,6 +195,11 @@ class SiteHomeController extends BaseSiteController
                 $pageScroll = CGlobal::num_scroll_page;
                 $product = Product::getProductForSite($search, $limit, $offset,$total);
                 $paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+                
+                $meta_title = $meta_keywords = $meta_description = $categoryParrentCat->category_name;;
+                $meta_img= '';
+                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+                
             }
         }
 
@@ -219,15 +238,17 @@ class SiteHomeController extends BaseSiteController
                 if ($url != $link_detail) {
                     return Redirect::to($link_detail);
                 }
-                $this->layout->title = $product->product_name . ' - '.CGlobal::web_name;
-                $this->layout->title_seo = $product->product_name;
-                $this->layout->url_seo = $link_detail;
-                $this->layout->img_seo = '';
-                $this->layout->des_seo = strip_tags($product->product_sort_desc);
+               
+                $meta_title = $product->product_name . ' - '.CGlobal::web_name;
+                $meta_keywords = $product->product_name;
+                $meta_description = strip_tags($product->product_sort_desc);
+                $meta_img= ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product->product_id, $product->product_image, CGlobal::sizeImage_450);
+                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description, $link_detail);
+
             }
         }
         //get product hot
-      	$limit = CGlobal::number_show_5;
+      	$limit = (isset($user_shop->is_shop) &&  $user_shop->is_shop = CGlobal::SHOP_VIP) ? CGlobal::number_show_15 : CGlobal::number_show_5;
     	$total = $offset = 0;
     	$search['field_get'] = $this->str_field_product_get;
     	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
@@ -241,6 +262,11 @@ class SiteHomeController extends BaseSiteController
 
     //trang list tin tuc
     public function homeNew(){
+    	
+    	$meta_title = $meta_keywords = $meta_description ='Tin tức';
+    	$meta_img= '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
     	$this->header();
         $dataNew = array();
         //thong tin tim kiem
@@ -289,11 +315,17 @@ class SiteHomeController extends BaseSiteController
         //get news detail
         if($new_id > 0) {
             $dataNew = News::getNewByID($new_id);
-            CGlobal::$pageTitle = $dataNew->news_title.'-'.CGlobal::web_name;//title page
             //get news same
             if($dataNew != null){
-                $dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category';
+                $dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category,news_image';
                 $dataNewsSame = News::getSameNews($dataField, $dataNew->news_category, $new_id, 10);
+                
+                $meta_title = $dataNew->news_title.'-'.CGlobal::web_name;
+                $meta_keywords = $dataNew->news_title;
+                $meta_description = strip_tags($dataNew->news_desc_sort);
+                $meta_img= ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $dataNew->news_id, $dataNew->news_image, CGlobal::sizeImage_450);
+                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+                
             }
         }
 
@@ -343,8 +375,12 @@ class SiteHomeController extends BaseSiteController
             if($user_shop->shop_status != CGlobal::status_show){
                 return Redirect::route('site.page404');
             }
-            CGlobal::$pageTitle = $user_shop->shop_name.'-'.CGlobal::web_name;//title page
-
+           
+        
+            $meta_title = $meta_keywords = $meta_description = $user_shop->shop_name.'-'.CGlobal::web_name;
+            $meta_img = '';
+            FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+            
             $arrChildCate = UserShop::getCategoryShopById($user_shop->shop_id);
             $search['user_shop_id'] = $shop_id;
             $pageNo = (int) Request::get('page_no', 1);
@@ -427,6 +463,12 @@ class SiteHomeController extends BaseSiteController
         		$pageScroll = CGlobal::num_scroll_page;
         		$product = Product::getProductForSite($search, $limit, $offset,$total);
         		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        		
+        		$meta_title = $meta_keywords = $meta_description = $arrCatShow->category_name.'-'.CGlobal::web_name;
+        		$meta_img = '';
+        		FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+        		
+        		
         	}
         	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
         	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
@@ -450,7 +492,12 @@ class SiteHomeController extends BaseSiteController
      * Login và logout, đăng ký shop
      */
     public function shopLogin(){
-        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+        
+    	$meta_title = $meta_keywords = $meta_description = 'Đăng nhập';
+    	$meta_img = '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         if(sizeof($this->user) > 0){
             return Redirect::route('shop.adminShop');
         }
@@ -522,7 +569,12 @@ class SiteHomeController extends BaseSiteController
 
     //trang register
     public function shopRegister(){
-        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+        
+    	$meta_title = $meta_keywords = $meta_description = 'Đăng ký';
+    	$meta_img = '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         //tỉnh thành
         $arrProvince = Province::getAllProvince();
@@ -581,6 +633,11 @@ class SiteHomeController extends BaseSiteController
     }
     //Lay lai mat khau
     public function shopForgetPass(){
+    	
+    	$meta_title = $meta_keywords = $meta_description = 'Quên mật khẩu';
+    	$meta_img= '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
     	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
     	$this->header();
     	$this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
@@ -689,8 +746,13 @@ class SiteHomeController extends BaseSiteController
     }
 
 	public function page404(){
-    	$this->header();
-
+    	
+		$meta_title = $meta_keywords = $meta_description = '404';
+		$meta_img= '';
+		FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+		
+		$this->header();
+		
         $limit = CGlobal::number_show_30;
         $total = $offset = 0;
         $search['field_get'] = $this->str_field_product_get;

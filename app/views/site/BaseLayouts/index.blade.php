@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{CGlobal::$pageTitle}}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta property="fb:app_id" content="11336688" />
-    <meta name="google-site-verification" content="lJpAlY8qAQ365SzwbRN9_UEySpftXGaB4zgKeZgwKyk" />
-    <meta property="og:title" content="@if(isset($title_seo)){{$title_seo}}@else {{CGlobal::web_name}}" @endif/>
-    <meta property="og:type" content="product" />
-    <meta property="og:url" content="@if(isset($url_seo) && $url_seo != ''){{$url_seo}} @else {{Config::get('config.WEB_ROOT')}} @endif" />
-    <meta property="og:image" content="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
-    <meta property="og:site_name" content="{{CGlobal::web_name}}" />
-    <meta property="og:description" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
-    <link rel="image_src" href="@if(isset($img_seo)){{$img_seo}}@else {{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo.png @endif" />
-    <meta name="DESCRIPTION" content="@if(isset($des_seo)){{$des_seo}}@else {{CGlobal::web_name}}. @endif" />
+	{{CGlobal::$extraMeta}}
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/favicon.ico" type="image/vnd.microsoft.icon">
 
     {{ HTML::style('assets/frontend/css/site.css?ver='.CGlobal::$css_ver, array(), Config::get('config.SECURE')) }}
 	{{CGlobal::$extraHeaderCSS}}
@@ -24,6 +16,7 @@
     {{ HTML::script('assets/js/jquery.2.1.1.min.js', array(), Config::get('config.SECURE')) }}
     {{CGlobal::$extraHeaderJS}}
     @if(Config::get('config.DEVMODE') == false)
+        <meta name="google-site-verification" content="lJpAlY8qAQ365SzwbRN9_UEySpftXGaB4zgKeZgwKyk" />
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

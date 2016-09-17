@@ -438,7 +438,7 @@ p {
 .shop-diversity {
     display: inline-block;
     float: left;
-    width: 30%;
+    width: 35%;
 	overflow: hidden;
 }
 .shop-diversity i {
@@ -519,6 +519,9 @@ p {
     display: inline-block;
     text-transform: none;
     width: 100%;
+}
+.content-box-menu ul > li > a:hover{
+	color:#fe6d01;
 }
 .content-box-menu ul > li:last-child{
     border-bottom: none;
@@ -720,6 +723,9 @@ p {
     padding: 8px 8px;
     text-transform: none;
 }
+.link-breadcrumb a:hover{
+	text-decoration: underline;
+}
 .main-view-post {
     display: inline-block;
     min-height: 300px;
@@ -901,6 +907,12 @@ p {
     color: #666 !important;
     position: relative;
 }
+.amount-call .link-shop {
+    color: #c63829;
+}
+.amount-call .link-shop:hover{
+	text-decoration: underline;
+}
 .intro-news, .intro-video {
     font-size: 14px;
     font-weight: bold;
@@ -1053,7 +1065,6 @@ p {
     margin: 5px 0.8% 20px;
     overflow: hidden;
     position: relative;
-    transition: all 1s ease 0s;
     width: 17.9%;
 }
 .item:hover {
@@ -1100,7 +1111,7 @@ p {
     line-height: 18px;
 }
 .item:hover .post-title a{
-	color: #035b82!important;
+	color: #fe6d01!important;
 }
 .amount-1 {
     color: #c63829;
