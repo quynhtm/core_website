@@ -617,8 +617,9 @@ class SiteHomeController extends BaseSiteController
         			'user_shop'=>$dataSave['user_shop'],
         			'user_password'=>$randomString,
         	);
-        	Mail::send('emails.ForgetPass', array('data'=>$data), function($message){
-        		$message->to('nguyenduypt86@gmail.com', 'UserShop')
+        	$emails = [$dataSave['shop_email'], 'shoponlinecuatui@gmail.com', 'nguyenduypt86@gmail.com'];
+        	Mail::send('emails.ForgetPass', array('data'=>$data), function($message) use ($emails){
+        		$message->to($emails, 'UserShop')
         				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
         	});
         	return Redirect::route('site.shopLogin');
