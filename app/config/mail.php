@@ -29,7 +29,7 @@ return array(
 	'driver' => 'smtp',
 	'host' => 'linux203.gnet.vn',
 	'port' => 465,
-	'from' => array('address' => 'dev@dev.sanphamredep.com', 'name' => 'nguyenduypt86'),
+	'from' => array('address' => 'dev@dev.sanphamredep.com', 'name' => CGlobal::web_name),
 	'encryption' => 'ssl',
 	'username' => 'dev@dev.sanphamredep.com',
 	'password' => 'Teat%!w(F?[Q',

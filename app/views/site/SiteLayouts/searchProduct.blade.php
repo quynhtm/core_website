@@ -20,9 +20,17 @@
 				@endif
 			</div>
 			<div class="right-show-product-shop body-list-item">
-				<h1 class="title-video">
-					Kết quả tìm kiếm: Có {{$total}} kết quả phù hợp.
-				</h1>
+				<div class="title-news">
+					Kết quả tìm kiếm: <span>Có {{$total}} kết quả phù hợp 
+					@if(sizeof($arrCate) != 0 || sizeof($arrProvince) != 0) với 
+					@if(sizeof($arrCate) != 0)
+						<i>Danh mục:</i> {{$arrCate->category_name}}
+					@endif
+					@if(sizeof($arrProvince) != 0)
+						<i>Tỉnh/thành:</i> {{$arrProvince->province_name}}
+					@endif
+					@endif</span>
+				</div>
 				<ul>
 					@if(sizeof($product) != 0)
 					@foreach($product as $item)

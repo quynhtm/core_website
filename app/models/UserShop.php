@@ -75,8 +75,7 @@ class UserShop extends Eloquent
         $shop = UserShop::where('shop_email', $shop_email)->first();
         return $shop;
     }
-    public static function isLogin()
-    {
+    public static function isLogin(){
         $result = false;
         if (Session::has('user_shop')) {
             $result = true;

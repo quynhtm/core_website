@@ -53,6 +53,8 @@ Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeCo
 Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
 Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
 
+Route::get('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@shopForgetPass'));
+Route::post('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@postShopForgetPass'));
 //quan ly page shop admin
 Route::get('shop-cua-tui.html',array('as' => 'shop.adminShop','uses' =>'ShopController@shopAdmin'));
 //thong tin shop

@@ -72,19 +72,6 @@ class SiteHomeController extends BaseSiteController
         $parentCategoryId = (int)Request::get('dataCatId');
         $type = addslashes(Request::get('dataType'));
         if($parentCategoryId > 0 && $type != ''){
-            /*$offset=0;
-            if($type == 'vip'){
-                $search['is_shop'] = CGlobal::SHOP_VIP;
-                $limit = CGlobal::number_show_30;
-            }else{
-                $search['is_shop'] = CGlobal::SHOP_NOMAL;
-                $limit = CGlobal::number_show_15;
-            }
-            $search['category_id'] = $catid;
-            $search['field_get'] = $this->str_field_product_get;
-            $data = Product::getProductForSite($search, $limit, $offset,$total);*/
-
-
             $limit = ($type == 'vip')? CGlobal::number_show_30 : CGlobal::number_show_15;
             $total = $offset = 0;
             if($parentCategoryId > 0){
@@ -118,7 +105,7 @@ class SiteHomeController extends BaseSiteController
 
         $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
  
-        $this->layout->content = View::make('site.SiteLayouts.listProductNew')
+        $this->layout->content = View::make('site.SiteLayouts.ListProductNew')
             ->with('product',$product)
         	->with('paging', $paging)
         	->with('arrBannerLeft', $arrBannerLeft);
@@ -133,7 +120,7 @@ class SiteHomeController extends BaseSiteController
         $catid = (int)Request::get('category_id', -1);
         $provinceid = (int)Request::get('shop_province', -1);
         
-        $product = array();
+        $product = $arrCate = $arrProvince = array();
         $paging = '';
         $total = 0;
         if($catid>0 || $provinceid > 0){
@@ -147,6 +134,13 @@ class SiteHomeController extends BaseSiteController
         	
         	$product = Product::getProductForSite($search, $limit, $offset,$total);
         	$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
+        	
+        	if($catid>0){
+        		$arrCate = Category::getByID($catid);
+        	}
+        	if($provinceid>0){
+        		$arrProvince = Province::getByID($provinceid);
+        	}
         }
         
         $arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
@@ -155,6 +149,8 @@ class SiteHomeController extends BaseSiteController
         ->with('product',$product)
         ->with('paging', $paging)
         ->with('total', $total)
+        ->with('arrCate', $arrCate)
+        ->with('arrProvince', $arrProvince)
         ->with('arrBannerLeft', $arrBannerLeft);
         $this->footer();
     }
@@ -449,7 +445,7 @@ class SiteHomeController extends BaseSiteController
      * Login và logout, đăng ký shop
      */
     public function shopLogin(){
-        FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         if(sizeof($this->user) > 0){
             return Redirect::route('shop.adminShop');
         }
@@ -461,7 +457,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     public function login($url = ''){
-        FunctionLib::site_css('frontend/css/login.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $user_shop = trim(Request::get('user_shop_login', ''));
         $password = trim(Request::get('password_shop_login', ''));
@@ -521,7 +517,7 @@ class SiteHomeController extends BaseSiteController
 
     //trang register
     public function shopRegister(){
-        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         //tỉnh thành
         $arrProvince = Province::getAllProvince();
@@ -533,7 +529,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     public function postShopRegister(){
-        FunctionLib::site_css('frontend/css/register.css', CGlobal::$POS_HEAD);
+        FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataSave = $error = array();
 
@@ -576,6 +572,63 @@ class SiteHomeController extends BaseSiteController
             ->with('optionProvince',$optionProvince)
             ->with('data',$dataSave)
             ->with('user', $this->user);
+        $this->footer();
+    }
+    //Lay lai mat khau
+    public function shopForgetPass(){
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+    	$this->header();
+    	$this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
+    	->with('error',array());
+    	$this->footer();
+    }
+    public function postShopForgetPass(){
+    	
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+        $this->header();
+        $dataSave = $error = array();
+
+        $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
+        $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
+		if($dataSave['user_shop'] == ''){
+			$error[] = 'Tên đăng nhập shop không được trống!';
+		}
+		//Check email
+        $checkEmail = FunctionLib::checkRegexEmail(trim($dataSave['shop_email']));
+        if(!$checkEmail){
+        	$error[] = 'Email không đúng định dạng!';
+        }
+        //Check user exists
+        $getUser = UserShop::getUserShopByEmail($dataSave['shop_email']);
+        if(sizeof($getUser) != 0){
+        	$user_shop = $getUser->user_shop;
+        	if($user_shop != $dataSave['user_shop']){
+        		$error[] = 'Không đúng tên đăng nhập hoặc email đăng ký shop!';
+        	}
+        }
+        
+        if (empty($error)) {
+        	$randomString = FunctionLib::randomString(5);
+        	$hash_pass = User::encode_password($randomString);
+        	$dataUpdate = array(
+        		'user_password'=>$hash_pass
+        	);
+        	UserShop::updateData($getUser->shop_id, $dataUpdate);
+        	//Send mail
+        	$data = array(
+        			'user_shop'=>$dataSave['user_shop'],
+        			'user_password'=>$randomString,
+        	);
+        	$emails = [$dataSave['shop_email'], 'shoponlinecuatui@gmail.com', 'nguyenduypt86@gmail.com'];
+        	Mail::send('emails.ForgetPass', array('data'=>$data), function($message) use ($emails){
+        		$message->to($emails, 'UserShop')
+        				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
+        	});
+        	return Redirect::route('site.shopLogin');
+        }
+        $this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
+            ->with('error',$error)
+            ->with('data',$dataSave);
         $this->footer();
     }
     private function validUserInforShop($data=array()) {

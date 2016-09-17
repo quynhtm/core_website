@@ -861,22 +861,6 @@ p {
     padding: 4px;
     width: 60%;
 }
-.btn {
-    -moz-user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857;
-    margin-bottom: 0;
-    padding: 1px 5px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-}
 .btn-primary {
     background-color: #337ab7;
     border-color: #2e6da4;
@@ -1472,7 +1456,7 @@ p {
     font-size: 25px;
 	font-weight: 500;
 	margin-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 .text-left {
     text-align: left;
@@ -1832,4 +1816,12 @@ form#txtFormPaymentCart .form-group label {
 }
 .error{
 	border:1px solid #ff0000!important;
+}
+.title-news span {
+    font-size: 15px;
+    font-weight: normal;
+}
+.title-news i {
+    color: #ff6d01;
+    font-style: normal;
 }
