@@ -182,7 +182,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="line-ads">
+	<div class="line-ads" style="display: none">
 		<div class="banner-ads">
 			<img src="https://static11.muachungcdn.com/original/i:plaza/product/product/-0-HangNhatThai_1150x60-146837977178478/sunhouse-thang-7.jpg" alt="">
 		</div>
