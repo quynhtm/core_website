@@ -13,9 +13,8 @@
                 <label class="control-label">Mật khẩu<span>(*)</span></label>
                 <input type="password" id="password_shop_login" class="form-control" name="password_shop_login">
             </div>
-            <input type="hidden" name="txtFormNameLogin" id="txtFormNameLogin" value="txtFormNameLogin"/>
             <button type="submit" id="submitLogin" class="btn btn-primary">Đăng nhập</button>
-            <a class="forgotpass" href="#" rel="nofollow">Bạn quên mật khẩu?</a>
+            <a class="forgotpass" href="{{URL::route('site.shopForgetPass')}}" rel="nofollow">Bạn quên mật khẩu?</a>
         {{ Form::close() }}
     </div>
 </div>

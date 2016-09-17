@@ -589,7 +589,7 @@ class FunctionLib {
      
      	return $os_platform;
      }
-     public static function checkOS(){
+    public static function checkOS(){
      	$screenWidth = FunctionLib::getOS();
      	if( $screenWidth == 'iphone' || $screenWidth == 'ipod' || $screenWidth == 'ipad' || $screenWidth == 'Android'
      		|| $screenWidth == 'Blackberry' || $screenWidth == 'Webos' || $screenWidth=='WindowsPhone'){
@@ -597,5 +597,15 @@ class FunctionLib {
      	}else{
      		return 0;
      	}
-     }
+    }
+
+   public static function randomString($length=5){
+        $str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $strLength = strlen($str);
+        $random_string = '';
+        for($i=0; $i<=$length; $i++) {
+            $random_string .= $str[rand(0, $strLength - 1)];
+        }
+        return $random_string;
+    }
 }

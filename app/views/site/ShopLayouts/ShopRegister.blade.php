@@ -45,7 +45,6 @@
 			</div>
 			<div class="form-group-action">
 				<div class="list-action">
-					<input name="txtFormNameRegister" id="txtFormNameRegister" value="txtFormNameRegister" type="hidden">
 					<button type="submit" id="submitRegister" class="btn btn-primary">Đăng ký</button>
 				</div>
 			</div>

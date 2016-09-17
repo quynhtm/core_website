@@ -572,6 +572,62 @@ class SiteHomeController extends BaseSiteController
             ->with('user', $this->user);
         $this->footer();
     }
+    //Lay lai mat khau
+    public function shopForgetPass(){
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+    	$this->header();
+    	$this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
+    	->with('error',array());
+    	$this->footer();
+    }
+    public function postShopForgetPass(){
+    	
+    	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
+        $this->header();
+        $dataSave = $error = array();
+
+        $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
+        $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
+		if($dataSave['user_shop'] == ''){
+			$error[] = 'Tên đăng nhập shop không được trống!';
+		}
+		//Check email
+        $checkEmail = FunctionLib::checkRegexEmail(trim($dataSave['shop_email']));
+        if(!$checkEmail){
+        	$error[] = 'Email không đúng định dạng!';
+        }
+        //Check user exists
+        $getUser = UserShop::getUserShopByEmail($dataSave['shop_email']);
+        if(sizeof($getUser) != 0){
+        	$user_shop = $getUser->user_shop;
+        	if($user_shop != $dataSave['user_shop']){
+        		$error[] = 'Không đúng tên đăng nhập hoặc email đăng ký shop!';
+        	}
+        }
+        
+        if (empty($error)) {
+        	$randomString = FunctionLib::randomString(5);
+        	$hash_pass = User::encode_password($randomString);
+        	$dataUpdate = array(
+        		'user_password'=>$hash_pass
+        	);
+        	UserShop::updateData($getUser->shop_id, $dataUpdate);
+        	//Send mail
+        	$data = array(
+        			'user_shop'=>$dataSave['user_shop'],
+        			'user_password'=>$randomString,
+        	);
+        	Mail::send('emails.ForgetPass', array('data'=>$data), function($message){
+        		$message->to('nguyenduypt86@gmail.com', 'UserShop')
+        				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
+        	});
+        	return Redirect::route('site.shopLogin');
+        }
+        $this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
+            ->with('error',$error)
+            ->with('data',$dataSave);
+        $this->footer();
+    }
     private function validUserInforShop($data=array()) {
         $error = array();
         if(!empty($data)) {

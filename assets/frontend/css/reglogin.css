@@ -9,6 +9,16 @@
     margin: 0 auto;
     width: 90%;
 }
+.box-forgetpass{
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+}
+.form-send-forgetpass{
+	display: block;
+    margin: 0 auto;
+    width: 415px;
+}
 .form-send-register {
     margin: 0 auto 0 400px;
     width: 650px;
@@ -65,7 +75,7 @@
     font-size: 14px;
     height: 22px;
     line-height: 1.42857;
-    padding: 2px;
+    padding: 2px 5px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 .btn {
@@ -116,4 +126,17 @@ select.form-control {
     color: #ff0000;
     font-size: 14px;
     margin-bottom: 2px;
+}
+.restore-pass-text{
+    font-size: 12px;
+    margin: 20px 0;
+}
+.forgotpass:hover{
+	text-decoration: underline;
+}
+
+.form-send-forgetpass label {
+    display: inline-block;
+    font-size: 15px;
+    margin-bottom: 5px;
 }
