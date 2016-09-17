@@ -17,6 +17,7 @@ class CGlobal{
 
     const code_shop_share = 'shopcuatoi';
     const web_name = 'ShopCuaTui.COM.VN';
+    const phoneSupport = '094.11.99.656 - 0913.922.986';
     const num_scroll_page = 2;
     const number_limit_show = 30;
     const number_show_30 = 30;
