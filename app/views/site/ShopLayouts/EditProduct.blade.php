@@ -49,7 +49,7 @@
                         <label for="name" class="control-label">Thuộc nhà cung cấp</label>
                         <div class="form-group">
                             <select name="provider_id" id="provider_id" class="form-control input-sm">
-                                {{$optionStatusProduct}}
+                                {{$optionNCC}}
                             </select>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
                                 <?php if (isset($arrViewImgOther) && count($arrViewImgOther) > 0) {?>
                                 <?php foreach($arrViewImgOther as $kk => $img_other) {?>
                                 <span class="float_left image_insert_content">
-                                        <a class="img_item" href="javascript:void(0);" onclick="insertImgContent('{{$img_other['src_img_other']}}')" >
+                                        <a class="img_item" href="javascript:void(0);" onclick="insertImgContent('{{$img_other['src_thumb_content']}}')" >
                                             <img src="{{$img_other['src_img_other']}}" width="100" height="100">
                                         </a>
                                     </span>

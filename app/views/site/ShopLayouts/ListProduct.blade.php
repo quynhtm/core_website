@@ -13,6 +13,13 @@
         <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
+                @if(isset($error) && !empty($error))
+                    <div class="alert alert-danger" role="alert">
+                        @foreach($error as $itmError)
+                            <p>{{ $itmError }}</p>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="panel panel-info">
                     {{ Form::open(array('method' => 'GET', 'role'=>'form')) }}
                     <div class="panel-body">
@@ -26,11 +33,19 @@
                                 {{$optionStatus}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Danh mục sản phẩm</label>
+                            <select name="category_id" id="category_id" class="form-control input-sm">
+                                {{$optionCategory}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         <span class="">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
-                            <a class="btn btn-warning btn-sm" href="{{URL::route('shop.addProduct')}}"><i class="fa fa-edit"></i> Thêm SP mới</a>
+                            @if($checkAddProduct == 1)
+                                <a class="btn btn-warning btn-sm" href="{{URL::route('shop.addProduct')}}"><i class="fa fa-edit"></i> Thêm SP mới</a>
+                            @endif
                         </span>
                     </div>
                     {{ Form::close() }}

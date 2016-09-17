@@ -38,6 +38,18 @@ class ShopController extends BaseShopController
             'js/jquery.min.js',
             'frontend/js/site.js',
         ));
+        //check shop con lươt up hay không
+        $number_limit_product = $this->user_shop->number_limit_product;//lượt up
+        $shop_up_product = $this->user_shop->shop_up_product;// total da up
+        $checkAddProduct = 1;
+        if($shop_up_product <= $number_limit_product){
+            $checkAddProduct = 0;//het lượt up
+            $this->error[] = 'Shop của bạn đã hết lượt up sản phẩm.';
+            $this->error[] = 'Hãy chia sẻ, giới thiệu link sau để được thêm lượt up:';
+            $this->error[] = $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->user_shop->shop_id,
+                'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
+                'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));
+        }
 
         CGlobal::$pageShopTitle = "Quản lý sản phẩm | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);
@@ -55,6 +67,9 @@ class ShopController extends BaseShopController
         $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Product::searchByCondition($search, $limit, $offset,$total): array();
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($search);
+        //danh muc san pham cua shop
+        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, $search['category_id']);
 
         $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
         $this->layout->content = View::make('site.ShopLayouts.ListProduct')
@@ -64,7 +79,10 @@ class ShopController extends BaseShopController
             ->with('sizeShow', count($data))
             ->with('data', $dataSearch)
             ->with('search', $search)
+            ->with('checkAddProduct', $checkAddProduct)
+            ->with('error', $this->error)
             ->with('optionStatus', $optionStatus)
+            ->with('optionCategory', $optionCategory)
             ->with('user', $this->user_shop);
     }
     public function getAddProduct($product_id = 0){
@@ -84,6 +102,13 @@ class ShopController extends BaseShopController
             'frontend/js/site.js',
         ));
 
+        //check shop con lươt up hay không
+        $number_limit_product = $this->user_shop->number_limit_product;//lượt up
+        $shop_up_product = $this->user_shop->shop_up_product;// total da up
+        $checkAddProduct = 1;
+        if($shop_up_product <= $number_limit_product){
+            return Redirect::route('shop.listProduct');
+        }
         CGlobal::$pageShopTitle = "Thêm sản phẩm | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
@@ -92,6 +117,10 @@ class ShopController extends BaseShopController
         //danh muc san pham cua shop
         $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
+
+        //danh sach NCC cua shop
+        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, -1);
 
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,CGlobal::TYPE_PRICE_NUMBER);
@@ -105,6 +134,7 @@ class ShopController extends BaseShopController
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
             ->with('optionCategory', $optionCategory)
+            ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
@@ -145,7 +175,8 @@ class ShopController extends BaseShopController
                 if(sizeof($arrImagOther) > 0){
                     foreach($arrImagOther as $k=>$val){
                         $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
-                        $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
+                        $url_thumb_content = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_600);
+                        $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb,'src_thumb_content'=>$url_thumb_content);
                     }
                 }
             }
@@ -178,6 +209,10 @@ class ShopController extends BaseShopController
         $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
 
+        //danh sach NCC cua shop
+        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, isset($product->provider_id)? $product->provider_id:-1);
+
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
@@ -190,6 +225,7 @@ class ShopController extends BaseShopController
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
             ->with('optionCategory', $optionCategory)
+            ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);
@@ -226,6 +262,7 @@ class ShopController extends BaseShopController
         $dataSave['product_content'] = addslashes(Request::get('product_content'));
         $dataSave['product_order'] = addslashes(Request::get('product_order'));
         $dataSave['quality_input'] = addslashes(Request::get('quality_input'));
+        $dataSave['provider_id'] = addslashes(Request::get('provider_id'));
 
         $dataSave['product_price_sell'] = (int)str_replace('.','',Request::get('product_price_sell'));
         $dataSave['product_price_market'] = (int)str_replace('.','',Request::get('product_price_market'));
@@ -241,6 +278,10 @@ class ShopController extends BaseShopController
         //danh muc san pham cua shop
         $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
 
+        //danh sach NCC cua shop
+        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+
+
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
         $getImgOther = Request::get('img_other',array());
@@ -251,7 +292,8 @@ class ShopController extends BaseShopController
 
                     //show ra anh da Upload neu co loi
                     $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
-                    $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
+                    $url_thumb_content = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_600);
+                    $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb,'src_thumb_content'=>$url_thumb_content);
                 }
             }
         }
@@ -303,6 +345,7 @@ class ShopController extends BaseShopController
             }
         }
         //FunctionLib::debug($dataSave);
+        $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $dataSave['provider_id']);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,$dataSave['category_id']);
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);
@@ -316,6 +359,7 @@ class ShopController extends BaseShopController
             ->with('imagePrimary', $imagePrimary)
             ->with('imageHover', $imageHover)
             ->with('optionCategory', $optionCategory)
+            ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
             ->with('optionTypeProduct', $optionTypeProduct);

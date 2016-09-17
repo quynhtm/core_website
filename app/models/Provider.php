@@ -25,6 +25,23 @@ class Provider extends Eloquent
         return $provider;
     }
 
+    public static function getListProviderByShopId($provider_shop_id) {
+        $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$provider_shop_id) : array();
+        if (sizeof($provider) == 0) {
+            $data = Provider::where('provider_id', $provider_shop_id)->get();
+            if(sizeof($data) > 0){
+                foreach($data as $itm) {
+                    $provider[$itm->provider_id] = $itm->provider_name;
+                }
+                if($provider && Memcache::CACHE_ON){
+                    Cache::put(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$provider_shop_id, $provider, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                }
+                return $provider;
+            }
+        }
+        return $provider;
+    }
+
     public static function getProviderShopByID($id,$shop_id) {
         $provider = Provider::getByID($id);
         if (sizeof($provider) > 0) {
@@ -35,7 +52,7 @@ class Provider extends Eloquent
         return array();
     }
 
-    public static function getShopAll() {
+    public static function getProviderAll() {
         $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PROVIDER) : array();
         if (sizeof($data) == 0) {
             $shop = Provider::where('provider_id', '>', 0)->get();
@@ -106,7 +123,7 @@ class Provider extends Eloquent
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
                 if(isset($data->provider_id) && $data->provider_id > 0){
-                    self::removeCache($data->provider_id);
+                    self::removeCache($data->provider_id, $data->provider_shop_id);
                 }
                 return $data->provider_id;
             }
@@ -135,7 +152,7 @@ class Provider extends Eloquent
             }
             DB::connection()->getPdo()->commit();
             if(isset($dataSave->provider_id) && $dataSave->provider_id > 0){
-                self::removeCache($dataSave->provider_id);
+                self::removeCache($dataSave->provider_id, $dataSave->provider_shop_id);
             }
             return true;
         } catch (PDOException $e) {
@@ -159,7 +176,7 @@ class Provider extends Eloquent
             $dataSave->delete();
             DB::connection()->getPdo()->commit();
             if(isset($dataSave->provider_id) && $dataSave->provider_id > 0){
-                self::removeCache($dataSave->provider_id);
+                self::removeCache($dataSave->provider_id, $dataSave->provider_shop_id);
             }
             return true;
         } catch (PDOException $e) {
@@ -171,9 +188,10 @@ class Provider extends Eloquent
     /**
      * @param int $id
      */
-    public static function removeCache($id = 0){
+    public static function removeCache($id = 0,$shop_id = 0){
         if($id > 0){
             Cache::forget(Memcache::CACHE_PROVIDER_ID.$id);
+            Cache::forget(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$shop_id);
         }
         Cache::forget(Memcache::CACHE_ALL_PROVIDER);
     }
