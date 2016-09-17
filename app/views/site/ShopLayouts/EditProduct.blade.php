@@ -179,7 +179,9 @@
                 <div class="clearfix"></div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span></label>
+                        <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span>
+                            <div class="controls"><button type="button" onclick="SITE.insertImageContent(2)" class="btn btn-primary">Chèn ảnh vào nội dung</button></div>
+                        </label>
                         <textarea class="form-control input-sm" rows="8" name="product_content" id="product_content">@if(isset($data['product_content'])){{$data['product_content']}}@endif</textarea>
                     </div>
                 </div>
@@ -224,6 +226,39 @@
     </div>
 </div>
 <!--Popup upload ảnh-->
+
+<!--Popup anh khac de chen vao noi dung bai viet-->
+<div class="modal fade" id="sys_PopupImgOtherInsertContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Click ảnh để chèn vào nội dung</h4>
+            </div>
+            <div class="modal-body">
+                <form name="uploadImage" method="post" action="#" enctype="multipart/form-data">
+                    <div class="form_group">
+                        <div class="clearfix"></div>
+                        <div class="clearfix" style='margin: 5px 10px; width:100%;'>
+                            <div id="div_image" class="float_left">
+                                <?php if (isset($arrViewImgOther) && count($arrViewImgOther) > 0) {?>
+                                <?php foreach($arrViewImgOther as $kk => $img_other) {?>
+                                <span class="float_left image_insert_content">
+                                        <a class="img_item" href="javascript:void(0);" onclick="insertImgContent('{{$img_other['src_img_other']}}')" >
+                                            <img src="{{$img_other['src_img_other']}}" width="100" height="100">
+                                        </a>
+                                    </span>
+                                <?php } } ?>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- chen anh vào noi dung-->
+
 <script>
     CKEDITOR.replace(
             'product_sort_desc',
@@ -247,6 +282,6 @@
         jQuery("input[name=list1SortOrder]").val(data.join(","));
     };
     function insertImgContent(src){
-        CKEDITOR.instances.news_content.insertHtml('<img src="'+src+'"/>');
+        CKEDITOR.instances.product_content.insertHtml('<img src="'+src+'"/>');
     }
 </script>
