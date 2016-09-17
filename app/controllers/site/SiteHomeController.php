@@ -247,15 +247,24 @@ class SiteHomeController extends BaseSiteController
 
             }
         }
-        //get product hot
+        //san pham bạn quan tâm
       	$limit = (isset($user_shop->is_shop) &&  $user_shop->is_shop = CGlobal::SHOP_VIP) ? CGlobal::number_show_15 : CGlobal::number_show_5;
     	$total = $offset = 0;
     	$search['field_get'] = $this->str_field_product_get;
     	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
-    	
+
+    	//san phẩm nôi bật
+      	$limit = CGlobal::number_show_5;
+    	$total = $offset = 0;
+    	$search1['field_get'] = $this->str_field_product_get;
+        $search1['shop_id_other'] = isset($user_shop->shop_id)? $user_shop->shop_id : 0;
+    	$dataProNoiBat = Product::getProductForSite($search1, $limit, $offset,$total);
+    	//$dataProNoiBat = array();
+
         $this->layout->content = View::make('site.SiteLayouts.DetailProduct')
             ->with('product',$product)
             ->with('user_shop', $user_shop)
+            ->with('dataProNoiBat', $dataProNoiBat)
         	->with('dataProVip',$dataProVip);
         $this->footer();
     }

@@ -56,7 +56,7 @@
 					@if($product->product_price_market > 0)
 					<div class="row-price">
 						<div class="lbl-row">Giá thị trường:</div>
-						<div class="price-origin">{{FunctionLib::numberFormat($product->product_price_market)}}đ</span></div>
+						<div class="price-origin">{{FunctionLib::numberFormat($product->product_price_market)}}đ</div>
 					</div>
 					@endif
 					
@@ -164,7 +164,7 @@
 											@endif
 										</div>
 									</div>
-									@if($item->user_shop_id > 0 && $item->user_shop_name != '')
+									@if($item->user_shop_id > 0 && $item->user_shop_name != '' && $item->is_shop == CGlobal::SHOP_VIP)
 									<div class="mgt5 amount-call">
 					                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
 					            	</div>
@@ -211,42 +211,42 @@
 					<div class="title-hot"><span>Sản phẩm nổi bật</span></div>
 					<div class="content-right-bottom-content-view">
 						<ul>
-						@if(!empty($dataProVip))
-						@foreach($dataProVip as $item)
+						@if(!empty($dataProNoiBat))
+						@foreach($dataProNoiBat as $item2)
 							<li class="item">
-									@if($item->product_type_price == 1)
-										@if((float)$item->product_price_market > (float)$item->product_price_sell)
+									@if($item2->product_type_price == 1)
+										@if((float)$item2->product_price_market > (float)$item2->product_price_sell)
 										<span class="sale-off">
-											-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
+											-{{ number_format(100 - ((float)$item2->product_price_sell/(float)$item2->product_price_market)*100, 1) }}%
 										</span>
 										@endif
 									@endif
 									<div class="post-thumb">
-										<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-											<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
-												data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
+										<a title="{{$item2->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item2->product_id, $item2->product_name, $item2->category_name)}}">
+											<img alt="{{$item2->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item2['product_id'], $item2['product_image'], CGlobal::sizeImage_300)}}"
+												data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item2['product_id'], $item2['product_image_hover'], CGlobal::sizeImage_300)}}">
 										</a>
 									</div>
 									<div class="item-content">
 										<div class="title-info">
 											<h4 class="post-title">
-												<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
+												<a title="{{$item2->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item2->product_id, $item2->product_name, $item2->category_name)}}">{{$item2->product_name}}</a>
 											</h4>
 											<div class="item-price">
-												@if($item->product_price_sell > 0)
-												<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+												@if($item2->product_price_sell > 0)
+												<span class="amount-1">{{FunctionLib::numberFormat($item2->product_price_sell)}}đ</span>
 												@endif
-												@if($item->product_price_market > 0)
-												<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+												@if($item2->product_price_market > 0)
+												<span class="amount-2">{{FunctionLib::numberFormat($item2->product_price_market)}}đ</span>
 												@endif
-												@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+												@if($item2->product_price_sell == 0 && $item2->product_price_market == 0)
 													<span class="amount-1">Liên hệ</span>
 												@endif
 											</div>
 										</div>
-										@if($item->user_shop_id > 0 && $item->user_shop_name != '')
+										@if($item2->user_shop_id > 0 && $item2->user_shop_name != ''&& $item2->is_shop == CGlobal::SHOP_VIP)
 										<div class="mgt5 amount-call">
-						                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
+						                	<a title="{{$item2->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item2->user_shop_id}}/{{$item2->user_shop_name}}.html">{{$item2->user_shop_name}}</a>
 						            	</div>
 						            	@endif
 									</div>
