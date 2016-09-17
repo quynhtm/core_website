@@ -1352,6 +1352,7 @@ return array(
     'QRcode' => $baseDir . '/app/library/PDF/qrcode.php',
     'Renderer' => $vendorDir . '/dompdf/dompdf/include/renderer.cls.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
+    'ShopActionController' => $baseDir . '/app/controllers/shop/ShopActionController.php',
     'ShopController' => $baseDir . '/app/controllers/shop/ShopController.php',
     'ShopShare' => $baseDir . '/app/models/ShopShare.php',
     'ShopVipController' => $baseDir . '/app/controllers/shop/ShopVipController.php',
