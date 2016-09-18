@@ -249,7 +249,7 @@ class SiteOrderController extends BaseSiteController
 								'txtAddress'=>$txtAddress,
 								'txtMessage'=>$txtMessage,
 							);
-							$emails = ['nguyenduypt86@gmail.com'];
+							$emails = [$email_shop, 'shoponlinecuatui@gmail.com'];
 							Mail::send('emails.SendOrderToMailShop', array('data'=>$dataMail), function($message) use ($emails){
 								$message->to($emails, 'OrderToShop')
 									->subject(CGlobal::web_name.' - Khách đã đặt mua sản phẩm của shop '.date('d/m/Y h:i',  time()));
