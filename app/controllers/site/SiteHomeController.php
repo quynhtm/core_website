@@ -206,14 +206,14 @@ class SiteHomeController extends BaseSiteController
         if($pro_id > 0){
             $product = Product::getProductByID($pro_id);
             //FunctionLib::debug($product);
-            $user_shop = UserShop::getByID($product->user_shop_id);
-            if ($product) {
+            if (sizeof($product) != 0) {
                 //check xem sản phẩm có khi khóa hay ẩn hay không
                 if($product->product_status == CGlobal::status_hide || $product->is_block == CGlobal::PRODUCT_BLOCK){
                     return Redirect::route('site.Error');
                 }
                 CGlobal::$pageTitle = $product->product_name.'-'.CGlobal::web_name;//title page
-
+                $user_shop = UserShop::getByID($product->user_shop_id);
+                
                 $url = URL::current();
                 $link_detail = FunctionLib::buildLinkDetailProduct($product->product_id,$product->product_name,$product->category_name);
                 if ($url != $link_detail) {
@@ -252,7 +252,7 @@ class SiteHomeController extends BaseSiteController
 		
         $search['news_title'] = addslashes(Request::get('news_title', ''));
         $search['news_status'] = CGlobal::status_show;
-        $search['field_get'] = 'news_id,news_title,news_desc_sort,news_image';//cac truong can lay
+        $search['field_get'] = 'news_id,news_category,news_title,news_desc_sort,news_image';//cac truong can lay
         
         $dataNew = News::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
@@ -282,7 +282,7 @@ class SiteHomeController extends BaseSiteController
     }
     //trang chi tiet tin tuc
     public function detailNew($new_id, $new_name){
-
+		
         $this->header();
         $dataNew = $dataNewsSame = array();
         $user_shop = array();

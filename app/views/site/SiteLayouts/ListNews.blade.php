@@ -14,7 +14,7 @@
 						<div class="item-news">
 							@if($item['news_image'] != '')
 							<div class="post-img">
-								<a title="{{$item['news_title']}}" href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">
+								<a title="{{$item['news_title']}}" href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_category'] , $item['news_title'])}}">
 									<img alt="{{$item['news_title']}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $item['news_id'], $item['news_image'], CGlobal::sizeImage_300)}}">
 									<div class="post-format">
 										<i class="fa fa-file-text"></i>
@@ -23,9 +23,9 @@
 							</div>
 							@endif
 							<div class="post-data">
-								<h2 class="post-title"><a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">{{$item['news_title']}}</a></h2>
+								<h2 class="post-title"><a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_category'] , $item['news_title'])}}">{{$item['news_title']}}</a></h2>
 								<div class="post-content">{{FunctionLib::substring($item['news_desc_sort'], 500, '...') }}</div>
-								<div class="redmoreNews"> <a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_title'])}}">Xem thêm</a></div>
+								<div class="redmoreNews"> <a href="{{FunctionLib::buildLinkDetailNews($item['news_id'], $item['news_category'] , $item['news_title'])}}">Xem thêm</a></div>
 							</div>
 						</div>
 						@endforeach
