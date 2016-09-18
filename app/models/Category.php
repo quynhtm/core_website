@@ -57,10 +57,10 @@ class Category extends Eloquent
     }
 
     public static function getAllChildCategoryIdByParentId($parentId = 0) {
-        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_CHILD_CATEGORY_BY_PARENT_ID) : array();
+        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_CHILD_CATEGORY_BY_PARENT_ID.$parentId) : array();
         if (sizeof($data) == 0 && $parentId > 0) {
             $category = Category::where('category_id' ,'>', 0)
-                ->where('category_parent_id',$parentId)
+                ->where('category_parent_id','=',$parentId)
                 ->where('category_status',CGlobal::status_show)
                 ->orderBy('category_order','asc')->get();
             if($category){
@@ -69,7 +69,7 @@ class Category extends Eloquent
                 }
             }
             if($data && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_ALL_CHILD_CATEGORY_BY_PARENT_ID, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
+                Cache::put(Memcache::CACHE_ALL_CHILD_CATEGORY_BY_PARENT_ID.$parentId, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
             }
         }
         return $data;
