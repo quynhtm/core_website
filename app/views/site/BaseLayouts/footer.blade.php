@@ -1,16 +1,18 @@
 <div class="top-bg-footer">
+	<div class="top-footer">
+        <div class="container">
+	        <div class="right-top-footer">
+				<span>Kết nối với chúng tôi:</span>
+				<a href="https://plus.google.com/100693074505743994095" rel="nofollow">
+					<i class="icon-google-plus"></i>
+				</a>
+				<a href="https://www.facebook.com/profile.php?id=100012051900214" rel="nofollow">
+					<i class="icon-facebook"></i>
+				</a>
+	       </div>
+	     </div>
+    </div>
     <div class="container">
-        <div class="top-footer">
-            <div class="right-top-footer">
-                <span>Kết nối với chúng tôi:</span>
-                <a href="https://plus.google.com/100693074505743994095" rel="nofollow">
-                    <i class="icon-google-plus"></i>
-                </a>
-                <a href="https://www.facebook.com/profile.php?id=100012051900214" rel="nofollow">
-                    <i class="icon-facebook"></i>
-                </a>
-            </div>
-        </div>
         <div class="midd-footer">
             <ul>
                 <li><span>Về chúng tôi</span></li>
@@ -19,6 +21,10 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
+                <li><a rel="nofollow" target="_blank" href="" title="">Giới thiệu</a></li>
+				<li><a rel="nofollow" target="_blank" href="" title="">Liên hệ</a></li>
+				<li><a rel="nofollow" target="_blank" href="" title="">Chính sách bảo mật</a></li>
+				<li><a rel="nofollow" target="_blank" href="" title="">Hướng dẫn đăng ký tài khoản</a></li>
             </ul>
             <ul>
                 <li><span>Dành cho người mua</span></li>
@@ -27,6 +33,7 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
+                <li><a rel="nofollow" target="_blank" href="" title="">Hướng dẫn mua hàng</a></li>
             </ul>
             <ul>
                 <li><span>Dành cho người bán</span></li>
@@ -35,6 +42,7 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
+                <li><a rel="nofollow" target="_blank" href="" title="">Các quy định</a></li>
             </ul>
             <ul>
                 <li>
@@ -53,7 +61,7 @@
 </div>
 <div class="bottom-footer">
     <div class="container">
-        © 2014 ShopCuaTui.COM.VN - Mua sắm online các mặt hàng: thời trang nam, thời trang nữ, thời trang trẻ em, phụ kiện thời trang, đồ gia dụng... 
+        © 2015 - {{date('Y', time())}} Shopcuatui.com.vn - Mua sắm online các mặt hàng: thời trang nam, thời trang nữ, thời trang trẻ em, phụ kiện thời trang, đồ gia dụng... 
     </div>
 </div>
 <a href="#" class="back-to-top"></a>
