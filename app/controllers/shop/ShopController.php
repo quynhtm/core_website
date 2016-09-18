@@ -64,6 +64,7 @@ class ShopController extends BaseShopController
         $search['product_name'] = addslashes(Request::get('product_name',''));
         $search['product_status'] = (int)Request::get('product_status',-1);
         $search['category_id'] = (int)Request::get('category_id',-1);
+        $search['provider_id'] = (int)Request::get('provider_id',-1);
         $search['user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
@@ -73,6 +74,9 @@ class ShopController extends BaseShopController
         //danh muc san pham cua shop
         $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, $search['category_id']);
+        //danh sach NCC cua shop
+        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $search['provider_id']);
 
         $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
         $this->layout->content = View::make('site.ShopLayouts.ListProduct')
@@ -85,6 +89,8 @@ class ShopController extends BaseShopController
             ->with('checkAddProduct', $checkAddProduct)
             ->with('error', $this->error)
             ->with('optionStatus', $optionStatus)
+            ->with('optionNCC', $optionNCC)
+            ->with('arrNCC', $arrNCC)
             ->with('optionCategory', $optionCategory)
             ->with('user', $this->user_shop);
     }
