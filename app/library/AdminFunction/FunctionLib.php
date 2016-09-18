@@ -196,10 +196,13 @@ class FunctionLib {
         return strtoupper(substr($Str, 0, 1)) . substr($Str, 1, strlen($Str) - 1) . ($lang == 'vi' ? "đồng" : 'vnd');
     }
     static function debug($array) {
-        if($_SERVER['HTTP_HOST'] != 'shopcuatui.vn') {
-            echo '<pre>';
-            print_r($array);
-            die;
+        echo '<pre>';
+        print_r($array);
+        die;
+    }
+    static function debugOnsite($array) {
+        if(Request::get('quynhtm') == 133){
+            FunctionLib::debug($array);
         }
     }
     /**
