@@ -27,7 +27,7 @@ class CronjobsController extends BaseSiteController
     	switch( $type ){
         		case 1://cập nhật link ảnh trong sản phẩm
         			$dataSearch['field_get'] = 'product_id,product_content';
-        			$data = Product::searchByCondition($dataSearch,500,$total);
+        			$data = Product::searchByCondition($dataSearch,500,0,$total);
         			if($data){
         				foreach($data as $k=>$product){
         					$content = stripcslashes($product->product_content);

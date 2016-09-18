@@ -307,7 +307,7 @@ class SiteHomeController extends BaseSiteController
         $this->footer();
     }
     //trang chi tiet tin tuc
-    public function detailNew($new_id, $new_name){
+    public function detailNew($cat_id, $new_id, $new_name){
 		
         $this->header();
         $dataNew = $dataNewsSame = array();
