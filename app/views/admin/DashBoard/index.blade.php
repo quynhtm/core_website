@@ -21,7 +21,7 @@
                         @endforeach
                     </div>
                 @endif
-                <div class="box-body" style="margin-top: 50px">
+                <div class="box-body" style="margin-top: 35px">
                     @if($is_root || in_array('user_view',$aryPermission))
                     <div class="col-sm-6 col-md-3">
                         <a class="quick-btn a_control" href="{{URL::route('admin.user_view')}}">
