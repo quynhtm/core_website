@@ -29,10 +29,10 @@ return array(
 	'driver' => 'smtp',
 	'host' => 'linux203.gnet.vn',
 	'port' => 465,
-	'from' => array('address' => 'dev@dev.sanphamredep.com', 'name' => CGlobal::web_name),
+	'from' => array('address' => 'mail@shopcuatui.com.vn', 'name' => CGlobal::web_name),
 	'encryption' => 'ssl',
-	'username' => 'dev@dev.sanphamredep.com',
-	'password' => 'Teat%!w(F?[Q',
+	'username' => 'mail@shopcuatui.com.vn',
+	'password' => '~S;&aWW*ux9H',
 	'sendmail' => '/usr/sbin/sendmail -bs',
 	'pretend' => false,
 );
