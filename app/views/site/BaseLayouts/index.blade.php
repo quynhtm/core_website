@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>@if(isset($title)){{$title}}@else {{CGlobal::web_name}} @endif</title>
+    <title>{{CGlobal::$pageTitle}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta property="fb:app_id" content="11336688" />
     <meta name="google-site-verification" content="lJpAlY8qAQ365SzwbRN9_UEySpftXGaB4zgKeZgwKyk" />

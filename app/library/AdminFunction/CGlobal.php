@@ -14,9 +14,10 @@ class CGlobal{
     public static $extraFooterJS = '';
     public static $pageAdminTitle = 'Dashboard Admin';
     public static $pageShopTitle = 'Shop Admin';
+    public static $pageTitle = 'shopcuatui.com.vn';
 
     const code_shop_share = 'shopcuatoi';
-    const web_name = 'ShopCuaTui.COM.VN';
+    const web_name = 'shopcuatui.com.vn';
     const num_scroll_page = 2;
     const number_limit_show = 30;
     const number_show_30 = 30;

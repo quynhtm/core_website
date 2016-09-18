@@ -212,12 +212,14 @@ class SiteHomeController extends BaseSiteController
                 if($product->product_status == CGlobal::status_hide || $product->is_block == CGlobal::PRODUCT_BLOCK){
                     return Redirect::route('site.Error');
                 }
+                CGlobal::$pageTitle = $product->product_name.'-'.CGlobal::web_name;//title page
+
                 $url = URL::current();
                 $link_detail = FunctionLib::buildLinkDetailProduct($product->product_id,$product->product_name,$product->category_name);
                 if ($url != $link_detail) {
                     return Redirect::to($link_detail);
                 }
-                $this->layout->title = $product->product_name . ' - shopcuatui.com.vn';
+                $this->layout->title = $product->product_name . ' - '.CGlobal::web_name;
                 $this->layout->title_seo = $product->product_name;
                 $this->layout->url_seo = $link_detail;
                 $this->layout->img_seo = '';
@@ -287,6 +289,7 @@ class SiteHomeController extends BaseSiteController
         //get news detail
         if($new_id > 0) {
             $dataNew = News::getNewByID($new_id);
+            CGlobal::$pageTitle = $dataNew->news_title.'-'.CGlobal::web_name;//title page
             //get news same
             if($dataNew != null){
                 $dataField['field_get'] = 'news_id,news_title,news_desc_sort,news_content,news_category';
@@ -340,6 +343,7 @@ class SiteHomeController extends BaseSiteController
             if($user_shop->shop_status != CGlobal::status_show){
                 return Redirect::route('site.page404');
             }
+            CGlobal::$pageTitle = $user_shop->shop_name.'-'.CGlobal::web_name;//title page
 
             $arrChildCate = UserShop::getCategoryShopById($user_shop->shop_id);
             $search['user_shop_id'] = $shop_id;
@@ -393,6 +397,7 @@ class SiteHomeController extends BaseSiteController
     	->with('arrChildCate',$arrChildCate)
     	->with('paging', $paging)
     	->with('user_shop', $user_shop)
+    	->with('title', $user_shop->shop_name)
     	->with('arrBannerSlider', $arrBannerSlider)
     	->with('arrBannerLeft', $arrBannerLeft);
     	
@@ -451,7 +456,7 @@ class SiteHomeController extends BaseSiteController
         }
         $this->header();
         $error = '';
-        $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
+        $this->layout->content = View::make('site.ShopAction.ShopLogin')
             ->with('error',$error)
             ->with('user', $this->user);
         $this->footer();
@@ -498,7 +503,7 @@ class SiteHomeController extends BaseSiteController
             $error = 'Chưa nhập thông tin đăng nhập!';
         }
 
-        $this->layout->content = View::make('site.ShopLayouts.ShopLogin')
+        $this->layout->content = View::make('site.ShopAction.ShopLogin')
             ->with('error', $error);
         $this->footer();
     }
@@ -522,7 +527,7 @@ class SiteHomeController extends BaseSiteController
         //tỉnh thành
         $arrProvince = Province::getAllProvince();
         $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, -1);
-        $this->layout->content = View::make('site.ShopLayouts.ShopRegister')
+        $this->layout->content = View::make('site.ShopAction.ShopRegister')
             ->with('error',array())
             ->with('optionProvince',$optionProvince)
             ->with('user', $this->user);
@@ -567,7 +572,7 @@ class SiteHomeController extends BaseSiteController
         $arrProvince = Province::getAllProvince();
         $optionProvince = FunctionLib::getOption(array(-1=>' ---Chọn tỉnh thành ----')+$arrProvince, $dataSave['shop_province']);
 
-        $this->layout->content = View::make('site.ShopLayouts.ShopRegister')
+        $this->layout->content = View::make('site.ShopAction.ShopRegister')
             ->with('error',$error)
             ->with('optionProvince',$optionProvince)
             ->with('data',$dataSave)
