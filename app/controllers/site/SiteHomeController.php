@@ -623,6 +623,8 @@ class SiteHomeController extends BaseSiteController
         	$data = array(
         			'user_shop'=>$dataSave['user_shop'],
         			'user_password'=>$randomString,
+        			'phone_support'=>CGlobal::phoneSupport,
+        			'web_name'=>CGlobal::web_name,
         	);
         	$emails = [$dataSave['shop_email'], 'shoponlinecuatui@gmail.com', 'nguyenduypt86@gmail.com'];
         	Mail::send('emails.ForgetPass', array('data'=>$data), function($message) use ($emails){

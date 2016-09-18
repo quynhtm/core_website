@@ -18,6 +18,8 @@ class CGlobal{
 
     const code_shop_share = 'shopcuatoi';
     const web_name = 'shopcuatui.com.vn';
+    const phoneSupport = '0985.10.10.26 - 0913.922.986';
+
     const num_scroll_page = 2;
     const number_limit_show = 30;
     const number_show_30 = 30;
@@ -152,6 +154,6 @@ class CGlobal{
     const LINK_NOFOLLOW = 0;
     const LINK_FOLLOW = 1;
     
-    const banner_slider_default_shop = 'uploads/banner/default.jpg';
+    const banner_slider_default_shop = 'uploads/default/default-banner-shop.jpg';
 
 }

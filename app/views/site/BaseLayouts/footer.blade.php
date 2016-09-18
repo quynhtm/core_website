@@ -48,8 +48,8 @@
                 <li>
                     <li><span>ShopCuaTui.com.vn</span></li>
                     <div class="address">
-                        Địa chỉ: Tòa nhà F4 Trung Kính - Cầu Giấy - Hà Nội<br>
-                        <span class="phone">ĐT: 0985.10.10.26 - 0913.922.986</span><br>
+                        Địa chỉ: CT2A-Khu đô thị Nghĩa Đô-Cầu Giấy-Hà Nội<br>
+                        <span class="phone">ĐT: {{CGlobal::phoneSupport}}</span><br>
                     </div>
                     <div class="note-footer">
                         Chú ý: Shopcuatui.com.vn không bán hàng trực tiếp, quý khách mua hàng xin vui lòng liên lạc với shop.
