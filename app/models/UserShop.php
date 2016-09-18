@@ -126,7 +126,7 @@ class UserShop extends Eloquent
                 $query->where('shop_id', $dataSearch['shop_id']);
             }
             $total = $query->count();
-            $query->orderBy('shop_time_login', 'desc');
+            $query->orderBy('shop_time_login', 'desc')->orderBy('shop_time_logout', 'desc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
