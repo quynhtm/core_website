@@ -22,7 +22,16 @@
                     </div>
                 @endif
 
-                <div class="box-body" style="margin-top: 50px">
+                <div class="box-body" style="margin-top: 35px">
+                    <div class="col-sm-6 col-md-3">
+                        <a class="quick-btn a_control" target="_blank" href="{{URL::route('shop.home', array('shop_id'=>$user_shop->shop_id, 'shop_name'=>$user_shop->shop_name))}}">
+                            <div class="thumbnail text-center">
+                                <i class="fa fa-home fa-5x"></i><br/>
+                                <span>Trang Shop</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-body">
                     <div class="col-sm-6 col-md-3">
                         <a class="quick-btn a_control" href="{{URL::route('shop.inforShop')}}">
                             <div class="thumbnail text-center">
