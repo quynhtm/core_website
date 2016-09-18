@@ -1440,7 +1440,9 @@ p {
 .content-bottom-content-view .act.show-tab {
     display: block;
 }
-
+.show-tab img {
+    max-width: 80%;
+}
 .bottom-content-view .right-bottom-content-view{
 	display: inline-block;
     float: right;
