@@ -19,6 +19,9 @@ class ShopController extends BaseShopController
         if($error == 1){
             $this->error[] = 'Shop Vip mới có chức năng này.';
         }
+        if(isset($this->user_shop->shop_status) && ($this->user_shop->shop_status == CGlobal::status_hide || $this->user_shop->shop_status == CGlobal::status_block)){
+            return Redirect::route('site.shopLogout');
+        }
         $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->user_shop->shop_id,
             'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
             'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));

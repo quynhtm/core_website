@@ -614,11 +614,12 @@ class SiteHomeController extends BaseSiteController
             //gan co dinh 1 shop khi dang ky
             $dataSave['number_limit_product'] = CGlobal::SHOP_NUMBER_PRODUCT_FREE;
             $dataSave['is_shop'] = CGlobal::SHOP_FREE;
+            $dataSave['shop_status'] = CGlobal::status_show;
             $dataSave['shop_created'] = time();
 
             //login luon
-            $dataSave['shop_time_login'] = CGlobal::SHOP_ONLINE;
-            $dataSave['is_login'] = time();
+            $dataSave['is_login'] = CGlobal::SHOP_ONLINE;
+            $dataSave['shop_time_login'] = time();
 
             $shop_id = UserShop::addData($dataSave);
             if($shop_id > 0) {

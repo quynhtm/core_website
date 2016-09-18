@@ -16,11 +16,14 @@ class BaseShopController extends BaseController
         if (!UserShop::isLogin()) {
             Redirect::route('site.shopLogin',array('url'=>self::buildUrlEncode(URL::current())))->send();
         }
+        $this->user_shop = UserShop::user_login();
+        if(empty($this->user_shop)){
+            return Redirect::route('site.shopLogin');
+        }
+
         if(Session::has('user')){
             $this->supperAdmin = Session::get('user');
         }
-
-        $this->user_shop = UserShop::user_login();
 
         View::share('user_shop',$this->user_shop);//user shop
         View::share('supperAdmin',$this->supperAdmin);//user admin

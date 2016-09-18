@@ -166,6 +166,11 @@ class UserShopController extends BaseAdminController
         if($shop_id > 0){
             $userShop = UserShop::find($shop_id);
             if($userShop){
+                //xoa session cũ
+                if (Session::has('user_shop')) {
+                    Session::forget('user_shop');//xóa session
+                }
+
                 Session::put('user_shop', $userShop, 60*24);
                 return Redirect::route('shop.adminShop');
             }

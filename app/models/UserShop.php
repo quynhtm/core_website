@@ -85,7 +85,7 @@ class UserShop extends Eloquent
     public static function user_login(){
         $user_shop = array();
         if(Session::has('user_shop')){
-            $user_shop = Session::get('user_shop');
+            return $user_shop = Session::get('user_shop');
         }
         return $user_shop;
     }
