@@ -656,4 +656,9 @@ class FunctionLib {
     
     	CGlobal::$extraMeta = $str;
     }
+
+    //Set nofollow tag a
+    static function setNofollow($str){
+        return preg_replace('/(<a.*?)(rel=[\"|\'].*?[\"|\'])?(.*?\/a>)/i', '$1 rel="nofollow" $3', $str);
+    }
 }

@@ -75,7 +75,7 @@
 					<div class="features-point">
 						<div class="lbl-point">Mô tả sản phẩm</div>
 						@if($product->product_sort_desc != '')
-						<div class="des-point">{{$product->product_sort_desc}}</div>
+						<div class="des-point">{{FunctionLib::setNofollow($product->product_sort_desc)}}</div>
 						@endif
 						@if($product->product_selloff != '')
 						<div class="box-promotion">
@@ -185,7 +185,7 @@
 						<li data-tab="4" class="">Giới thiệu Shop</li>
 					</ul>
 					<div class="content-bottom-content-view">
-						<div class="show-tab show-tab-1 act">{{$product->product_content}}</div>
+						<div class="show-tab show-tab-1 act">{{FunctionLib::setNofollow(stripslashes($product->product_content))}}</div>
 						<div class="show-tab show-tab-2">
 							<div class="social-comment">
 								<div class="content-comment-facebook">
@@ -203,8 +203,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="show-tab show-tab-3">@if($user_shop->shop_transfer != '') {{$user_shop->shop_transfer}} @else Đang cập nhật... @endif</div>
-						<div class="show-tab show-tab-4">@if($user_shop->shop_about != '') {{$user_shop->shop_about}} @else Đang cập nhật... @endif</div>
+						<div class="show-tab show-tab-3">@if($user_shop->shop_transfer != '') {{FunctionLib::setNofollow(stripslashes($user_shop->shop_transfer))}} @else Đang cập nhật... @endif</div>
+						<div class="show-tab show-tab-4">@if($user_shop->shop_about != '') {{FunctionLib::setNofollow(stripslashes($user_shop->shop_about))}} @else Đang cập nhật... @endif</div>
 					</div>
 				</div>
 				<div class="right-bottom-content-view">
