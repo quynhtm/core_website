@@ -11,7 +11,7 @@ class ProductController extends BaseAdminController
     private $permission_delete = 'product_delete';
     private $permission_create = 'product_create';
     private $permission_edit = 'product_edit';
-    private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', 2 => 'Khóa SP', 3 => 'Mở khóa SP');
+    private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', 2 => 'Khóa SP', 3 => 'Mở khóa SP', 4 => 'Set top SP');
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
     private $arrBlock = array(-1 => 'Chọn kiểu khóa SP', CGlobal::PRODUCT_NOT_BLOCK => 'Đang mở', CGlobal::PRODUCT_BLOCK => 'Đang khóa');
     private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
@@ -276,6 +276,9 @@ class ProductController extends BaseAdminController
                 case 2://Khóa sản phẩm
                 case 3://Mở khóa sản phẩm
                     $arrUpdate['is_block'] = ($valueInput == 2)? CGlobal::PRODUCT_BLOCK : CGlobal::PRODUCT_NOT_BLOCK;
+                    break;
+                case 4://Set top san phẩm
+                    $arrUpdate['time_update'] = time();
                     break;
                 default:
                     break;
