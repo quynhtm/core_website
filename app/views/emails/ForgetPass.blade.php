@@ -24,7 +24,7 @@
 	    	</div>
 	  		<div style="max-height: 34px; height:34px; width: 100%;">
 		        <div style="margin: 0 auto;width: 100%;">
-		            <span style="color:#fff; padding-right: 15px;float: right; padding-top: 10px;">&copy; <a href="{{URL::route('site.home')}}">{{$data['web_name']}}</a>, 2015-{{date('Y')}}.</span>
+		            <span style="color:#fff; padding-right: 15px;float: right; padding-top: 10px;">&copy; <a style="text-decoration: none; color:#fff;" href="{{URL::route('site.home')}}">{{$data['web_name']}}</a>, 2015-{{date('Y')}}.</span>
 		        </div>
     		</div>
 	  	</div>

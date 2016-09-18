@@ -212,16 +212,16 @@ class SiteOrderController extends BaseSiteController
     						'order_time'=>time(),
     						'order_status'=>CGlobal::ORDER_STATUS_NEW,
     				);
-    				
+					$arrMailShop = array();
     				foreach($dataItem as $item){
-    					foreach($dataCart as $k=>$v){
+						foreach($dataCart as $k=>$v){
     						if($item->product_id == $k){
     							$data['order_product_id'] = $item->product_id;
     							$data['order_product_name'] = $item->product_name;
     							$data['order_product_price_sell'] = $item->product_price_sell;
     							$data['order_product_image'] = $item->product_image;
     							$data['order_product_type_price'] = $item->product_type_price;
-    							$data['order_quality_buy'] = $item->num;
+    							$data['order_quality_buy'] = $v;
     							
     							$data['order_category_id'] = $item->category_id;
     							$data['order_category_name'] = $item->category_name;
@@ -230,11 +230,32 @@ class SiteOrderController extends BaseSiteController
     							$data['order_user_shop_name'] = $item->user_shop_name;
     							$data['order_product_province'] = $item->shop_province;
     							
-    							$query = Order::addData($data);
+    							Order::addData($data);
+								$arrMailShop[$item->user_shop_id][] = $data;
     						}
     					}
     				}
-    				
+					//Send Mail Cart To Shop
+					foreach($arrMailShop as $key=>$val){
+						$get_user_shop = UserShop::getByID($key);
+						$email_shop = $get_user_shop->shop_email;
+						if($email_shop != ''){
+							$dataMail = array(
+								'user_shop'=>$get_user_shop->user_shop,
+								'items'=>$val,
+								'txtName'=>$txtName,
+								'txtMobile'=>$txtMobile,
+								'txtEmail'=>$txtEmail,
+								'txtAddress'=>$txtAddress,
+								'txtMessage'=>$txtMessage,
+							);
+							$emails = ['nguyenduypt86@gmail.com'];
+							Mail::send('emails.SendOrderToMailShop', array('data'=>$dataMail), function($message) use ($emails){
+								$message->to($emails, 'OrderToShop')
+									->subject(CGlobal::web_name.' - Khách đã đặt mua sản phẩm của shop '.date('d/m/Y h:i',  time()));
+							});
+						}
+					}
     				if(Session::has('cart')){
     					Session::forget('cart');
     					return Redirect::route('site.thanksBuy');
