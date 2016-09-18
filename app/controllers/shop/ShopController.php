@@ -45,7 +45,7 @@ class ShopController extends BaseShopController
         $number_limit_product = $this->user_shop->number_limit_product;//lượt up
         $shop_up_product = $this->user_shop->shop_up_product;// total da up
         $checkAddProduct = 1;
-        if($shop_up_product <= $number_limit_product){
+        if($shop_up_product >= $number_limit_product){
             $checkAddProduct = 0;//het lượt up
             $this->error[] = 'Shop của bạn đã hết lượt up sản phẩm.';
             $this->error[] = 'Hãy chia sẻ, giới thiệu link sau để được thêm lượt up:';
@@ -109,7 +109,7 @@ class ShopController extends BaseShopController
         $number_limit_product = $this->user_shop->number_limit_product;//lượt up
         $shop_up_product = $this->user_shop->shop_up_product;// total da up
         $checkAddProduct = 1;
-        if($shop_up_product <= $number_limit_product){
+        if($shop_up_product >= $number_limit_product){
             return Redirect::route('shop.listProduct');
         }
         CGlobal::$pageShopTitle = "Thêm sản phẩm | ".CGlobal::web_name;
