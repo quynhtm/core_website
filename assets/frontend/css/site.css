@@ -1349,7 +1349,12 @@ p {
     text-indent: 5px;
 }
 .right-des-product .buynow {
+    background: #e98500;
     background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #f89406, #f76b1c) repeat scroll 0 0;
+    background: -webkit-linear-gradient(top, #f89406 0%,#f76b1c 100%);
+    background: linear-gradient(to bottom, #f89406 0%,#f76b1c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f89406', endColorstr='#f76b1c',GradientType=0 );
+
     border: 1px solid #d97f00;
     border-radius: 4px;
     color: #fff;
@@ -1363,7 +1368,11 @@ p {
     width: auto !important;
 }
 .right-des-product .buynow:hover {
+    background: #e98500;
     background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #e98500, #ff7d2e) repeat scroll 0 0;
+    background: -webkit-linear-gradient(top, #e98500 0%,#ff7d2e 100%);
+    background: linear-gradient(to bottom, #e98500 0%,#ff7d2e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e98500', endColorstr='#ff7d2e',GradientType=0 );
 }
 .center-content-view {
     border-bottom: 1px dotted #ddd;
@@ -1440,7 +1449,9 @@ p {
 .content-bottom-content-view .act.show-tab {
     display: block;
 }
-
+.show-tab img {
+    max-width: 80%;
+}
 .bottom-content-view .right-bottom-content-view{
 	display: inline-block;
     float: right;
