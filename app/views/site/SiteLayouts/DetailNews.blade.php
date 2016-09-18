@@ -4,7 +4,7 @@
 		<i class="fa fa-angle-double-right"></i>
 		<a href="" title="Tin tức chung">Tin tức chung</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_title)}}" title="{{$dataNew->news_title}}">{{$dataNew->news_title}}</a>
+		<a href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_category, $dataNew->news_title)}}" title="{{$dataNew->news_title}}">{{$dataNew->news_title}}</a>
 	</div>
 	<div class="main-view-post">
 		<div class="wrapp-content-news">
@@ -22,7 +22,7 @@
 					<ul>
 						@foreach($dataNewsSame as $item)
 						<li><i class="fa fa-angle-double-right"></i>
-							<a href="{{FunctionLib::buildLinkDetailNews($item->news_id, $item->news_title)}}" title="{{$item->news_title}}">{{$item->news_title}}</a>
+							<a href="{{FunctionLib::buildLinkDetailNews($item->news_id, $item->news_category, $item->news_title)}}" title="{{$item->news_title}}">{{$item->news_title}}</a>
 						</li>
 						@endforeach
 					</ul>
@@ -45,7 +45,7 @@
 						  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.6";
 						  fjs.parentNode.insertBefore(js, fjs);
 						}(document, 'script', 'facebook-jssdk'));</script>
-					<div class="fb-like" data-href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_title)}}"
+					<div class="fb-like" data-href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_category, $dataNew->news_title)}}"
 						data-layout="button_count" data-action="like" 
 						data-show-faces="false" data-share="true">
 					</div>

@@ -333,7 +333,8 @@ class SiteHomeController extends BaseSiteController
                 $meta_keywords = $dataNew->news_title;
                 $meta_description = strip_tags($dataNew->news_desc_sort);
                 $meta_img= ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $dataNew->news_id, $dataNew->news_image, CGlobal::sizeImage_450);
-                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+                $url = FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_category, $dataNew->news_title);
+                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description, $url);
                 
             }
         }
