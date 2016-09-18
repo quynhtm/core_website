@@ -9,6 +9,9 @@
     margin: 0 auto;
     width: 90%;
 }
+.box-reg-login.loginbox{
+	 width: 70%;
+}
 .box-forgetpass{
     display: block;
     margin: 0 auto;
@@ -25,7 +28,7 @@
 }
 .form-login{
     margin: 0 auto 0 400px;
-    width: 415px;
+    width: 305px;
 }
 .box-reg-login .title-head {
     display: inline-block;

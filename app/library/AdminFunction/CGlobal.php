@@ -12,10 +12,12 @@ class CGlobal{
     public static $extraHeaderJS = '';
     public static $extraFooterCSS = '';
     public static $extraFooterJS = '';
+    public static $extraMeta = '';
     public static $pageAdminTitle = 'Dashboard Admin';
     public static $pageShopTitle = 'Shop Admin';
     public static $pageTitle = 'shopcuatui.com.vn';
 
+    
     const code_shop_share = 'shopcuatoi';
     const web_name = 'shopcuatui.com.vn';
     const phoneSupport = '0985.10.10.26 - 0913.922.986';
@@ -49,6 +51,7 @@ class CGlobal{
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
+    	self::sizeImage_450 =>array('w'=>self::sizeImage_450,'h'=>self::sizeImage_450),
     	self::sizeImage_600 =>array('w'=>self::sizeImage_600,'h'=>self::sizeImage_600),
     );
 

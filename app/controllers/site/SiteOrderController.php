@@ -58,6 +58,9 @@ class SiteOrderController extends BaseSiteController
 		
 	}
     public function listCartOrder(){
+    	$meta_title = $meta_keywords = $meta_description = 'Thông tin giỏ hàng';
+    	$meta_img = '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
     	
     	$this->header();
     	
@@ -156,6 +159,9 @@ class SiteOrderController extends BaseSiteController
     	echo 'ok';exit();
     }
     public function sendCartOrder(){
+    	$meta_title = $meta_keywords = $meta_description = 'Gửi thông tin đơn hàng';
+    	$meta_img = '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
     	
     	if(!Session::has('cart')){
     		return Redirect::route('site.home');
@@ -243,8 +249,12 @@ class SiteOrderController extends BaseSiteController
     	->with('paging',$paging);
     	$this->footer();
     }
-
     public function thanksBuy(){
+    	
+    	$meta_title = $meta_keywords = $meta_description = 'Cảm ơn bạn đã mua hàng';
+    	$meta_img = '';
+    	FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+    	
     	$this->header();
     	$limit = CGlobal::number_show_30;
     	$total = $offset = 0;
