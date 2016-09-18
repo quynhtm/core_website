@@ -56,10 +56,16 @@
                         <input type="text" placeholder="Email" id="shop_email" name="shop_email" class="form-control input-sm" value="@if(isset($data['shop_email'])){{$data['shop_email']}}@endif">
                     </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="name" class="control-label">Địa chỉ</label>
                         <input type="text" placeholder="Địa chỉ" id="shop_address" name="shop_address" class="form-control input-sm" value="@if(isset($data['shop_address'])){{$data['shop_address']}}@endif">
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="name" class="control-label">Lượt up SP</label>
+                        <input type="text" placeholder="Lượt up" id="number_limit_product" name="number_limit_product" class="form-control input-sm" value="@if(isset($data['number_limit_product'])){{$data['number_limit_product']}}@endif">
                     </div>
                 </div>
                 <div class="clearfix"></div>
