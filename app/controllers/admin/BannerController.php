@@ -87,6 +87,7 @@ class BannerController extends BaseAdminController
             ->with('arrTypeBanner', $this->arrTypeBanner)
             ->with('arrPage', $this->arrPage)
             ->with('arrIsShop', $this->arrIsShop)
+            ->with('arrShop', $this->arrShop)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
