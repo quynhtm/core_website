@@ -17,15 +17,13 @@
                     {{ Form::open(array('method' => 'GET', 'role'=>'form')) }}
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
-                            <div class="form-group col-lg-3">
-                                <label for="order_status">Sản phẩm của Shop</label>
-                                <select name="user_shop_id" id="user_shop_id" class="form-control input-sm chosen-select-deselect" tabindex="12" data-placeholder="Chọn tên shop">
-                                    <option value=""></option>
-                                    @foreach($arrShop as $shop_id => $shopName)
-                                        <option value="{{$shop_id}}" @if($search['shop_id'] == $shop_id) selected="selected" @endif>{{$shopName}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <label for="order_status">Sản phẩm của Shop</label>
+                            <select name="user_shop_id" id="user_shop_id" class="form-control input-sm chosen-select-deselect" tabindex="12" data-placeholder="Chọn tên shop">
+                                <option value=""></option>
+                                @foreach($arrShop as $shop_id => $shopName)
+                                    <option value="{{$shop_id}}" @if($search['shop_id'] == $shop_id) selected="selected" @endif>{{$shopName}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="panel-footer text-right">
