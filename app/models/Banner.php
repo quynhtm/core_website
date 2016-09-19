@@ -112,6 +112,9 @@ class Banner extends Eloquent
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
                 if(isset($data->banner_id) && $data->banner_id > 0){
+                    //x�a cache banner show
+                    $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$data->banner_type.'_'.$data->banner_page.'_'.$data->banner_category_id.'_'.$data->banner_shop_id;
+                    Cache::forget($key_cache);
                     self::removeCache($data->banner_id);
                 }
                 return $data->banner_id;
@@ -139,6 +142,9 @@ class Banner extends Eloquent
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
                 if(isset($dataSave->banner_id) && $dataSave->banner_id > 0){
+                    //x�a cache banner show
+                    $key_cache = Memcache::CACHE_BANNER_ADVANCED.'_'.$dataSave->banner_type.'_'.$dataSave->banner_page.'_'.$dataSave->banner_category_id.'_'.$dataSave->banner_shop_id;
+                    Cache::forget($key_cache);
                     self::removeCache($dataSave->banner_id);
                 }
             }

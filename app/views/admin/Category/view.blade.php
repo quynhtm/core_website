@@ -48,20 +48,36 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
-                            <th width="5%" class="text-center">STT</th>
-                            <th width="5%" class="text-center"><input type="checkbox" class="check" id="checkAll"></th>
-                            <th width="70%">Danh mục</th>
-                            <th width="10%" class="text-center">Trạng thái</th>
-                            <th width="15%" class="text-center">Thao tác</th>
+                            <th width="2%"class="td_list">STT</th>
+                            <th width="1%" class="td_list"><input type="checkbox" id="checkAll"/></th>
+                            <th width="25%" class="td_list">Tên danh mục</th>
+                            <th width="25%" class="td_list">Danh mục cha</th>
+                            <th width="10%" class="td_list">Show SP home (vịtri)</th>
+                            <th width="8%" class="td_list">Vị trí</th>
+                            <th width="5%" class="td_list">Status</th>
+                            <th width="10%" class="td_list">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
-                            <tr>
-                                <td class="text-center">{{ $stt + $key+1 }}</td>
+                            <tr @if($item['category_parent_id'] == 0)style="background-color:#d6f6f6"@endif>
+                                <td class="text-center">{{ $key+1 }}</td>
                                 <td class="text-center"><input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item['category_id']}}"></td>
                                 <td>
-                                    [<b>{{ $item['category_id'] }}</b>] {{ $item['category_name'] }}
+                                    [<b>{{ $item['category_id'] }}</b>] {{ $item['padding_left'].$item['category_name'] }}
+                                </td>
+                                <td>
+                                   {{ $item['padding_left'].$item['category_parent_name'] }}
+                                </td>
+                                <td>
+                                    @if($item['category_parent_id'] == 0)
+                                        {{ $arrStatus[$item['category_content_front']].'--'. $item['category_content_front_order']}}
+                                    @else
+                                        ------
+                                    @endif
+                                </td>
+                                <td>
+                                    {{$item['category_order']}}
                                 </td>
                                 <td class="text-center">
                                     @if($item['category_status'] == 1)
