@@ -2326,6 +2326,7 @@ return array(
     'Text_Renderer' => $vendorDir . '/dompdf/dompdf/include/text_renderer.cls.php',
     'ThumbBase' => $vendorDir . '/weotch/phpthumb/src/ThumbBase.inc.php',
     'ThumbImg' => $baseDir . '/app/library/PHPThumb/ThumbImg.php',
+    'ToolsCommonController' => $baseDir . '/app/controllers/admin/ToolsCommonController.php',
     'Upload' => $baseDir . '/app/library/AdminFunction/Upload.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserController' => $baseDir . '/app/controllers/admin/UserController.php',

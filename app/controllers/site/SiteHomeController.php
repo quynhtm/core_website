@@ -418,7 +418,7 @@ class SiteHomeController extends BaseSiteController
                     $hostIp = Request::getClientIp(); //$ip = $_SERVER['REMOTE_ADDR'];
                     $shopShare = ShopShare::checkIpShareShop($user_shop->shop_id);
                     if(!in_array($hostIp,array_keys($shopShare))){
-                        $shop_share = ShopShare::addData(array('shop_share_ip'=>$hostIp,'shop_id'=>$user_shop->shop_id,'shop_name'=>$user_shop->shop_name));
+                        $shop_share = ShopShare::addData(array('shop_share_ip'=>$hostIp,'shop_share_time'=>time(),'shop_id'=>$user_shop->shop_id,'shop_name'=>$user_shop->shop_name));
                         if($shop_share){
                             //cap nhat user
                             $userShopUpdate['shop_number_share'] = $user_shop->shop_number_share + 1;
