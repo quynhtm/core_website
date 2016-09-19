@@ -10,7 +10,7 @@ class Product extends Eloquent
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('product_id','product_code', 'product_name', 'category_name', 'category_id',
+    protected $fillable = array('product_id','product_code', 'product_name', 'category_name', 'category_id','provider_id',
         'product_price_sell', 'product_price_market', 'product_price_input','product_type_price','product_selloff',
         'product_is_hot', 'product_sort_desc', 'product_content','product_image','product_image_hover','product_image_other',
         'product_order', 'quality_input','quality_out','product_status','is_block',
@@ -143,6 +143,9 @@ class Product extends Eloquent
             }
             if (isset($dataSearch['category_id']) && $dataSearch['category_id'] != -1) {
                 $query->where('category_id', $dataSearch['category_id']);
+            }
+            if (isset($dataSearch['provider_id']) && $dataSearch['provider_id'] != -1) {
+                $query->where('provider_id', $dataSearch['provider_id']);
             }
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
                 $query->where('user_shop_id', $dataSearch['user_shop_id']);

@@ -99,6 +99,7 @@ class UserShopController extends BaseAdminController
                 $data['shop_category'] = $item->shop_category;
                 $data['shop_status'] = $item->shop_status;
                 $data['is_shop'] = $item->is_shop;
+                $data['number_limit_product'] = $item->number_limit_product;//lượt up sản phẩm
                 $data['time_start_vip'] = $item->time_start_vip;
                 $data['time_end_vip'] = $item->time_end_vip;
             }
@@ -132,6 +133,7 @@ class UserShopController extends BaseAdminController
         $dataSave['time_start_vip'] = strtotime(Request::get('time_start_vip',''));
         $dataSave['time_end_vip'] = strtotime(Request::get('time_end_vip',''));
 
+        $dataSave['number_limit_product'] = (int)Request::get('number_limit_product', 0);
         $dataSave['is_shop'] = (int)Request::get('is_shop', 0);
         $dataSave['shop_status'] = (int)Request::get('shop_status', 0);
 

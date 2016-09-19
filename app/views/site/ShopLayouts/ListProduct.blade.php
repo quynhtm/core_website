@@ -39,6 +39,12 @@
                                 {{$optionCategory}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Nhà cung cấp</label>
+                            <select name="provider_id" id="provider_id" class="form-control input-sm">
+                                {{$optionNCC}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         <span class="">
@@ -97,6 +103,7 @@
                                     @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,200) }}@endif
                                 </td>
                                 <td class="text-left text-middle">
+                                    @if(isset($arrNCC[$item->provider_id])){{ $arrNCC[$item->provider_id]}} <br/>@endif
                                     Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
                                 </td>
                                 <td class="text-center text-middle">

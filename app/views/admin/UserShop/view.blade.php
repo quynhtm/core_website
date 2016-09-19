@@ -63,7 +63,7 @@
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
-                            <tr>
+                            <tr @if($item->is_shop == CGlobal::SHOP_VIP)style="background-color: #d6f6f6"@endif>
                                 <td class="text-center">
                                     {{ $stt + $key+1 }}<br/>
                                     <input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->shop_id}}">
