@@ -11,8 +11,6 @@ class ToolsCommonController extends BaseAdminController
     private $permission_delete = 'toolsCommon_delete';
     private $permission_create = 'toolsCommon_create';
     private $permission_edit = 'toolsCommon_edit';
-    private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', CGlobal::status_block => 'Khóa');
-    private $arrShop = array();
     private $error = array();
 
     public function __construct()
@@ -45,7 +43,7 @@ class ToolsCommonController extends BaseAdminController
 
         //FunctionLib::debug($dataSearch);
         $arrShop = UserShop::getShopAll();
-        $optionShop = FunctionLib::getOption(array(0=>'-- Chọn Shop ---') + $arrShop, $search['shop_id']);
+        //$optionShop = FunctionLib::getOption(array(0=>'-- Chọn Shop ---') + $arrShop, $search['shop_id']);
         $this->layout->content = View::make('admin.ToolsCommon.viewShopShare')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
