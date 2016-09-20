@@ -13,7 +13,7 @@ class Product extends Eloquent
     protected $fillable = array('product_id','product_code', 'product_name', 'category_name', 'category_id','provider_id',
         'product_price_sell', 'product_price_market', 'product_price_input','product_type_price','product_selloff',
         'product_is_hot', 'product_sort_desc', 'product_content','product_image','product_image_hover','product_image_other',
-        'product_order', 'quality_input','quality_out','product_status','is_block',
+        'product_order', 'quality_input','quality_out','product_status','is_block','is_sale',
         'user_shop_id', 'user_shop_name', 'is_shop','shop_province','time_created', 'time_update');
 
     /**

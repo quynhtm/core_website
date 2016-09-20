@@ -132,6 +132,8 @@ class CGlobal{
     const PRODUCT_SELLOFF = 3;
     const PRODUCT_BLOCK = 0;
     const PRODUCT_NOT_BLOCK = 1;
+    const PRODUCT_IS_SALE = 1;//con hàng
+    const PRODUCT_NOT_IS_SALE = 0;//het hàng
 
     //banner
     const BANNER_NOT_RUN_TIME = 0;

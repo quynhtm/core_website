@@ -5,6 +5,7 @@ class ShopController extends BaseShopController
     private $arrStatusProduct = array(-1 => '---- Trạng thái sản phẩm----',CGlobal::status_show => 'Hiển thị',CGlobal::status_hide => 'Ẩn');
     private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
     private $arrTypeProduct = array(-1 => '--Chọn loại sản phẩm--', CGlobal::PRODUCT_NOMAL => 'Sản phẩm bình thường', CGlobal::PRODUCT_HOT => 'Sản phẩm nổi bật', CGlobal::PRODUCT_SELLOFF => 'Sản phẩm giảm giá');
+    private $arrIsSale = array(CGlobal::PRODUCT_IS_SALE => 'Còn hàng', CGlobal::PRODUCT_NOT_IS_SALE => 'Hết hàng');
     private $error = array();
     public function __construct()
     {
@@ -91,6 +92,7 @@ class ShopController extends BaseShopController
             ->with('optionStatus', $optionStatus)
             ->with('optionNCC', $optionNCC)
             ->with('arrNCC', $arrNCC)
+            ->with('arrIsSale', $this->arrIsSale)
             ->with('optionCategory', $optionCategory)
             ->with('user', $this->user_shop);
     }
@@ -135,6 +137,7 @@ class ShopController extends BaseShopController
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,CGlobal::PRODUCT_NOMAL);
+        $optionIsSale = FunctionLib::getOption($this->arrIsSale,CGlobal::PRODUCT_IS_SALE);
 
         $this->layout->content = View::make('site.ShopLayouts.EditProduct')
             ->with('error', $this->error)
@@ -147,6 +150,7 @@ class ShopController extends BaseShopController
             ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
+            ->with('optionIsSale', $optionIsSale)
             ->with('optionTypeProduct', $optionTypeProduct);
     }
     public function getEditProduct($product_id = 0){
@@ -205,6 +209,7 @@ class ShopController extends BaseShopController
             'product_type_price'=>$product->product_type_price,
             'product_selloff'=>$product->product_selloff,
             'product_is_hot'=>$product->product_is_hot,
+            'is_sale'=>$product->is_sale,
             'product_sort_desc'=>$product->product_sort_desc,
             'product_content'=>$product->product_content,
             'product_image'=>$product->product_image,
@@ -226,6 +231,7 @@ class ShopController extends BaseShopController
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
+        $optionIsSale = FunctionLib::getOption($this->arrIsSale,isset($product->is_sale)? $product->is_sale:CGlobal::PRODUCT_IS_SALE);
 
         $this->layout->content = View::make('site.ShopLayouts.EditProduct')
             ->with('error', $this->error)
@@ -238,6 +244,7 @@ class ShopController extends BaseShopController
             ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
+            ->with('optionIsSale', $optionIsSale)
             ->with('optionTypeProduct', $optionTypeProduct);
     }
     public function postEditProduct($product_id = 0){
@@ -268,6 +275,7 @@ class ShopController extends BaseShopController
         $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot'));
         $dataSave['product_status'] = addslashes(Request::get('product_status'));
         $dataSave['product_type_price'] = addslashes(Request::get('product_type_price',CGlobal::TYPE_PRICE_NUMBER));
+        $dataSave['is_sale'] = addslashes(Request::get('is_sale',CGlobal::PRODUCT_IS_SALE));
         $dataSave['product_sort_desc'] = addslashes(Request::get('product_sort_desc'));
         $dataSave['product_content'] = Request::get('product_content');
         $dataSave['product_order'] = addslashes(Request::get('product_order'));
@@ -360,6 +368,7 @@ class ShopController extends BaseShopController
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,$dataSave['product_is_hot']);
+        $optionIsSale = FunctionLib::getOption($this->arrIsSale,$dataSave['is_sale']);
 
         $this->layout->content = View::make('site.ShopLayouts.EditProduct')
             ->with('error', $this->error)
@@ -372,6 +381,7 @@ class ShopController extends BaseShopController
             ->with('optionNCC', $optionNCC)
             ->with('optionStatusProduct', $optionStatusProduct)
             ->with('optionTypePrice', $optionTypePrice)
+            ->with('optionIsSale', $optionIsSale)
             ->with('optionTypeProduct', $optionTypeProduct);
     }
     private function validInforProduct($data=array()) {
