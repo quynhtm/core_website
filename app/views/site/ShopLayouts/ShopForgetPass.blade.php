@@ -6,6 +6,9 @@
 				<div class="line-error">{{$msg}}</div>
 			@endforeach
 		@endif
+		@if(isset($message) && $message != '')
+		<div class="alert-admin alert alert-success">{{$message}}</div>
+		@endif
 		{{ Form::open(array('class'=>'formForgotPass','method' => 'POST','url' =>"quen-mat-khau.html")) }}
 			<div class="restore-pass-text">
 				Nhập đầy đủ thông tin để nhận lại mật khẩu mới. Bạn sẽ được hệ thống gửi một thư với các chỉ dẫn để phục hồi mật khẩu.

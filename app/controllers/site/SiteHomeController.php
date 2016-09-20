@@ -660,6 +660,7 @@ class SiteHomeController extends BaseSiteController
     	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataSave = $error = array();
+        $message = '';
 
         $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
         $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
@@ -699,11 +700,14 @@ class SiteHomeController extends BaseSiteController
         		$message->to($emails, 'UserShop')
         				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
         	});
-        	return Redirect::route('site.shopLogin');
+        	$message = 'Hệ thống đã gửi cho bạn 1 email, bạn vui lòng kiểm tra mail để khôi phục mật khẩu mới.';
+            unset($_POST);
+            $dataSave = array();
         }
         $this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
             ->with('error',$error)
-            ->with('data',$dataSave);
+            ->with('data',$dataSave)
+            ->with('message',$message);
         $this->footer();
     }
     private function validUserInforShop($data=array()) {
