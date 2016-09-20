@@ -115,7 +115,7 @@
 	<div class="line-box line-box-cat">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
-				<h2 class="parent-cate">
+				<h2 class="parent-cate act">
                 	<a href="javascript:void(0)">
                        <span>Sản phẩm Shop Vip</span>
                     </a>

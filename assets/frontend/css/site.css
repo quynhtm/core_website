@@ -986,10 +986,8 @@ p {
 }
 /*Title Cate Home Product*/
 .cate-box {
-    background: #fff;
-    border: 1px solid #ddd;
+    border-bottom: 4px solid #ddd;
     margin-bottom: 5px;
-    padding: 8px 14px 7px;
     position: relative;
 }
 .inner-cate-box {
@@ -1002,22 +1000,16 @@ p {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.cate-box .parent-cate::before {
-    border-color: transparent transparent transparent #2c3e50;
-    border-style: solid;
-    border-width: 4px 0 4px 4px;
-    content: "";
-    height: 0;
-    position: absolute;
-    right: 0;
-    top: 10px;
-    width: 0;
-}
 .parent-cate {
     display: inline-block;
     font-size: 15px;
-    padding-right: 20px;
+    height: 32px;
+    line-height: 38px;
+    padding: 0 12px;
     position: relative;
+}
+.parent-cate.act {
+    background: #ddd none repeat scroll 0 0;
 }
 .parent-cate a {
     color: #fe6d01;
@@ -1031,11 +1023,12 @@ p {
     border-left: 0 none;
 }
 .list-sub-cate .sub-item {
-    border-left: 1px solid #d7d7d7;
     display: inline-block;
     font-size: 13px;
-    padding: 0 12px;
     font-weight: normal;
+    height: 32px;
+    line-height: 38px;
+    padding: 0 12px;
 }
 .list-sub-cate .sub-item  a {
     color: #777;
