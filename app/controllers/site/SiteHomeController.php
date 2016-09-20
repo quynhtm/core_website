@@ -333,7 +333,8 @@ class SiteHomeController extends BaseSiteController
                 $meta_keywords = $dataNew->news_title;
                 $meta_description = strip_tags($dataNew->news_desc_sort);
                 $meta_img= ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $dataNew->news_id, $dataNew->news_image, CGlobal::sizeImage_450);
-                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
+                $url = FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_category, $dataNew->news_title);
+                FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description, $url);
                 
             }
         }
@@ -659,6 +660,7 @@ class SiteHomeController extends BaseSiteController
     	FunctionLib::site_css('frontend/css/reglogin.css', CGlobal::$POS_HEAD);
         $this->header();
         $dataSave = $error = array();
+        $message = '';
 
         $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
         $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
@@ -698,11 +700,14 @@ class SiteHomeController extends BaseSiteController
         		$message->to($emails, 'UserShop')
         				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
         	});
-        	return Redirect::route('site.shopLogin');
+        	$message = 'Hệ thống đã gửi cho bạn 1 email, bạn vui lòng kiểm tra mail để khôi phục mật khẩu mới.';
+            unset($_POST);
+            $dataSave = array();
         }
         $this->layout->content = View::make('site.ShopLayouts.ShopForgetPass')
             ->with('error',$error)
-            ->with('data',$dataSave);
+            ->with('data',$dataSave)
+            ->with('message',$message);
         $this->footer();
     }
     private function validUserInforShop($data=array()) {

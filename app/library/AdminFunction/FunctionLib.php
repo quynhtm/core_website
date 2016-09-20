@@ -664,4 +664,28 @@ class FunctionLib {
     static function setNofollow($str){
         return preg_replace('/(<a.*?)(rel=[\"|\'].*?[\"|\'])?(.*?\/a>)/i', '$1 rel="nofollow" $3', $str);
     }
+    //Set messages
+    public static function messages($alert, $messages='', $type='success'){
+        $str = '';
+        if(Session::has($alert)){
+            $str = Session::get($alert);
+        }
+        //refreshed
+        $refreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
+        if($refreshed){
+            if(Session::has($alert)){
+                Session::forget($alert);
+            }
+        }else{
+            if($messages != ''){
+                if($type == 'success'){
+                    $messages = '<div class="alert alert-success">'.$messages.'</div>';
+                }elseif($type == 'error'){
+                    $messages = '<div class="alert alert-danger">'.$messages.'</div>';
+                }
+            }
+            Session::put($alert, $messages);
+        }
+        return $str;
+    }
 }
