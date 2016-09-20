@@ -21,7 +21,6 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Stack' => array($vendorDir . '/stack/builder/src'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Predis' => array($vendorDir . '/predis/predis/lib'),
     'PHPParser' => array($vendorDir . '/nikic/php-parser/lib'),
     'Net' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
