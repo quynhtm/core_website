@@ -228,7 +228,7 @@ class SiteHomeController extends BaseSiteController
             if (sizeof($product) != 0) {
                 //check xem sản phẩm có khi khóa hay ẩn hay không
                 if($product->product_status == CGlobal::status_hide || $product->is_block == CGlobal::PRODUCT_BLOCK){
-                    return Redirect::route('site.Error');
+                    return Redirect::route('site.page404');
                 }
                 CGlobal::$pageTitle = $product->product_name.'-'.CGlobal::web_name;//title page
                 $user_shop = UserShop::getByID($product->user_shop_id);

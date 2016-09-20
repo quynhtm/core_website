@@ -22,7 +22,7 @@ CART = {
 						if(data == 1){
 							window.location.href = WEB_ROOT + '/gio-hang.html';
 						}else{
-							alert('Không tồn tại sản phẩm!');
+							alert(data);
 							return false;
 						}
 						
