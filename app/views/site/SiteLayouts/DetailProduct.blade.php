@@ -104,13 +104,17 @@
 					<div class="content-right-product">
 						<div class="order-number">
 							<label for="buy-number">Số lượng</label>
-							<select class="sl-num" id="buy-num" name="buy-num">
+							<select class="sl-num" id="buy-num" name="buy-num" @if($product->is_sale != CGlobal::PRODUCT_IS_SALE) disabled="disabled" @endif>
                             	@for($i=1; $i<=CGlobal::max_num_buy_item_product; $i++)
                             	<option value="{{$i}}">{{$i}}</option>
                             	@endfor
 							</select>
 						</div>
+						@if($product->is_sale == CGlobal::PRODUCT_IS_SALE)
 						<div id="buttonFormBuySubmit" data-pid="{{$product->product_id}}" class="buynow btn">Mua ngay</div>
+						@else
+						<div id="buttonFormBuySubmitDisable" class="buynowDisable btn">Tạm hết hàng</div>
+						@endif
 					</div>
 					<div class="content-right-product">
 						<div class="order-number-phone">

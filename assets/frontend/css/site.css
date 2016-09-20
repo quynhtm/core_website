@@ -1374,6 +1374,27 @@ p {
     background: linear-gradient(to bottom, #e98500 0%,#ff7d2e 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e98500', endColorstr='#ff7d2e',GradientType=0 );
 }
+
+.right-des-product .buynowDisable {
+    background: #e5e5e5;
+    background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%);
+    background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%);
+    background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
+
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    color: #555;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: auto !important;
+}
+
 .center-content-view {
     border-bottom: 1px dotted #ddd;
     border-top: 1px dotted #ddd;

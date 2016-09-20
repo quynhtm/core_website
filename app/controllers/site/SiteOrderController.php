@@ -26,6 +26,11 @@ class SiteOrderController extends BaseSiteController
 		
 		if($pid > 0 && $pnum > 0){
 			$result = Product::getProductByID($pid);
+			//Tam Het Hang
+			if($result->is_sale != CGlobal::PRODUCT_IS_SALE){
+				exit();
+			}
+			//Tam Het Hang
 			if(sizeof($result) != 0){
 				if(Session::has('cart')){
 					$data = Session::get('cart');
@@ -52,10 +57,10 @@ class SiteOrderController extends BaseSiteController
 				}
 				echo 0;
 			}
+
+			Session::save();
 		}
-		Session::save();
 		exit();
-		
 	}
     public function listCartOrder(){
     	$meta_title = $meta_keywords = $meta_description = 'Thông tin giỏ hàng';
