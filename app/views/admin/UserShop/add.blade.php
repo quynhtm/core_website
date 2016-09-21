@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-sm-1">
                     <div class="form-group">
-                        <label for="name" class="control-label">Lượt up SP</label>
+                        <label for="name" class="control-label">Lượt up</label>
                         <input type="text" placeholder="Lượt up" id="number_limit_product" name="number_limit_product" class="form-control input-sm" value="@if(isset($data['number_limit_product'])){{$data['number_limit_product']}}@endif">
                     </div>
                 </div>
