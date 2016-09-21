@@ -27,7 +27,7 @@ class ShopController extends BaseShopController
             'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
             'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));
         //echo $urlShopShare; die;
-        $this->layout->content = View::make('site.ShopLayouts.ShopHome')
+        $this->layout->content = View::make('site.ShopAdmin.ShopHome')
             ->with('error',$this->error)
             ->with('urlShopShare',$urlShopShare)
             ->with('user', $this->user_shop);
@@ -80,7 +80,7 @@ class ShopController extends BaseShopController
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $search['provider_id']);
 
         $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
-        $this->layout->content = View::make('site.ShopLayouts.ListProduct')
+        $this->layout->content = View::make('site.ShopAdmin.ListProduct')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
@@ -139,7 +139,7 @@ class ShopController extends BaseShopController
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,CGlobal::PRODUCT_NOMAL);
         $optionIsSale = FunctionLib::getOption($this->arrIsSale,CGlobal::PRODUCT_IS_SALE);
 
-        $this->layout->content = View::make('site.ShopLayouts.EditProduct')
+        $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
             ->with('data', $product)
@@ -233,7 +233,7 @@ class ShopController extends BaseShopController
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
         $optionIsSale = FunctionLib::getOption($this->arrIsSale,isset($product->is_sale)? $product->is_sale:CGlobal::PRODUCT_IS_SALE);
 
-        $this->layout->content = View::make('site.ShopLayouts.EditProduct')
+        $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
             ->with('data', $dataShow)
@@ -370,7 +370,7 @@ class ShopController extends BaseShopController
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,$dataSave['product_is_hot']);
         $optionIsSale = FunctionLib::getOption($this->arrIsSale,$dataSave['is_sale']);
 
-        $this->layout->content = View::make('site.ShopLayouts.EditProduct')
+        $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
             ->with('data', $dataSave)
@@ -503,7 +503,7 @@ class ShopController extends BaseShopController
             CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
         $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['order_status']);
 
-        $this->layout->content = View::make('site.ShopLayouts.ListOrder')
+        $this->layout->content = View::make('site.ShopAdmin.ListOrder')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
