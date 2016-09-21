@@ -116,27 +116,23 @@
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
 				<h2 class="parent-cate act">
-                	<a href="javascript:void(0)">
-                       <span>Sản phẩm Shop Vip</span>
-                    </a>
+                	<a href="javascript:void(0)" datacatid="0" datatype="vip">Sản phẩm Shop Vip</a>
                 </h2>
                 @if(!empty($listParentCate))
-                <div class="list-sub-cate">
-                	<?php $i=0 ?>
+                <?php $i=0 ?>
                 	@foreach($listParentCate as $key => $val)
                 	<?php $i++ ?>
                 	@if($i<=8)
-                	<h3 class="sub-item">
+                	<h2 class="parent-cate">
                         <a href="javascript:void(0)" datacatid="{{$key}}" datatype="vip">{{ $val }}</a>
-                    </h3>
+                    </h2>
                      @endif
                     @endforeach
-                </div>
-                @endif
+                 @endif
 			</div>
 		</div>
 		<div class="content-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
-			<ul class="data-tab data-tab-one act">
+			<ul class="data-tab tab-0 act">
 				@if($dataProVip != null)
 				@foreach($dataProVip as $key=>$item)
 				<li class="item @if(($key+1)%5 == 0) item-not-mg @endif">
@@ -190,28 +186,24 @@
 	<div class="line-box line-box-cat">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
-				<h2 class="parent-cate">
-                	<a href="javascript:void(0)">
-                       <span>Sản phẩm Shop thường</span>
-                    </a>
+				<h2 class="parent-cate act">
+                	<a href="javascript:void(0)" datacatid="0" datatype="normal">Sản phẩm Shop thường</a>
                 </h2>
                 @if(!empty($listParentCate))
-                <div class="list-sub-cate">
-                	<?php $i=0 ?>
+                <?php $i=0 ?>
                 	@foreach($listParentCate as $key => $val)
                 	<?php $i++ ?>
                 	@if($i<=8)
-                	<h3 class="sub-item">
+                	<h2 class="parent-cate">
                         <a href="javascript:void(0)" datacatid="{{$key}}" datatype="normal">{{ $val }}</a>
-                    </h3>
+                    </h2>
                      @endif
                     @endforeach
-                </div>
-                @endif
+                 @endif
 			</div>
 		</div>
 		<div class="content-list-item {{(FunctionLib::checkOS()) ? 'phone' : ''}}">
-			<ul class="data-tab data-tab-one act">
+			<ul class="data-tab tab-0 act">
 				@if($dataProFree != null)
 				@foreach($dataProFree as $item)
 				<li class="item">
