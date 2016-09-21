@@ -49,11 +49,11 @@
                                 <ul>
                                     <li>
                                         <i></i>
-                                        CSKH: <b>094.11.99.656</b>
+                                        CSKH: <b>{{CGlobal::phoneSupport}}</b>
                                     </li>
                                     <li>
                                         <i></i>
-                                        Đăng ký quảng cáo: <b>094.11.99.656</b>
+                                        Đăng ký quảng cáo: <b>{{CGlobal::phoneSupport}}</b>
                                     </li>
                                     <li>
                                         <i></i>

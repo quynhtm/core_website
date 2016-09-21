@@ -1483,6 +1483,7 @@ p {
 .main-view-post.shopcart .wrap-main-view{
 	background: #f7f7f7;
     padding: 5px 10px;
+	min-height: 300px;
 }
 .title-head {
     font-size: 25px;
