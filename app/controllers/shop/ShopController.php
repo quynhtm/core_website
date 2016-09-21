@@ -210,6 +210,7 @@ class ShopController extends BaseShopController
             'product_selloff'=>$product->product_selloff,
             'product_is_hot'=>$product->product_is_hot,
             'is_sale'=>$product->is_sale,
+            'product_code'=>$product->product_code,
             'product_sort_desc'=>$product->product_sort_desc,
             'product_content'=>$product->product_content,
             'product_image'=>$product->product_image,
@@ -274,8 +275,11 @@ class ShopController extends BaseShopController
         $dataSave['product_selloff'] = addslashes(Request::get('product_selloff'));
         $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot'));
         $dataSave['product_status'] = addslashes(Request::get('product_status'));
+
         $dataSave['product_type_price'] = addslashes(Request::get('product_type_price',CGlobal::TYPE_PRICE_NUMBER));
         $dataSave['is_sale'] = addslashes(Request::get('is_sale',CGlobal::PRODUCT_IS_SALE));
+        $dataSave['product_code'] = addslashes(Request::get('product_code'));
+
         $dataSave['product_sort_desc'] = addslashes(Request::get('product_sort_desc'));
         $dataSave['product_content'] = Request::get('product_content');
         $dataSave['product_order'] = addslashes(Request::get('product_order'));
@@ -298,7 +302,6 @@ class ShopController extends BaseShopController
 
         //danh sach NCC cua shop
         $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
-
 
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
