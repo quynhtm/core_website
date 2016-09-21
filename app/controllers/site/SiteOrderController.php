@@ -26,6 +26,14 @@ class SiteOrderController extends BaseSiteController
 		
 		if($pid > 0 && $pnum > 0){
 			$result = Product::getProductByID($pid);
+			//Tam Het Hang
+			if($result->is_sale != CGlobal::PRODUCT_IS_SALE){
+				echo 'Tạm hết hàng!'; exit();
+			}
+			if($result->is_block == CGlobal::PRODUCT_BLOCK){
+				echo 'Sản phẩm đang bị khóa!'; exit();
+			}
+			//Tam Het Hang
 			if(sizeof($result) != 0){
 				if(Session::has('cart')){
 					$data = Session::get('cart');
@@ -50,12 +58,12 @@ class SiteOrderController extends BaseSiteController
 					}
 					Session::put('cart', $data, 60*24);
 				}
-				echo 0;
+				echo 'Không tồn tại sản phẩm!';
 			}
+
+			Session::save();
 		}
-		Session::save();
 		exit();
-		
 	}
     public function listCartOrder(){
     	$meta_title = $meta_keywords = $meta_description = 'Thông tin giỏ hàng';

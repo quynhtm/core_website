@@ -19,7 +19,7 @@ class Memcache{
     //provider: NCC cho shop
     const CACHE_ALL_PROVIDER = 'cache_all_provider';
     const CACHE_PROVIDER_ID = 'cache_provider_id_';
-    const CACHE_LIST_PROVIDER_BY_SHOP_ID = 'cache_list_provider_by_shop_id_';
+    const CACHE_LIST_PROVIDER_BY_SHOP_ID = 'cache_provider_by_shop_id_';
 
     //shop share
     const CACHE_SHARE_SHOP_ID = 'cache_share_shop_id_';

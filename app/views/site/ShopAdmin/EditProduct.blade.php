@@ -25,99 +25,113 @@
                     </div>
                 @endif
 
-                <div style="float: left;width: 38%">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Tên sản phẩm <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
+                <div style="float: left;width: 50%">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Tên sản phẩm <span class="red"> (*) </span></label>
+                            <input type="text" placeholder="Tên sản phẩm" id="product_name" name="product_name"  class="form-control input-sm" value="@if(isset($data['product_name'])){{$data['product_name']}}@endif">
+                        </div>
                     </div>
-                </div>
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Danh mục<span class="red"> (*) </span></label>
-                        <div class="form-group">
-                            <select name="category_id" id="category_id" class="form-control input-sm">
-                                {{$optionCategory}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Thuộc nhà cung cấp</label>
-                        <div class="form-group">
-                            <select name="provider_id" id="provider_id" class="form-control input-sm">
-                                {{$optionNCC}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Loại sản phẩm</label>
-                        <div class="form-group">
-                            <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
-                                {{$optionTypeProduct}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="name" class="control-label">Kiểu hiển thị giá<span class="red"> (*) </span></label>
+                    <div style="float: left;width: 34%">
+                        <div class="col-sm-12">
                             <div class="form-group">
-                                <select name="product_type_price" id="product_type_price" class="form-control input-sm">
-                                    {{$optionTypePrice}}
-                                </select>
+                                <label for="name" class="control-label">Danh mục<span class="red"> (*) </span></label>
+                                <div class="form-group">
+                                    <select name="category_id" id="category_id" class="form-control input-sm">
+                                        {{$optionCategory}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Trạng thái Ẩn/Hiện</label>
+                                <div class="form-group">
+                                    <select name="product_status" id="product_status" class="form-control input-sm">
+                                        {{$optionStatusProduct}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Thông tin khuyến mại</label>
+                                <div class="clearfix"></div>
+                                <textarea rows="5" cols="8" name="product_selloff" class="form-control input-sm">@if(isset($data['product_selloff'])){{$data['product_selloff']}}@endif</textarea>
                             </div>
                         </div>
                     </div>
-                <div class="clearfix"></div>
 
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Trạng thái Ẩn/Hiện</label>
-                        <div class="form-group">
-                            <select name="product_status" id="product_status" class="form-control input-sm">
-                                {{$optionStatusProduct}}
-                            </select>
+                    <div style="float: left;width: 33%">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Kiểu hiển thị giá<span class="red"> (*) </span></label>
+                                <div class="form-group">
+                                    <select name="product_type_price" id="product_type_price" class="form-control input-sm">
+                                        {{$optionTypePrice}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Giá bán <span class="red"> (*) </span></label>
+                                <input type="text" placeholder="Giá bán" id="product_price_sell" name="product_price_sell" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_sell'])){{$data['product_price_sell']}}@endif">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Giá thị trường</label>
+                                <input type="text" placeholder="Giá thị trường" id="product_price_market" name="product_price_market" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_market'])){{$data['product_price_market']}}@endif">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Giá nhập</label>
+                                <input type="text" placeholder="Giá nhập" id="product_price_input" name="product_price_input" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_input'])){{$data['product_price_input']}}@endif">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="float: left;width: 33%">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Thuộc nhà cung cấp</label>
+                                <div class="form-group">
+                                    <select name="provider_id" id="provider_id" class="form-control input-sm">
+                                        {{$optionStatusProduct}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Loại sản phẩm</label>
+                                <div class="form-group">
+                                    <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
+                                        {{$optionTypeProduct}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Tình trạng hàng</label>
+                                <div class="form-group">
+                                    <select name="is_sale" id="is_sale" class="form-control input-sm">
+                                        {{$optionIsSale}}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá bán <span class="red"> (*) </span></label>
-                        <input type="text" placeholder="Giá bán" id="product_price_sell" name="product_price_sell" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_sell'])){{$data['product_price_sell']}}@endif">
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Thông tin khuyến mại</label>
-                        <div class="clearfix"></div>
-                        <textarea rows="5" cols="8" name="product_selloff" class="form-control input-sm">@if(isset($data['product_selloff'])){{$data['product_selloff']}}@endif</textarea>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá thị trường</label>
-                        <input type="text" placeholder="Giá thị trường" id="product_price_market" name="product_price_market" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_market'])){{$data['product_price_market']}}@endif">
-                    </div>
-                </div><div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="name" class="control-label">Giá nhập</label>
-                        <input type="text" placeholder="Giá nhập" id="product_price_input" name="product_price_input" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_input'])){{$data['product_price_input']}}@endif">
-                    </div>
-                </div>
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                 </div>
 
-                <div style="float: left;width: 62%">
+                <div style="float: left;width: 50%">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadImagesProduct(2);">Upload ảnh </a>

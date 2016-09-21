@@ -50,8 +50,9 @@
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
                             <th width="10%" class="text-center">Ảnh</th>
-                            <th width="30%">Tên banner</th>
+                            <th width="25%">Tên banner</th>
                             <th width="20%">Thông tin banner</th>
+                            <th width="20%">Thông tin thêm</th>
                             <th width="10%" class="text-center">Ngày chạy</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
@@ -69,15 +70,17 @@
                                 <td>
                                     <b>Loại: </b>@if(isset($arrTypeBanner[$item->banner_type])){{$arrTypeBanner[$item->banner_type]}}@else ---- @endif
                                     <br/><b>Page: </b>@if(isset($arrPage[$item->banner_page])){{$arrPage[$item->banner_page]}}@else ---- @endif
-                                    <br/><b>Shop: </b>@if(isset($arrIsShop[$item->banner_is_shop])){{$arrIsShop[$item->banner_is_shop]}}@else ---- @endif
                                     <br/><b>Danh mục: </b>{{$item->banner_category_id}}
-
+                                </td>
+                                <td>
+                                    @if(isset($arrIsShop[$item->banner_is_shop]))<b>{{$arrIsShop[$item->banner_is_shop]}}</b>@else ---- @endif
+                                    @if($item->banner_shop_id > 0 && isset($arrShop[$item->banner_shop_id]))<br/><b>{{$arrShop[$item->banner_shop_id]}}</b>@endif
                                     <br/>@if($item->banner_is_rel == 1)Follow @else Nofollow @endif
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($item->banner_is_run_time == CGlobal::BANNER_IS_RUN_TIME)
-                                        S:{{date('d-m-Y h:i:s',$item->banner_start_time)}}
-                                        <br/>E:{{date('d-m-Y h:i:s',$item->banner_end_time)}}
+                                        S:{{date('d-m-Y',$item->banner_start_time)}}
+                                        <br/>E:{{date('d-m-Y',$item->banner_end_time)}}
                                     @else
                                         Không giới hạn ngày chạy
                                     @endif

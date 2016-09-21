@@ -11,20 +11,18 @@
  * */
 /*home*/
 Route::any('/', array('as' => 'site.home','uses' => 'SiteHomeController@index'));
-
 Route::get('404.html',array('as' => 'site.page404','uses' =>'SiteHomeController@page404'));
 Route::post('load-product-with-category.html',array('as' => 'site.ajaxLoadItemSubCategory','uses' =>'SiteHomeController@ajaxLoadItemSubCategory'));//ajax
-
 /*product*/
 Route::get('tim-kiem.html',array('as' => 'site.search','uses' => 'SiteHomeController@searchProduct'));
 Route::get('san-pham-moi.html',array('as' => 'site.product_new','uses' => 'SiteHomeController@listProductNew'));
 Route::get('{cat}/{id}-{name}.html',array('as' => 'site.detailProduct','uses' =>'SiteHomeController@detailProduct'))->where('id', '[0-9]+');
 Route::get('c-{id}/{name}.html',array('as' => 'site.listProduct','uses' =>'SiteHomeController@listProduct'))->where('id', '[0-9]+');
-
 /*tin tưc*/
 Route::get('n-{id}/{name}.html',array('as' => 'site.listNewSearch','uses' =>'SiteHomeController@listNewSearch'))->where('id', '[0-9]+');
 Route::get('tin-tuc.html',array('as' => 'site.listNew','uses' =>'SiteHomeController@homeNew'));
 Route::get('tin-tuc/c{cat_id}/{id}-{name}.html',array('as' => 'site.detailNew','uses' =>'SiteHomeController@detailNew'))->where('cat_id', '[0-9]+')->where('id', '[0-9]+');
+
 
 //Phần liên quan đến giỏ hàng, đặt hàng, khách mua hàng
 Route::post('them-vao-gio-hang.html', array('as' => 'site.ajaxAddCart','uses' => 'SiteOrderController@ajaxAddCart'));
@@ -36,8 +34,16 @@ Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'Si
 
 
 //trang chủ shop
-Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteHomeController@shopIndex'))->where('shop_id', '[0-9]+');
-Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopListProduct','uses' =>'SiteHomeController@shopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
+Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteShopController@shopIndex'))->where('shop_id', '[0-9]+');
+Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopListProduct','uses' =>'SiteShopController@shopListProduct'))->where('shop_id', '[0-9]+')->where('cat_id', '[0-9]+');
+//login, dang ky, logout shop,quen mat khau
+Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteShopController@shopLogin'));
+Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteShopController@login'));
+Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteShopController@shopLogout'));
+Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteShopController@shopRegister'));
+Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteShopController@postShopRegister'));
+Route::get('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteShopController@shopForgetPass'));
+Route::post('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteShopController@postShopForgetPass'));
 
 /*
  * **********************************************************************************************************************************
@@ -45,15 +51,6 @@ Route::get('shop-{shop_id}/c-{cat_id}/{cat_name}.html',array('as' => 'shop.shopL
  * Phai login = account Shop với thao tác đc
  * **********************************************************************************************************************************
  * */
-//login, dang ky, logout shop,quen mat khau
-Route::get('dang-nhap.html',array('as' => 'site.shopLogin','uses' =>'SiteHomeController@shopLogin'));
-Route::post('dang-nhap.html', array('as' => 'site.shopLogin','uses' => 'SiteHomeController@login'));
-Route::get('dang-xuat.html',array('as' => 'site.shopLogout','uses' =>'SiteHomeController@shopLogout'));
-Route::get('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@shopRegister'));
-Route::post('dang-ky.html',array('as' => 'site.shopRegister','uses' =>'SiteHomeController@postShopRegister'));
-Route::get('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@shopForgetPass'));
-Route::post('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'SiteHomeController@postShopForgetPass'));
-
 
 //Action cua shop da login
 Route::get('thong-tin-shop.html',array('as' => 'shop.inforShop','uses' =>'ShopActionController@shopInfor'));
@@ -86,7 +83,6 @@ Route::get('cap-nhat-quang-cao/b-{banner_id}-{banner_name}.html',array('as' => '
 Route::post('cap-nhat-quang-cao/b-{banner_id}-{banner_name}.html',array('as' => 'shop.editBanner','uses' =>'ShopVipController@postEditBanner'))->where('banner_id', '[0-9]+');
 Route::post('shop/deleteBanner',array('as' => 'shop.deleteBanner','uses' =>'ShopVipController@deleteBanner'));//ajax
 Route::post('shop/removeImageBanner',array('as' => 'shop.removeImageBanner','uses' =>'ShopVipController@removeImageBanner'));//ajax
-
 //quan ly NCC của shop VIP
 Route::get('quan-ly-nha-cung-cap.html',array('as' => 'shop.listProvider','uses' =>'ShopVipController@listProvider'));
 Route::get('them-nha-cung-cap.html',array('as' => 'shop.addProvider','uses' =>'ShopVipController@getAddProvider'));

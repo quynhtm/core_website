@@ -8,7 +8,7 @@
  */
 class BaseShopController extends BaseController
 {
-    protected $layout = 'site.ShopLayouts.index';
+    protected $layout = 'site.ShopAdmin.index';
     protected $user_shop = array();
     protected $supperAdmin = array();
     public function __construct()

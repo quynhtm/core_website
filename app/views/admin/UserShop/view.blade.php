@@ -53,12 +53,12 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
-                            <th width="30%">Thông tin shop</th>
+                            <th width="28%">Thông tin shop</th>
                             <th width="20%">Địa chỉ</th>
-                            <th width="15%">Loại gian hàng</th>
-                            <th width="8%" class="text-center text-middle">Online</th>
-                            <th width="8%" class="text-center text-middle">Ngày tạo</th>
-                            <th width="10%" class="text-center text-middle">Thao tác</th>
+                            <th width="17%">Loại gian hàng</th>
+                            <th width="7%" class="text-center text-middle">Online</th>
+                            <th width="7%" class="text-center text-middle">Ngày tạo</th>
+                            <th width="12%" class="text-center text-middle">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -93,10 +93,10 @@
                                         <br/>{{date('H:i:s d-m-Y',$item->shop_time_login)}}
                                     @else
                                         <i class="fa fa-meh-o fa-2x red"></i>
-                                        <br/>{{date('H:i:s d-m-Y',$item->shop_time_logout)}}
+                                        <br/>{{date('d-m-Y H:i:s ',$item->shop_time_logout)}}
                                     @endif
                                 </td>
-                                <td class="text-center text-middle">{{date('H:i:s d-m-Y',$item->shop_created)}}</td>
+                                <td class="text-center text-middle">{{date('d-m-Y H:i:s ',$item->shop_created)}}</td>
 
                                 <td class="text-center text-middle">
                                     @if($item->shop_status == 1)

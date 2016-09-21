@@ -29,7 +29,7 @@ class Provider extends Eloquent
         $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$provider_shop_id) : array();
         if (sizeof($provider) == 0) {
             $data = Provider::where('provider_shop_id', $provider_shop_id)->get();
-            if($data){
+            if(count($data) > 0){
                 foreach($data as $itm) {
                     $provider[$itm->provider_id] = $itm->provider_name;
                 }
@@ -39,7 +39,7 @@ class Provider extends Eloquent
                 return $provider;
             }
         }
-        return $provider;
+        return (count($provider)>0)? $provider : array();
     }
 
     public static function getProviderShopByID($id,$shop_id) {

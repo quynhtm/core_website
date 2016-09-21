@@ -35,6 +35,9 @@ class ShopShare extends Eloquent
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = ShopShare::where('shop_share_id','>',0);
+            if (isset($dataSearch['shop_id']) && $dataSearch['shop_id'] > 0) {
+                $query->where('shop_id',$dataSearch['shop_id']);
+            }
             if (isset($dataSearch['shop_name']) && $dataSearch['shop_name'] != '') {
                 $query->where('shop_name','LIKE', '%' . $dataSearch['shop_name'] . '%');
             }

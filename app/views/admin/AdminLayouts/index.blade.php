@@ -244,6 +244,13 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
+                    <li class="@if(Route::currentRouteName() == 'admin.viewShopShare')active @endif">
+                        <a href="{{URL::route('admin.viewShopShare')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Lượt shop share
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
                 </ul>
             </li>
 

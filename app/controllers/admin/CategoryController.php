@@ -36,33 +36,25 @@ class CategoryController extends BaseAdminController
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
         $offset = ($pageNo - 1) * $limit;
-        $search = $data = array();
+        $search = $data = $treeCategroy = array();
         $total = 0;
 
         $search['category_id'] = addslashes(Request::get('category_id',''));
         $search['category_name'] = addslashes(Request::get('category_name',''));
         $search['category_status'] = (int)Request::get('category_status',-1);
-        $search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
-
-        $dataSearch = Category::searchByCondition($search, $limit, $offset,$total);
-        $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
+        $dataSearch = Category::searchByCondition($search, 500, $offset,$total);
+        $paging = '';
 
         if(!empty($dataSearch)){
-            foreach($dataSearch as $k=> $val){
-                $data[] = array('category_id'=>$val->category_id,
-                    'category_name'=>$val->category_name,
-                    'category_status'=>$val->category_status,
-                );
-            }
+            $treeCategroy = self::getTreeCategory($dataSearch);
         }
-        //FunctionLib::debug($dataSearch);
+        //FunctionLib::debug($treeCategroy);
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['category_status']);
         $this->layout->content = View::make('admin.Category.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
             ->with('total', $total)
-            ->with('sizeShow', count($data))
-            ->with('data', $data)
+            ->with('data', $treeCategroy)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
             ->with('arrStatus', $this->arrStatus)
@@ -73,6 +65,55 @@ class CategoryController extends BaseAdminController
             ->with('permission_create', in_array($this->permission_create, $this->permission) ? 1 : 0)//dùng common
             ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0);//dùng common
     }
+    public function getTreeCategory($data){
+        $max = 0;
+        $aryCategoryProduct = $arrCategory = array();
+        if(!empty($data)){
+            foreach ($data as $k=>$value){
+                $max = ($max < $value->category_parent_id)? $value->category_parent_id : $max;
+                $arrCategory[$value->category_id] = array(
+                    'category_id'=>$value->category_id,
+                    'category_parent_id'=>$value->category_parent_id,
+                    'category_content_front'=>$value->category_content_front,
+                    'category_content_front_order'=>$value->category_content_front_order,
+                    'category_order'=>$value->category_order,
+                    'category_status'=>$value->category_status,
+                    'category_name'=>$value->category_name);
+            }
+        }
+
+        if($max > 0){
+            $aryCategoryProduct = self::showCategory($max, $arrCategory);
+        }
+        return $aryCategoryProduct;
+    }
+    public function showCategory($max, $aryDataInput) {
+        $aryData = array();
+        if(is_array($aryDataInput) && count($aryDataInput) > 0) {
+            foreach ($aryDataInput as $k => $val) {
+                if((int)$val['category_parent_id'] == 0) {
+                    $val['padding_left'] = '';
+                    $val['category_parent_name'] = '';
+                    $aryData[] = $val;
+                    self::showSubCategory($val['category_id'],$val['category_name'], $max, $aryDataInput, $aryData);
+                }
+            }
+        }
+        return $aryData;
+    }
+    public static function showSubCategory($cat_id,$cat_name, $max, $aryDataInput, &$aryData) {
+        if($cat_id <= $max) {
+            foreach ($aryDataInput as $chk => $chval) {
+                if($chval['category_parent_id'] == $cat_id) {
+                    $chval['padding_left'] = '---------- ';
+                    $chval['category_parent_name'] = $cat_name;
+                    $aryData[] = $chval;
+                    self::showSubCategory($chval['category_id'],$chval['category_name'], $max, $aryDataInput, $aryData);
+                }
+            }
+        }
+    }
+
 
     public function getCategroy($id=0) {
         if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){

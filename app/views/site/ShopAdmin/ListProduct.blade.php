@@ -104,6 +104,9 @@
                                 </td>
                                 <td class="text-left text-middle">
                                     @if(isset($arrNCC[$item->provider_id])){{ $arrNCC[$item->provider_id]}} <br/>@endif
+                                    @if(isset($arrIsSale[$item->is_sale]))
+                                           <b @if($item->is_sale == CGlobal::PRODUCT_IS_SALE)class="green" @else class="red" @endif> {{$arrIsSale[$item->is_sale]}}</b><br/>
+                                    @endif
                                     Tạo: {{date ('d-m-Y H:i',$item->time_created)}}
                                 </td>
                                 <td class="text-center text-middle">
