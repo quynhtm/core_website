@@ -124,13 +124,13 @@ class SiteShopController extends BaseSiteController
         		
         		
         	}
-        	$arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
+            $arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
         	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
         }else{
         	return Redirect::route('site.page404');
         }
        
-        $this->layout->content = View::make('site.ShopSite.shopListProduct')
+        $this->layout->content = View::make('site.ShopSite.ShopListProduct')
 					            ->with('product',$product)
 						    	->with('arrChildCate',$arrChildCate)
 						    	->with('paging', $paging)
