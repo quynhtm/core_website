@@ -1359,6 +1359,7 @@ return array(
     'SingularValueDecomposition' => $baseDir . '/app/library/class_phpexcel/PHPExcel/Shared/JAMA/SingularValueDecomposition.php',
     'SiteHomeController' => $baseDir . '/app/controllers/site/SiteHomeController.php',
     'SiteOrderController' => $baseDir . '/app/controllers/site/SiteOrderController.php',
+    'SiteShopController' => $baseDir . '/app/controllers/site/SiteShopController.php',
     'Stack\\Builder' => $vendorDir . '/stack/builder/src/Stack/Builder.php',
     'Stack\\StackedHttpKernel' => $vendorDir . '/stack/builder/src/Stack/StackedHttpKernel.php',
     'Style' => $vendorDir . '/dompdf/dompdf/include/style.cls.php',
