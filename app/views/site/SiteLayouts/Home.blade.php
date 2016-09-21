@@ -112,7 +112,7 @@
 		</div>
 		@endif
 	</div>
-	<div class="line-box line-box-cat">
+	<div class="line-box line-box-cat vip">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
 				<h2 class="parent-cate act">
@@ -183,7 +183,7 @@
 			<img src="https://static11.muachungcdn.com/original/i:plaza/product/product/-0-HangNhatThai_1150x60-146837977178478/sunhouse-thang-7.jpg" alt="">
 		</div>
 	</div>
-	<div class="line-box line-box-cat">
+	<div class="line-box line-box-cat normal">
 		<div class="cate-box">
 			<div class="inner-cate-box hide-text-over">
 				<h2 class="parent-cate act">
