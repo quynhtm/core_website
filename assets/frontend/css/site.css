@@ -1816,7 +1816,10 @@ form#txtFormPaymentCart .form-group label {
     width: 99.3%;
 }
 .body-list-item .banner-shop-content img {
-    width: 100%;
+    width: auto !important;
+}
+.body-list-item .banner-shop-content .bx-wrapper img {
+    display: inline-block;
 }
 .banner-shop-content .bx-viewport {
     height: 245px !important;

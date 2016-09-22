@@ -44,6 +44,8 @@ class CGlobal{
     const sizeImage_450 = 450;
     const sizeImage_600 = 600;
     const sizeImage_750 = 750;
+    const sizeImage_1020 = 1020;
+
     const freeSizeImage_300 = 301;
     
     public static $arrSizeImage = array(
@@ -64,6 +66,7 @@ class CGlobal{
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
     	
     	self::sizeImage_750 =>array('w'=>self::sizeImage_750,'h'=>self::sizeImage_450),
+    	self::sizeImage_1020 =>array('w'=>self::sizeImage_1020,'h'=>0),
     	self::freeSizeImage_300 =>array('w'=>self::freeSizeImage_300,'h'=>0),
     );
 	
