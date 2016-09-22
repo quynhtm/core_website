@@ -98,7 +98,11 @@ class SiteShopController extends BaseSiteController
      ***************************************************************************************************
      */
     public function shopListProduct($shop_id = 0,$cat_id = 0){
-        $this->header();
+        
+    	FunctionLib::site_css('lib/bxslider/bxslider.css', CGlobal::$POS_HEAD);
+    	FunctionLib::site_js('lib/bxslider/bxslider.js', CGlobal::$POS_END);
+    	
+    	$this->header();
        
         $arrChildCate = $user_shop = $product = $arrBannerSlider = $arrBannerLeft = $arrCatShow = array();
         $paging = '';
