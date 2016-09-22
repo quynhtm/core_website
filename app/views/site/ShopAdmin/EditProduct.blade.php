@@ -102,7 +102,7 @@
                                 <label for="name" class="control-label">Thuộc nhà cung cấp</label>
                                 <div class="form-group">
                                     <select name="provider_id" id="provider_id" class="form-control input-sm">
-                                        {{$optionStatusProduct}}
+                                        {{$optionNCC}}
                                     </select>
                                 </div>
                             </div>
@@ -124,6 +124,14 @@
                                     <select name="is_sale" id="is_sale" class="form-control input-sm">
                                         {{$optionIsSale}}
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="name" class="control-label">Mã sản phẩm</label>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Mã sản phẩm" id="product_code" name="product_code"  class="form-control input-sm" value="@if(isset($data['product_code'])){{$data['product_code']}}@endif">
                                 </div>
                             </div>
                         </div>
