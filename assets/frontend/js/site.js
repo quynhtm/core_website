@@ -28,14 +28,14 @@ SITE = {
 			multiple: false,//up 1 anh
 			onSubmit:function(){
 				jQuery( "#sys_show_button_upload").hide();
-				jQuery("#status").html("<font color='green'>Ä�ang upload...</font>");
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
 			},
 			onSuccess:function(files,xhr,data){
 				dataResult = JSON.parse(xhr);
 				if(dataResult.intIsOK === 1){
 					//gan lai id item cho id hiden: dung cho them moi, sua item
 					jQuery('#id_hiden').val(dataResult.id_item);
-					jQuery('#image_primary').val(dataResult.info.name_img);//anh chÃ­nh
+					jQuery('#image_primary').val(dataResult.info.name_img);
 					jQuery( "#sys_show_button_upload").show();
 
 					var html= "";
@@ -56,7 +56,7 @@ SITE = {
 		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
 	},
 	/*******************************************************************************************
-	 *LiÃªn quan Ä‘áº¿n sáº£n pháº©m
+	 *Liên quan tới sản phẩm
 	 *****************************************************************************************
 	 */
 	insertImageContent: function(type) {
@@ -108,7 +108,7 @@ SITE = {
 			multiple: (id_hiden==0)? false: true,
 			onSubmit:function(){
 				jQuery( "#sys_show_button_upload").hide();
-				jQuery("#status").html("<font color='green'>Ä�ang upload...</font>");
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
 			},
 			onSuccess:function(files,xhr,data){
 				dataResult = JSON.parse(xhr);
@@ -117,10 +117,10 @@ SITE = {
 					jQuery('#id_hiden').val(dataResult.id_item);
 					jQuery( "#sys_show_button_upload").show();
 
-					//add vao list sáº£n sáº£n pháº©m khÃ¡c
-					var checked_img_pro = "<div class='clear'></div><input type='radio' id='cháº¹cked_image_"+dataResult.info.id_key+"' name='cháº¹cked_image' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImage(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='cháº¹cked_image_"+dataResult.info.id_key+"' style='font-weight:normal'>áº¢nh Ä‘áº¡i diá»‡n</label><br/>";
+					//add vao list sản sản phẩm khác
+					var checked_img_pro = "<div class='clear'></div><input type='radio' id='checked_image_"+dataResult.info.id_key+"' name='checked_image_' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImage(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='checked_image_"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh đại diện</label><br/>";
 					if( type == 2){
-						var checked_img_pro = checked_img_pro + "<input type='radio' id='cháº¹cked_image_hover"+dataResult.info.id_key+"' name='cháº¹cked_image_hover' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImageHover(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='cháº¹cked_image_hover"+dataResult.info.id_key+"' style='font-weight:normal'>áº¢nh hover</label><br/>";
+						var checked_img_pro = checked_img_pro + "<input type='radio' id='checked_image_hover"+dataResult.info.id_key+"' name='checked_image_hover' value='"+dataResult.info.id_key+"' onclick='SITE.checkedImageHover(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='checked_image_hover"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh hover</label><br/>";
 					}
 					var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='SITE.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\")' >XÃ³a áº£nh</a>";
 					var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
@@ -146,7 +146,7 @@ SITE = {
 		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
 	},
 	checkedImage: function(nameImage,key){
-		if (confirm('Báº¡n cÃ³ muá»‘n chá»�n áº£nh nÃ y lÃ m áº£nh Ä‘áº¡i diá»‡n?')) {
+		if (confirm('Bạn có muốn chọn ảnh này làm ảnh đại diện?')) {
 			jQuery('#image_primary').val(nameImage);
 		}
 	},
@@ -154,7 +154,7 @@ SITE = {
 		jQuery('#image_primary_hover').val(nameImage);
 	},
 	setOnTopProduct: function(product_id,is_shop) {
-		if(is_shop == is_shop_vip){//shop vip má»›i cÃ³ quyá»�n nÃ y
+		if(is_shop == is_shop_vip){//shop vip mới có quyền này
 			$('#img_loading_'+product_id).show();
 			$.ajax({
 				type: "post",
@@ -164,19 +164,19 @@ SITE = {
 				success: function(res) {
 					$('#img_loading_'+product_id).hide();
 					if(res.isIntOk == 1){
-						alert('Báº¡n Ä‘Ã£ thá»±c hiá»‡n thÃ nh cÃ´ng');
+						alert('Bạn thực hiện thành công!');
 						//window.location.reload();
 					}else{
-						alert('KhÃ´ng thá»ƒ thá»±c hiá»‡n Ä‘Æ°á»£c thao tÃ¡c.');
+						alert('Không thể thực hiện thao tác.');
 					}
 				}
 			});
 		}else{
-			alert("Xin lá»—i! Shop VIP má»›i cÃ³ chá»©c nÄƒng nÃ y");
+			alert("Xin lỗi! Shop VIP mới có chức năng này");
 		}
 	},
 	deleteProduct: function(product_id) {
-		if(confirm('Báº¡n cÃ³ muá»‘n xÃ³a sáº£n pháº©m nÃ y khÃ´ng?')) {
+		if(confirm('Bạn có muốn xóa sản phẩm này không?')) {
 			$('#img_loading_'+product_id).show();
 			$.ajax({
 				type: "post",
@@ -186,17 +186,17 @@ SITE = {
 				success: function(res) {
 					$('#img_loading_'+product_id).hide();
 					if(res.isIntOk == 1){
-						alert('Báº¡n Ä‘Ã£ thá»±c hiá»‡n thÃ nh cÃ´ng');
+						alert('Bạn đã thực hiện thành công');
 						window.location.reload();
 					}else{
-						alert('KhÃ´ng thá»ƒ thá»±c hiá»‡n Ä‘Æ°á»£c thao tÃ¡c.');
+						alert('Không thể thực hiện thao tác.');
 					}
 				}
 			});
 		}
 	},
 	deleteBanner: function(banner_id) {
-		if(confirm('Báº¡n cÃ³ muá»‘n xÃ³a banner nÃ y khÃ´ng?')) {
+		if(confirm('Bạn có muốn xóa banner này không?')) {
 			$('#img_loading_'+banner_id).show();
 			$.ajax({
 				type: "post",
@@ -206,17 +206,17 @@ SITE = {
 				success: function(res) {
 					$('#img_loading_'+banner_id).hide();
 					if(res.isIntOk == 1){
-						alert('Báº¡n Ä‘Ã£ thá»±c hiá»‡n thÃ nh cÃ´ng');
+						alert('Bạn đã thực hiện thành công');
 						window.location.reload();
 					}else{
-						alert('KhÃ´ng thá»ƒ thá»±c hiá»‡n Ä‘Æ°á»£c thao tÃ¡c.');
+						alert('Không thể thực hiện thao tác.');
 					}
 				}
 			});
 		}
 	},
 	deleteProvider: function(provider_id) {
-		if(confirm('Báº¡n cÃ³ muá»‘n xÃ³a NhÃ  cung cáº¥p nÃ y khÃ´ng?')) {
+		if(confirm('Bạn có muốn xóa nhà cung cấp này không?')) {
 			$('#img_loading_'+provider_id).show();
 			$.ajax({
 				type: "post",
@@ -226,10 +226,10 @@ SITE = {
 				success: function(res) {
 					$('#img_loading_'+provider_id).hide();
 					if(res.isIntOk == 1){
-						alert('Báº¡n Ä‘Ã£ thá»±c hiá»‡n thÃ nh cÃ´ng');
+						alert('Bạn đã thực hiện thành công');
 						window.location.reload();
 					}else{
-						alert('KhÃ´ng thá»ƒ thá»±c hiá»‡n Ä‘Æ°á»£c thao tÃ¡c.');
+						alert('Không thể thực hiện thao tác.');
 					}
 				}
 			});
@@ -249,7 +249,7 @@ SITE = {
 				jQuery("#image_primary").val('');
 			}
 		}
-		if (confirm('Báº¡n cÃ³ cháº¯c xÃ³a áº£nh nÃ y?')) {
+		if (confirm('Bạn có chắc chắn xóa ảnh này?')) {
 			jQuery.ajax({
 				type: "POST",
 				url: WEB_ROOT+'/shop/removeImage',
@@ -258,8 +258,8 @@ SITE = {
 				success: function(data) {
 					if(data.intIsOK === 1){
 						jQuery('#sys_div_img_other_'+key).hide();
-						jQuery('#cháº¹cked_image_'+key).hide();//anh chinh
-						jQuery('#cháº¹cked_image_hover_'+key).val('');//anh hover
+						jQuery('#checked_image_'+key).hide();//anh chinh
+						jQuery('#checked_image_hover_'+key).val('');//anh hover
 						jQuery('#img_other_'+key).val('');//anh khac
 					}else{
 						jQuery('#sys_msg_return').html(data.msg);
