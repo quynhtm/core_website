@@ -1422,11 +1422,18 @@ p {
     float: left;
     width: 80.2%;
 }
-.bottom-content-view .tab {
+.box-tab-shop .tab-shop {
+    margin: 0 8px 10px!important;
+}
+.bottom-content-view .tab,
+.box-tab-shop .tab-shop {
     border-bottom: 4px solid #015981;
     height: 36px;
+	display:inline-block;
+	width:99%;
 }
-.bottom-content-view .tab li {
+.bottom-content-view .tab li,
+.box-tab-shop .tab-shop li {
 	cursor: pointer;
 	border-top-left-radius: 2px;
     border-top-right-radius: 2px;
@@ -1439,7 +1446,8 @@ p {
     top: 1px;
 	font-style: italic;
 }
-.bottom-content-view .tab > li::after {
+.bottom-content-view .tab li::after,
+.box-tab-shop .tab-shop li::after {
     border-right: 1px solid #ccc;
     content: "";
     height: 12px;
@@ -1447,19 +1455,23 @@ p {
     right: -2px;
     top: 12px;
 }
-.bottom-content-view .tab > li:last-child:after{
+.bottom-content-view .tab > li:last-child:after,
+.box-tab-shop .tab-shop li:last-child::after{
 	border-right:none;
 }
-.bottom-content-view .tab li.act {
+.bottom-content-view .tab li.act,
+.box-tab-shop .tab-shop li.act {
     background: #015981;
     color: #fff;
 	font-style: normal;
 }
-.bottom-content-view .tab li.act:hover{
+.bottom-content-view .tab li.act:hover,
+.box-tab-shop .tab-shop li.act:hover{
 	background: #015981;
     color: #fff;
 }
-.bottom-content-view .tab li:hover{
+.bottom-content-view .tab li:hover,
+.box-tab-shop .tab-shop li:hover{
 	background: #fe6f04;
 	color: #fff;
 }
@@ -1829,6 +1841,7 @@ form#txtFormPaymentCart .form-group label {
     margin-top: 2px;
     overflow: hidden;
     width: 99.3%;
+	background: #fff;
 }
 .body-list-item .banner-shop-content img {
     width: auto !important;

@@ -90,6 +90,13 @@
 					<img src="{{Config::get('config.WEB_ROOT').CGlobal::banner_slider_default_shop}}" alt="ShopCuaTui.com.vn">
 				</div>
 				@endif
+				<div class="box-tab-shop">
+					<ul class="tab-shop">
+						<li data-tab="1" class="act" >Sản phẩm nổi bật</li>
+						<li data-tab="2" class="">Sản phẩm giảm giá</li>
+						<li data-tab="3">Sản phẩm bán chạy</li>
+					</ul>
+				</div>
 				<ul>
 					@if(sizeof($product) != 0)
 					@foreach($product as $item)
