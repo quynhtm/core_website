@@ -118,16 +118,20 @@
 					</div>
 					<div class="content-right-product">
 						<div class="order-number-phone">
-						<p><b>Đặt nhanh qua điện thoại</b></p>
-						<div class="number-phone">
-							<div class="fa fa-phone"></div>
-							<span>{{$user_shop->shop_phone}}</span>
+							<p><b>Đặt nhanh qua điện thoại</b></p>
+							<div class="number-phone">
+								<div class="fa fa-phone"></div>
+								<span>{{$user_shop->shop_phone}}</span>
+							</div>
+							<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
+							<p><b>Thông tin liên hệ: </b></p>
+							<p>{{$user_shop->shop_email}}</p>
+							<p>{{$user_shop->shop_address}}</p>
 						</div>
-						<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
-						<p><b>Thông tin liên hệ: </b></p>
-						<p>{{$user_shop->shop_email}}</p>
-						<p>{{$user_shop->shop_address}}</p>
-					</div>
+						<div class="link-fast">
+							<p><a href="#gioi-thieu-shop">Giới thiệu Shop</a></p>
+							<p><a href="#chinh-sach-van-chuyen">Chính sách vận chuyển</a></p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -184,9 +188,9 @@
 				<div class="left-bottom-content-view">
 					<ul class="tab">
 						<li class="act" data-tab="1">Chi tiết sản phẩm</li>
-						<li data-tab="2" class="">Bình luận</li>
-						<li data-tab="3" class="">Chính sách giao nhận</li>
-						<li data-tab="4" class="">Giới thiệu Shop</li>
+						<li data-tab="2">Bình luận</li>
+						<li data-tab="3" id="chinh-sach-van-chuyen">Chính sách giao nhận</li>
+						<li data-tab="4" id="gioi-thieu-shop">Giới thiệu Shop</li>
 					</ul>
 					<div class="content-bottom-content-view">
 						<div class="show-tab show-tab-1 act">{{FunctionLib::setNofollow(stripslashes($product->product_content))}}</div>

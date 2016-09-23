@@ -336,5 +336,25 @@ SITE = {
 			jQuery('.left-bottom-content-view .show-tab').removeClass('act');
 			jQuery('.left-bottom-content-view .show-tab-'+datatab).addClass('act');
 		});
-	}
+		
+		jQuery('a[href*=#]:not([href=#])').click(function() {
+		    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+		      var target = jQuery(this.hash);
+		      target = target.length ? target : jQuery('[id=' + this.hash.slice(1) +']');
+		      if (target.length) {
+		        jQuery('html,body').animate({
+		          scrollTop: (target.offset().top - 20)
+		        }, 1000);
+		        if(target.selector != ''){
+		        	jQuery('.left-bottom-content-view ul.tab li').removeClass('act');
+		        	jQuery(target.selector).addClass('act');
+		        	var datatab = jQuery(target.selector).attr('data-tab');
+		        	jQuery('.content-bottom-content-view .show-tab').removeClass('act');
+		        	jQuery('.content-bottom-content-view .show-tab-'+datatab).addClass('act');
+		        }
+		        return false;
+		      }
+		    }
+		  });
+	},
 }

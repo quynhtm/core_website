@@ -1024,11 +1024,8 @@ p {
 }
 .parent-cate.act a {
     color: #fff;
-	font-weight:bold;
+	font-weight:normal;
 	font-style:normal;
-}
-.parent-cate.act a{
-	text-transform: uppercase;
 }
 .parent-cate:hover{
 	background: #fe6f04;
@@ -1426,27 +1423,34 @@ p {
     width: 80.2%;
 }
 .bottom-content-view .tab {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 4px solid #015981;
     height: 36px;
 }
 .bottom-content-view .tab li {
-    background: #f6f6f6;
-    border: 1px solid #ddd;
-    border-radius: 3px 3px 0 0;
-    color: #999;
-    cursor: pointer;
+	cursor: pointer;
+	border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
     display: inline-block;
-    float: left;
     font-size: 15px;
     height: 35px;
     line-height: 35px;
-    margin: 0 0 0 10px;
-    padding: 0 10px;
+    padding: 0 12px;
+    position: relative;
+    top: 1px;
+	font-style: italic;
 }
 .bottom-content-view .tab li.act {
-    background: #fff;
-    border-color: #ddd #ddd transparent;
-    color: #222;
+    background: #015981;
+    color: #fff;
+	font-style: normal;
+}
+.bottom-content-view .tab li.act:hover{
+	background: #015981;
+    color: #fff;
+}
+.bottom-content-view .tab li:hover{
+	background: #fe6f04;
+	color: #fff;
 }
 .content-bottom-content-view {
     display: inline-block;
@@ -1879,4 +1883,17 @@ form#txtFormPaymentCart .form-group label {
 }
 .list-shop-cart-item option {
     text-indent: 7px;
+}
+
+.link-fast {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+.link-fast a{
+	text-decoration: underline;
+	color: #247bbd;
+}
+.link-fast a:hover{
+	text-decoration: none;
+	color: #fe6d01;
 }
