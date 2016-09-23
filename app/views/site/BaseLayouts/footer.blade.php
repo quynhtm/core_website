@@ -52,7 +52,7 @@
                         <span class="phone">ĐT: {{CGlobal::phoneSupport}}</span><br>
                     </div>
                     <div class="note-footer">
-                        Chú ý: Shopcuatui.com.vn không bán hàng trực tiếp, quý khách mua hàng xin vui lòng liên lạc với shop.
+                        Chú ý: Shopcuatui.com.vn là một CHỢ ONLINE. Quý khách mua hàng vui lòng liên hệ trực tiếp với Shop đăng sản phẩm ở mục liên hệ để mua hàng.
                     </div>
                 </li>
             </ul>

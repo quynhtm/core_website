@@ -139,17 +139,17 @@
 	                <div class="shop-create">
 	                    <i></i>
 	                    <b>Tạo shop online:</b><br>
-	                    <span>Tiện ích - Đơn giản - Dễ dùng</span>
+	                    <span>Tiện ích-Đơn giản-Dễ dùng</span>
 	                </div>
 	                <div class="shop-transfer">
 	                    <i></i>
 	                    <b>Ship hàng tận nơi:</b><br>
-	                    <span>Giao ngay trong ngày</span>
+	                    <span>Giao hàng nhanh nhất-sớm nhất</span>
 	                </div>
 	                <div class="shop-diversity">
 	                    <i></i>
 	                    <b>Sản phẩm đa dạng:</b><br>
-	                    <span>Đủ các mặt hàng gọi là có ngay</span>
+	                    <span>Đủ các mặt hàng gọi là có</span>
 	                </div>
                 </div>
             </div>

@@ -401,12 +401,12 @@ p {
 .part1-right-ultity {
     display: inline-block;
     float: left;
-    width: 30%;
+    width: 25%;
 }
 .part2-right-ultity{
 	display:inline-block;
 	float:left;
-	width: 68%;
+	width: 75%;
 	white-space: nowrap;
 }
 .right-ultity i {
@@ -425,7 +425,7 @@ p {
 .shop-transfer {
     display: inline-block;
     float: left;
-    width: 30%;
+    width: 35%;
 	overflow: hidden;
 }
 .shop-transfer i {
