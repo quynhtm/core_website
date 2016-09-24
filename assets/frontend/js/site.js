@@ -59,40 +59,32 @@ SITE = {
 	 *Liên quan tới sản phẩm
 	 *****************************************************************************************
 	 */
-	insertImageContent: function(type) {
-		jQuery('#sys_PopupImgOtherInsertContent').modal('show');
-		jQuery('.ajax-upload-dragdrop').remove();
-
-		var urlAjaxUpload = '/ajax?act=upload_image&code=upload_image_insert_content';
-		var id_hiden = document.getElementById('id_hiden').value;
-		var settings = {
-			url: urlAjaxUpload,
-			method: "POST",
-			allowedTypes:"jpg,png,jpeg",
-			fileName: "multipleFile",
-			formData: {id: id_hiden,type: type},
-			multiple: (id_hiden==0)? false: true,
-			onSuccess:function(files,xhr,data){
-				dataResult = JSON.parse(xhr);
-				if(dataResult.intIsOK === 1){
-					var imagePopup = "<span class='float_left image_insert_content'>";
-					var insert_img = "<a class='img_item' href='javascript:void(0);' onclick='insertImgContent(\""+dataResult.info.src_700+"\")' >";
-					imagePopup += insert_img;
-					imagePopup += "<img width='80' height=80 src='" + dataResult.info.src + "'/> </a>";
-					jQuery('#div_image').append(imagePopup);
-
-					//jQuery('#sys_PopupImgOtherInsertContent').modal('hide');
-					//thanh cong
-					jQuery("#status").html("<font color='green'>Upload is success</font>");
-					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",5000 );
-					setTimeout( "jQuery('#status').hide();",5000 );
+	insertImageContentProduct: function() {
+		var product_id = document.getElementById('id_hiden').value;
+		$.ajax({
+			type: "post",
+			url: WEB_ROOT+'/shop/getImageProductOther',
+			data: {product_id : product_id},
+			dataType: 'json',
+			success: function(res) {
+				$('#img_loading_'+product_id).hide();
+				if(res.isIntOk == 1){
+					jQuery('#sys_PopupImgOtherInsertContent').modal('show');
+					var rs = res.dataImage;
+					for( k in rs ) {
+						var clickInsert = "<a href='javascript:void(0);' class='img_item' onclick='insertImgContent(\"" + rs[k].src_thumb_content + "\",\"" + rs[k].product_name + "\")'>";
+						var html ='<span class="float_left image_insert_content" style="margin:5px;">';
+						html += clickInsert;
+						html += "<img src='" + rs[k].src_img_other + "' width='100' height='100'/>";
+						html +="</a>";
+						html +="</span>";
+						$('#div_image_insert_content').append(html);
+					}
+				}else{
+					alert('Không thể thực hiện thao tác.');
 				}
-			},
-			onError: function(files,status,errMsg){
-				jQuery("#status").html("<font color='red'>Upload is Failed</font>");
 			}
-		}
-		jQuery("#sys_mulitplefileuploader_insertContent").uploadFile(settings);
+		});
 	},
 	uploadImagesProduct: function(type) {
 		jQuery('#sys_PopupUploadImg').modal('show');

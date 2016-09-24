@@ -202,7 +202,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name" class="control-label">Thông tin chi tiết <span class="red"> (*) </span>
-                            <div class="controls"><button type="button" onclick="SITE.insertImageContent(2)" class="btn btn-primary">Chèn ảnh vào nội dung</button></div>
+                            <div class="controls"><button type="button" onclick="SITE.insertImageContentProduct()" class="btn btn-primary">Chèn ảnh vào nội dung</button></div>
                         </label>
                         <textarea class="form-control input-sm" rows="8" name="product_content" id="product_content">@if(isset($data['product_content'])){{$data['product_content']}}@endif</textarea>
                     </div>
@@ -262,16 +262,7 @@
                     <div class="form_group">
                         <div class="clearfix"></div>
                         <div class="clearfix" style='margin: 5px 10px; width:100%;'>
-                            <div id="div_image" class="float_left">
-                                <?php if (isset($arrViewImgOther) && count($arrViewImgOther) > 0) {?>
-                                <?php foreach($arrViewImgOther as $kk => $img_other) {?>
-                                <span class="float_left image_insert_content">
-                                        <a class="img_item" href="javascript:void(0);" onclick="insertImgContent('{{$img_other['src_thumb_content']}}')" >
-                                            <img src="{{$img_other['src_img_other']}}" width="100" height="100">
-                                        </a>
-                                    </span>
-                                <?php } } ?>
-                            </div>
+                            <div id="div_image_insert_content" class="float_left"></div>
                         </div>
                     </div>
                 </form>
@@ -303,7 +294,7 @@
         var data = jQuery("#sys_drag_sort li div span").map(function() { return jQuery(this).children().html(); }).get();
         jQuery("input[name=list1SortOrder]").val(data.join(","));
     };
-    function insertImgContent(src){
-        CKEDITOR.instances.product_content.insertHtml('<img src="'+src+'"/>');
+    function insertImgContent(src,name_product){
+        CKEDITOR.instances.product_content.insertHtml('<img src="'+src+'" alt="'+name_product+'"/>');
     }
 </script>

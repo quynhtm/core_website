@@ -426,6 +426,34 @@ class ShopController extends BaseShopController
         }
         return Response::json($data);
     }
+    public function getImageProductOther(){
+        $product_id = (int)Request::get('product_id',0);
+        $data = array('isIntOk' => 0);
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+            if(sizeof($product) > 0){
+                if($product->product_image_other != ''){
+                    $arrViewImgOther = array();
+                    $arrImagOther = unserialize($product->product_image_other);
+                    if(sizeof($arrImagOther) > 0){
+                        foreach($arrImagOther as $k=>$val){
+                            $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_100);
+                            $url_thumb_content = ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_id, $val, CGlobal::sizeImage_600);
+                            $arrViewImgOther[] = array('product_name'=>$product->product_name,
+                                'src_img_other'=>$url_thumb,
+                                'src_thumb_content'=>$url_thumb_content);
+                        }
+                    }
+                    $data['dataImage'] = $arrViewImgOther;
+                    $data['isIntOk'] = 1;
+                    return Response::json($data);
+                }
+            }else{
+                return Response::json($data);
+            }
+        }
+        return Response::json($data);
+    }
     public function deleteProduct(){
         $product_id = (int)Request::get('product_id',0);
         $data = array('isIntOk' => 0);
