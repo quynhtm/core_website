@@ -101,7 +101,7 @@
                             <div class="form-group">
                                 <label for="name" class="control-label">Thuộc nhà cung cấp</label>
                                 <div class="form-group">
-                                    <select name="provider_id" id="provider_id" class="form-control input-sm">
+                                    <select name="provider_id" id="provider_id" class="form-control input-sm" @if(isset($user_shop) && $user_shop->is_shop != CGlobal::SHOP_VIP) disabled @endif>
                                         {{$optionNCC}}
                                     </select>
                                 </div>
@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <label for="name" class="control-label">Loại sản phẩm</label>
                                 <div class="form-group">
-                                    <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
+                                    <select name="product_is_hot" id="product_is_hot" class="form-control input-sm" @if(isset($user_shop) && $user_shop->is_shop != CGlobal::SHOP_VIP) disabled @endif>
                                         {{$optionTypeProduct}}
                                     </select>
                                 </div>
@@ -121,7 +121,7 @@
                             <div class="form-group">
                                 <label for="name" class="control-label">Tình trạng hàng</label>
                                 <div class="form-group">
-                                    <select name="is_sale" id="is_sale" class="form-control input-sm">
+                                    <select name="is_sale" id="is_sale" class="form-control input-sm" @if(isset($user_shop) && $user_shop->is_shop != CGlobal::SHOP_VIP) disabled @endif>
                                         {{$optionIsSale}}
                                     </select>
                                 </div>
@@ -131,7 +131,7 @@
                             <div class="form-group">
                                 <label for="name" class="control-label">Mã sản phẩm</label>
                                 <div class="form-group">
-                                    <input type="text" placeholder="Mã sản phẩm" id="product_code" name="product_code"  class="form-control input-sm" value="@if(isset($data['product_code'])){{$data['product_code']}}@endif">
+                                    <input type="text" placeholder="Mã sản phẩm" id="product_code" name="product_code"  class="form-control input-sm" value="@if(isset($data['product_code'])){{$data['product_code']}}@endif" @if(isset($user_shop) && $user_shop->is_shop != CGlobal::SHOP_VIP) disabled @endif>
                                 </div>
                             </div>
                         </div>
