@@ -90,42 +90,42 @@
 					<img src="{{Config::get('config.WEB_ROOT').CGlobal::banner_slider_default_shop}}" alt="ShopCuaTui.com.vn">
 				</div>
 				@endif
+
+				<!---- San pham Giam gia---->
+				@if(sizeof($productSellOff) > 0)
 				<div class="box-tab-shop">
 					<ul class="tab-shop">
-						<li data-tab="1" class="act" >Sản phẩm nổi bật</li>
-						<li data-tab="2" class="">Sản phẩm giảm giá</li>
-						<li data-tab="3">Sản phẩm bán chạy</li>
+						<li data-tab="1" class="act" >Sản phẩm giảm giá</li>
 					</ul>
 				</div>
 				<ul>
-					@if(sizeof($product) != 0)
-					@foreach($product as $item)
+					@foreach($productSellOff as $product_sell_off)
 					<li class="item">
-						@if($item->product_type_price == 1)
-							@if((float)$item->product_price_market > (float)$item->product_price_sell)
+						@if($product_sell_off->product_type_price == 1)
+							@if((float)$product_sell_off->product_price_market > (float)$product_sell_off->product_price_sell)
 							<span class="sale-off">
-								-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
+								-{{ number_format(100 - ((float)$product_sell_off->product_price_sell/(float)$product_sell_off->product_price_market)*100, 1) }}%
 							</span>
 							@endif
 						@endif
 						<div class="post-thumb">
-							<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-								<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
-									data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
+							<a title="{{$product_sell_off->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($product_sell_off->product_id, $product_sell_off->product_name, $product_sell_off->category_name)}}">
+								<img alt="{{$product_sell_off->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_sell_off['product_id'], $product_sell_off['product_image'], CGlobal::sizeImage_300)}}"
+									data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_sell_off['product_id'], $product_sell_off['product_image_hover'], CGlobal::sizeImage_300)}}">
 							</a>
 						</div>
 						<div class="item-content">
 							<div class="title-info">
 								<h4 class="post-title">
-									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
+									<a title="{{$product_sell_off->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($product_sell_off->product_id, $product_sell_off->product_name, $product_sell_off->category_name)}}">{{$product_sell_off->product_name}}</a>
 								</h4>
 								<div class="item-price">
-									@if($item->product_type_price == 1)
-										@if($item->product_price_sell > 0)
-										<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+									@if($product_sell_off->product_type_price == 1)
+										@if($product_sell_off->product_price_sell > 0)
+										<span class="amount-1">{{FunctionLib::numberFormat($product_sell_off->product_price_sell)}}đ</span>
 										@endif
-										@if($item->product_price_market > 0)
-										<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+										@if($product_sell_off->product_price_market > 0)
+										<span class="amount-2">{{FunctionLib::numberFormat($product_sell_off->product_price_market)}}đ</span>
 										@endif
 									@else
 										<span class="amount-1">Liên hệ</span>
@@ -135,8 +135,105 @@
 						</div>
 					</li>
 					@endforeach
-					@endif
 				</ul>
+				<div style="clear: both"></div>
+				@endif
+
+				<!---- San pham nổi bật---->
+				@if(sizeof($productHot) > 0)
+				<div class="box-tab-shop">
+					<ul class="tab-shop">
+						<li data-tab="1" class="act" >Sản phẩm nổi bật</li>
+					</ul>
+				</div>
+				<ul>
+					@foreach($productHot as $product_hot)
+						<li class="item">
+							@if($product_hot->product_type_price == 1)
+								@if((float)$product_hot->product_price_market > (float)$product_hot->product_price_sell)
+									<span class="sale-off">
+									-{{ number_format(100 - ((float)$product_hot->product_price_sell/(float)$product_hot->product_price_market)*100, 1) }}%
+								</span>
+								@endif
+							@endif
+							<div class="post-thumb">
+								<a title="{{$product_hot->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($product_hot->product_id, $product_hot->product_name, $product_hot->category_name)}}">
+									<img alt="{{$product_hot->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_hot['product_id'], $product_hot['product_image'], CGlobal::sizeImage_300)}}"
+										 data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product_hot['product_id'], $product_hot['product_image_hover'], CGlobal::sizeImage_300)}}">
+								</a>
+							</div>
+							<div class="item-content">
+								<div class="title-info">
+									<h4 class="post-title">
+										<a title="{{$product_hot->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($product_hot->product_id, $product_hot->product_name, $product_hot->category_name)}}">{{$product_hot->product_name}}</a>
+									</h4>
+									<div class="item-price">
+										@if($product_hot->product_type_price == 1)
+											@if($product_hot->product_price_sell > 0)
+												<span class="amount-1">{{FunctionLib::numberFormat($product_hot->product_price_sell)}}đ</span>
+											@endif
+											@if($product_hot->product_price_market > 0)
+												<span class="amount-2">{{FunctionLib::numberFormat($product_hot->product_price_market)}}đ</span>
+											@endif
+										@else
+											<span class="amount-1">Liên hệ</span>
+										@endif
+									</div>
+								</div>
+							</div>
+						</li>
+					@endforeach
+				</ul>
+				<div style="clear: both"></div>
+				@endif
+
+				<!---San pham bthuong--->
+				@if(sizeof($product) != 0)
+					<div class="box-tab-shop">
+						<ul class="tab-shop">
+							<li data-tab="1" class="act" >Sản phẩm mới về</li>
+						</ul>
+					</div>
+					<ul>
+						@foreach($product as $item)
+						<li class="item">
+							@if($item->product_type_price == 1)
+								@if((float)$item->product_price_market > (float)$item->product_price_sell)
+								<span class="sale-off">
+									-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
+								</span>
+								@endif
+							@endif
+							<div class="post-thumb">
+								<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
+									<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
+										data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
+								</a>
+							</div>
+							<div class="item-content">
+								<div class="title-info">
+									<h4 class="post-title">
+										<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
+									</h4>
+									<div class="item-price">
+										@if($item->product_type_price == 1)
+											@if($item->product_price_sell > 0)
+											<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+											@endif
+											@if($item->product_price_market > 0)
+											<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+											@endif
+										@else
+											<span class="amount-1">Liên hệ</span>
+										@endif
+									</div>
+								</div>
+							</div>
+						</li>
+						@endforeach
+					</ul>
+				@endif
+
 				<div class="show-box-paging">{{$paging}}</div>
 			</div>
 		</div>

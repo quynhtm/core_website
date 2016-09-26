@@ -275,7 +275,7 @@ class ShopController extends BaseShopController
         $dataSave['product_name'] = addslashes(Request::get('product_name'));
         $dataSave['category_id'] = addslashes(Request::get('category_id'));
         $dataSave['product_selloff'] = addslashes(Request::get('product_selloff'));
-        $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot'));
+        $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot',CGlobal::PRODUCT_NOMAL));
         $dataSave['product_status'] = addslashes(Request::get('product_status'));
 
         $dataSave['product_type_price'] = addslashes(Request::get('product_type_price',CGlobal::TYPE_PRICE_NUMBER));

@@ -20,6 +20,7 @@ class SiteShopController extends BaseSiteController
     	$this->header();
     	
     	$arrChildCate = $user_shop = $product = $arrBannerSlider = $arrBannerLeft = array();
+        $productSellOff = $productHot = array();
     	$paging = '';
         $user_shop = UserShop::getByID($shop_id);
     	if($user_shop && sizeof($user_shop) > 0){
@@ -28,13 +29,32 @@ class SiteShopController extends BaseSiteController
                 return Redirect::route('site.page404');
             }
            
-            //
+            //seo
             $meta_title = $meta_keywords = $meta_description = $user_shop->shop_name.'-'.CGlobal::web_name;
             $meta_img = '';
             FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
-            
+
+            //danh muc cua shop
             $arrChildCate = UserShop::getCategoryShopById($user_shop->shop_id);
+
+            //dung cho shop VIP
+            if($user_shop->is_shop == CGlobal::SHOP_VIP){
+                //sản phẩm giảm giá
+                $search1['user_shop_id'] = $shop_id;
+                $search1['product_is_hot'] = CGlobal::PRODUCT_SELLOFF;
+                $limit1 = CGlobal::number_show_8;
+                $total1 = 0;
+                $productSellOff = Product::getProductForSite($search1, $limit1, 0, $total1);
+
+                //sản phẩm nổi bật
+                $search2['user_shop_id'] = $shop_id;
+                $search2['product_is_hot'] = CGlobal::PRODUCT_HOT;
+                $productHot = Product::getProductForSite($search2, $limit1, 0, $total1);
+            }
+
+            //list danh sách sản phẩm btuong
             $search['user_shop_id'] = $shop_id;
+            $search['product_is_hot'] = CGlobal::PRODUCT_NOMAL;
             $pageNo = (int) Request::get('page_no', 1);
             $limit = CGlobal::number_show_20;
             $offset = ($pageNo - 1) * $limit;
@@ -82,6 +102,8 @@ class SiteShopController extends BaseSiteController
     	}
     	$this->layout->content = View::make('site.ShopSite.ShopHome')
     	->with('product',$product)
+    	->with('productSellOff',$productSellOff)
+    	->with('productHot',$productHot)
     	->with('arrChildCate',$arrChildCate)
     	->with('paging', $paging)
     	->with('user_shop', $user_shop)

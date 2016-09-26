@@ -29,7 +29,8 @@ class CGlobal{
     const number_show_15 = 15;
     const number_show_10 = 10;
     const number_show_5 = 5;
-	
+    const number_show_8 = 8;
+
     const max_num_buy_item_product = 10;
     /**
      * Dinh nghi kich thuoc anh Sản phẩm
