@@ -268,6 +268,7 @@ class ShopController extends BaseShopController
         ));
 
         CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
+        $shopVip = ( isset($this->user_shop->is_shop) && $this->user_shop->is_shop == CGlobal::SHOP_VIP)? 1: 0;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
@@ -275,18 +276,13 @@ class ShopController extends BaseShopController
         $dataSave['product_name'] = addslashes(Request::get('product_name'));
         $dataSave['category_id'] = addslashes(Request::get('category_id'));
         $dataSave['product_selloff'] = addslashes(Request::get('product_selloff'));
-        $dataSave['product_is_hot'] = addslashes(Request::get('product_is_hot',CGlobal::PRODUCT_NOMAL));
         $dataSave['product_status'] = addslashes(Request::get('product_status'));
-
         $dataSave['product_type_price'] = addslashes(Request::get('product_type_price',CGlobal::TYPE_PRICE_NUMBER));
-        $dataSave['is_sale'] = addslashes(Request::get('is_sale',CGlobal::PRODUCT_IS_SALE));
-        $dataSave['product_code'] = addslashes(Request::get('product_code'));
 
         $dataSave['product_sort_desc'] = addslashes(Request::get('product_sort_desc'));
         $dataSave['product_content'] = Request::get('product_content');
         $dataSave['product_order'] = addslashes(Request::get('product_order'));
         $dataSave['quality_input'] = addslashes(Request::get('quality_input'));
-        $dataSave['provider_id'] = addslashes(Request::get('provider_id'));
 
         $dataSave['product_price_sell'] = (int)str_replace('.','',Request::get('product_price_sell'));
         $dataSave['product_price_market'] = (int)str_replace('.','',Request::get('product_price_market'));
@@ -294,6 +290,12 @@ class ShopController extends BaseShopController
 
         $dataSave['product_image'] = $imagePrimary = addslashes(Request::get('image_primary'));
         $dataSave['product_image_hover'] = $imageHover = addslashes(Request::get('product_image_hover'));
+
+        //danh cho shop VIP
+        $dataSave['is_sale'] = ($shopVip == 1)? addslashes(Request::get('is_sale',CGlobal::PRODUCT_IS_SALE)): CGlobal::PRODUCT_IS_SALE;
+        $dataSave['product_code'] = ($shopVip == 1)? addslashes(Request::get('product_code')): '';
+        $dataSave['product_is_hot'] = ($shopVip == 1)? addslashes(Request::get('product_is_hot',CGlobal::PRODUCT_NOMAL)): CGlobal::PRODUCT_NOMAL;
+        $dataSave['provider_id'] = ($shopVip == 1)? addslashes(Request::get('provider_id')): 0;
 
         //check lại xem SP co phai cua Shop nay ko
         $id_hiden = Request::get('id_hiden',0);
@@ -303,7 +305,7 @@ class ShopController extends BaseShopController
         $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
 
         //danh sach NCC cua shop
-        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $arrNCC = ($shopVip == 1)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
 
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
