@@ -11,7 +11,17 @@ class ProductController extends BaseAdminController
     private $permission_delete = 'product_delete';
     private $permission_create = 'product_create';
     private $permission_edit = 'product_edit';
-    private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện', 2 => 'Khóa SP', 3 => 'Mở khóa SP', 4 => 'Set top SP');
+    private $arrStatusUpdate = array(-1 => 'Trạng thái chuyển đổi',
+        CGlobal::status_hide => 'Ẩn',
+        CGlobal::status_show => 'Hiện',
+        2 => 'Khóa SP',
+        3 => 'Mở khóa SP',
+        4 => 'Set top SP',
+        //product_is_hot: loại sản phẩm
+        5 => 'Sản phẩm bình thường',
+        6 => 'Sản phẩm nổi bật',
+        7 => 'Sản phẩm giảm giá',
+        );
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
     private $arrBlock = array(-1 => 'Chọn kiểu khóa SP', CGlobal::PRODUCT_NOT_BLOCK => 'Đang mở', CGlobal::PRODUCT_BLOCK => 'Đang khóa');
     private $arrTypePrice = array(CGlobal::TYPE_PRICE_NUMBER => 'Hiển thị giá bán', CGlobal::TYPE_PRICE_CONTACT => 'Liên hệ với shop');
@@ -279,6 +289,23 @@ class ProductController extends BaseAdminController
                     break;
                 case 4://Set top san phẩm
                     $arrUpdate['time_update'] = time();
+                    break;
+                /**
+                 * product_is_hot
+                 *  5 => 'Sản phẩm bình thường',
+                    6 => 'Sản phẩm nổi bật',
+                    7 => 'Sản phẩm giảm giá',
+                 */
+                case 5:
+                case 6:
+                case 7:
+                    $product_is_hot = CGlobal::PRODUCT_NOMAL;
+                    if($valueInput == 6){
+                        $product_is_hot = CGlobal::PRODUCT_HOT;
+                    }elseif($valueInput == 7){
+                        $product_is_hot = CGlobal::PRODUCT_SELLOFF;
+                    }
+                    $arrUpdate['product_is_hot'] = $product_is_hot;
                     break;
                 default:
                     break;
