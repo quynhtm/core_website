@@ -833,7 +833,7 @@ class GD extends PHPThumb
      * @param  bool         $rawData Whether or not the raw image stream should be output
      * @return \PHPThumb\GD
      */
-    public function show($rawData = false, $desFolder='')
+    public function show($rawData = false, $desFolder='', $watermark=true)
     {
         if($desFolder == ''){
             die('Error Folder Container!');
@@ -862,14 +862,18 @@ class GD extends PHPThumb
                 if ($rawData === false) {
                     header('Content-type: image/gif');
                 }
-                self::addWatermark();
+        		if($watermark===true){
+                	self::addWatermark();
+                }
                 imagegif($this->oldImage, $desFolder);
                 break;
             case 'JPG':
                 if ($rawData === false) {
                     header('Content-type: image/jpeg');
                 }
-                self::addWatermark();
+                if($watermark===true){
+                	self::addWatermark();
+                }
                 imagejpeg($this->oldImage, $desFolder, $this->options['jpegQuality']);
                 break;
             case 'PNG':
@@ -877,7 +881,9 @@ class GD extends PHPThumb
                 if ($rawData === false) {
                     header('Content-type: image/png');
                 }
-                self::addWatermark();
+                if($watermark===true){
+                	self::addWatermark();
+                }
                 imagepng($this->oldImage, $desFolder);
                 break;
             default:
