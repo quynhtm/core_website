@@ -20,7 +20,7 @@
 					<div class="title-category-parent">Danh mục sản phẩm</div>
 					<ul>
 						@foreach($arrChildCate as $key=>$cat)
-						<li><a href="{{URL::route('shop.shopListProduct', array('shop_id'=>$user_shop->shop_id,'cat_id'=>$key, 'name'=>strtolower(FunctionLib::safe_title($cat))))}}" title="{{$cat}}">{{$cat}}</a></li>
+						<li @if($cat_id == $key)class="act"@endif><a href="{{URL::route('shop.shopListProduct', array('shop_id'=>$user_shop->shop_id,'cat_id'=>$key, 'name'=>strtolower(FunctionLib::safe_title($cat))))}}" title="{{$cat}}">{{$cat}}</a></li>
 						@endforeach
 					</ul>
 				</div>

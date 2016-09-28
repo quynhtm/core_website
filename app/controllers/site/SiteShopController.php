@@ -148,7 +148,6 @@ class SiteShopController extends BaseSiteController
         		$meta_img = '';
         		FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
         		
-        		
         	}
             $arrBannerSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_LIST, 0, $shop_id);
         	$arrBannerLeft = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_LEFT, CGlobal::BANNER_PAGE_LIST, 0, 0);
@@ -163,7 +162,9 @@ class SiteShopController extends BaseSiteController
 						    	->with('user_shop', $user_shop)
 						    	->with('arrBannerSlider', $arrBannerSlider)
 						    	->with('arrBannerLeft', $arrBannerLeft)
-        						->with('arrCatShow', $arrCatShow);
+        						->with('arrCatShow', $arrCatShow)
+        						->with('cat_id', $cat_id);
+        			;
         $this->footer();
     }
 
