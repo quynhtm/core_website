@@ -96,6 +96,7 @@ class ShopController extends BaseShopController
             ->with('optionNCC', $optionNCC)
             ->with('arrNCC', $arrNCC)
             ->with('arrIsSale', $this->arrIsSale)
+            ->with('arrTypeProduct', $this->arrTypeProduct)
             ->with('optionCategory', $optionCategory)
             ->with('user', $this->user_shop);
     }

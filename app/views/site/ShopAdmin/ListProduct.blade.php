@@ -104,6 +104,9 @@
                                         Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->product_price_sell) }} đ</b>
                                         @if($item->product_price_input > 0)<br/>Giá nhập: <b>{{ FunctionLib::numberFormat($item->product_price_input) }} đ</b>@endif
                                     @endif
+                                    @if(isset($arrTypeProduct[$item->product_is_hot]) && $item->product_is_hot != CGlobal::PRODUCT_NOMAL)
+                                        <br/><b class="red">{{ $arrTypeProduct[$item->product_is_hot] }}</b>
+                                    @endif
                                 </td>
                                 <td class="text-left text-middle">
                                     @if($item->product_sort_desc != ''){{ FunctionLib::substring($item->product_sort_desc,200) }}@endif

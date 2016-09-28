@@ -86,6 +86,7 @@ class ProductController extends BaseAdminController
             ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('arrShop', $this->arrShop)
+            ->with('arrTypeProduct', $this->arrTypeProduct)
             ->with('optionStatus', $optionStatus)
             ->with('optionType', $optionType)
             ->with('optionBlock', $optionBlock)
