@@ -74,7 +74,7 @@ if(!class_exists('ThumbImg') ){
 		 * @param bool|true $returnPath
 		 * @return string
 		 */
-		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true, $type=1){
+		public static function getImageThumb($folder='', $id=0, $file_name='', $size_image = CGlobal::sizeImage_100, $alt = '', $returnPath = true, $type=1, $watermark=true){
 			if(!preg_match("/.jpg|.jpeg|.JPEG|.JPG|.png|.gif/",strtolower($file_name))) return ' ';
 			$arrSizeThumb = ($type == CGlobal::type_thumb_image_banner)?CGlobal::$arrBannerSizeImage : CGlobal::$arrSizeImage;
 			$width = isset($arrSizeThumb[$size_image])? $arrSizeThumb[$size_image]['w']: CGlobal::sizeImage_100;
@@ -94,7 +94,7 @@ if(!class_exists('ThumbImg') ){
 						}
 						self::saveCustom($imagSource);
 					}
-					$objThumb->show(true, $thumbPath);
+					$objThumb->show(true, $thumbPath, $watermark);
 				}else{
 					$url_img = '';
 				}
