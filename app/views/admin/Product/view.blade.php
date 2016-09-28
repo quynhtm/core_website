@@ -27,6 +27,12 @@
                             </select>
                         </div>
                         <div class="form-group col-lg-3">
+                            <label for="order_status">Loại sản phẩm</label>
+                            <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
+                                {{$optionType}}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
                             <label for="order_status">Kiểu khóa SP</label>
                             <select name="is_block" id="is_block" class="form-control input-sm">
                                 {{$optionBlock}}

@@ -64,6 +64,7 @@ class ProductController extends BaseAdminController
 
         $search['product_name'] = addslashes(Request::get('product_name',''));
         $search['product_status'] = (int)Request::get('product_status',-1);
+        $search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
         $search['category_id'] = (int)Request::get('category_id',-1);
         $search['user_shop_id'] = (int)Request::get('user_shop_id',-1);
         $search['is_block'] = (int)Request::get('is_block',-1);
@@ -74,6 +75,7 @@ class ProductController extends BaseAdminController
         //FunctionLib::debug($search);
 
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['product_status']);
+        $optionType = FunctionLib::getOption($this->arrTypeProduct, $search['product_is_hot']);
         $optionBlock = FunctionLib::getOption($this->arrBlock, $search['is_block']);
         $optionStatusUpdate = FunctionLib::getOption($this->arrStatusUpdate, -1);
         $this->layout->content = View::make('admin.Product.view')
@@ -85,6 +87,7 @@ class ProductController extends BaseAdminController
             ->with('search', $search)
             ->with('arrShop', $this->arrShop)
             ->with('optionStatus', $optionStatus)
+            ->with('optionType', $optionType)
             ->with('optionBlock', $optionBlock)
 
             ->with('optionStatusUpdate', $optionStatusUpdate)
