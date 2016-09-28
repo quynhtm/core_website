@@ -26,6 +26,18 @@
                                 {{$optionStatus}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="category_status">Thuộc page</label>
+                            <select name="banner_page" id="banner_page" class="form-control input-sm">
+                                {{$optionPage}}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="category_status">Kiểu banner</label>
+                            <select name="banner_type" id="banner_type" class="form-control input-sm">
+                                {{$optionTypeBanner}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         <span class="">

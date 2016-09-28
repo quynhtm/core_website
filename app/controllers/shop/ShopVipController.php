@@ -58,6 +58,8 @@ class ShopVipController extends BaseShopController
 
         $search['banner_name'] = addslashes(Request::get('banner_name',''));
         $search['banner_status'] = (int)Request::get('banner_status',-1);
+        $search['banner_page'] = (int)Request::get('banner_page',-1);
+        $search['banner_type'] = (int)Request::get('banner_type',-1);
         $search['banner_shop_id'] = $this->shop_id;
         //$search['field_get'] = 'category_id,news_title,news_status';//cac truong can lay
 
@@ -66,6 +68,8 @@ class ShopVipController extends BaseShopController
 
         //FunctionLib::debug($dataSearch);
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['banner_status']);
+        $optionTypeBanner = FunctionLib::getOption($this->arrTypeBanner, $search['banner_type']);
+        $optionPage = FunctionLib::getOption($this->arrPage, $search['banner_page']);
         $this->layout->content = View::make('site.ShopVip.ListBanner')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -74,6 +78,8 @@ class ShopVipController extends BaseShopController
             ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
+            ->with('optionTypeBanner', $optionTypeBanner)
+            ->with('optionPage', $optionPage)
             ->with('arrStatus', $this->arrStatus)
             ->with('arrTypeBanner', $this->arrTypeBanner)
             ->with('arrPage', $this->arrPage)
