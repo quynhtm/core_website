@@ -45,6 +45,12 @@
                                 {{$optionNCC}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Loại sản phẩm</label>
+                            <select name="product_is_hot" id="product_is_hot" class="form-control input-sm">
+                                {{$optionTypeProduct}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         <span class="">

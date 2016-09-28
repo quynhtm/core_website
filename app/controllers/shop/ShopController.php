@@ -66,6 +66,7 @@ class ShopController extends BaseShopController
         $search['product_status'] = (int)Request::get('product_status',-1);
         $search['category_id'] = (int)Request::get('category_id',-1);
         $search['provider_id'] = (int)Request::get('provider_id',-1);
+        $search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
         $search['user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
@@ -80,6 +81,7 @@ class ShopController extends BaseShopController
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $search['provider_id']);
 
         $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
+        $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct, $search['product_is_hot']);
         $this->layout->content = View::make('site.ShopAdmin.ListProduct')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -90,6 +92,7 @@ class ShopController extends BaseShopController
             ->with('checkAddProduct', $checkAddProduct)
             ->with('error', $this->error)
             ->with('optionStatus', $optionStatus)
+            ->with('optionTypeProduct', $optionTypeProduct)
             ->with('optionNCC', $optionNCC)
             ->with('arrNCC', $arrNCC)
             ->with('arrIsSale', $this->arrIsSale)
