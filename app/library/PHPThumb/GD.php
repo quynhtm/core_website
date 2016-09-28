@@ -862,12 +862,14 @@ class GD extends PHPThumb
                 if ($rawData === false) {
                     header('Content-type: image/gif');
                 }
+                self::addWatermark();
                 imagegif($this->oldImage, $desFolder);
                 break;
             case 'JPG':
                 if ($rawData === false) {
                     header('Content-type: image/jpeg');
                 }
+                self::addWatermark();
                 imagejpeg($this->oldImage, $desFolder, $this->options['jpegQuality']);
                 break;
             case 'PNG':
@@ -875,6 +877,7 @@ class GD extends PHPThumb
                 if ($rawData === false) {
                     header('Content-type: image/png');
                 }
+                self::addWatermark();
                 imagepng($this->oldImage, $desFolder);
                 break;
             default:
@@ -1412,4 +1415,23 @@ class GD extends PHPThumb
             imagetruecolortopalette($this->workingImage, true, 256);
         }
     }
+	public function addWatermark(){
+	    	$stampPath = getcwd().'/assets/frontend/img/watermark.png';
+	    	if(is_file($stampPath)){
+	    		$stamp = imagecreatefrompng($stampPath);
+	    		
+	    		$marge_right = 10;
+	    		$marge_bottom = 10;
+	    		$sx = imagesx($stamp);
+	    		$sy = imagesy($stamp);
+	    		 
+	    		$imgx = imagesx($this->oldImage);
+	    		$imgy = imagesy($this->oldImage);
+	    		$centerX = round($imgx/2);
+	    		$centerY = round($imgy/2);
+	    
+	    		imagecopy($this->oldImage, $stamp, imagesx($this->oldImage) - $sx - $marge_right, imagesy($this->oldImage) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
+	    	}
+	    	return $this->oldImage;
+	 }	
 }
