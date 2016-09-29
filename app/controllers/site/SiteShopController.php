@@ -32,6 +32,9 @@ class SiteShopController extends BaseSiteController
             //seo
             $meta_title = $meta_keywords = $meta_description = $user_shop->shop_name.'-'.CGlobal::web_name;
             $meta_img = '';
+            if($user_shop->shop_logo != '' && $user_shop->is_shop == CGlobal::SHOP_VIP){
+            	$meta_img = ThumbImg::getImageThumb(CGlobal::FOLDER_LOGO_SHOP, $user_shop->shop_id, $user_shop->shop_logo, CGlobal::sizeImage_450, '', true, CGlobal::type_thumb_image_banner, false);
+            }
             FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
 
             //danh muc cua shop
@@ -145,7 +148,9 @@ class SiteShopController extends BaseSiteController
         		$paging = $total > 0 ? Pagging::getNewPager($pageScroll, $pageNo, $total, $limit, $search) : '';
         		
         		$meta_title = $meta_keywords = $meta_description = $arrCatShow->category_name.'-'.CGlobal::web_name;
-        		$meta_img = '';
+	        	if($user_shop->shop_logo != '' && $user_shop->is_shop == CGlobal::SHOP_VIP){
+	            	$meta_img = ThumbImg::getImageThumb(CGlobal::FOLDER_LOGO_SHOP, $user_shop->shop_id, $user_shop->shop_logo, CGlobal::sizeImage_450, '', true, CGlobal::type_thumb_image_banner, false);
+	            }
         		FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description);
         		
         	}

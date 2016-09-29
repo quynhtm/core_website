@@ -81,6 +81,31 @@
                         <textarea class="form-control input-sm" rows="8" name="shop_transfer" id="shop_transfer">@if(isset($data['shop_transfer'])){{$data['shop_transfer']}}@endif</textarea>
                     </div>
                 </div>
+                @if($data['is_shop'] == CGlobal::SHOP_VIP)
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="name" class="control-label"></label>
+                        <div>
+	                        <div class="form-group">
+	                            <a href="javascript:;"class="btn btn-primary" onclick="SITE.uploadOneImages(4);">Upload ảnh logo</a>
+	                            <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['shop_logo'])){{$data['shop_logo']}}@endif">
+	                        </div>
+	                	</div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
+                        <!--hien thi anh-->
+                        <div id="block_img_upload">
+                            @if(isset($data['shop_logo']) && $data['shop_logo']!= '')
+                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_LOGO_SHOP, $data['shop_id'], $data['shop_logo'], CGlobal::sizeImage_300, '', true, CGlobal::type_thumb_image_banner, false)}}">
+                                <div class="clearfix"></div>
+                                <a href="javascript: void(0);" onclick="Common.removeImageItem({{$data['shop_id']}},'{{$data['shop_logo']}}',4);">Xóa ảnh</a>
+                            @endif
+                        </div>
+                </div>
+                @endif
                 <div class="clearfix"></div>
                 </div>
                 <div style="float:left; width: 30%; height: 650px;">
@@ -112,8 +137,9 @@
                     </table>
                     </div>
                 </div>
-
+				<div class="clearfix"></div>
                 <div class="form-group col-sm-12 text-left">
+                    <input type="hidden" id="id_hiden" name="id_hiden" value="{{$id}}"/>
                     <button  class="btn btn-primary"><i class="glyphicon glyphicon-floppy-saved"></i> Lưu lại</button>
                 </div>
                 {{ Form::close() }}
@@ -125,7 +151,7 @@
     </div><!-- /.page-content -->
 </div>
 
-
+ @if($data['is_shop'] == CGlobal::SHOP_VIP)
 <!--Popup upload ảnh-->
 <div class="modal fade" id="sys_PopupUploadImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -136,21 +162,22 @@
             </div>
             <div class="modal-body">
                 <form name="uploadImage" method="post" action="#" enctype="multipart/form-data">
-                    <div class="form_group">
-                        <div id="sys_mulitplefileuploader" class="btn btn-primary">Upload ảnh</div>
-                        <div id="status"></div>
+                <div class="form_group">
+                    <div id="sys_mulitplefileuploader" class="btn btn-primary">Upload ảnh</div>
+                    <div id="status"></div>
 
-                        <div class="clearfix"></div>
-                        <div class="clearfix" style='margin: 5px 10px; width:100%;'>
-                            <div id="div_image"></div>
-                        </div>
+                    <div class="clearfix"></div>
+                    <div class="clearfix" style='margin: 5px 10px; width:100%;'>
+                        <div id="div_image"></div>
                     </div>
-                </form>
+                </div>
+               </form>
             </div>
         </div>
     </div>
 </div>
 <!--Popup upload ảnh-->
+@endif
 <script>
     CKEDITOR.replace(
             'shop_about',

@@ -15,6 +15,24 @@
 	<div class="main-view-post">
 		<div class="wrapp-content-news">
 			<div class="left-category-shop">
+				@if($user_shop->shop_logo != '' && $user_shop->is_shop == CGlobal::SHOP_VIP)
+				<div class="logo-shop">
+					<img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_LOGO_SHOP, $user_shop->shop_id, $user_shop->shop_logo, CGlobal::sizeImage_300, '', true, CGlobal::type_thumb_image_banner, false)}}">
+				</div>
+				@endif
+				<div class="content-right-product shopInfo">
+					<div class="order-number-phone">
+						<p><b>THÔNG TIN SHOP</b></p>
+						<div class="number-phone">
+							<div class="fa fa-phone"></div>
+							<span>{{$user_shop->shop_phone}}</span>
+						</div>
+						<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
+						<p><b>Thông tin liên hệ: </b></p>
+						<p>{{$user_shop->shop_email}}</p>
+						<p>{{$user_shop->shop_address}}</p>
+					</div>
+				</div>
 				@if(!empty($arrChildCate))
 				<div class="wrapp-category-menu">
 					<div class="title-category-parent">Danh mục sản phẩm</div>
@@ -37,19 +55,6 @@
 					<div class="fb-like" data-href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html"
 						data-layout="button_count" data-action="like" 
 						data-show-faces="false" data-share="true">
-					</div>
-				</div>
-				<div class="content-right-product">
-					<div class="order-number-phone">
-						<p><b>Đặt nhanh qua điện thoại</b></p>
-						<div class="number-phone">
-							<div class="fa fa-phone"></div>
-							<span>{{$user_shop->shop_phone}}</span>
-						</div>
-						<p><a href="{{Config::get('config.WEB_ROOT')}}shop-{{$user_shop->shop_id}}/{{FunctionLib::safe_title($user_shop->shop_name)}}.html" title="Shop: {{$user_shop->shop_name}}">{{$user_shop->shop_name}}</a></p>
-						<p><b>Thông tin liên hệ: </b></p>
-						<p>{{$user_shop->shop_email}}</p>
-						<p>{{$user_shop->shop_address}}</p>
 					</div>
 				</div>
 				@if(sizeof($arrBannerLeft) != 0)

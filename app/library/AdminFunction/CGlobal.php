@@ -65,7 +65,7 @@ class CGlobal{
         self::sizeImage_100 =>array('w'=>self::sizeImage_100,'h'=>self::sizeImage_100),
         self::sizeImage_200 =>array('w'=>self::sizeImage_200,'h'=>self::sizeImage_200),
         self::sizeImage_300 =>array('w'=>self::sizeImage_300,'h'=>self::sizeImage_300),
-    	
+    	self::sizeImage_450 =>array('w'=>self::sizeImage_450,'h'=>self::sizeImage_450),
     	self::sizeImage_750 =>array('w'=>self::sizeImage_750,'h'=>self::sizeImage_450),
     	self::sizeImage_1020 =>array('w'=>self::sizeImage_1020,'h'=>0),
     	self::freeSizeImage_300 =>array('w'=>self::freeSizeImage_300,'h'=>0),
@@ -110,7 +110,7 @@ class CGlobal{
     const FOLDER_NEWS = 'news';
     const FOLDER_BANNER = 'banner';
     const FOLDER_PRODUCT = 'product';
-
+    const FOLDER_LOGO_SHOP = 'logo_shop';
     //shop
     const SHOP_FREE = 1;
     const SHOP_NOMAL = 2;

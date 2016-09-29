@@ -3,6 +3,7 @@ $(document).ready(function($){
 	SITE.show_tab_category_home();
 	SITE.hover_img_detail_product();
 	SITE.tab_select_detail_product();
+	SITE.fixed_category_shop();
 });
  var is_shop_vip = 3;
 SITE = {
@@ -40,6 +41,7 @@ SITE = {
 
 					var html= "";
 					html += "<img src='" + dataResult.info.src + "'/>";
+					html +='<br/><a href="javascript: void(0);" onclick="Common.removeImageItem('+dataResult.id_item.trim()+',\''+dataResult.info.name_img.trim()+'\','+type+');">Xóa ảnh</a>';
 					jQuery('#block_img_upload').html(html);
 
 					//thanh cong
@@ -349,4 +351,26 @@ SITE = {
 		    }
 		  });
 	},
+	fixed_category_shop:function(){
+		var menu_site = jQuery('.wrapp-category-menu'),
+			pos_menu  = menu_site.offset();
+		var menu_site1 = jQuery('.shopInfo'),
+			pos_menu1  = menu_site1.offset();
+			shopInfo = jQuery('.shopInfo').height();
+		
+		var box_footer = jQuery('#footer'),
+			pos_footer  = box_footer.offset();
+			footer = jQuery('#footer').height();
+			
+		jQuery(window).scroll(function(){
+			if(jQuery(this).scrollTop() >=  pos_menu1.top + shopInfo + 5){
+				jQuery(".wrapp-category-menu").addClass('fixed');
+			}else if(jQuery(this).scrollTop() <= pos_menu.top){
+				jQuery(".wrapp-category-menu").removeClass('fixed');
+			}
+			if(jQuery(this).scrollTop() + footer >= pos_footer.top){
+				jQuery(".wrapp-category-menu").removeClass('fixed');
+			}
+		});
+	}
 }

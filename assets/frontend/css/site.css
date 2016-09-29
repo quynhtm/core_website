@@ -9,6 +9,7 @@ body {
     font-size: 13px;
     line-height: 1.42857;
 	 background: #f1f1f1;
+	overflow-x: hidden;
 }
 a,
 a:link,
@@ -1848,6 +1849,7 @@ form#txtFormPaymentCart .form-group label {
 }
 .body-list-item .banner-shop-content .bx-wrapper img {
     display: inline-block;
+	height: 245px !important;
 }
 .banner-shop-content .bx-viewport {
     height: 245px !important;
@@ -1923,4 +1925,16 @@ form#txtFormPaymentCart .form-group label {
 }
 .left-category-shop ul li.act a {
     color: #ff7300;
+}
+.logo-shop{
+    margin-bottom: 5px;
+}
+.logo-shop img {
+    width: 100%;
+}
+.wrapp-category-menu.fixed{
+    position: fixed;
+    top: 0;
+    width: 15.4%;
+    z-index: 999;
 }
