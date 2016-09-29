@@ -12,7 +12,7 @@ class CategoryController extends BaseAdminController
     private $permission_create = 'category_create';
     private $permission_edit = 'category_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
-    private $arrCategoryParent = array();
+    private $arrCategoryParent = array(-1 => 'Danh mục cha');
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class CategoryController extends BaseAdminController
             'lib/jquery.uploadfile.js',
         ));
         
-        $this->arrCategoryParent = Category::getAllParentCategoryId();
+        $this->arrCategoryParent = $this->arrCategoryParent + Category::getAllParentCategoryId();
     }
 
     public function view() {
