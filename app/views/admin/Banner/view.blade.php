@@ -62,7 +62,7 @@
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
                                 <td class="text-center text-middle">
-                                    <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_100)}}">
+                                    <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $item->banner_id, $item->banner_image, CGlobal::sizeImage_100, '', true, CGlobal::type_thumb_image_banner, false)}}">
                                 </td>
                                 <td>
                                     [<b>{{ $item->banner_id }}</b>] {{ $item->banner_name }}

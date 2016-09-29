@@ -24,6 +24,19 @@
                 @endif
                 <div class="col-sm-2">
                     <div class="form-group">
+                        <i>Danh mục cha</i>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select name="category_parent_id" id="category_parent_id" class="form-control input-sm">
+                            {{$optionCategoryParent}}
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-2">
+                    <div class="form-group">
                         <i>Tên danh mục</i>
                     </div>
                 </div>

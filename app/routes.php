@@ -87,8 +87,8 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
     /*Quản lý danh mục SP*/
     Route::get('category/view',array('as' => 'admin.category_list','uses' => 'CategoryController@view'));
-    Route::get('category/getCategroy/{id}', array('as' => 'admin.category_edit','uses' => 'CategoryController@getCategroy'))->where('id', '[0-9]+');
-    Route::post('category/postCategory/{id}', array('as' => 'admin.category_edit_post','uses' => 'CategoryController@postCategory'))->where('id', '[0-9]+');
+    Route::get('category/getCategroy/{id?}', array('as' => 'admin.category_edit','uses' => 'CategoryController@getCategroy'))->where('id', '[0-9]+');
+    Route::post('category/postCategory/{id?}', array('as' => 'admin.category_edit_post','uses' => 'CategoryController@postCategory'))->where('id', '[0-9]+');
     Route::post('category/deleteCategory', array('as' => 'admin.deltete_category_post','uses' => 'CategoryController@deleteCategory'));//ajax
     Route::post('category/updateStatusCategory', array('as' => 'admin.status_category_post','uses' => 'CategoryController@updateStatusCategory'));//ajax
 
@@ -97,7 +97,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('userShop/getUserShop/{id?}', array('as' => 'admin.userShop_edit','uses' => 'UserShopController@getUserShop'))->where('id', '[0-9]+');
     Route::post('userShop/postUserShop/{id?}', array('as' => 'admin.userShop_edit_post','uses' => 'UserShopController@postUserShop'))->where('id', '[0-9]+');
     Route::post('userShop/deleteUserShop', array('as' => 'admin.deltete_userShop_post','uses' => 'UserShopController@deleteUserShop'));//ajax
-    Route::get('userShop/loginToShop/{id}', array('as' => 'admin.loginToShop','uses' => 'UserShopController@loginToShop'))->where('id', '[0-9]+');
+    Route::get('userShop/loginToShop/{id?}', array('as' => 'admin.loginToShop','uses' => 'UserShopController@loginToShop'))->where('id', '[0-9]+');
     Route::post('userShop/updateStatusUserShop', array('as' => 'admin.status_userShop_post','uses' => 'UserShopController@updateStatusUserShop'));//ajax
     Route::post('userShop/setIsShop', array('as' => 'admin.setIsShop','uses' => 'UserShopController@setIsShop'));//ajax
 
