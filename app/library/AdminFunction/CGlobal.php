@@ -25,6 +25,7 @@ class CGlobal{
     const num_scroll_page = 2;
     const number_limit_show = 30;
     const number_show_30 = 30;
+    const number_show_40 = 40;
     const number_show_20 = 20;
     const number_show_15 = 15;
     const number_show_10 = 10;

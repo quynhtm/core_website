@@ -23,7 +23,7 @@ class SiteHomeController extends BaseSiteController
          * list SP cua shop VIP
          * */
         $parentCategoryId = (int) Request::get('parent_category_id',0);
-        $limit = CGlobal::number_show_30;
+        $limit = CGlobal::number_show_40;
         $total = $offset = 0;
         if($parentCategoryId > 0){
             $arrChildCate = Category::getAllChildCategoryIdByParentId($parentCategoryId);
@@ -104,7 +104,7 @@ class SiteHomeController extends BaseSiteController
 
         $product = array();
         $pageNo = (int) Request::get('page_no', 1);
-        $limit = CGlobal::number_show_20;
+        $limit = CGlobal::number_show_40;
         $offset = ($pageNo - 1) * $limit;
         $total = 0;
         $pageScroll = CGlobal::num_scroll_page;
@@ -189,7 +189,7 @@ class SiteHomeController extends BaseSiteController
                 }
                 $search['category_name'] = FunctionLib::safe_title($categoryParrentCat->category_name);
                 $pageNo = (int) Request::get('page_no', 1);
-                $limit = CGlobal::number_show_20;
+                $limit = CGlobal::number_show_40;
                 $offset = ($pageNo - 1) * $limit;
                 $total = 0;
                 $pageScroll = CGlobal::num_scroll_page;

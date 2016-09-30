@@ -41,25 +41,25 @@ class SiteShopController extends BaseSiteController
             $arrChildCate = UserShop::getCategoryShopById($user_shop->shop_id);
 
             //dung cho shop VIP
+            $totalProductHot = 0;
             if($user_shop->is_shop == CGlobal::SHOP_VIP){
                 //sản phẩm giảm giá
                 $search1['user_shop_id'] = $shop_id;
                 $search1['product_is_hot'] = CGlobal::PRODUCT_SELLOFF;
                 $limit1 = CGlobal::number_show_8;
-                $total1 = 0;
-                $productSellOff = Product::getProductForSite($search1, $limit1, 0, $total1);
+                $productSellOff = Product::getProductForSite($search1, $limit1, 0, $totalProductHot);
 
                 //sản phẩm nổi bật
                 $search2['user_shop_id'] = $shop_id;
                 $search2['product_is_hot'] = CGlobal::PRODUCT_HOT;
-                $productHot = Product::getProductForSite($search2, $limit1, 0, $total1);
+                $productHot = Product::getProductForSite($search2, $limit1, 0, $totalProductHot);
             }
 
             //list danh sách sản phẩm btuong
             $search['user_shop_id'] = $shop_id;
             $search['product_is_hot'] = CGlobal::PRODUCT_NOMAL;
             $pageNo = (int) Request::get('page_no', 1);
-            $limit = CGlobal::number_show_20;
+            $limit = ($user_shop->is_shop == CGlobal::SHOP_VIP && $totalProductHot > 15) ? CGlobal::number_show_20 : CGlobal::number_show_40;
             $offset = ($pageNo - 1) * $limit;
             $total = 0;
             $pageScroll = CGlobal::num_scroll_page;
@@ -140,7 +140,7 @@ class SiteShopController extends BaseSiteController
         		$search['user_shop_id'] = $shop_id;
         		$search['category_id'] = $cat_id;
         		$pageNo = (int) Request::get('page_no', 1);
-        		$limit = CGlobal::number_show_20;
+        		$limit = CGlobal::number_show_40;
         		$offset = ($pageNo - 1) * $limit;
         		$total = 0;
         		$pageScroll = CGlobal::num_scroll_page;
