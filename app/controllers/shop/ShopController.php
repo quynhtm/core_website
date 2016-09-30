@@ -528,6 +528,11 @@ class ShopController extends BaseShopController
 
         $search['order_id'] = addslashes(Request::get('order_id',''));
         $search['order_product_name'] = addslashes(Request::get('order_product_name',''));
+        $search['order_customer_name'] = addslashes(Request::get('order_customer_name',''));
+        $search['order_customer_phone'] = addslashes(Request::get('order_customer_phone',''));
+        $search['order_customer_email'] = addslashes(Request::get('order_customer_email',''));
+        $search['time_start_time'] = addslashes(Request::get('time_start_time',''));
+        $search['time_end_time'] = addslashes(Request::get('time_end_time',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
         $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay

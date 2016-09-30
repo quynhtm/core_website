@@ -47,6 +47,21 @@ class Order extends Eloquent
             if (isset($dataSearch['order_product_name']) && $dataSearch['order_product_name'] != '') {
                 $query->where('order_product_name','LIKE', '%' . $dataSearch['order_product_name'] . '%');
             }
+            if (isset($dataSearch['order_customer_name']) && $dataSearch['order_customer_name'] != '') {
+                $query->where('order_customer_name','LIKE', '%' . $dataSearch['order_customer_name'] . '%');
+            }
+            if (isset($dataSearch['order_customer_phone']) && $dataSearch['order_customer_phone'] != '') {
+                $query->where('order_customer_phone','LIKE', '%' . $dataSearch['order_customer_phone'] . '%');
+            }
+            if (isset($dataSearch['order_customer_email']) && $dataSearch['order_customer_email'] != '') {
+                $query->where('order_customer_email','LIKE', '%' . $dataSearch['order_customer_email'] . '%');
+            }
+            if (isset($dataSearch['time_start_time']) && $dataSearch['time_start_time'] != '') {
+                $query->where('order_time','>=' . strtotime($dataSearch['time_start_time']));
+            }
+            if (isset($dataSearch['time_end_time']) && $dataSearch['time_end_time'] != '') {
+                $query->where('order_time','<=' . strtotime($dataSearch['time_end_time']));
+            }
             if (isset($dataSearch['order_status']) && $dataSearch['order_status'] != -1) {
                 $query->where('order_status', $dataSearch['order_status']);
             }

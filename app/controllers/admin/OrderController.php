@@ -25,7 +25,11 @@ class OrderController extends BaseAdminController
 
         //Include javascript.
         FunctionLib::link_js(array(
-            'lib/jquery.uploadfile.js',
+            //'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
+            //'frontend/js/site.js',
+            //'js/common.js',
         ));
     }
 
@@ -42,22 +46,24 @@ class OrderController extends BaseAdminController
 
         $search['order_id'] = addslashes(Request::get('order_id',''));
         $search['order_product_name'] = addslashes(Request::get('order_product_name',''));
+        $search['order_customer_name'] = addslashes(Request::get('order_customer_name',''));
+        $search['order_customer_phone'] = addslashes(Request::get('order_customer_phone',''));
+        $search['order_customer_email'] = addslashes(Request::get('order_customer_email',''));
+        $search['time_start_time'] = addslashes(Request::get('time_start_time',''));
+        $search['time_end_time'] = addslashes(Request::get('time_end_time',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
-        $search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
+        ///$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
-        $dataSearch = Order::searchByCondition($search, $limit, $offset,$total);
+        $data = Order::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
 
-        if(!empty($dataSearch)){
-            foreach($dataSearch as $k=> $val){
-                $data[] = array('order_id'=>$val->order_id,
-                    'order_product_name'=>$val->order_product_name,
-                    'order_status'=>$val->order_status,
-                );
-            }
-        }
-        //FunctionLib::debug($dataSearch);
-        $optionStatus = FunctionLib::getOption($this->arrStatus, $search['order_status']);
+        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
+            CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
+            CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
+            CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
+            CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
+        $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['order_status']);
+
         $this->layout->content = View::make('admin.Order.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -66,7 +72,7 @@ class OrderController extends BaseAdminController
             ->with('data', $data)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus)
+            ->with('arrStatus', $arrStatusOrder)
 
             ->with('is_root', $this->is_root)//dùng common
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common

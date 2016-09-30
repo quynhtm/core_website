@@ -17,12 +17,39 @@
                     {{ Form::open(array('method' => 'GET', 'role'=>'form')) }}
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
-                            <label for="category_name">Tên đơn hàng</label>
-                            <input type="text" class="form-control input-sm" id="category_name" name="category_name" placeholder="Tên danh mục" @if(isset($search['category_name']) && $search['category_name'] != '')value="{{$search['category_name']}}"@endif>
+                            <label for="order_product_name">Tên sản phẩm</label>
+                            <input type="text" class="form-control input-sm" id="order_product_name" name="order_product_name" placeholder="Tên sản phẩm" @if(isset($search['order_product_name']))value="{{$search['order_product_name']}}"@endif>
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="order_customer_name">Tên khách hàng</label>
+                            <input type="text" class="form-control input-sm" id="order_customer_name" name="order_customer_name" placeholder="Tên khách hàng" @if(isset($search['order_customer_name']))value="{{$search['order_customer_name']}}"@endif>
                         </div>
                         <div class="form-group col-lg-3">
-                            <label for="category_status">Trạng thái</label>
-                            <select name="category_status" id="category_status" class="form-control input-sm">
+                            <label for="order_customer_phone">SĐT khách hàng</label>
+                            <input type="text" class="form-control input-sm" id="order_customer_phone" name="order_customer_phone" placeholder="SĐT khách hàng" @if(isset($search['order_customer_phone']))value="{{$search['order_customer_phone']}}"@endif>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="order_customer_email">Email khách hàng</label>
+                            <input type="text" class="form-control input-sm" id="order_customer_email" name="order_customer_email" placeholder="Email khách hàng" @if(isset($search['order_customer_email']))value="{{$search['order_customer_email']}}"@endif>
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="name" class="control-label">Đặt hàng từ ngày </label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="time_start_time" name="time_start_time"  data-date-format="dd-mm-yyyy" value="@if(isset($data['time_start_time'])){{date('d-m-Y',$data['time_start_time'])}}@endif">
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="name" class="control-label">đến ngày</label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="time_end_time" name="time_end_time"  data-date-format="dd-mm-yyyy" value="@if(isset($data['time_end_time'])){{date('d-m-Y',$data['time_end_time'])}}@endif">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-3">
+                            <label for="order_status">Trạng thái</label>
+                            <select name="order_status" id="order_status" class="form-control input-sm">
                                 {{$optionStatus}}
                             </select>
                         </div>
@@ -43,40 +70,44 @@
                     {{ Form::close() }}
                 </div>
                 @if(sizeof($data) > 0)
-                    <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> danh mục @endif </div>
+                    <div class="span clearfix"> @if($total >0) Có tổng số <b>{{$total}}</b> đơn hàng @endif </div>
                     <br>
                     <table class="table table-bordered table-hover">
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
-                            <th width="65%">Tên đơn hàng</th>
-                            <th width="15%" class="text-center">Trạng thái</th>
-                            <th width="15%" class="text-center">Thao tác</th>
+                            <th width="25%">Thông tin sản phẩm</th>
+                            <th width="30%" class="text-left">Thông tin khách hàng</th>
+                            <th width="20%" class="text-left">Ghi chú của khách</th>
+                            <th width="10%" class="text-center">Ngày đặt</th>
+                            <th width="10%" class="text-center">Tình trạng ĐH</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
-                                <td class="text-center">{{ $stt + $key+1 }}</td>
+                                <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
                                 <td>
-                                    [<b>{{ $item['order_id'] }}</b>] {{ $item['order_product_name'] }}
+                                    <a href="{{FunctionLib::buildLinkDetailProduct($item->order_product_id, $item->order_product_name, 'danh mục sản phẩm')}}" target="_blank" title="Chi tiết sản phẩm">
+                                        [<b>{{ $item->order_id }}</b>] {{ $item->order_product_name }}
+                                    </a>
+                                    <br/>Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->order_product_price_sell) }} đ</b>
+                                    <br/>SL: <b>{{ $item->order_quality_buy }}</b> sản phẩm
                                 </td>
-                                <td class="text-center">
-                                    @if($item['order_status'] == 1)
-                                        <a href="javascript:void(0);" title="Hiện"><i class="fa fa-check fa-2x"></i></a>
-                                    @else
-                                        <a href="javascript:void(0);" style="color: red" title="Ẩn"><i class="fa fa-close fa-2x"></i></a>
-                                    @endif
+                                <td>
+                                    @if($item->order_customer_name != '')Tên KH: <b>{{ $item->order_customer_name }}</b><br/>@endif
+                                    @if($item->order_customer_phone != '')Phone: {{ $item->order_customer_phone }}<br/>@endif
+                                    @if($item->order_customer_email != '')Email: {{ $item->order_customer_email }}<br/>@endif
+                                    @if($item->order_customer_address != '')Địa chỉ: {{ $item->order_customer_address }}<br/>@endif
                                 </td>
-                                <td class="text-center">
-                                    @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.order_edit',array('id' => $item['order_id']))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
-                                    @endif
-                                    @if($is_root || $permission_full ==1 || $permission_delete == 1)
-                                       &nbsp;&nbsp;&nbsp;
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['order_id']}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
-                                    @endif
-                                    <span class="img_loading" id="img_loading_{{$item['order_id']}}"></span>
+                                <td>
+                                    @if($item->order_customer_note != ''){{ $item->order_customer_note }}@endif
+                                </td>
+                                <td class="text-center text-middle">{{ date ('d-m-Y H:i:s',$item->order_time) }}</td>
+                                <td class="text-center text-middle">
+                                    @if(isset($arrStatus[$item->order_status])){{$arrStatus[$item->order_status]}}@else --- @endif
+                                            <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                    <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>-->
                                 </td>
                             </tr>
                         @endforeach
@@ -86,9 +117,9 @@
                         {{$paging}}
                     </div>
                 @else
-                    <div class="alert">
-                        Không có dữ liệu
-                    </div>
+                <div class="alert">
+                    Không có dữ liệu
+                </div>
                 @endif
                             <!-- PAGE CONTENT ENDS -->
             </div>
@@ -97,3 +128,10 @@
         <!-- /.row -->
     </div><!-- /.page-content -->
 </div>
+
+<script>
+    $(document).ready(function(){
+        var checkin = $('#time_start_time').datepicker({ });
+        var checkout = $('#time_end_time').datepicker({ });
+    });
+</script>
