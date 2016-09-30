@@ -48,16 +48,29 @@ class ShopActionController extends BaseShopController
     }
 
     public function shopInfor(){
-        FunctionLib::link_js(array(
-            'lib/ckeditor/ckeditor.js',
+       
+        //Include style.
+        FunctionLib::link_css(array(
+       		'lib/upload/cssUpload.css',
         ));
+        
+        //Include javascript.
+        FunctionLib::link_js(array(
+	        'lib/upload/jquery.uploadfile.js',
+	        'lib/ckeditor/ckeditor.js',
+	        'frontend/js/site.js',
+	        'js/common.js',
+        ));
+        
+        
         $data = array();
         if($this->user_shop) {
             $shop_id = $this->user_shop->shop_id;
             //$item = UserShop::find($id);
             $item = UserShop::getByID($shop_id);
             if($item){
-                $data['shop_name'] = $item->shop_name;
+            	$data['shop_id'] = $item->shop_id;
+            	$data['shop_name'] = $item->shop_name;
                 $data['user_shop'] = $item->user_shop;
                 $data['shop_phone'] = $item->shop_phone;
                 $data['shop_email'] = $item->shop_email;
@@ -68,6 +81,7 @@ class ShopActionController extends BaseShopController
                 $data['shop_province'] = $item->shop_province;
                 $data['is_shop'] = $item->is_shop;
                 $data['shop_status'] = $item->shop_status;
+                $data['shop_logo'] = $item->shop_logo;
             }
         }
         $arrCategory = Category::buildTreeCategory();
@@ -97,7 +111,9 @@ class ShopActionController extends BaseShopController
         $dataSave['shop_about'] = addslashes(Request::get('shop_about'));
         $dataSave['shop_province'] = addslashes(Request::get('shop_province'));
         $dataSave['shop_transfer'] = addslashes(Request::get('shop_transfer'));
-
+        $dataSave['shop_logo'] = addslashes(Request::get('image_primary'));
+        
+        
         $arrCateShop = Request::get('checkCategoryShop',array());
         $dataSave['shop_category'] = !empty($arrCateShop)? join(',',$arrCateShop): '';
 

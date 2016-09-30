@@ -45,3 +45,7 @@
 .no-skin .sidebar-shortcuts img {
     width: 85%;
 }
+#block_img_upload {
+    display: inline-block;
+    margin-bottom: 10px;
+}

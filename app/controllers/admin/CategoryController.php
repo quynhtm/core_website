@@ -12,6 +12,7 @@ class CategoryController extends BaseAdminController
     private $permission_create = 'category_create';
     private $permission_edit = 'category_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+    private $arrCategoryParent = array(-1 => 'Danh mục cha');
 
     public function __construct()
     {
@@ -26,6 +27,8 @@ class CategoryController extends BaseAdminController
         FunctionLib::link_js(array(
             'lib/jquery.uploadfile.js',
         ));
+        
+        $this->arrCategoryParent = $this->arrCategoryParent + Category::getAllParentCategoryId();
     }
 
     public function view() {
@@ -128,11 +131,14 @@ class CategoryController extends BaseAdminController
         }
 
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['category_status'])? $data['category_status'] : -1);
+        $optionCategoryParent = FunctionLib::getOption($this->arrCategoryParent, isset($data['category_parent_id'])? $data['category_parent_id'] : -1);
+        
         $this->layout->content = View::make('admin.Category.add')
             ->with('id', $id)
             ->with('data', $data)
             ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus);
+            ->with('arrStatus', $this->arrStatus)
+        	->with('optionCategoryParent', $optionCategoryParent);
     }
 
     public function postCategory($id=0) {
@@ -148,6 +154,7 @@ class CategoryController extends BaseAdminController
         $dataSave['category_content_front'] = (int)Request::get('category_content_front', 0);
         $dataSave['category_content_front_order'] = (int)Request::get('category_content_front_order', 0);
         $dataSave['category_order'] = (int)Request::get('category_order', 0);
+        $dataSave['category_parent_id'] = (int)Request::get('category_parent_id', 0);
 
         $file = Input::file('image');
         if($file){
@@ -174,12 +181,14 @@ class CategoryController extends BaseAdminController
             }
         }
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['category_status'])? $dataSave['category_status'] : -1);
+        $optionCategoryParent = FunctionLib::getOption($this->arrCategoryParent, isset($dataSave['category_parent_id'])? $dataSave['category_parent_id'] : -1);
         $this->layout->content =  View::make('admin.Category.add')
             ->with('id', $id)
             ->with('data', $dataSave)
             ->with('optionStatus', $optionStatus)
             ->with('error', $this->error)
-            ->with('arrStatus', $this->arrStatus);
+            ->with('arrStatus', $this->arrStatus)
+        	->with('optionCategoryParent', $optionCategoryParent);
     }
 
     private function valid($data=array()) {

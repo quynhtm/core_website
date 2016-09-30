@@ -16,7 +16,7 @@ class UserShop extends Eloquent
         'shop_up_product',//khi nhập sản phẩm cái này +1
         'shop_number_share',//khi share sẽ công number_limit_product + 1
         'number_limit_product',//thay đổi khi share url shop +1
-        'shop_email', 'shop_status', 'shop_created');
+        'shop_email', 'shop_status', 'shop_created', 'shop_logo');
 
     public static function getByID($id) {
         $shop = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_USER_SHOP_ID.$id) : array();

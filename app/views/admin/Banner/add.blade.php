@@ -173,7 +173,7 @@
                         <!--hien thi anh-->
                         <div id="block_img_upload">
                             @if(isset($data['banner_image']) && $data['banner_image']!= '')
-                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $data['banner_id'], $data['banner_image'], CGlobal::sizeImage_300)}}">
+                                <img src="{{ ThumbImg::getImageThumb(CGlobal::FOLDER_BANNER, $data['banner_id'], $data['banner_image'], CGlobal::sizeImage_300, '', true, CGlobal::type_thumb_image_banner, false)}}">
                                 <div class="clearfix"></div>
                                 <a href="javascript: void(0);" onclick="Common.removeImageItem({{$data['banner_id']}},'{{$data['banner_image']}}',3);">Xóa ảnh</a>
                             @endif

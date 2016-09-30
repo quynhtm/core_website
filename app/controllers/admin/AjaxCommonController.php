@@ -25,6 +25,10 @@ class AjaxCommonController extends BaseSiteController
                 $this->sizeImageShowUpload = CGlobal::sizeImage_300;
                 $aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_BANNER, $type);
                 break;
+            case 4://img logo shop
+                	$this->sizeImageShowUpload = CGlobal::sizeImage_300;
+                	$aryData = $this->uploadImageToFolder($dataImg, $id_hiden, CGlobal::FOLDER_LOGO_SHOP, $type);
+                	break;
             default:
                 break;
         }
@@ -93,7 +97,7 @@ class AjaxCommonController extends BaseSiteController
                 if ($file_name != '' && empty($aryError)) {
                     $tmpImg['name_img'] = $file_name;
                     $tmpImg['id_key'] = rand(10000, 99999);
-                    $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, $this->sizeImageShowUpload);
+                    $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, $this->sizeImageShowUpload, '', true, CGlobal::type_thumb_image_banner, false);
                     $tmpImg['src'] = $url_thumb;
 
                     //cap nhat DB de quan ly cac file anh
@@ -128,6 +132,22 @@ class AjaxCommonController extends BaseSiteController
                             Banner::updateData($item_id,array('banner_image'=>$file_name));//cap nhat anh moi
                         }
                     }
+                    if($type == 4){//anh logo shop
+                    	$logo = UserShop::getByID($item_id);
+                    	if($logo){
+                    		if($logo->shop_logo != ''){//xoa anh cũ
+                    			//xoa anh upload
+                    			FunctionLib::deleteFileUpload($logo->shop_logo,$item_id,CGlobal::FOLDER_LOGO_SHOP);
+                    			//xoa anh thumb
+                    			$arrSizeThumb = CGlobal::$arrBannerSizeImage;
+                    			foreach($arrSizeThumb as $k=>$size){
+                    				$sizeThumb = $size['w'].'x'.$size['h'];
+                    				FunctionLib::deleteFileThumb($logo->shop_logo,$item_id,CGlobal::FOLDER_LOGO_SHOP,$sizeThumb);
+                    			}
+                    		}
+                    		UserShop::updateData($item_id,array('shop_logo'=>$file_name));//cap nhat anh moi
+                    	}
+                    }
                 }
                 $aryData['intIsOK'] = 1;
                 $aryData['id_item'] = $item_id;
@@ -149,7 +169,7 @@ class AjaxCommonController extends BaseSiteController
             switch( $type ){
                 case 1://img news
                     break;
-                case 3 ://xóa ?nh banner
+                case 3 ://xoa anh banner
                     $banner = Banner::getBannerByID($item_id);
                     if($banner){
                         if($banner->banner_image != '' && strcmp(trim($banner->banner_image),$nameImage) == 0){//xoa anh c?
@@ -165,6 +185,22 @@ class AjaxCommonController extends BaseSiteController
                         }
                     }
                     break;
+                    case 4 ://xoa logo shop
+                    	$logo = UserShop::getByID($item_id);
+                    	if($logo){
+                    		if($logo->shop_logo != '' && strcmp(trim($logo->shop_logo),$nameImage) == 0){//xoa anh cu
+                    			//xoa anh upload
+                    			FunctionLib::deleteFileUpload($logo->shop_logo,$item_id,CGlobal::FOLDER_LOGO_SHOP);
+                    			//xóa anh thumb
+                    			$arrSizeThumb = CGlobal::$arrBannerSizeImage;
+                    			foreach($arrSizeThumb as $k=>$size){
+                    				$sizeThumb = $size['w'].'x'.$size['h'];
+                    				FunctionLib::deleteFileThumb($logo->shop_logo,$item_id,CGlobal::FOLDER_LOGO_SHOP,$sizeThumb);
+                    			}
+                    			$aryData['intIsOK'] = 1;
+                    		}
+                    	}
+                    	break;
                 default:
                     break;
             }
@@ -212,10 +248,10 @@ class AjaxCommonController extends BaseSiteController
         }
     }
     function sendEmail(){
-        // test g?i email
-        Mail::send('emails.test_email', array('firstname'=>'Tr??ng M?nh Qu?nh'), function($message){
-            $message->to('nguyenduypt86@gmail.com', 'Tr??ng M?nh Qu?nh')
-                ->subject('Welcome xem g?i mail có ???c không!');
+        // Test gửi mail
+        Mail::send('emails.test_email', array('firstname'=>'Trương Manh Quỳnh'), function($message){
+            $message->to('nguyenduypt86@gmail.com', 'Trương Manh Quỳnh')
+                ->subject('Test gửi mail!');
         });
 
         die();
