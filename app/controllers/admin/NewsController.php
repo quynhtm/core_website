@@ -131,7 +131,7 @@ class NewsController extends BaseAdminController
         }
         $dataSave['news_title'] = addslashes(Request::get('news_title'));
         $dataSave['news_desc_sort'] = addslashes(Request::get('news_desc_sort'));
-        $dataSave['news_content'] = addslashes(Request::get('news_content'));
+        $dataSave['news_content'] = Request::get('news_content');
         $dataSave['news_type'] = addslashes(Request::get('news_type'));
         $dataSave['news_category'] = addslashes(Request::get('news_category'));
         $dataSave['news_status'] = (int)Request::get('news_status', 0);
