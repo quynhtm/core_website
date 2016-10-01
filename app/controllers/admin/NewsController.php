@@ -136,7 +136,7 @@ class NewsController extends BaseAdminController
         $dataSave['news_category'] = addslashes(Request::get('news_category'));
         $dataSave['news_status'] = (int)Request::get('news_status', 0);
         $id_hiden = (int)Request::get('id_hiden', 0);
-
+		
         //ảnh chính
         $image_primary = addslashes(Request::get('image_primary'));
         //ảnh khác
@@ -169,6 +169,7 @@ class NewsController extends BaseAdminController
                 }
             }
         }
+        
         $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['category_status'])? $dataSave['category_status'] : -1);
         $this->layout->content =  View::make('admin.News.add')
             ->with('id', $id)

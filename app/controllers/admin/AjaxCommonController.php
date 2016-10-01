@@ -248,7 +248,8 @@ class AjaxCommonController extends BaseSiteController
             		foreach($arrImg as $k=>$val){
             			$url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id_hiden, $val, CGlobal::sizeImage_100);
             			$url_thumb_content = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id_hiden, $val, CGlobal::sizeImage_600);
-            			$arrViewImgOther[] = array('news_title'=>$inforNews->news_title,
+            			$arrViewImgOther[] = array(
+            					'post_title'=>$inforNews->news_title,
             					'src_img_other'=>$url_thumb,
             					'src_thumb_content'=>$url_thumb_content);
             		}
