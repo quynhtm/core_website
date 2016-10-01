@@ -49,3 +49,12 @@
     display: inline-block;
     margin-bottom: 10px;
 }
+.block_img_upload > img {
+    height: 80px !important;
+    width: auto !important;
+}
+.clear {
+    clear: both;
+    display: inline-block;
+    width: 100%;
+}

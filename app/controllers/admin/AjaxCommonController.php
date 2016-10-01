@@ -99,8 +99,18 @@ class AjaxCommonController extends BaseSiteController
                     $tmpImg['id_key'] = rand(10000, 99999);
                     $url_thumb = ThumbImg::getImageThumb($folder, $item_id, $file_name, $this->sizeImageShowUpload, '', true, CGlobal::type_thumb_image_banner, false);
                     $tmpImg['src'] = $url_thumb;
-
-                    //cap nhat DB de quan ly cac file anh
+					//Cap nhat DB de quan ly file anh new
+                    if($type == 1 ){
+                    	//img news
+                   		$inforNews = News::getNewByID($item_id);
+                    	if($inforNews){
+                    		$arrImagOther = unserialize($inforNews->news_image_other);
+                    		$arrImagOther[] = $file_name;//gan anh vua upload
+                    		$proUpdate['news_image_other'] = serialize($arrImagOther);
+                    		News::updateData($item_id,$proUpdate);
+                    	}
+                    }
+                    //cap nhat DB de quan ly cac file anh product
                     if( $type == 2 ){
                         //img Product
                         $user_shop = UserShop::user_login();
@@ -159,16 +169,32 @@ class AjaxCommonController extends BaseSiteController
     }
 
     public function removeImageCommon(){
-        $item_id = (int)Request::get('item_id',0);
+        $item_id = (int)Request::get('id',0);
         $type = (int)Request::get('type',1);
         $nameImage = trim(Request::get('nameImage',''));
-
+        $key = trim(Request::get('key',''));
         $aryData = array();
         $aryData['intIsOK'] = -1;
-        if($item_id > 0 && $nameImage != ''){
+       	
+        if($item_id > 0 && $nameImage != '' && $key != ''){
             switch( $type ){
-                case 1://img news
-                    break;
+                case 1:
+                	//img news
+                	$inforNews = News::getNewByID($item_id);
+                	if(sizeof($inforNews) >0){
+                		$arrImagOther = unserialize($inforNews->news_image_other);
+                		if(!empty($arrImagOther)){
+                			foreach($arrImagOther as $k=>$v){
+                				if($v == $nameImage){
+                					unset($arrImagOther[$k]);
+                				}
+                			}
+                		}
+                		$proUpdate['news_image_other'] = serialize($arrImagOther);
+                		News::updateData($item_id,$proUpdate);
+                	}
+                	$aryData['intIsOK'] = 1;
+                	break;
                 case 3 ://xoa anh banner
                     $banner = Banner::getBannerByID($item_id);
                     if($banner){
@@ -207,45 +233,35 @@ class AjaxCommonController extends BaseSiteController
         }
         return Response::json($aryData);
     }
-
-    function get_image_insert_content(){
-        $id_hiden = FunctionLib::getIntParam('id_hiden', 0);
-        $type = FunctionLib::getIntParam('type', 1);
-        $aryData = array();
-        $aryData['intIsOK'] = -1;
-        $aryData['msg'] = "Data not exists!";
-        if($id_hiden > 0){
-            switch( $type ){
-                case 1://img news
-                    $aryData = $this->getImgContent($id_hiden, TABLE_NEWS, FOLDER_NEWS, 'news_image_other', self::$primary_key_news);
-                    break;
-                case 2 ://img product
-                    $aryData = $this->getImgContent($id_hiden, TABLE_PRODUCT, FOLDER_PRODUCT, 'product_image_other', self::$primary_key_product);
-                    break;
-                default:
-                    break;
-            }
+	
+    //getImgContent
+    function getImageContentCommon(){
+    	 $id_hiden = Request::get('id', 0);
+         $type = Request::get('type', 1);
+         $data = array('isIntOk' => 0);
+         $arrImg = $arrViewImgOther = array();
+    	 switch($type){
+            case 1://img news
+            	$inforNews = News::getNewByID($id_hiden);
+            	if(sizeof($inforNews) >0){
+            		$arrImg = unserialize($inforNews->news_image_other);
+            		foreach($arrImg as $k=>$val){
+            			$url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id_hiden, $val, CGlobal::sizeImage_100);
+            			$url_thumb_content = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id_hiden, $val, CGlobal::sizeImage_600);
+            			$arrViewImgOther[] = array('news_title'=>$inforNews->news_title,
+            					'src_img_other'=>$url_thumb,
+            					'src_thumb_content'=>$url_thumb_content);
+            		}
+            		
+            	}
+            	$data['dataImage'] = $arrViewImgOther;
+            	$data['isIntOk'] = 1;
+            	return Response::json($data);
+            	break;
+            default:
+                break;
         }
-        echo json_encode($aryData);
-        exit();
-    }
-    function getImgContent($id_hiden, $table_action, $folder, $field_img_other='', $primary_key){
-        global $base_url;
-
-        $listImageTempOther = DB::getItemById($table_action, $primary_key, array($field_img_other), $id_hiden);
-        if(!empty($listImageTempOther)){
-            $aryTempImages = ($listImageTempOther[0]->$field_img_other !='')? unserialize($listImageTempOther[0]->$field_img_other): array();
-
-            $aryData = array();
-            if(!empty($aryTempImages)){
-                foreach($aryTempImages as $k => $item){
-                    $aryData['item'][$k] = FunctionLib::getThumbImage($item,$id_hiden,$folder,700,700);
-                }
-            }
-            $aryData['intIsOK'] = 1;
-            $aryData['msg'] = "Data exists!";
-            return $aryData;
-        }
+        return Response::json($data);
     }
     function sendEmail(){
         // Test gửi mail

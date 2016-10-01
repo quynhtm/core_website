@@ -249,5 +249,168 @@ var Admin = {
                 }
             });
         }
-    }
+    },
+    //UPLOAD
+    uploadOneImages: function(type) {
+		jQuery('#sys_PopupUploadImg').modal('show');
+		jQuery('.ajax-upload-dragdrop').remove();
+		var id_hiden = document.getElementById('id_hiden').value;
+
+		var settings = {
+			url: WEB_ROOT + '/ajax/uploadImage',
+			method: "POST",
+			allowedTypes:"jpg,png,jpeg",
+			fileName: "multipleFile",
+			formData: {id: id_hiden,type: type},
+			multiple: false,//up 1 anh
+			onSubmit:function(){
+				jQuery( "#sys_show_button_upload").hide();
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
+			},
+			onSuccess:function(files,xhr,data){
+				dataResult = JSON.parse(xhr);
+				if(dataResult.intIsOK === 1){
+					//gan lai id item cho id hiden: dung cho them moi, sua item
+					jQuery('#id_hiden').val(dataResult.id_item);
+					jQuery('#image_primary').val(dataResult.info.name_img);
+					jQuery( "#sys_show_button_upload").show();
+
+					var html= "";
+					html += "<img src='" + dataResult.info.src + "'/>";
+					html +='<br/><a href="javascript: void(0);" onclick="Common.removeImageItem('+dataResult.id_item.trim()+',\''+dataResult.info.name_img.trim()+'\','+type+');">Xóa ảnh</a>';
+					jQuery('#block_img_upload').html(html);
+
+					//thanh cong
+					jQuery("#status").html("<font color='green'>Upload is success</font>");
+					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
+					setTimeout( "jQuery('#status').hide();",1000 );
+					setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
+				}
+			},
+			onError: function(files,status,errMsg){
+				jQuery("#status").html("<font color='red'>Upload is Failed</font>");
+			}
+		}
+		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
+	},
+	insertImageContent: function(type) {
+		var id = document.getElementById('id_hiden').value;
+		$('#div_image_insert_content').html('');
+		$.ajax({
+			type: "post",
+			url: WEB_ROOT+'/ajax/getImageContentCommon',
+			data: {id : id, type : type},
+			dataType: 'json',
+			success: function(res) {
+				$('#img_loading_' + id).hide();
+				if(res.isIntOk == 1){
+					jQuery('#sys_PopupImgOtherInsertContent').modal('show');
+					var rs = res.dataImage;
+					var html = '';
+					for( k in rs ) {
+						var clickInsert = "<a href='javascript:void(0);' class='img_item' onclick='insertImgContent(\"" + rs[k].src_thumb_content + "\",\"" + rs[k].product_name + "\")'>";
+						html +='<span class="float_left image_insert_content" style="margin:5px;">';
+						html += clickInsert;
+						html += "<img src='" + rs[k].src_img_other + "' width='100' height='100'/>";
+						html +="</a>";
+						html +="</span>";
+					}
+					$('#div_image_insert_content').append(html);
+				}else{
+					alert('Không thể thực hiện thao tác.');
+				}
+			}
+		});
+	},
+	//UPLOAD MULTIPLE IMG
+	uploadMultipleImages: function(type) {
+		jQuery('#sys_PopupUploadImg').modal('show');
+		jQuery('.ajax-upload-dragdrop').remove();
+		var id_hiden = document.getElementById('id_hiden').value;
+
+		var settings = {
+			url: WEB_ROOT + '/ajax/uploadImage',
+			method: "POST",
+			allowedTypes:"jpg,png,jpeg",
+			fileName: "multipleFile",
+			formData: {id: id_hiden,type: type},
+			multiple: (id_hiden==0)? false: true,
+			onSubmit:function(){
+				jQuery( "#sys_show_button_upload").hide();
+				jQuery("#status").html("<font color='green'>Đang upload...</font>");
+			},
+			onSuccess:function(files,xhr,data){
+				dataResult = JSON.parse(xhr);
+				if(dataResult.intIsOK === 1){
+					//gan lai id item cho id hiden: dung cho them moi, sua item
+					jQuery('#id_hiden').val(dataResult.id_item);
+					jQuery( "#sys_show_button_upload").show();
+
+					//add vao list sản sản phẩm khác
+					var checked_img_pro = "<br/><input type='radio' id='checked_image_"+dataResult.info.id_key+"' name='checked_image_' value='"+dataResult.info.id_key+"' onclick='Admin.checkedImage(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='checked_image_"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh đại diện</label><br/>";
+					if( type == 2){
+						var checked_img_pro = checked_img_pro + "<br/><input type='radio' id='checked_image_hover"+dataResult.info.id_key+"' name='checked_image_hover' value='"+dataResult.info.id_key+"' onclick='Admin.checkedImageHover(\""+dataResult.info.name_img+"\",\"" + dataResult.info.id_key + "\")'><label for='checked_image_hover"+dataResult.info.id_key+"' style='font-weight:normal'>Ảnh hover</label><br/>";
+					}
+					var delete_img = "<a href='javascript:void(0);' id='sys_delete_img_other_" + dataResult.info.id_key + "' onclick='Admin.removeImage(\""+dataResult.info.id_key+"\",\""+dataResult.id_item+"\",\""+dataResult.info.name_img+"\", "+type+")' >Xóa ảnh</a>";
+					var html= "<li id='sys_div_img_other_" + dataResult.info.id_key + "'>";
+					html += "<div class='block_img_upload' >";
+					html += "<img height='100' width='100' src='" + dataResult.info.src + "'/>";
+					html += "<input type='hidden' id='img_other_" + dataResult.info.id_key + "' class='sys_img_other' name='img_other[]' value='" + dataResult.info.name_img + "'/>";
+					html += checked_img_pro;
+					html += delete_img;
+					html +="</div></li>";
+					jQuery('#sys_drag_sort').append(html);
+
+					//thanh cong
+					jQuery("#status").html("<font color='green'>Upload is success</font>");
+					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
+					setTimeout( "jQuery('#status').hide();",1000 );
+					setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
+				}
+			},
+			onError: function(files,status,errMsg){
+				jQuery("#status").html("<font color='red'>Upload is Failed</font>");
+			}
+		}
+		jQuery("#sys_mulitplefileuploader").uploadFile(settings);
+	},
+	checkedImage: function(nameImage,key){
+		if (confirm('Bạn có muốn chọn ảnh này làm ảnh đại diện?')) {
+			jQuery('#image_primary').val(nameImage);
+		}
+	},
+	checkedImageHover: function(nameImage,key){
+		jQuery('#image_primary_hover').val(nameImage);
+	},
+	removeImage: function(key,id,nameImage, type){
+		//product
+		if(jQuery("#image_primary_hover").length ){
+			var img_hover = jQuery("#image_primary_hover").val();
+			if(img_hover == nameImage){
+				jQuery("#image_primary_hover").val('');
+			}
+		}
+		if(jQuery("#image_primary").length ){
+			var image_primary = jQuery("#image_primary").val();
+			if(image_primary == nameImage){
+				jQuery("#image_primary").val('');
+			}
+		}
+		if (confirm('Bạn có chắc chắn xóa ảnh này?')) {
+			jQuery.ajax({
+				type: "POST",
+				url: WEB_ROOT+'/ajax/removeImageCommon',
+				data: {key : key, id : id, nameImage : nameImage, type},
+				responseType: 'json',
+				success: function(data) {
+					if(data.intIsOK === 1){
+						jQuery('#sys_div_img_other_'+key).remove();
+					}else{
+						jQuery('#sys_msg_return').html(data.msg);
+					}
+				}
+			});
+		}
+		jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
+	},
 }

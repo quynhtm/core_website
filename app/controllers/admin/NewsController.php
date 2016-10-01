@@ -58,7 +58,7 @@ class NewsController extends BaseAdminController
 
         if(!empty($dataSearch)){
             foreach($dataSearch as $k=> $val){
-                $url_image = ($val->news_image != '')?ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $val->news_id, $val->news_image, CGlobal::sizeImage_100):'';
+                $url_image = ($val->news_image != '')?ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $val->news_id, $val->news_image, CGlobal::sizeImage_100,  '', true, CGlobal::type_thumb_image_banner, false):'';
                 $data[] = array('news_id'=>$val->news_id,
                     'news_title'=>$val->news_title,
                     'news_status'=>$val->news_status,
@@ -101,7 +101,7 @@ class NewsController extends BaseAdminController
                     $arrImagOther = unserialize($data->news_image_other);
                     if(sizeof($arrImagOther) > 0){
                         foreach($arrImagOther as $k=>$val){
-                            $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id, $val, CGlobal::sizeImage_100);
+                            $url_thumb = ThumbImg::getImageThumb(CGlobal::FOLDER_NEWS, $id, $val, CGlobal::sizeImage_100,  '', true, CGlobal::type_thumb_image_banner, false);
                             $arrViewImgOther[] = array('img_other'=>$val,'src_img_other'=>$url_thumb);
                         }
                     }

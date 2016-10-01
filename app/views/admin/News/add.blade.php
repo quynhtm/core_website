@@ -83,8 +83,9 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                          <a href="javascript:;"class="btn btn-primary" onclick="Common.uploadMultipleImages(1);">Upload ảnh </a>
-                          <input name="image_primary" type="hidden" id="image_primary" value="<?php if(isset($arrItem->news_image)){ echo $arrItem->news_image; } ?>">
+                    	 <a href="javascript:;"class="btn btn-primary" onclick="Admin.uploadMultipleImages(1);">Upload ảnh</a>
+                         <input name="image_primary" type="hidden" id="image_primary" value="@if(isset($data['news_image'])){{$data['news_image']}}@endif">
+                         <input name="news_image_hover" type="hidden" id="image_primary_hover" value="@if(isset($data['news_image_hover'])){{$data['news_image_hover']}}@endif">
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -96,25 +97,22 @@
                             @foreach ($arrViewImgOther as $key => $imgNew)
                                 <li id="sys_div_img_other_{{$key}}" style="margin: 1px!important;">
                                     <div class='block_img_upload'>
-                                        <img src="{{$imgNew['src_img_other']}}">
-                                        <input type="hidden" id="sys_img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
-                                        <div class='clear'></div>
-                                        <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
-                                        <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
-
-                                        <input type="radio" id="chẹcked_image_hover_{{$key}}" name="chẹcked_image_hover" value="{{$key}}" @if(isset($imageHotPro) && $imageHotPro == $imgNew['img_other'] ) checked="checked" @endif onclick="Common.checkedImageHover('{{$imgNew['img_other']}}','{{$key}}');">
-                                        <label for="chẹcked_image_hover_{{$key}}" style='font-weight:normal'>Ảnh hover</label>
-
-                                        <a href="javascript:void(0);" onclick="Common.removeImage({{$key}});">Xóa ảnh</a>
-                                        <span style="display: none"><b>{{$key}}</b></span>
-                                    </div>
+                                            <img src="{{$imgNew['src_img_other']}}" height='100' width='100'>
+                                            <input type="hidden" id="img_other_{{$key}}" name="img_other[]" value="{{$imgNew['img_other']}}" class="sys_img_other">
+                                            <div class='clear'></div>
+                                            <input type="radio" id="chẹcked_image_{{$key}}" name="chẹcked_image" value="{{$key}}" @if(isset($imagePrimary) && $imagePrimary == $imgNew['img_other'] ) checked="checked" @endif onclick="Admin.checkedImage('{{$imgNew['img_other']}}','{{$key}}');">
+                                            <label for="chẹcked_image_{{$key}}" style='font-weight:normal'>Ảnh đại diện</label>
+                                            <div class="clearfix"></div>
+                                            <a href="javascript:void(0);" onclick="Admin.removeImage({{$key}},{{$id}},'{{$imgNew['img_other']}}', 1);">Xóa ảnh</a>
+                                            <span style="display: none"><b>{{$key}}</b></span>
+                                        </div>
                                 </li>
                                 @if(isset($imageOrigin) && $imageOrigin == $imgNew['img_other'] )
-                                    <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="{{$key}}">
+                                    <input type="hidden" id="news_images_key_upload" name="news_images_key_upload" value="{{$key}}">
                                 @endif
                             @endforeach
                         @else
-                            <input type="hidden" id="products_images_key_upload" name="products_images_key_upload" value="-1">
+                            <input type="hidden" id="news_images_key_upload" name="news_images_key_upload" value="-1">
                         @endif
                     </ul>
 
@@ -149,6 +147,7 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
+                        <div class="controls"><button type="button" onclick="Admin.insertImageContent(1)" class="btn btn-primary">Chèn ảnh vào nội dung</button></div>
                         <textarea class="form-control input-sm"  name="news_content">@if(isset($data['news_content'])){{$data['news_content']}}@endif</textarea>
                     </div>
                 </div>
@@ -194,7 +193,28 @@
     </div>
 </div>
 <!--Popup upload ảnh-->
-
+<!--Popup anh khac de chen vao noi dung bai viet-->
+<div class="modal fade" id="sys_PopupImgOtherInsertContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Click ảnh để chèn vào nội dung</h4>
+            </div>
+            <div class="modal-body">
+                <form name="uploadImage" method="post" action="#" enctype="multipart/form-data">
+                    <div class="form_group">
+                        <div class="clearfix"></div>
+                        <div class="clearfix" style='margin: 5px 10px; width:100%;'>
+                            <div id="div_image_insert_content" class="float_left"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- chen anh vào noi dung-->
 <script>
     CKEDITOR.replace('news_content', {height:800});
     /*CKEDITOR.replace(
@@ -217,7 +237,7 @@
         var data = jQuery("#sys_drag_sort li div span").map(function() { return jQuery(this).children().html(); }).get();
         jQuery("input[name=list1SortOrder]").val(data.join(","));
     };
-    function insertImgContent(src){
-        CKEDITOR.instances.news_content.insertHtml('<img src="'+src+'"/>');
+    function insertImgContent(src, name_news){
+        CKEDITOR.instances.news_content.insertHtml('<img src="'+src+'" alt="'+name_news+'"/>');
     }
 </script>
