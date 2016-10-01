@@ -308,7 +308,7 @@ var Admin = {
 					var rs = res.dataImage;
 					var html = '';
 					for( k in rs ) {
-						var clickInsert = "<a href='javascript:void(0);' class='img_item' onclick='insertImgContent(\"" + rs[k].src_thumb_content + "\",\"" + rs[k].product_name + "\")'>";
+						var clickInsert = "<a href='javascript:void(0);' class='img_item' onclick='insertImgContent(\"" + rs[k].src_thumb_content + "\",\"" + rs[k].post_title + "\")'>";
 						html +='<span class="float_left image_insert_content" style="margin:5px;">';
 						html += clickInsert;
 						html += "<img src='" + rs[k].src_img_other + "' width='100' height='100'/>";
