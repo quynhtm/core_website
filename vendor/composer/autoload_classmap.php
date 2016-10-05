@@ -93,6 +93,7 @@ return array(
     'DatabaseSeeder' => $baseDir . '/app/database/seeds/DatabaseSeeder.php',
     'Datamatrix' => $baseDir . '/app/library/PDF/datamatrix.php',
     'EigenvalueDecomposition' => $baseDir . '/app/library/class_phpexcel/PHPExcel/Shared/JAMA/EigenvalueDecomposition.php',
+    'EmailContent' => $baseDir . '/app/models/EmailContent.php',
     'Encoding_Map' => $vendorDir . '/phenx/php-font-lib/classes/Encoding_Map.php',
     'File_ANSI' => $vendorDir . '/phpseclib/phpseclib/phpseclib/File/ANSI.php',
     'File_ASN1' => $vendorDir . '/phpseclib/phpseclib/phpseclib/File/ASN1.php',
