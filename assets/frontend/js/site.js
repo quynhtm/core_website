@@ -352,25 +352,27 @@ SITE = {
 		  });
 	},
 	fixed_category_shop:function(){
-		var menu_site = jQuery('.wrapp-category-menu'),
-			pos_menu  = menu_site.offset();
-		var menu_site1 = jQuery('.shopInfo'),
-			pos_menu1  = menu_site1.offset();
-			shopInfo = jQuery('.shopInfo').height();
-		
-		var box_footer = jQuery('#footer'),
-			pos_footer  = box_footer.offset();
-			footer = jQuery('#footer').height();
+		if(jQuery('body').hasClass('wrapp-category-menu')){
+			var menu_site = jQuery('.wrapp-category-menu'),
+				pos_menu  = menu_site.offset();
+			var menu_site1 = jQuery('.shopInfo'),
+				pos_menu1  = menu_site1.offset();
+				shopInfo = jQuery('.shopInfo').height();
 			
-		jQuery(window).scroll(function(){
-			if(jQuery(this).scrollTop() >=  pos_menu1.top + shopInfo + 5){
-				jQuery(".wrapp-category-menu").addClass('fixed');
-			}else if(jQuery(this).scrollTop() <= pos_menu.top){
-				jQuery(".wrapp-category-menu").removeClass('fixed');
-			}
-			if(jQuery(this).scrollTop() + footer >= pos_footer.top){
-				jQuery(".wrapp-category-menu").removeClass('fixed');
-			}
-		});
+			var box_footer = jQuery('#footer'),
+				pos_footer  = box_footer.offset();
+				footer = jQuery('#footer').height();
+				
+			jQuery(window).scroll(function(){
+				if(jQuery(this).scrollTop() >=  pos_menu1.top + shopInfo + 5){
+					jQuery(".wrapp-category-menu").addClass('fixed');
+				}else if(jQuery(this).scrollTop() <= pos_menu.top){
+					jQuery(".wrapp-category-menu").removeClass('fixed');
+				}
+				if(jQuery(this).scrollTop() + footer >= pos_footer.top){
+					jQuery(".wrapp-category-menu").removeClass('fixed');
+				}
+			});
+		}
 	}
 }

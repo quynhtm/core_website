@@ -18,15 +18,16 @@ class CustomerEmail extends Eloquent
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = CustomerEmail::where('customer_id','>',0);
-            if (isset($dataSearch['customer_alias']) && $dataSearch['customer_alias'] != '') {
-                $query->where('customer_alias','LIKE', '%' . $dataSearch['customer_alias'] . '%');
-            }
             if (isset($dataSearch['customer_full_name']) && $dataSearch['customer_full_name'] != '') {
                 $query->where('customer_full_name','LIKE', '%' . $dataSearch['customer_full_name'] . '%');
             }
             if (isset($dataSearch['customer_master_email']) && $dataSearch['customer_master_email'] != '') {
                 $query->where('customer_master_email','LIKE', '%' . $dataSearch['customer_master_email'] . '%');
             }
+            if (isset($dataSearch['customer_phone']) && $dataSearch['customer_phone'] != '') {
+            	$query->where('customer_phone','LIKE', '%' . $dataSearch['customer_phone'] . '%');
+            }
+            
             $total = $query->count();
             $query->orderBy('customer_id', 'desc');
 
@@ -44,16 +45,47 @@ class CustomerEmail extends Eloquent
         }
     }
 
-
-
-
-    /**
-     * @desc: Update Data.
-     * @param $id
-     * @param $status
-     * @return bool
-     * @throws PDOException
-     */
+    public static function getByID($id) {
+    	$new = CustomerEmail::where('customer_id', $id)->first();
+    	return $new;
+    }
+	
+    public static function addData($dataInput){
+    	try {
+    		DB::connection()->getPdo()->beginTransaction();
+    		$data = new CustomerEmail();
+    		if (is_array($dataInput) && count($dataInput) > 0) {
+    			foreach ($dataInput as $k => $v) {
+    				$data->$k = $v;
+    			}
+    		}
+    		if ($data->save()) {
+    			DB::connection()->getPdo()->commit();
+    			return $data->customer_id;
+    		}
+    		DB::connection()->getPdo()->commit();
+    		return false;
+    	} catch (PDOException $e) {
+    		DB::connection()->getPdo()->rollBack();
+    		throw new PDOException();
+    	}
+    }
+    
+    public static function updateData($id, $dataInput){
+    	try {
+    		DB::connection()->getPdo()->beginTransaction();
+    		$dataSave = CustomerEmail::find($id);
+    		if(!empty($dataInput)){
+    			$dataSave->update($dataInput);
+    		}
+    		DB::connection()->getPdo()->commit();
+    		return true;
+    	} catch (PDOException $e) {
+    		DB::connection()->getPdo()->rollBack();
+    		throw new PDOException();
+    	}
+    }
+    
     public static function deleteData($id){
         try {
             DB::connection()->getPdo()->beginTransaction();
