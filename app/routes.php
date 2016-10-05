@@ -141,5 +141,19 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('order/getOrder/{id}', array('as' => 'admin.order_edit','uses' => 'OrderController@getOrder'))->where('id', '[0-9]+');
     Route::post('order/postOrder/{id}', array('as' => 'admin.order_edit_post','uses' => 'OrderController@postOrder'))->where('id', '[0-9]+');
     Route::post('order/deleteItem', array('as' => 'admin.deltete_order_post','uses' => 'OrderController@deleteItem'));
-
+    
+    /*Quan Ly danh sach khach hang va gui mail*/
+    Route::get('customeremail/view',array('as' => 'admin.customeremail_list','uses' => 'CustomerEmailController@view'));
+    Route::get('customeremail/edit/{id?}', array('as' => 'admin.customeremail_edit','uses' => 'CustomerEmailController@getCustomerEmail'))->where('id', '[0-9]+');
+    Route::post('customeremail/edit/{id?}', array('as' => 'admin.customeremail_edit_post','uses' => 'CustomerEmailController@postCustomerEmail'))->where('id', '[0-9]+');
+    Route::post('customeremail/deleteCustomerEmail', array('as' => 'admin.deltete_customeremail_post','uses' => 'CustomerEmailController@deleteCustomerEmail'));
+    Route::post('customeremail/deleteMultiCustomerEmail', array('as' => 'admin.deleteMultiCustomerEmail','uses' => 'CustomerEmailController@deleteMultiCustomerEmail'));//ajax
+	
+    /*Quan Ly danh sach nha cung cap va gui mail*/
+    Route::get('provideremail/view',array('as' => 'admin.provideremail_list','uses' => 'ProviderEmailController@view'));
+    Route::get('provideremail/edit/{id?}', array('as' => 'admin.provideremail_edit','uses' => 'ProviderEmailController@getProviderEmail'))->where('id', '[0-9]+');
+    Route::post('provideremail/edit/{id?}', array('as' => 'admin.provideremail_edit_post','uses' => 'ProviderEmailController@postProviderEmail'))->where('id', '[0-9]+');
+    Route::post('provideremail/deleteProviderEmail', array('as' => 'admin.deltete_provideremail_post','uses' => 'ProviderEmailController@deleteProviderEmail'));
+    Route::post('provideremail/deleteMultiProviderEmail', array('as' => 'admin.deleteMultiProviderEmail','uses' => 'ProviderEmailController@deleteMultiProviderEmail'));//ajax
+    
 });

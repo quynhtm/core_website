@@ -10,7 +10,7 @@ class ProviderEmail extends Eloquent
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('provider_name', 'provider_phone', 'provider_email',
+    protected $fillable = array('provider_id, provider_name', 'provider_phone', 'provider_email',
         'provider_address', 'provider_fax', 'provider_type',
         'provider_code', 'provider_usual_repon', 'provider_usual_stand',
         'provider_description', 'provider_bank_name', 'provider_bank_account',
@@ -34,7 +34,7 @@ class ProviderEmail extends Eloquent
             }
 
             $total = $query->count();
-            $query->orderBy('provider_id', 'desc');
+            $query->orderBy('provider_id', 'asc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
@@ -49,7 +49,47 @@ class ProviderEmail extends Eloquent
             throw new PDOException();
         }
     }
-
+	
+    public static function getByID($id) {
+    	$new = ProviderEmail::where('provider_id', $id)->first();
+    	return $new;
+    }
+    
+    public static function addData($dataInput){
+    	try {
+    		DB::connection()->getPdo()->beginTransaction();
+    		$data = new ProviderEmail();
+    		if (is_array($dataInput) && count($dataInput) > 0) {
+    			foreach ($dataInput as $k => $v) {
+    				$data->$k = $v;
+    			}
+    		}
+    		if ($data->save()) {
+    			DB::connection()->getPdo()->commit();
+    			return $data->provider_id;
+    		}
+    		DB::connection()->getPdo()->commit();
+    		return false;
+    	} catch (PDOException $e) {
+    		DB::connection()->getPdo()->rollBack();
+    		throw new PDOException();
+    	}
+    }
+    
+    public static function updateData($id, $dataInput){
+    	try {
+    		DB::connection()->getPdo()->beginTransaction();
+    		$dataSave = ProviderEmail::find($id);
+    		if(!empty($dataInput)){
+    			$dataSave->update($dataInput);
+    		}
+    		DB::connection()->getPdo()->commit();
+    		return true;
+    	} catch (PDOException $e) {
+    		DB::connection()->getPdo()->rollBack();
+    		throw new PDOException();
+    	}
+    }
 
     /**
      * @desc: Update Data.

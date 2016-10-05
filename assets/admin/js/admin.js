@@ -16,6 +16,10 @@ var Admin = {
                 url_ajax = 'deleteBanner';
             }else if(type == 4){
                 url_ajax = 'deleteProvider';
+            }else if(type == 5){
+                url_ajax = 'deleteCustomerEmail';
+            }else if(type == 6){
+                url_ajax = 'deleteProviderEmail';
             }
             $.ajax({
                 type: "post",
@@ -50,6 +54,10 @@ var Admin = {
         var url_ajax = '';
         if(type == 1){ //xoa sản phẩm
             url_ajax = 'deleteMultiProduct';
+        }else if(type == 5){
+        	 url_ajax = 'deleteMultiCustomerEmail';
+        }else if(type == 6){
+        	 url_ajax = 'deleteMultiProviderEmail';
         }
         if(url_ajax != ''){
             if(confirm('Bạn có muốn thực hiện thao tác này?')) {
