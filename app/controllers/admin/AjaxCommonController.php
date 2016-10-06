@@ -276,35 +276,37 @@ class AjaxCommonController extends BaseSiteController
 	function getProductFromOtherSite(){
 		$result = array();
 		
-		$pageNo = (int) Request::get('page_no',1);
-		$limit = CGlobal::number_limit_show;
-		$offset = ($pageNo - 1) * $limit;
-		$search = $data = array();
-		$total = 0;
-		
 		$search['product_status'] = (int)Request::get('product_status',-1);
 		$search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
 		$search['user_shop_id'] = (int)Request::get('user_shop_id',-1);
 		$search['field_get'] = '';
+		$limit = (int) Request::get('product_limit', 0);
 		
-		$data = Product::searchByCondition($search, $limit, $offset,$total);
-		$paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
-		if(sizeof($data) > 0){
-			foreach($data as $v){
-				$item = array(
-					'product_id'=>$v->product_id,
-					'product_id'=>$v->product_id,
-					'product_name'=>$v->product_name,
-					'category_name'=>$v->category_name,
-					'category_id'=>$v->category_id,
-					'product_image'=>ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $v->product_id, $v->product_image, CGlobal::sizeImage_450, '', true, CGlobal::type_thumb_image_banner, false),
-					'product_price_sell'=>$v->product_price_sell,
-					'product_price_market'=>$v->product_price_market,
-					'product_type_price'=>$v->product_type_price,
-					'product_selloff'=>$v->product_selloff,
-					'product_link'=>FunctionLib::buildLinkDetailProduct($v->product_id, $v->product_name, $v->category_name),
-				);
-				array_push($result, $item);
+		if($search['user_shop_id'] > 0 && $limit > 0){
+			
+			$pageNo = 1;
+			$offset = $total = 0;
+			$search = $data = array();
+			
+			$data = Product::searchByCondition($search, $limit, $offset, $total);
+			$paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
+			if(sizeof($data) > 0){
+				foreach($data as $v){
+					$item = array(
+						'product_id'=>$v->product_id,
+						'product_id'=>$v->product_id,
+						'product_name'=>$v->product_name,
+						'category_name'=>$v->category_name,
+						'category_id'=>$v->category_id,
+						'product_image'=>ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $v->product_id, $v->product_image, CGlobal::sizeImage_450, '', true, CGlobal::type_thumb_image_banner, false),
+						'product_price_sell'=>$v->product_price_sell,
+						'product_price_market'=>$v->product_price_market,
+						'product_type_price'=>$v->product_type_price,
+						'product_selloff'=>$v->product_selloff,
+						'product_link'=>FunctionLib::buildLinkDetailProduct($v->product_id, $v->product_name, $v->category_name),
+					);
+					array_push($result, $item);
+				}
 			}
 		}
 		return json_encode($result);
