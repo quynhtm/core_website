@@ -32,6 +32,7 @@ class ProviderEmailController extends BaseAdminController
         $search['provider_email'] = (int)Request::get('provider_email', '');
         $search['provider_name'] = addslashes(Request::get('provider_name',''));
         $search['provider_phone'] = addslashes(Request::get('provider_phone',''));
+        $search['field_get'] = '';
         
         $dataSearch = ProviderEmail::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
