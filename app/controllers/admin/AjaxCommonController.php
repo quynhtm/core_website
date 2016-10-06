@@ -273,12 +273,17 @@ class AjaxCommonController extends BaseSiteController
 
         die();
     }
-	function getProductFromOtherSite(){
+function getProductFromOtherSite(){
 		$result = array();
 		
+		header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+        header('Access-Control-Max-Age: 1000');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+		header("Content-Type: text/html; charset=utf-8");
+		
 		$search['product_status'] = (int)Request::get('product_status',-1);
-		$search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
-		$search['user_shop_id'] = (int)Request::get('user_shop_id',-1);
+		$search['user_shop_id'] = (int)Request::get('user_shop_id', -1);
 		$search['field_get'] = '';
 		$limit = (int) Request::get('product_limit', 0);
 		
