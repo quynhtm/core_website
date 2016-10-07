@@ -127,29 +127,7 @@
                         </a>
                     </div>
                     @endif
-                    
-                    @if($is_root || in_array('customerEmail_full',$aryPermission))
-                    <div class="col-sm-6 col-md-3">
-                        <a class="quick-btn a_control" href="{{URL::route('admin.customeremail_list')}}">
-                            <div class="thumbnail text-center">
-                                <i class="fa fa-child fa-5x"></i><br/>
-                                <span>Quản lý khách hàng - Email</span>
-                            </div>
-                        </a>
-                    </div>
-                    @endif
-                    
-                    @if($is_root || in_array('providerEmail_full',$aryPermission))
-                    <div class="col-sm-6 col-md-3">
-                        <a class="quick-btn a_control" href="{{URL::route('admin.provideremail_list')}}">
-                            <div class="thumbnail text-center">
-                                <i class="fa fa-child fa-5x"></i><br/>
-                                <span>Quản lý NCC - Email</span>
-                            </div>
-                        </a>
-                    </div>
-                    @endif
-
+                        
                     @if($is_root || in_array('providerEmail_full',$aryPermission))
                     <div class="col-sm-6 col-md-3">
                         <a class="quick-btn a_control" href="{{URL::route('admin.contentSendEmail_list')}}">
