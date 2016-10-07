@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-10-05 17:08:24
+Date: 2016-10-07 14:51:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `web_mail_send_content`;
 CREATE TABLE `web_mail_send_content` (
   `mail_send_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mail_send_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `mail_send_title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `mail_send_content` text CHARACTER SET utf8,
   `mail_send_str_product_id` tinytext COMMENT 'chuỗi id sản phẩm:1,2,3,4',
   `mail_send_link` varchar(255) CHARACTER SET utf8 DEFAULT NULL,

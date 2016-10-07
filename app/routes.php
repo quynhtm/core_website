@@ -106,7 +106,11 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
     //Tools quản lý các page khác nhau
     Route::get('toolsCommon/viewShopShare',array('as' => 'admin.viewShopShare','uses' => 'ToolsCommonController@viewShopShare'));
-    Route::get('toolsCommon/viewCustomerEmail',array('as' => 'admin.viewCustomerEmail','uses' => 'ToolsCommonController@viewCustomerEmail'));
+    //quan ly noi dung gui email
+    Route::get('toolsCommon/viewContentSendEmail',array('as' => 'admin.contentSendEmail_list','uses' => 'ToolsCommonController@viewContentSendEmail'));
+    Route::get('toolsCommon/edit/{id?}', array('as' => 'admin.contentSendEmail_edit','uses' => 'ToolsCommonController@getContentSendEmail'))->where('id', '[0-9]+');
+    Route::post('toolsCommon/edit/{id?}', array('as' => 'admin.contentSendEmail_edit','uses' => 'ToolsCommonController@postContentSendEmail'))->where('id', '[0-9]+');
+    Route::post('toolsCommon/deleteContentSendEmail', array('as' => 'admin.deltete_provider','uses' => 'ToolsCommonController@deleteContentSendEmail'));//ajax
 
     //Quản lý nhà cung cấp
     Route::get('provider/view',array('as' => 'admin.provider_list','uses' => 'ProviderController@view'));

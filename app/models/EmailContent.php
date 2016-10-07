@@ -10,85 +10,38 @@ class EmailContent extends Eloquent
     public $timestamps = false;
 
     //cac truong trong DB
-    protected $fillable = array('provider_id','provider_name', 'provider_phone','provider_address','provider_email',
-        'provider_shop_id','provider_shop_name','provider_status',
-        'provider_note', 'provider_time_creater');
+    protected $fillable = array('mail_send_id','mail_send_title', 'mail_send_content','mail_send_str_product_id','mail_send_link',
+        'mail_send_img','mail_send_status','mail_send_time_creater',
+        'mail_send_time_update');
 
     public static function getByID($id) {
-        $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_PROVIDER_ID.$id) : array();
-        if (sizeof($provider) == 0) {
-            $provider = Provider::where('provider_id', $id)->first();
-            if($provider && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_PROVIDER_ID.$id, $provider, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
-            }
-        }
-        return $provider;
+        $emailContent = EmailContent::where('mail_send_id', $id)->first();
+        return $emailContent;
     }
 
-    public static function getListProviderByShopId($provider_shop_id) {
-        $provider = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$provider_shop_id) : array();
-        if (sizeof($provider) == 0) {
-            $data = Provider::where('provider_shop_id', $provider_shop_id)->get();
-            if(count($data) > 0){
-                foreach($data as $itm) {
-                    $provider[$itm->provider_id] = $itm->provider_name;
-                }
-                if($provider && Memcache::CACHE_ON){
-                    Cache::put(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$provider_shop_id, $provider, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
-                }
-                return $provider;
-            }
-        }
-        return (count($provider)>0)? $provider : array();
-    }
-
-    public static function getProviderShopByID($id,$shop_id) {
-        $provider = Provider::getByID($id);
-        if (sizeof($provider) > 0) {
-            if($provider->provider_shop_id == $shop_id){
-                return $provider;
-            }
-        }
-        return array();
-    }
-
-    public static function getProviderAll() {
-        $data = (Memcache::CACHE_ON)? Cache::get(Memcache::CACHE_ALL_PROVIDER) : array();
-        if (sizeof($data) == 0) {
-            $shop = Provider::where('provider_id', '>', 0)->get();
-            foreach($shop as $itm) {
-                $data[$itm['provider_id']] = $itm['provider_name'];
-            }
-            if(!empty($data) && Memcache::CACHE_ON){
-                Cache::put(Memcache::CACHE_ALL_PROVIDER, $data, Memcache::CACHE_TIME_TO_LIVE_ONE_MONTH);
-            }
+    public static function getEmailContentAll() {
+        $data = array();
+        $emailContent = EmailContent::where('mail_send_id', '>', 0)->get();
+        foreach($emailContent as $itm) {
+            $data[$itm['mail_send_id']] = $itm['mail_send_title'];
         }
         return $data;
     }
 
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
-            $query = Provider::where('provider_id','>',0);
-            if (isset($dataSearch['provider_name']) && $dataSearch['provider_name'] != '') {
-                $query->where('provider_name','LIKE', '%' . $dataSearch['provider_name'] . '%');
+            $query = EmailContent::where('mail_send_id','>',0);
+            if (isset($dataSearch['mail_send_title']) && $dataSearch['mail_send_title'] != '') {
+                $query->where('mail_send_title','LIKE', '%' . $dataSearch['mail_send_title'] . '%');
             }
-            if (isset($dataSearch['provider_phone']) && $dataSearch['provider_phone'] != '') {
-                $query->where('provider_phone','LIKE', '%' . $dataSearch['provider_phone'] . '%');
+            if (isset($dataSearch['mail_send_status']) && $dataSearch['mail_send_status'] != -1) {
+                $query->where('mail_send_status', $dataSearch['mail_send_status']);
             }
-            if (isset($dataSearch['provider_email']) && $dataSearch['provider_email'] != '') {
-                $query->where('provider_email','LIKE', '%' . $dataSearch['provider_email'] . '%');
-            }
-            if (isset($dataSearch['provider_status']) && $dataSearch['provider_status'] != -1) {
-                $query->where('provider_status', $dataSearch['provider_status']);
-            }
-            if (isset($dataSearch['provider_id']) && $dataSearch['provider_id'] > 0) {
-                $query->where('provider_id', $dataSearch['provider_id']);
-            }
-            if (isset($dataSearch['provider_shop_id']) && $dataSearch['provider_shop_id'] > 0) {
-                $query->where('provider_shop_id', $dataSearch['provider_shop_id']);
+            if (isset($dataSearch['mail_send_id']) && $dataSearch['mail_send_id'] > 0) {
+                $query->where('mail_send_id', $dataSearch['mail_send_id']);
             }
             $total = $query->count();
-            $query->orderBy('provider_time_creater', 'desc');
+            $query->orderBy('mail_send_time_creater', 'desc');
 
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
@@ -114,7 +67,7 @@ class EmailContent extends Eloquent
     {
         try {
             DB::connection()->getPdo()->beginTransaction();
-            $data = new Provider();
+            $data = new EmailContent();
             if (is_array($dataInput) && count($dataInput) > 0) {
                 foreach ($dataInput as $k => $v) {
                     $data->$k = $v;
@@ -122,10 +75,7 @@ class EmailContent extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                if(isset($data->provider_id) && $data->provider_id > 0){
-                    self::removeCache($data->provider_id, $data->provider_shop_id);
-                }
-                return $data->provider_id;
+                return $data->mail_send_id;
             }
             DB::connection()->getPdo()->commit();
             return false;
@@ -146,15 +96,12 @@ class EmailContent extends Eloquent
     {
         try {
             DB::connection()->getPdo()->beginTransaction();
-            $dataSave = Provider::find($id);
+            $dataSave = EmailContent::find($id);
             if (!empty($dataInput)){
                 $dataSave->update($dataInput);
             }
             DB::connection()->getPdo()->commit();
-            if(isset($dataSave->provider_id) && $dataSave->provider_id > 0){
-                self::removeCache($dataSave->provider_id, $dataSave->provider_shop_id);
-            }
-            return true;
+            return $dataSave->mail_send_id;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
@@ -172,28 +119,14 @@ class EmailContent extends Eloquent
     public static function deleteData($id){
         try {
             DB::connection()->getPdo()->beginTransaction();
-            $dataSave = Provider::find($id);
+            $dataSave = EmailContent::find($id);
             $dataSave->delete();
             DB::connection()->getPdo()->commit();
-            if(isset($dataSave->provider_id) && $dataSave->provider_id > 0){
-                self::removeCache($dataSave->provider_id, $dataSave->provider_shop_id);
-            }
             return true;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
         }
-    }
-
-    /**
-     * @param int $id
-     */
-    public static function removeCache($id = 0,$shop_id = 0){
-        if($id > 0){
-            Cache::forget(Memcache::CACHE_PROVIDER_ID.$id);
-            Cache::forget(Memcache::CACHE_LIST_PROVIDER_BY_SHOP_ID.$shop_id);
-        }
-        Cache::forget(Memcache::CACHE_ALL_PROVIDER);
     }
 
 }

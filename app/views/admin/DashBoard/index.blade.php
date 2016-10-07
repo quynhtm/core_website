@@ -149,6 +149,17 @@
                         </a>
                     </div>
                     @endif
+
+                    @if($is_root || in_array('providerEmail_full',$aryPermission))
+                    <div class="col-sm-6 col-md-3">
+                        <a class="quick-btn a_control" href="{{URL::route('admin.contentSendEmail_list')}}">
+                            <div class="thumbnail text-center">
+                                <i class="fa fa-file-text-o fa-5x"></i><br/>
+                                <span>Nội dung gửi Mail</span>
+                            </div>
+                        </a>
+                    </div>
+                    @endif
                     
                  </div>
             </div><!-- /.col -->
