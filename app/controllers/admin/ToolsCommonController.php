@@ -143,7 +143,7 @@ class ToolsCommonController extends BaseAdminController
             ->with('arrStatus', $this->arrStatus);
     }
     public function postContentSendEmail($id=0) {
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full_content_email,$this->permission)){
             return Redirect::route('admin.dashboard',array('error'=>1));
         }
         $dataSave['mail_send_title'] = addslashes(Request::get('mail_send_title'));
@@ -194,7 +194,7 @@ class ToolsCommonController extends BaseAdminController
     }
     public function deleteProvider(){
         $result = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+        if(!$this->is_root && !in_array($this->permission_full_content_email,$this->permission)){
             return Response::json($result);
         }
         $id = (int)Request::get('id', 0);
