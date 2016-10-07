@@ -20,22 +20,26 @@ var Admin = {
                 url_ajax = 'deleteCustomerEmail';
             }else if(type == 6){
                 url_ajax = 'deleteProviderEmail';
+            }else if(type == 7){
+                url_ajax = 'deleteContentSendEmail';
             }
-            $.ajax({
-                type: "post",
-                url: url_ajax,
-                data: {id : id},
-                dataType: 'json',
-                success: function(res) {
-                    $('#img_loading_'+id).hide();
-                    if(res.isIntOk == 1){
-                        alert('Bạn đã thực hiện thành công');
-                        window.location.reload();
-                    }else{
-                        alert('Không thể thực hiện được thao tác.');
+            if(url_ajax != ''){
+                $.ajax({
+                    type: "post",
+                    url: url_ajax,
+                    data: {id : id},
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#img_loading_'+id).hide();
+                        if(res.isIntOk == 1){
+                            alert('Bạn đã thực hiện thành công');
+                            window.location.reload();
+                        }else{
+                            alert('Không thể thực hiện được thao tác.');
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     },
     removeAllItems: function(type){

@@ -84,7 +84,7 @@
                                         <a href="{{URL::route('admin.contentSendEmail_edit',array('id' => $item->mail_send_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 2)
-                                        <!--    <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->mail_send_id}},5)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>-->
+                                        <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->mail_send_id}},7)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
                                     <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->mail_send_id}}">
                                 </td>

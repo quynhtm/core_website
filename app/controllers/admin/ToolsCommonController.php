@@ -192,7 +192,7 @@ class ToolsCommonController extends BaseAdminController
         }
         return false;
     }
-    public function deleteProvider(){
+    public function deleteContentSendEmail(){
         $result = array('isIntOk' => 0);
         if(!$this->is_root && !in_array($this->permission_full_content_email,$this->permission)){
             return Response::json($result);
