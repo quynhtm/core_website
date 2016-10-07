@@ -13,7 +13,7 @@
 				 </div>
     			<div style="display:inline-block;float:right;color:#fff; line-height:50px;padding-right:20px; font-style: italic;">{{CGlobal::phoneSupport}}</div>
 	    	</div>
-	    	<div style="background: #fff;margin: 0 auto;min-height: 200px;padding: 30px;width: 88%;">
+	    	<div style="background: #fff;margin: 0 auto;min-height: 200px;padding: 3% 2%;width: 88%;">
 				Chào: {{$data['user_shop']}}<br/>
 				Bạn nhận được email này do khách hàng đã đặt mua sản phẩm từ shop của bạn trên website {{CGlobal::web_name}}<br/><br/>
 				<a href="{{URL::route('shop.listOrder')}}">Bấm vào đây để xem đơn hàng.</a><br/><br/>
