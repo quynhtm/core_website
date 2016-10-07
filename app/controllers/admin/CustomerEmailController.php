@@ -24,7 +24,7 @@ class CustomerEmailController extends BaseAdminController
         }
 
         $pageNo = (int) Request::get('page_no',1);
-        $limit = CGlobal::number_limit_show;
+        $limit = CGlobal::number_show_40;
         $offset = ($pageNo - 1) * $limit;
         $search = $data = array();
         $total = 0;

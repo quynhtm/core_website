@@ -127,7 +127,7 @@
                         </a>
                     </div>
                     @endif
-                        
+
                     @if($is_root || in_array('providerEmail_full',$aryPermission))
                     <div class="col-sm-6 col-md-3">
                         <a class="quick-btn a_control" href="{{URL::route('admin.contentSendEmail_list')}}">

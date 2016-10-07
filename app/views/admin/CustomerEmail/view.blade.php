@@ -58,7 +58,7 @@
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
-                                <td>{{ $stt + $key+1 }}<br/>
+                                <td class="text-center text-middle">{{ $stt + $key+1 }}<br/>
                                 	<input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->customer_id}}">
                                 </td>
                                 <td>{{ $item->customer_full_name}}</td>
