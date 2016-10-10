@@ -11,14 +11,14 @@
 			           <a href="{{URL::route('site.home')}}"><img style="margin-top:5px; max-height: 30px; height:30px" id="logo" src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/logo-mail.png" /></a>
 				    </div>
 				 </div>
-    			<div style="display:inline-block;float:right;color:#fff; line-height:50px;padding-right:20px; font-style: italic;">0913 922 986</div>
+    			<div style="display:inline-block;float:right;color:#fff; line-height:50px;padding-right:20px; font-style: italic;">{{CGlobal::phoneSupport}}</div>
 	    	</div>
 	    	<div style="background: #fff;margin: 0 auto;min-height: 200px;padding: 3% 2%;width: 88%;">
 				
 	    	</div>
 	  		<div style="max-height: 34px; height:34px; width: 100%;">
 		        <div style="margin: 0 auto;width: 100%;">
-		            <span style="color:#fff; padding-right: 15px;float: right; padding-top: 10px;">&copy; <a style="text-decoration: none; color:#fff;" href="{{URL::route('site.home')}}">ShopCuaTui.com.vn</a>, 2015-2016.</span>
+		            <span style="color:#fff; padding-right: 15px;float: right; padding-top: 10px;">&copy; <a style="text-decoration: none; color:#fff;" href="{{URL::route('site.home')}}">{{ucwords(CGlobal::web_name)}}</a>, 2015-{{date('Y', time())}}.</span>
 		        </div>
     		</div>
 	  	</div>

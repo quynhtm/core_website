@@ -35,7 +35,10 @@ class CustomerEmailController extends BaseAdminController
         
         $dataSearch = CustomerEmail::searchByCondition($search, $limit, $offset,$total);
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
-
+		//Get All Type Email Content
+        $arrEmail = EmailContent::getAllContentEmail(20);
+        $optionEmail = FunctionLib::getOption($arrEmail, 0);
+       
         $this->layout->content = View::make('admin.CustomerEmail.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -46,7 +49,8 @@ class CustomerEmailController extends BaseAdminController
             ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)//dùng common
             ->with('permission_delete', in_array($this->permission_delete, $this->permission) ? 1 : 0)//dùng common
             ->with('permission_create', in_array($this->permission_create, $this->permission) ? 1 : 0)//dùng common
-            ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0);//dùng common
+            ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0)//dùng common
+        	->with('optionEmail', $optionEmail);
     }
 
     public function getCustomerEmail($id=0) {

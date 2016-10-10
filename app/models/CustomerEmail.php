@@ -28,15 +28,28 @@ class CustomerEmail extends Eloquent
             	$query->where('customer_phone','LIKE', '%' . $dataSearch['customer_phone'] . '%');
             }
             
+            if (isset($dataSearch['customer_id'])) {
+            	if (is_array($dataSearch['customer_id'])) {
+            		$query->whereIn('customer_id', $dataSearch['customer_id']);
+            	}
+            	elseif ((int)$dataSearch['customer_id'] > 0) {
+            		$query->where('customer_id','=', (int)$dataSearch['customer_id']);
+            	}
+            }
+            
             $total = $query->count();
             $query->orderBy('customer_id', 'desc');
-
+			
+            if($limit > 0){
+            	$query->take($limit);
+            }
+            
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
             if(!empty($fields)){
-                $result = $query->take($limit)->skip($offset)->get($fields);
+                $result = $query->skip($offset)->get($fields);
             }else{
-                $result = $query->take($limit)->skip($offset)->get();
+                $result = $query->skip($offset)->get();
             }
             return $result;
 
