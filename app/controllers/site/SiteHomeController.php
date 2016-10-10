@@ -38,11 +38,12 @@ class SiteHomeController extends BaseSiteController
         /**
          * //list sản phẩm THUONG - FREE
          */
-        $limit = $offset = CGlobal::number_show_15;
+        $limit2 = CGlobal::number_show_20;
+        $total2 = $offset2 = 0;
         $searchFree['is_shop'] = array( CGlobal::SHOP_NOMAL, CGlobal::SHOP_FREE );
         $searchFree['category_id'] = 0;
         $searchFree['field_get'] = $this->str_field_product_get;
-        $dataProFree = Product::getProductForSite($searchFree, $limit, $offset, $total);
+        $dataProFree = Product::getProductForSite($searchFree, $limit2, $offset2, $total2);
 
         //list danh mục cha
         $listParentCate = Category::getAllParentCategoryId();

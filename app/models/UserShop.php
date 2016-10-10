@@ -99,7 +99,7 @@ class UserShop extends Eloquent
 
     //cap nhat nhung shop da het session
     public static function updateShopLogout(){
-        $yesterday = time() - (24 * 60 * 60);
+        $yesterday = time() - (2 * 60 * 60);
         $query = UserShop::where('shop_id','>',0)->where('is_login','=',1);
         $query->where('shop_time_login', '<=', $yesterday);
         $result = $query->get();
