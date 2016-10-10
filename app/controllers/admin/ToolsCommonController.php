@@ -232,26 +232,25 @@ class ToolsCommonController extends BaseAdminController
     		
     		if(sizeof($listEmail) > 0 && sizeof($dataContentEmail) > 0){
     			$emails = array();
-    			/*
+    			$emails[] = 'nguyenduypt86@gmail.com';
+    			$emails[] = 'shoponlinecuatui@gmail.com';
+    			
     			foreach($listEmail as $email){
     				$emails[] = $email->customer_master_email;
     			}
-    			*/
-    			$emails[] = 'nguyenduypt86@gmail.com';
-    			$emails[] = 'shoponlinecuatui@gmail.com';
     			
     			$data['textMail'] = $dataContentEmail->mail_send_content;
     			$data['listProduct'] = $listProduct;
     			$subjects = $dataContentEmail->mail_send_title;
-    			
-    			Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emails, $subjects){
-    					$message->to($emails, 'SendMailToCustomer')
-    							->subject($subjects);
-    			});
+    			if(!empty($emails)){
+	    			Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emails, $subjects){
+	    					$message->to($emails, 'SendMailToCustomer')
+	    							->subject($subjects);
+	    			});
+    			}
     			
     		}
     	}
     	echo 'Ok';die;
     }
-    
 }
