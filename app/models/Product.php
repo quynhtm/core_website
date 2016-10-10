@@ -100,7 +100,7 @@ class Product extends Eloquent
             if (isset($dataSearch['shop_province']) && $dataSearch['shop_province'] != -1) {
             	$query->where('shop_province','=', $dataSearch['shop_province']);
             }
-            //l?y khác shop id này
+            //l?y khï¿½c shop id nï¿½y
             if (isset($dataSearch['shop_id_other']) && $dataSearch['shop_id_other'] > 0) {
             	$query->where('user_shop_id','<>', $dataSearch['shop_id_other']);
             }
@@ -154,9 +154,16 @@ class Product extends Eloquent
             if (isset($dataSearch['user_shop_id']) && $dataSearch['user_shop_id'] != -1) {
                 $query->where('user_shop_id', $dataSearch['user_shop_id']);
             }
-            if (isset($dataSearch['product_id']) && $dataSearch['product_id'] > 0) {
-                $query->where('product_id', $dataSearch['product_id']);
+            
+            if (isset($dataSearch['product_id'])) {
+            	if (is_array($dataSearch['product_id'])) {
+            		$query->whereIn('product_id', $dataSearch['product_id']);
+            	}
+            	elseif ((int)$dataSearch['product_id'] > 0) {
+            		$query->where('product_id','=', (int)$dataSearch['product_id']);
+            	}
             }
+        
             if (isset($dataSearch['product_is_hot']) && $dataSearch['product_is_hot'] > 0) {
                 $query->where('product_is_hot', $dataSearch['product_is_hot']);
             }

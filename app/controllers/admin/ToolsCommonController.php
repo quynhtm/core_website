@@ -203,4 +203,54 @@ class ToolsCommonController extends BaseAdminController
         }
         return Response::json($result);
     }
+    public function sendEmailContentToCustomer(){
+    	
+    	$dataId = Request::get('dataId', array());
+    	$emailId = Request::get('emailId', 0);
+    	
+    	if(!empty($dataId) && $emailId > 0){
+    		//Get Email Content
+    		$dataContentEmail = EmailContent::getByID($emailId);
+    		//Get List Email
+    		$offset = $total = 0;
+    		$limit = count($dataId);
+    		$dataSearch['customer_id'] = $dataId;
+    		$listEmail = CustomerEmail::searchByCondition($dataSearch, $limit, $offset, $total);
+    		//Get List Product
+    		$listProduct = array();
+    		$strProduct = $dataContentEmail->mail_send_str_product_id;
+    		$arrProduct = array();
+    		if($strProduct != ''){
+    			$arrProduct = explode(',', $strProduct);
+    		}
+    		if(!empty($arrProduct)){
+    			$limit1 = count($arrProduct);
+    			$total1 = 0;
+    			$dataSearch1['product_id'] = $arrProduct;
+    			$listProduct = Product::searchByCondition($dataSearch1, $limit1, $offset, $total1);
+    		}
+    		
+    		if(sizeof($listEmail) > 0 && sizeof($dataContentEmail) > 0){
+    			$emails = array();
+    			$emails[] = 'nguyenduypt86@gmail.com';
+    			$emails[] = 'shoponlinecuatui@gmail.com';
+    			
+    			foreach($listEmail as $email){
+    				$emails[] = $email->customer_master_email;
+    			}
+    			
+    			$data['textMail'] = $dataContentEmail->mail_send_content;
+    			$data['listProduct'] = $listProduct;
+    			$subjects = $dataContentEmail->mail_send_title;
+    			if(!empty($emails)){
+	    			Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emails, $subjects){
+	    					$message->to($emails, 'SendMailToCustomer')
+	    							->subject($subjects);
+	    			});
+    			}
+    			
+    		}
+    	}
+    	echo 'Ok';die;
+    }
 }

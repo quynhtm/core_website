@@ -26,6 +26,15 @@
                         </div>
                     </div>
                     <div class="panel-footer text-right">
+                        <div class="col-lg-3">
+                            <select name="send_email_content_to_customer" id="send_email_content_to_customer" class="form-control input-sm">
+                               {{$optionEmail}}
+                            </select>
+                        </div>
+                       	@if($is_root)
+	                    <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.sendEmailContentToCustomer();"><i class="fa fa-envelope-o"></i> Gửi Email</a>
+	                    @endif
+	                    
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
                         <span class="">
                             <a class="btn btn-danger btn-sm" href="{{URL::route('admin.customeremail_edit')}}">
@@ -36,6 +45,7 @@
                         @endif
                         @if($is_root)
 	                    <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.removeAllItems(5);"><i class="fa fa-trash"></i> Xóa nhiều</a>
+	                    <span class="img_loading" id="img_loading_delete_all"></span>
 	                    @endif
                         <span class="">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>

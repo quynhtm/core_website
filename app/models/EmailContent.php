@@ -128,5 +128,21 @@ class EmailContent extends Eloquent
             throw new PDOException();
         }
     }
-
+	
+    //Get All Email
+    public static function getAllContentEmail($limit=0){
+    	$arrEmail[0] = '---Chọn nội dung email---';
+    	$query = EmailContent::where('mail_send_id','>',0);
+    	$query->orderBy('mail_send_time_creater', 'desc');
+    	if($limit > 0){
+    		$query->take($limit);
+    	}
+    	$result = $query->get();
+    	if(sizeof($result)){
+    		foreach($result as $item){
+    			$arrEmail[$item->mail_send_id] = $item->mail_send_title;
+    		}
+    	}
+    	return $arrEmail;
+    }
 }

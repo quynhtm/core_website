@@ -425,4 +425,41 @@ var Admin = {
 		}
 		jQuery('#sys_PopupImgOtherInsertContent #div_image').html('');
 	},
+	sendEmailContentToCustomer: function(){
+		var dataId = [];
+        var i = 0;
+        $("input[name*='checkItems']").each(function () {
+            if ($(this).is(":checked")) {
+                dataId[i] = $(this).val();
+                i++;
+            }
+        });
+        if(dataId.length == 0) {
+            alert('Bạn chưa chọn khách hàng để gửi mail.');
+            return false;
+        }
+        
+        var emailId = jQuery('select#send_email_content_to_customer').val();
+        if(emailId <= 0){
+        	 alert('Bạn chưa chọn nội dung email để gửi.');
+             return false;
+        }
+        
+        var url_ajax = WEB_ROOT + '/admin/toolsCommon/sendEmailContentToCustomer';
+        if(url_ajax != ''){
+            if(confirm('Bạn có muốn thực hiện thao tác này?')) {
+                $('#img_loading_delete_all').show();
+                $.ajax({
+                    type: "post",
+                    url: url_ajax,
+                    data: {dataId: dataId, emailId: emailId},
+                    //dataType: 'json',
+                    success: function (res) {
+                        $('#img_loading_delete_all').hide();
+                        return true;
+                    }
+                });
+            }
+        }
+	},
 }

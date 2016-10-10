@@ -111,7 +111,9 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::get('toolsCommon/edit/{id?}', array('as' => 'admin.contentSendEmail_edit','uses' => 'ToolsCommonController@getContentSendEmail'))->where('id', '[0-9]+');
     Route::post('toolsCommon/edit/{id?}', array('as' => 'admin.contentSendEmail_edit','uses' => 'ToolsCommonController@postContentSendEmail'))->where('id', '[0-9]+');
     Route::post('toolsCommon/deleteContentSendEmail', array('as' => 'admin.deltete_provider','uses' => 'ToolsCommonController@deleteContentSendEmail'));//ajax
-
+	//Gửi email tới khách hàng
+    Route::post('toolsCommon/sendEmailContentToCustomer',array('as' => 'admin.sendEmailContentToCustomer','uses' => 'ToolsCommonController@sendEmailContentToCustomer'));
+    
     //Quản lý nhà cung cấp
     Route::get('provider/view',array('as' => 'admin.provider_list','uses' => 'ProviderController@view'));
     Route::get('provider/edit/{id?}', array('as' => 'admin.provider_edit','uses' => 'ProviderController@getProvider'))->where('id', '[0-9]+');
