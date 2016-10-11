@@ -62,6 +62,7 @@
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
                             <th width="30%">Tên Khách hàng</th>
                             <th width="20%">Thông tin khác</th>
+                            <th width="10%">Tỉnh thành</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
@@ -76,7 +77,16 @@
                                 	<b>Email:</b> {{$item->customer_master_email}}<br/>
                                 	<b>ĐT:</b> {{$item->customer_phone}}<br/>
                                 	<b>Địa chỉ:</b> {{$item->customer_address}}
-                                	
+                                </td>
+                                <td>@if($item->customer_city_id==22)
+                                        Hà Nội
+                                    @else
+                                        @if($item->customer_city_id==29)
+                                            Hồ Chí Minh
+                                        @else
+                                            Toàn quốc - {{$item->customer_city_id}}
+                                        @endif
+                                    @endif
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
