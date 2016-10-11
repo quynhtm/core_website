@@ -61,8 +61,8 @@
                         <tr class="">
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
                             <th width="30%">Tên Khách hàng</th>
+                            <th width="10%" class="text-center">Tỉnh thành</th>
                             <th width="20%">Thông tin khác</th>
-                            <th width="10%">Tỉnh thành</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
@@ -73,12 +73,7 @@
                                 	<input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->customer_id}}">
                                 </td>
                                 <td>{{ $item->customer_full_name}}</td>
-                                <td>
-                                	<b>Email:</b> {{$item->customer_master_email}}<br/>
-                                	<b>ĐT:</b> {{$item->customer_phone}}<br/>
-                                	<b>Địa chỉ:</b> {{$item->customer_address}}
-                                </td>
-                                <td>@if($item->customer_city_id==22)
+                                <td class="text-center text-middle">@if($item->customer_city_id==22)
                                         Hà Nội
                                     @else
                                         @if($item->customer_city_id==29)
@@ -88,6 +83,12 @@
                                         @endif
                                     @endif
                                 </td>
+                                <td>
+                                	<b>Email:</b> {{$item->customer_master_email}}<br/>
+                                	<b>ĐT:</b> {{$item->customer_phone}}<br/>
+                                	<b>Địa chỉ:</b> {{$item->customer_address}}
+                                </td>
+
                                 <td class="text-center text-middle">
                                     @if($is_root || $permission_full ==1|| $permission_edit ==1  )
                                         <a href="{{URL::route('admin.customeremail_edit',array('id' => $item->customer_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
