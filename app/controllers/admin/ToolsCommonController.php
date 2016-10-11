@@ -232,13 +232,9 @@ class ToolsCommonController extends BaseAdminController
     		
     		if(sizeof($listEmail) > 0 && sizeof($dataContentEmail) > 0){
     			$emails = array();
-    			$emails[] = 'nguyenduypt86@gmail.com';
-    			$emails[] = 'shoponlinecuatui@gmail.com';
-    			
     			foreach($listEmail as $email){
     				$emails[] = $email->customer_master_email;
     			}
-    			
     			$data['textMail'] = $dataContentEmail->mail_send_content;
     			$data['listProduct'] = $listProduct;
     			$subjects = $dataContentEmail->mail_send_title;
@@ -248,7 +244,12 @@ class ToolsCommonController extends BaseAdminController
 	    							->subject($subjects);
 	    			});
     			}
-    			
+    			//Email Owner
+				$emailExt = array('shoponlinecuatui@gmail.com');
+				Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emailExt, $subjects){
+	    					$message->to($emailExt, 'SendMailToOwner')
+	    							->subject($subjects.' - '.date('d/m/Y h:i',time()));
+	    			});
     		}
     	}
     	echo 'Ok';die;
