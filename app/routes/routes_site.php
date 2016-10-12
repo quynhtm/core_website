@@ -47,7 +47,7 @@ Route::post('quen-mat-khau.html',array('as' => 'site.shopForgetPass','uses' =>'S
 
 /*
  * **********************************************************************************************************************************
- * Route shop
+ * Route shop common
  * Phai login = account Shop với thao tác đc
  * **********************************************************************************************************************************
  * */
@@ -77,6 +77,11 @@ Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopCo
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
 
 
+/*
+ * **********************************************************************************************************************************
+ * * Action cho shop VIP
+ * **********************************************************************************************************************************
+ * */
 //quan ly banner của shop VIP
 Route::get('quan-ly-quang-cao.html',array('as' => 'shop.listBanner','uses' =>'ShopVipController@listBanner'));
 Route::get('them-quang-cao.html',array('as' => 'shop.addBanner','uses' =>'ShopVipController@getAddBanner'));
@@ -84,9 +89,15 @@ Route::get('cap-nhat-quang-cao/b-{banner_id}-{banner_name}.html',array('as' => '
 Route::post('cap-nhat-quang-cao/b-{banner_id}-{banner_name}.html',array('as' => 'shop.editBanner','uses' =>'ShopVipController@postEditBanner'))->where('banner_id', '[0-9]+');
 Route::post('shop/deleteBanner',array('as' => 'shop.deleteBanner','uses' =>'ShopVipController@deleteBanner'));//ajax
 Route::post('shop/removeImageBanner',array('as' => 'shop.removeImageBanner','uses' =>'ShopVipController@removeImageBanner'));//ajax
+
 //quan ly NCC của shop VIP
 Route::get('quan-ly-nha-cung-cap.html',array('as' => 'shop.listProvider','uses' =>'ShopVipController@listProvider'));
 Route::get('them-nha-cung-cap.html',array('as' => 'shop.addProvider','uses' =>'ShopVipController@getAddProvider'));
 Route::get('cap-nhat-nha-cung-cap/ncc-{provider_id}-{provider_name}.html',array('as' => 'shop.editProvider','uses' =>'ShopVipController@getEditProvider'))->where('provider_id', '[0-9]+');
 Route::post('cap-nhat-nha-cung-cap/ncc-{provider_id}-{provider_name}.html',array('as' => 'shop.editProvider','uses' =>'ShopVipController@postEditProvider'))->where('provider_id', '[0-9]+');
 Route::post('shop/deleteProvider',array('as' => 'shop.deleteProvider','uses' =>'ShopVipController@deleteProvider'));//ajax
+
+//quan ly Bán hàng Offline của shop VIP
+Route::get('ban-hang-online.html',array('as' => 'shop.orderShopOffline','uses' =>'ShopVipController@orderShopOffline'));
+Route::post('shop/getInforCustomerBuyProduct',array('as' => 'shop.getInforCustomerBuyProduct','uses' =>'ShopVipController@getInforCustomerBuyProduct'));//ajax
+Route::post('shop/getInforProductBuy',array('as' => 'shop.getInforProductBuy','uses' =>'ShopVipController@getInforProductBuy'));//ajax

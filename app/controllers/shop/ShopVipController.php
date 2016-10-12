@@ -439,5 +439,39 @@ class ShopVipController extends BaseShopController
         }
         return Response::json($data);
     }
+
+    /**************************************************************************************************************************
+     * Quản lý bán hàng offline
+     **************************************************************************************************************************
+     */
+    public function orderShopOffline(){
+        FunctionLib::link_js(array(
+            'js/jquery.min.js',
+            'frontend/js/orderShop.js',
+        ));
+        CGlobal::$pageShopTitle = "Bán hàng tại Shop | ".CGlobal::web_name;
+
+        $this->layout->content = View::make('site.ShopVip.OrderShopOffline')
+            ->with('error', $this->error)
+            ->with('arrStatus', $this->arrStatus);
+    }
+    //ajax
+    public function getInforCustomerBuyProduct(){
+        $customer_phone = (int)Request::get('customer_phone','');
+        $data = array('isIntOk' => 0);
+        if($this->shop_id > 0 && $customer_phone != ''){
+            echo $customer_phone; die;
+        }
+        return Response::json($data);
+    }
+    //ajax
+    public function getInforProductBuy(){
+        $product_id = (int)Request::get('product_id','');
+        $data = array('isIntOk' => 0);
+        if($this->shop_id > 0 && $product_id != ''){
+
+        }
+        return Response::json($data);
+    }
 }
 
