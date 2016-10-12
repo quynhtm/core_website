@@ -12,15 +12,13 @@ return array(
 	'pretend' => false,
 );
 */
-
 return array(
-        'driver' => 'smtp',
-        'host' => 'mail.greechip.net',
-        'port' => 465,
-        'from' => array('address' => 'no-reply@shopcuatui.com.vn', 'name' => CGlobal::web_name),
-        'encryption' => 'ssl',
-        'username' => 'info@greechip.net',
-        'password' => '12345678b@',
-        'sendmail' => '/usr/sbin/sendmail -bs',
-        'pretend' => false,
+	'driver' => 'smtp',
+	'host' => '27.118.30.5',
+	'port' => 25,
+	'from' => array('address' => 'no-reply@shopcuatui.com.vn', 'name' => CGlobal::web_name),
+	'username' => 'no-reply@shopcuatui.com.vn',
+	'password' => 'fo7Ve9$5',
+	'sendmail' => '/usr/sbin/sendmail -bs',
+	'pretend' => false,
 );
