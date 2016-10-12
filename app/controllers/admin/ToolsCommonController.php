@@ -245,7 +245,7 @@ class ToolsCommonController extends BaseAdminController
 	    			});
     			}
     			//Email Owner
-				$emailExt = array('shoponlinecuatui@gmail.com');
+    			$emailExt = array('shoponlinecuatui@gmail.com');
 				Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emailExt, $subjects){
 	    					$message->to($emailExt, 'SendMailToOwner')
 	    							->subject($subjects.' - '.date('d/m/Y h:i',time()));
