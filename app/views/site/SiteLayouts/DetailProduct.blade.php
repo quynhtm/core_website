@@ -75,7 +75,7 @@
 					<div class="features-point">
 						<div class="lbl-point">Mô tả sản phẩm</div>
 						@if($product->product_sort_desc != '')
-						<div class="des-point">{{FunctionLib::setNofollow($product->product_sort_desc)}}</div>
+						<div class="des-point">{{FunctionLib::setNofollow(stripslashes($product->product_sort_desc))}}</div>
 						@endif
 						@if($product->product_selloff != '')
 						<div class="box-promotion">

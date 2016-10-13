@@ -12,7 +12,7 @@ class CustomerShop extends Eloquent
     //cac truong trong DB
     protected $fillable = array('customer_shop_id','customer_shop_full_name', 'customer_shop_email','customer_shop_phone',
         'customer_shop_password','customer_shop_status','customer_shop_address','customer_shop_province_id',
-        'customer_shop_last_action', 'customer_shop_created', 'customer_shop_updated');
+        'customer_shop_last_action', 'customer_shop_created', 'customer_shop_number_buy');
     public static function searchByCondition($dataSearch = array(), $limit =0, $offset=0, &$total){
         try{
             $query = CustomerShop::where('customer_shop_id','>',0);
@@ -119,5 +119,16 @@ class CustomerShop extends Eloquent
             throw new PDOException();
         }
     }
-
+    /**
+     * @desc: Check Data.
+     * @param $mail
+     */
+   
+    public static function getCustomerByPhone($phone=''){
+    	$result = array();
+    	if($phone != ''){
+    		$result = CustomerShop::where('customer_shop_phone', $phone)->first();
+    	}
+    	return $result;
+    }
 }

@@ -82,6 +82,7 @@ class ShopActionController extends BaseShopController
                 $data['is_shop'] = $item->is_shop;
                 $data['shop_status'] = $item->shop_status;
                 $data['shop_logo'] = $item->shop_logo;
+                $data['is_shop'] = $item->is_shop; 
             }
         }
         $arrCategory = Category::buildTreeCategory();

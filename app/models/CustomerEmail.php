@@ -111,5 +111,4 @@ class CustomerEmail extends Eloquent
             throw new PDOException();
         }
     }
-
 }

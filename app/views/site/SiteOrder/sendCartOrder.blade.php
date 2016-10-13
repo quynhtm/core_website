@@ -54,12 +54,12 @@
 							<div class="title-pay-cart">Địa chỉ giao hàng</div>
 							{{Form::open(array('method' => 'POST', 'id'=>'txtFormPaymentCart', 'class'=>'txtFormPaymentCart', 'name'=>'txtFormPaymentCart'))}}
 								<div class="form-group">
-									<label>Họ và tên<span>(*)</span></label>
-									<input id="txtName" class="form-control" name="txtName" maxlength="255" type="text">
+									<label class="control-label">Số điện thoại<span>(*)</span></label>
+									<input id="txtMobile" name="txtMobile" class="form-control" maxlength="255" type="text"><span class="loadInfoPhone" title="Lấy Thông tin"><i class="fa fa-refresh"></i></span>
 								</div>
 								<div class="form-group">
-									<label class="control-label">Số điện thoại<span>(*)</span></label>
-									<input id="txtMobile" name="txtMobile" class="form-control" maxlength="255" type="text">
+									<label>Họ và tên<span>(*)</span></label>
+									<input id="txtName" class="form-control" name="txtName" maxlength="255" type="text">
 								</div>
 								<div class="form-group">
 									<label class="control-label">Email</label>
