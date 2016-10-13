@@ -97,9 +97,14 @@
                                 </td>
                                 <td class="text-center text-middle">{{ date ('d-m-Y H:i:s',$item->order_time) }}</td>
                                 <td class="text-center text-middle">
+                                    <select name="order_status_item" id="order_status_id_{{$item->order_id}}" class="form-control input-sm" onchange="CART.changeStatusOrder({{$item->order_id}},{{$user_shop->is_shop}})">
+                                        @foreach($arrStatus as $kstatus => $nameStatus)
+                                            <option value="{{$kstatus}}" @if($item->order_status == $kstatus) selected @endif>{{$nameStatus}}</option>
+                                        @endforeach
+                                    </select>
                                     @if(isset($arrStatus[$item->order_status])){{$arrStatus[$item->order_status]}}@else --- @endif
-                                    <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
-                                    <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>-->
+                                    <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>
+                                    <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>-->
                                 </td>
                             </tr>
                         @endforeach

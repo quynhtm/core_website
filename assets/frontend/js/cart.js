@@ -109,5 +109,26 @@ CART = {
 					address.removeClass('error');
 				}
 		});
-	}
+	},changeStatusOrder: function(order_id,is_shop) {
+		if(is_shop == is_shop_vip){//shop vip mới có quyền này
+			$('#img_loading_'+order_id).show();
+			var statusOrder = jQuery("#order_status_id_"+order_id).val();
+				$.ajax({
+					type: "post",
+					url: WEB_ROOT+'/shop/changeStatusOrder',
+					data: {order_id : order_id,is_shop : is_shop, statusOrder : statusOrder},
+					dataType: 'json',
+					success: function(res) {
+						$('#img_loading_'+product_id).hide();
+						if(res.isIntOk == 1){
+							alert('Bạn thực hiện thành công!');
+						}else{
+							alert('Không thể thực hiện thao tác.');
+						}
+					}
+				});
+		}else{
+			alert("Xin lỗi! Shop VIP mới có chức năng này");
+		}
+	},
 }

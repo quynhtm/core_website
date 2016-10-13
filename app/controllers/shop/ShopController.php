@@ -416,6 +416,7 @@ class ShopController extends BaseShopController
         }
         return false;
     }
+
     //Ajax
     public function setOnTopProduct(){
         $is_shop = (int)Request::get('is_shop',1);
@@ -519,6 +520,10 @@ class ShopController extends BaseShopController
      * **************************************************************************************************************************
      */
     public function shopListOrder(){
+        FunctionLib::link_js(array(
+            'js/jquery.min.js',
+            'frontend/js/cart.js',
+        ));
         CGlobal::$pageShopTitle = "Quản lý đơn hàng | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);
         $limit = CGlobal::number_limit_show;
@@ -541,12 +546,12 @@ class ShopController extends BaseShopController
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($dataSearch);
 
-        $arrStatusOrder = array(-1 => '---- Trạng thái đơn hàng ----',
+        $arrStatusOrder = array(
             CGlobal::ORDER_STATUS_NEW => 'Đơn hàng mới',
             CGlobal::ORDER_STATUS_CHECKED => 'Đơn hàng đã xác nhận',
             CGlobal::ORDER_STATUS_SUCCESS => 'Đơn hàng thành công',
             CGlobal::ORDER_STATUS_CANCEL => 'Đơn hàng hủy');
-        $optionStatus = FunctionLib::getOption($arrStatusOrder, $search['order_status']);
+        $optionStatus = FunctionLib::getOption(array(-1 => '---- Trạng thái đơn hàng ----') + $arrStatusOrder, $search['order_status']);
 
         $this->layout->content = View::make('site.ShopAdmin.ListOrder')
             ->with('paging', $paging)
@@ -557,8 +562,27 @@ class ShopController extends BaseShopController
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
             ->with('arrStatus', $arrStatusOrder)
-            ->with('user', $this->user_shop);
+            ->with('user_shop', $this->user_shop);
     }
-
+    //Ajax
+    public function changeStatusOrder(){
+        $is_shop = (int)Request::get('is_shop',1);
+        $order_id = (int)Request::get('order_id',0);
+        $statusOrder = (int)Request::get('statusOrder',1);
+        $data = array('isIntOk' => 0);
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $order_id > 0 && $is_shop == CGlobal::SHOP_VIP){
+            $order = Order::getOrderByShopId($this->user_shop->shop_id, $order_id);
+            if(sizeof($order) > 0){
+                $dataSave['order_status'] = $statusOrder;
+                if(Order::updateData($order_id,$dataSave)){
+                    $data['isIntOk'] = 1;
+                    return Response::json($data);
+                }
+            }else{
+                return Response::json($data);
+            }
+        }
+        return Response::json($data);
+    }
 }
 

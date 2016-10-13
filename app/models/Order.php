@@ -22,6 +22,17 @@ class Order extends Eloquent
         $admin = Order::where('order_id', $id)->first();
         return $admin;
     }
+    public static function getOrderByShopId($shop_id,$order_id) {
+        if($order_id > 0){
+            $order = Order::getByID($order_id);
+            if (sizeof($order) > 0) {
+                if(isset($order->order_user_shop_id) && (int)$order->order_user_shop_id == $shop_id){
+                    return $order;
+                }
+            }
+        }
+        return array();
+    }
 
     public static function countOrderOfShopId($shop_id) {
         if($shop_id > 0){

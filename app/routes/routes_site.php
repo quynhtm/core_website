@@ -75,7 +75,7 @@ Route::post('shop/deleteProduct',array('as' => 'shop.deleteProduct','uses' =>'Sh
 Route::post('shop/removeImage',array('as' => 'shop.removeImage','uses' =>'ShopController@removeImage'));//ajax
 //don hàng của shop
 Route::get('quan-ly-don-hang.html',array('as' => 'shop.listOrder','uses' =>'ShopController@shopListOrder'));
-
+Route::post('shop/changeStatusOrder',array('as' => 'shop.changeStatusOrder','uses' =>'ShopController@changeStatusOrder'));//ajax
 
 /*
  * **********************************************************************************************************************************
