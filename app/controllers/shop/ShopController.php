@@ -520,9 +520,13 @@ class ShopController extends BaseShopController
      * **************************************************************************************************************************
      */
     public function shopListOrder(){
+        //Include javascript.
         FunctionLib::link_js(array(
-            'js/jquery.min.js',
+            'lib/upload/jquery.uploadfile.js',
+            'lib/ckeditor/ckeditor.js',
+            'lib/ckeditor/config.js',
             'frontend/js/cart.js',
+            'js/common.js',
         ));
         CGlobal::$pageShopTitle = "Quản lý đơn hàng | ".CGlobal::web_name;
         $pageNo = (int) Request::get('page_no',1);

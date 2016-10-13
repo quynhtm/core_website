@@ -69,10 +69,10 @@
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
                             <th width="25%">Thông tin sản phẩm</th>
-                            <th width="30%" class="text-left">Thông tin khách hàng</th>
+                            <th width="25%" class="text-left">Thông tin khách hàng</th>
                             <th width="20%" class="text-left">Ghi chú của khách</th>
                             <th width="10%" class="text-center">Ngày đặt</th>
-                            <th width="10%" class="text-center">Tình trạng ĐH</th>
+                            <th width="15%" class="text-center">Tình trạng ĐH</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -97,12 +97,12 @@
                                 </td>
                                 <td class="text-center text-middle">{{ date ('d-m-Y H:i:s',$item->order_time) }}</td>
                                 <td class="text-center text-middle">
-                                    <select name="order_status_item" id="order_status_id_{{$item->order_id}}" class="form-control input-sm" onchange="CART.changeStatusOrder({{$item->order_id}},{{$user_shop->is_shop}})">
+                                    <select name="order_status_item" id="order_status_id_{{$item->order_id}}" class="form-control input-sm" onchange="CART.changeStatusOrder({{$item->order_id}},{{$user_shop->is_shop}})" title="Thay đổi trạng thái đơn hàng">
                                         @foreach($arrStatus as $kstatus => $nameStatus)
                                             <option value="{{$kstatus}}" @if($item->order_status == $kstatus) selected @endif>{{$nameStatus}}</option>
                                         @endforeach
                                     </select>
-                                    @if(isset($arrStatus[$item->order_status])){{$arrStatus[$item->order_status]}}@else --- @endif
+                                    @if(isset($arrStatus[$item->order_status]))<br/>{{$arrStatus[$item->order_status]}}@else --- @endif
                                     <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>
                                     <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>-->
                                 </td>

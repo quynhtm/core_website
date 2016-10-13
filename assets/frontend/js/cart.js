@@ -5,6 +5,7 @@ jQuery(document).ready(function($){
 	CART.delAll();
 	CART.sendCart();
 });
+var is_shop_vip = 3;
 CART = {
 	add: function () {
 		jQuery('#buttonFormBuySubmit').click(function () {
@@ -119,9 +120,10 @@ CART = {
 				data: {order_id: order_id, is_shop: is_shop, statusOrder: statusOrder},
 				dataType: 'json',
 				success: function (res) {
-					$('#img_loading_' + product_id).hide();
+					$('#img_loading_' + order_id).hide();
 					if (res.isIntOk == 1) {
 						alert('Bạn thực hiện thành công!');
+						window.location.reload();
 					} else {
 						alert('Không thể thực hiện thao tác.');
 					}
