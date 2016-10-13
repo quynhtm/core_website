@@ -36,6 +36,7 @@ return array(
     'CronjobsController' => $baseDir . '/app/controllers/cronjobs/CronjobsController.php',
     'CustomerEmail' => $baseDir . '/app/models/CustomerEmail.php',
     'CustomerEmailController' => $baseDir . '/app/controllers/admin/CustomerEmailController.php',
+    'CustomerShop' => $baseDir . '/app/models/CustomerShop.php',
     'DOMPDF' => $vendorDir . '/dompdf/dompdf/include/dompdf.cls.php',
     'DOMPDF_Exception' => $vendorDir . '/dompdf/dompdf/include/dompdf_exception.cls.php',
     'DOMPDF_Image_Exception' => $vendorDir . '/dompdf/dompdf/include/dompdf_image_exception.cls.php',
