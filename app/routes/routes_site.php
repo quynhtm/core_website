@@ -32,6 +32,7 @@ Route::match(['GET','POST'], 'xoa-gio-hang.html', array('as' => 'site.deleteAllI
 Route::match(['GET','POST'], 'gui-don-hang.html',array('as' => 'site.sendCartOrder','uses' =>'SiteOrderController@sendCartOrder'));
 Route::get('cam-on-da-mua-hang.html',array('as' => 'site.thanksBuy','uses' =>'SiteOrderController@thanksBuy'));
 
+Route::match(['GET','POST'], 'load-info-customer-shop.html',array('as' => 'site.loadInfoPhoneCustomerShop','uses' =>'SiteOrderController@loadInfoPhoneCustomerShop'));
 
 //trang chủ shop
 Route::get('shop-{shop_id}/{shop_name}.html',array('as' => 'shop.home','uses' =>'SiteShopController@shopIndex'))->where('shop_id', '[0-9]+');

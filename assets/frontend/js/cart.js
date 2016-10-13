@@ -109,5 +109,28 @@ CART = {
 					address.removeClass('error');
 				}
 		});
+		jQuery(".loadInfoPhone").click(function(){
+			var phone = jQuery('#txtFormPaymentCart input[name="txtMobile"]');
+			if(phone.val() == ''){
+				phone.addClass('error').focus();
+				return false;
+			}else{
+				var url = WEB_ROOT + '/load-info-customer-shop.html';
+				jQuery.ajax({
+					type: "POST",
+					url: url,
+					data: "phone="+encodeURI(phone.val()),
+					success: function(data){
+						if(data != ''){
+							var dataLoad = jQuery.parseJSON(data);
+							jQuery('#txtName').val(dataLoad.txtName);
+							jQuery('#txtEmail').val(dataLoad.txtEmail);
+							jQuery('#txtAddress').val(dataLoad.txtAddress);
+						}
+						return true;
+					}
+				});	
+			}
+		});
 	}
 }

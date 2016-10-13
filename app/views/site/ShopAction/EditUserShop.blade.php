@@ -81,7 +81,7 @@
                         <textarea class="form-control input-sm" rows="8" name="shop_transfer" id="shop_transfer">@if(isset($data['shop_transfer'])){{$data['shop_transfer']}}@endif</textarea>
                     </div>
                 </div>
-                @if($data['is_shop'] == CGlobal::SHOP_VIP)
+                @if(isset($data['is_shop']) && $data['is_shop'] == CGlobal::SHOP_VIP)
                 <div class="clearfix"></div>
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -151,7 +151,7 @@
     </div><!-- /.page-content -->
 </div>
 
- @if($data['is_shop'] == CGlobal::SHOP_VIP)
+ @if(isset($data['is_shop']) && $data['is_shop'] == CGlobal::SHOP_VIP)
 <!--Popup upload ảnh-->
 <div class="modal fade" id="sys_PopupUploadImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

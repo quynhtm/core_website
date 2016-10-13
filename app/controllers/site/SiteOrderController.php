@@ -209,7 +209,13 @@ class SiteOrderController extends BaseSiteController
     			$txtEmail = addslashes(Request::get('txtEmail', ''));
     			$txtAddress = addslashes(Request::get('txtAddress', ''));
     			$txtMessage = addslashes(Request::get('txtMessage', ''));
-    	
+    			
+    			//Check Mail Regex
+    			$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+    			if(!preg_match($regex, $txtEmail)){
+    				$txtEmail = '';	
+    			}
+    			
     			if($txtName!= '' && $txtMobile != '' && $txtAddress != ''){
     				$data = array(
     						'order_customer_name'=>$txtName,
@@ -220,7 +226,8 @@ class SiteOrderController extends BaseSiteController
     						'order_time'=>time(),
     						'order_status'=>CGlobal::ORDER_STATUS_NEW,
     				);
-					$arrMailShop = array();
+					$dataOrder = array();
+    				$arrMailShop = array();
     				foreach($dataItem as $item){
 						foreach($dataCart as $k=>$v){
     						if($item->product_id == $k){
@@ -240,10 +247,12 @@ class SiteOrderController extends BaseSiteController
     							
     							Order::addData($data);
 								$arrMailShop[$item->user_shop_id][] = $data;
+								
+								$dataOrder[] = $data;
     						}
     					}
     				}
-					//Send Mail Cart To Shop
+					//Gui Mail cho Shop
 					foreach($arrMailShop as $key=>$val){
 						$get_user_shop = UserShop::getByID($key);
 						$email_shop = $get_user_shop->shop_email;
@@ -265,14 +274,33 @@ class SiteOrderController extends BaseSiteController
 						}
 					}
 					
-					//Add Custommer to CustomerEmail
-					$dataCustomer = array(
-							'customer_master_email'=>$txtEmail,
-							'customer_phone'=>$txtMobile,
-							'customer_address'=>$txtAddress,
-							'customer_full_name'=>$txtName,
+					//Gui Mail cho Khach Mua Hang
+					if($txtEmail != '' && sizeof($dataItem) > 0){
+						$dataCustomer = array(
+							'txtName'=>$txtName,
+							'txtMobile'=>$txtMobile,
+							'txtEmail'=>$txtEmail,
+							'txtAddress'=>$txtAddress,
+							'txtMessage'=>$txtMessage,
+							'dataItem'=>$dataOrder,
+						);
+						$emailsCustomerShop = [$txtEmail];
+						Mail::send('emails.SendOrderToMailCustomer', array('data'=>$dataCustomer), function($message) use ($emailsCustomerShop){
+							$message->to($emailsCustomerShop, 'OrderToCustomer')
+									->subject(CGlobal::web_name.' - Bạn đã đặt mua sản phẩm '.date('d/m/Y h:i',  time()));
+						});
+					}
+					
+					//Cap nhat thong tin CustomerShop
+					$dataCustomerShop = array(
+							'customer_shop_email'=>$txtEmail,
+							'customer_shop_phone'=>$txtMobile,
+							'customer_shop_address'=>$txtAddress,
+							'customer_shop_full_name'=>$txtName,
+							'customer_shop_number_buy'=>1,
+							'customer_shop_created'=>time(),
 					);
-					$this->addCustomer($txtEmail, $dataCustomer);
+					$this->addCustomerShop($txtMobile, $dataCustomerShop);
 					
     				if(Session::has('cart')){
     					Session::forget('cart');
@@ -304,16 +332,54 @@ class SiteOrderController extends BaseSiteController
     	$this->footer();
     }
     
-    public function addCustomer($mail='', $data=array()){
-    	if($mail != '' && !empty($data)){
-    		$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
-    		if (preg_match($regex, $mail)){
-    			$checkEmailExist = CustomerEmail::getCustomerByEmail($mail);
-    			if(sizeof($checkEmailExist) == 0){
-    				CustomerEmail::addData($data);
+    public function addCustomerShop($phone='', $data=array()){
+    	if($phone != '' && !empty($data)){
+    		$regex = '/^[0-9() -]+$/';
+    		if (preg_match($regex, $phone)){
+    			$checkPhoneExist = CustomerShop::getCustomerByPhone($phone);
+    			if(sizeof($checkPhoneExist) == 0){
+    				CustomerShop::addData($data);
+    			}else{
+    				$customer_shop_id = $checkPhoneExist->customer_shop_id;
+    				if($customer_shop_id){
+	    				if(isset($data['customer_shop_phone'])){
+	    					unset($data['customer_shop_phone']);
+	    				}
+	    				if(isset($data['customer_shop_created'])){
+	    					unset($data['customer_shop_created']);
+	    				}
+	    				$customer_shop_number_buy = (int)$checkPhoneExist->customer_shop_number_buy;
+	    				if(isset($data['customer_shop_number_buy'])){
+	    					$data['customer_shop_number_buy'] = $customer_shop_number_buy + 1;
+	    				}
+    					$data['customer_shop_last_action'] = time();
+	    				CustomerShop::updateData($customer_shop_id, $data);
+    				}
     			}
     		}
     	}
+    }
+    public function loadInfoPhoneCustomerShop(){
+    	$data = array(
+    		'txtName'=>'',
+    		'txtEmail'=>'',
+    		'txtAddress'=>'',
+    	);
+    	$phone = addslashes(Request::get('phone', ''));
+    	if($phone != ''){
+    		$regex = '/^[0-9() -]+$/';
+    		if (preg_match($regex, $phone)){
+    			$checkPhoneExist = CustomerShop::getCustomerByPhone($phone);
+    			if(sizeof($checkPhoneExist) > 0){
+    				$data = array(
+    						'txtName'=>$checkPhoneExist->customer_shop_full_name,
+    						'txtEmail'=>$checkPhoneExist->customer_shop_email,
+    						'txtAddress'=>$checkPhoneExist->customer_shop_address,
+    				);
+    			}
+    		}
+    	}
+    	echo json_encode($data);exit();
     }
 }
 

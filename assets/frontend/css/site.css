@@ -1643,15 +1643,18 @@ form#txtFormPaymentCart {
     list-style: outside none none;
     margin-top: 20px;
     padding: 0 10px 5px;
-    width: 60%;
+    width: 70%;
 }
 .form-group {
     margin-bottom: 15px;
 }
 form#txtFormPaymentCart .form-group label {
+    clear: both;
     color: #333;
+    display: inline-block;
     font-size: 14px;
-	font-weight:bold;
+    font-weight: bold;
+    width: 100%;
 }
 .form-control {
     background-color: #fff;
@@ -1937,4 +1940,40 @@ form#txtFormPaymentCart .form-group label {
     top: 0;
     width: 15.4%;
     z-index: 999;
+}
+.form-group label span {
+    color: #ff0000;
+}
+.loadInfoPhone {
+    border-radius: 100%;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+	margin-left: 5px;
+}
+.loadInfoPhone .fa-refresh {
+    color: #fe6d01;
+    font-size: 20px;
+    margin-top: 5px;
+}
+.loadInfoPhone:hover .fa-refresh{
+	color: #ffad41;
+}
+.txtFormPaymentCart .form-group {
+    clear: both;
+    display: inline-block;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.txtFormPaymentCart .form-group .form-control {
+    float: left;
+    width: 82%;
+	display:inline-block;
+}
+
+.txtFormPaymentCart .form-group .des {
+    clear: both;
+    display: inline-block;
+    width: 100%;
 }
