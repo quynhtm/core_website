@@ -111,5 +111,14 @@ class CustomerEmail extends Eloquent
             throw new PDOException();
         }
     }
+    
+    //SITE
+    public static function getCustomerByEmail($mail){
+    	$result = array();
+    	if($mail != ''){
+    		$result = CustomerEmail::where('customer_master_email', $mail)->first();
+    	}
+    	return $result;
+    }
 
 }

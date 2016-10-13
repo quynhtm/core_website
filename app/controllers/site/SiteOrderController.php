@@ -264,6 +264,16 @@ class SiteOrderController extends BaseSiteController
 							});
 						}
 					}
+					
+					//Add Custommer to CustomerEmail
+					$dataCustomer = array(
+							'customer_master_email'=>$txtEmail,
+							'customer_phone'=>$txtMobile,
+							'customer_address'=>$txtAddress,
+							'customer_full_name'=>$txtName,
+					);
+					$this->addCustomer($txtEmail, $dataCustomer);
+					
     				if(Session::has('cart')){
     					Session::forget('cart');
     					return Redirect::route('site.thanksBuy');
@@ -292,6 +302,18 @@ class SiteOrderController extends BaseSiteController
     	$this->layout->content = View::make('site.SiteOrder.thanksBuy')
             ->with('dataProVip',$dataProVip);
     	$this->footer();
+    }
+    
+    public function addCustomer($mail='', $data=array()){
+    	if($mail != '' && !empty($data)){
+    		$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+    		if (preg_match($regex, $mail)){
+    			$checkEmailExist = CustomerEmail::getCustomerByEmail($mail);
+    			if(sizeof($checkEmailExist) == 0){
+    				CustomerEmail::addData($data);
+    			}
+    		}
+    	}
     }
 }
 
