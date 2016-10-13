@@ -226,7 +226,7 @@ class SiteHomeController extends BaseSiteController
         if($pro_id > 0){
             $product = Product::getProductByID($pro_id);
             //FunctionLib::debug($product);
-            if (sizeof($product) != 0) {
+            if (sizeof($product) > 0) {
                 //check xem sản phẩm có khi khóa hay ẩn hay không
                 if($product->product_status == CGlobal::status_hide || $product->is_block == CGlobal::PRODUCT_BLOCK){
                     return Redirect::route('site.page404');
@@ -246,6 +246,8 @@ class SiteHomeController extends BaseSiteController
                 $meta_img= ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $product->product_id, $product->product_image, CGlobal::sizeImage_450);
                 FunctionLib::SEO($meta_img, $meta_title, $meta_keywords, $meta_description, $link_detail);
 
+            }else{
+            	return Redirect::route('site.page404');
             }
         }
         //san pham bạn quan tâm
