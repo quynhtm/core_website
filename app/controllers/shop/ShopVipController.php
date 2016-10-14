@@ -458,11 +458,13 @@ class ShopVipController extends BaseShopController
     //ajax
     public function getInforCustomerBuyProduct(){
         $customer_phone = (int)Request::get('customer_phone','');
-        $data = array('isIntOk' => 0);
+        $inforCustomer = array();
         if($this->shop_id > 0 && $customer_phone != ''){
-            echo $customer_phone; die;
+            $inforCustomer = CustomerShop::getCustomerByPhone(trim($customer_phone));
         }
-        return Response::json($data);
+        $html = View::make('admin.ShopVip.OrderCustomerShopBuy')->with('inforCustomer', $inforCustomer)->render();
+        $arrAjax = array('isIntOk' => 1, 'info' => $html);
+        return Response::json($arrAjax);
     }
     //ajax
     public function getInforProductBuy(){
