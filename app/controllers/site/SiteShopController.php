@@ -217,6 +217,10 @@ class SiteShopController extends BaseSiteController
                             Session::put('user_shop', $userShop, 60*24);
 
                             if ($url === '' || $url === 'login') {
+                                //kiểm tra shop mới cho vào cập nhật thông tin shop
+                                if(isset($userShop->shop_up_product) && $userShop->shop_up_product == 0){
+                                    return Redirect::route('shop.inforShop');
+                                }
                                 //kiem tra co don hang cho vao page don hang
                                 $countOrderNew = Order::countOrderOfShopId($userShop->shop_id);
                                 return ($countOrderNew > 0)?Redirect::route('shop.listOrder'): Redirect::route('shop.adminShop');
