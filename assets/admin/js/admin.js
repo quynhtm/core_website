@@ -462,4 +462,34 @@ var Admin = {
             }
         }
 	},
+	sendEmailInviteToSupplier:function(){
+		var dataId = [];
+        var i = 0;
+        $("input[name*='checkItems']").each(function () {
+            if ($(this).is(":checked")) {
+                dataId[i] = $(this).val();
+                i++;
+            }
+        });
+        if(dataId.length == 0) {
+            alert('Bạn chưa chọn nhà cung cấp để gửi mail.');
+            return false;
+        }
+        var url_ajax = WEB_ROOT + '/admin/toolsCommon/sendEmailInviteToSupplier';
+        if(url_ajax != ''){
+            if(confirm('Bạn có muốn thực hiện thao tác này?')) {
+                $('#img_loading_delete_all').show();
+                $.ajax({
+                    type: "post",
+                    url: url_ajax,
+                    data: {dataId: dataId},
+                    success: function (res) {
+                        $('#img_loading_delete_all').hide();
+                        return true;
+                    }
+                });
+            }
+        }
+        
+	}
 }
