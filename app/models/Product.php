@@ -167,9 +167,18 @@ class Product extends Eloquent
             if (isset($dataSearch['product_is_hot']) && $dataSearch['product_is_hot'] > 0) {
                 $query->where('product_is_hot', $dataSearch['product_is_hot']);
             }
-            $total = $query->count();
-            $query->orderBy('product_id', 'desc');
+            //lay theo id SP truyen vào và sap xep theo vi tri đã truyề vào
+            if(isset($dataSearch['str_product_id']) && $dataSearch['str_product_id'] != ''){
+                $arrProductId = explode(',', trim($dataSearch['str_product_id']));
+                $query->whereIn('product_id', $arrProductId);
+                //$query->orderBy('product_id', 'desc');
+                $query->orderByRaw(DB::raw("FIELD(product_id, ".trim($dataSearch['str_product_id'])." )"));
 
+            }else{
+                $query->orderBy('product_id', 'desc');
+            }
+
+            $total = $query->count();
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
             if(!empty($fields)){

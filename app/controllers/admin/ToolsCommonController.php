@@ -226,7 +226,8 @@ class ToolsCommonController extends BaseAdminController
     		if(!empty($arrProduct)){
     			$limit1 = count($arrProduct);
     			$total1 = 0;
-    			$dataSearch1['product_id'] = $arrProduct;
+    			//$dataSearch1['product_id'] = $arrProduct;
+    			$dataSearch1['str_product_id'] = $strProduct;
     			$listProduct = Product::searchByCondition($dataSearch1, $limit1, $offset, $total1);
     		}
     		
