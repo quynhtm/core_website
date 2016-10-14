@@ -21,10 +21,10 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
-                <li><a rel="nofollow" target="_blank" href="" title="">Giới thiệu</a></li>
-				<li><a rel="nofollow" target="_blank" href="" title="">Liên hệ</a></li>
-				<li><a rel="nofollow" target="_blank" href="" title="">Chính sách bảo mật</a></li>
-				<li><a rel="nofollow" target="_blank" href="" title="">Hướng dẫn đăng ký tài khoản</a></li>
+                <li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c3/10-gioi-thieu.html" title="Giới thiệu">Giới thiệu</a></li>
+				<li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c3/11-lien-he.html" title="Liên hệ">Liên hệ</a></li>
+				<li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c3/12-chinh-sach-bao-mat.html" title="Chính sách bảo mật">Chính sách bảo mật</a></li>
+				<li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c3/13-huong-dan-dang-ky-tai-khoan.html" title="Hướng dẫn đăng ký tài khoản">Hướng dẫn đăng ký tài khoản</a></li>
             </ul>
             <ul>
                 <li><span>Dành cho người mua</span></li>
@@ -33,7 +33,7 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
-                <li><a rel="nofollow" target="_blank" href="" title="">Hướng dẫn mua hàng</a></li>
+                <li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c1/14-huong-dan-mua-hang.html" title="Hướng dẫn mua hàng">Hướng dẫn mua hàng</a></li>
             </ul>
             <ul>
                 <li><span>Dành cho người bán</span></li>
@@ -42,7 +42,7 @@
                         <li><a title="" href="#" target="_blank" rel="nofollow">@if(isset($v->news_title)){{$v->news_title}}@endif</a></li>
                     @endforeach
                 @endif
-                <li><a rel="nofollow" target="_blank" href="" title="">Các quy định</a></li>
+                <li><a rel="nofollow" target="_blank" href="{{URL::route('site.home')}}/tin-tuc/c2/15-cac-quy-dinh.html" title="Các quy định">Các quy định</a></li>
             </ul>
             <ul>
                 <li>
