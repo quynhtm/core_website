@@ -32,16 +32,29 @@ class ProviderEmail extends Eloquent
             if (isset($dataSearch['provider_email']) && $dataSearch['provider_email'] != '') {
                 $query->where('provider_email','LIKE', '%' . $dataSearch['provider_email'] . '%');
             }
-
+			
+            if (isset($dataSearch['provider_id'])) {
+            	if (is_array($dataSearch['provider_id'])) {
+            		$query->whereIn('provider_id', $dataSearch['provider_id']);
+            	}
+            	elseif ((int)$dataSearch['provider_id'] > 0) {
+            		$query->where('provider_id','=', (int)$dataSearch['provider_id']);
+            	}
+            }
+            
             $total = $query->count();
             $query->orderBy('provider_id', 'asc');
-
+			
+            if($limit > 0){
+            	$query->take($limit);
+            }
+            
             //get field can lay du lieu
             $fields = (isset($dataSearch['field_get']) && trim($dataSearch['field_get']) != '') ? explode(',',trim($dataSearch['field_get'])): array();
             if(!empty($fields)){
-                $result = $query->take($limit)->skip($offset)->get($fields);
+                $result = $query->skip($offset)->get($fields);
             }else{
-                $result = $query->take($limit)->skip($offset)->get();
+                $result = $query->skip($offset)->get();
             }
             return $result;
 

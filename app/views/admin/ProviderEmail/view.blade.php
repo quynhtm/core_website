@@ -26,6 +26,10 @@
                         </div>
                     </div>
                     <div class="panel-footer text-right">
+                        @if($is_root)
+	                    <span class="img_loading" id="img_loading_delete_all"></span>
+	                    <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.sendEmailInviteToSupplier();"><i class="fa fa-envelope-o"></i> Gửi Email</a>
+	                    @endif
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
                         <span class="">
                             <a class="btn btn-danger btn-sm" href="{{URL::route('admin.provideremail_edit')}}">

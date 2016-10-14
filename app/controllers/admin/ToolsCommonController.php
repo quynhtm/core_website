@@ -255,4 +255,37 @@ class ToolsCommonController extends BaseAdminController
     	}
     	echo 'Ok';die;
     }
+    public function sendEmailInviteToSupplier(){
+    	$dataId = Request::get('dataId', array());
+    	if(!empty($dataId)){
+    		//Get List Email
+    		$offset = $total = 0;
+    		$limit = count($dataId);
+    		$dataSearch['provider_id'] = $dataId;
+    		$listEmail = ProviderEmail::searchByCondition($dataSearch, $limit, $offset, $total);
+    		if(sizeof($listEmail) > 0){
+    			$emails = array();
+    			foreach($listEmail as $email){
+    				$emails[] = $email->provider_email;
+    			}
+    			
+    			$data = array();
+    			$subjects = CGlobal::web_name.' - Tạo shop online miễn phí';
+    			
+    			if(!empty($emails)){
+    				Mail::send('emails.SendInviteToSupplier', array('data'=>$data), function($message) use ($emails, $subjects){
+    					$message->to($emails, 'SendMailToSupplier')
+    							->subject($subjects);
+    				});
+    			}
+    			//Email Owner
+    			$emailExt = array('shoponlinecuatui@gmail.com');
+    			Mail::send('emails.SendInviteToSupplier', array('data'=>$data), function($message) use ($emailExt, $subjects){
+    				$message->to($emailExt, 'SendMailToOwner')
+    						->subject($subjects.' - '.date('d/m/Y h:i',time()));
+    			});
+    		}
+    	}
+    	echo 'Ok';die;
+    }
 }
