@@ -2,8 +2,6 @@
 	<div class="link-breadcrumb">
 		<a href="{{Config::get('config.WEB_ROOT')}}" title="Trang chủ">Trang chủ</a>
 		<i class="fa fa-angle-double-right"></i>
-		<a href="" title="Tin tức chung">Tin tức chung</a>
-		<i class="fa fa-angle-double-right"></i>
 		<a href="{{FunctionLib::buildLinkDetailNews($dataNew->news_id, $dataNew->news_category, $dataNew->news_title)}}" title="{{$dataNew->news_title}}">{{$dataNew->news_title}}</a>
 	</div>
 	<div class="main-view-post">
