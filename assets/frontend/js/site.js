@@ -352,7 +352,7 @@ SITE = {
 		  });
 	},
 	fixed_category_shop:function(){
-		if(jQuery('body').hasClass('wrapp-category-menu')){
+		if(jQuery('.left-category-shop').find('.wrapp-category-menu')){
 			var menu_site = jQuery('.wrapp-category-menu'),
 				pos_menu  = menu_site.offset();
 			var menu_site1 = jQuery('.shopInfo'),
@@ -374,5 +374,5 @@ SITE = {
 				}
 			});
 		}
-	}
+	},
 }
