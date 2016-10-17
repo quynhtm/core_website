@@ -375,7 +375,7 @@ class SiteShopController extends BaseSiteController
         			'phone_support'=>CGlobal::phoneSupport,
         			'web_name'=>CGlobal::web_name,
         	);
-        	$emails = [$dataSave['shop_email'], 'shoponlinecuatui@gmail.com', 'nguyenduypt86@gmail.com'];
+        	$emails = [$dataSave['shop_email'], 'shoponlinecuatui@gmail.com'];
         	Mail::send('emails.ForgetPass', array('data'=>$data), function($message) use ($emails){
         		$message->to($emails, 'UserShop')
         				->subject('Thông tin mật khẩu mới'.date('d/m/Y h:i',  time()));
