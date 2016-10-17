@@ -100,5 +100,5 @@ Route::post('shop/deleteProvider',array('as' => 'shop.deleteProvider','uses' =>'
 
 //quan ly Bán hàng Offline của shop VIP
 Route::get('ban-hang-online.html',array('as' => 'shop.orderShopOffline','uses' =>'ShopVipController@orderShopOffline'));
-Route::post('shop/getInforCustomerBuyProduct',array('as' => 'shop.getInforCustomerBuyProduct','uses' =>'ShopVipController@getInforCustomerBuyProduct'));//ajax
-Route::post('shop/getInforProductBuy',array('as' => 'shop.getInforProductBuy','uses' =>'ShopVipController@getInforProductBuy'));//ajax
+Route::post('shop/getInforShopCart',array('as' => 'shop.getInforShopCart','uses' =>'ShopVipController@getInforShopCart'));//ajax
+Route::post('shop/orderBuyShopCart',array('as' => 'shop.orderBuyShopCart','uses' =>'ShopVipController@orderBuyShopCart'));//ajax

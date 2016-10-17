@@ -126,6 +126,7 @@ class UserShopController extends BaseAdminController
         }
 
         $dataSave['shop_name'] = addslashes(Request::get('shop_name'));
+        $dataSave['user_password'] = Request::get('user_password');
         $dataSave['user_shop'] = addslashes(Request::get('user_shop'));
         $dataSave['shop_phone'] = addslashes(Request::get('shop_phone'));
         $dataSave['shop_email'] = addslashes(Request::get('shop_email'));
@@ -142,6 +143,9 @@ class UserShopController extends BaseAdminController
 
         if($this->valid($dataSave) && empty($this->error)) {
             if($id > 0) {
+                if(trim($dataSave['user_password']) != ''){
+                    $dataSave['user_password'] = User::encode_password(trim($dataSave['user_password']));
+                }
                 //cap nhat
                 if(UserShop::updateData($id, $dataSave)) {
                     return Redirect::route('admin.userShop_list');
