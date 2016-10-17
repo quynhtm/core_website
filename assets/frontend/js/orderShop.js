@@ -41,6 +41,25 @@ orderShop = {
 				}
 			});
 		}
+	},
+	getInforProductBuy:function(){
+		var product_id = jQuery("#product_id").val();
+		if(product_id != ''){
+			$('#img_loading').show();
+			jQuery.ajax({
+				type: "POST",
+				url: WEB_ROOT+'/shop/getInforProductBuy',
+				data: {product_id : product_id},
+				success: function(data) {
+					$('#img_loading').hide();
+					if(data.intIsOK === 1){
+						alert('yyyy');
+					}else{
+						jQuery('#sys_msg_return').html(data.msg);
+					}
+				}
+			});
+		}
 	}
 
 }

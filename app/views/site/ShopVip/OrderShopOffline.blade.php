@@ -20,10 +20,9 @@
                             <label for="category_name">Số điện thoại khách mua hàng</label>
                             <input type="text" class="form-control input-sm" id="customer_phone" name="customer_phone" placeholder="Số điện thoại khách mua hàng">
                         </div>
-                        <div class="form-group col-lg-2">
-                            <label for="category_name">&nbsp;</label>
+                        <div class="form-group col-lg-2 marginTop20">
                             <a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="orderShop.getInforCustomerBuyProduct();">
-                                <i class="fa fa-search"></i> Tìm thông tin khách hàng
+                                <i class="fa fa-search"></i> Tìm khách hàng
                             </a>
                         </div>
                         <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading">
@@ -32,9 +31,8 @@
                             <label for="category_name">Id sản phẩm</label>
                             <input type="text" class="form-control input-sm" id="product_id" name="product_id" placeholder="Id sản phẩm: 111,222,333">
                         </div>
-                        <div class="form-group col-lg-2">
-                            <label for="category_name">&nbsp;</label>
-                            <a class="btn btn-primary btn-sm" href="javascript:void(0);">
+                        <div class="form-group col-lg-2 marginTop20">
+                            <a class="btn btn-primary btn-sm" href="javascript:void(0);" onclick="orderShop.getInforProductBuy();">
                                 <i class="fa fa-search"></i> Tìm sản phẩm
                             </a>
                         </div>

@@ -468,10 +468,64 @@ class ShopVipController extends BaseShopController
     }
     //ajax
     public function getInforProductBuy(){
-        $product_id = (int)Request::get('product_id','');
+        $str_product_id = Request::get('product_id','');
         $data = array('isIntOk' => 0);
-        if($this->shop_id > 0 && $product_id != ''){
+        if($this->shop_id > 0 && $str_product_id != ''){
+            /*
+             * ***************************************************************
+             * Add sản phẩm vào shop cart
+             * ***************************************************************
+             * */
+            //get gio hang cua shop
+            $dataShopCart = array();
+            if(Session::has('shop_cart')){
+                $dataShopCart = Session::get('shop_cart');
+            }
 
+            //lấy mang id sản phẩm đặt mua
+            $array_product_id = explode(',',$str_product_id);
+            $arrProIdAddToBuy = array();
+            if(is_array($array_product_id) && !empty($array_product_id)){
+                foreach($array_product_id as $k =>$val_pro){
+                    $pro_id = (int)trim($val_pro);
+                    //check sản phẩm ko có trong giỏ hàng shop thì lấy
+                    if($pro_id > 0 && !in_array($pro_id,array_keys($dataShopCart))){
+                        $product = Product::getProductByShopId($this->shop_id,$pro_id);
+                        if(sizeof($product) > 0){
+                            $arrProIdAddToBuy[$product->product_id] = isset($product->product_id)? $product->product_id : 0;
+                        }
+                    }
+                }
+            }
+            //add san phâm vào gio hang cua shop
+            if(!empty($arrProIdAddToBuy)){
+                foreach($arrProIdAddToBuy as $k_pro => $va){
+                    if(!isset($dataShopCart[$k_pro])){
+                        $dataShopCart[$k_pro] = 1;
+                    }
+                }
+            }
+            //lưu vào gio hàng shop
+            if(!empty($dataShopCart)){
+                Session::put('shop_cart', $dataShopCart, 60*24);
+            }
+
+            /*
+             * ***************************************************************
+             * Lấy thông tin để show ra
+             * ***************************************************************
+             * */
+            $inforShopCart = array();
+            if(!empty($inforShopCart)){
+                foreach($inforShopCart as $k_pro_id =>$number_buy){
+
+                }
+            }
+            $html = View::make('admin.ShopVip.OrderCustomerShopBuy')->with('inforShopCart', $inforShopCart)->render();
+            $arrAjax = array('isIntOk' => 1, 'info' => $html);
+            return Response::json($arrAjax);
+            FunctionLib::debug($dataShopCart);
+            //684,683,682,680
         }
         return Response::json($data);
     }
