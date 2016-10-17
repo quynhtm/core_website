@@ -285,7 +285,7 @@ class AjaxCommonController extends BaseSiteController
     		$pageNo = 1;
     		$offset = $total = 0;
     		$search = $data = array();
-    		$data = Product::searchByCondition($search, $limit, $offset, $total);
+    		$data = Product::getProductForSite($search, $limit, $offset, $total);
     		$paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
     		
     		if(sizeof($data) > 0){
