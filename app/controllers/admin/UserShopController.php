@@ -55,6 +55,7 @@ class UserShopController extends BaseAdminController
         $search['user_shop'] = addslashes(Request::get('user_shop',''));
         $search['shop_name'] = addslashes(Request::get('shop_name',''));
         $search['shop_status'] = (int)Request::get('shop_status',-1);
+        $search['is_shop'] = (int)Request::get('is_shop',-1);
         //$search['field_get'] = 'category_id,category_name,category_status';//cac truong can lay
 
         $dataSearch = UserShop::searchByCondition($search, $limit, $offset,$total);
@@ -62,6 +63,7 @@ class UserShopController extends BaseAdminController
 
         //FunctionLib::debug($dataSearch);
         $optionStatus = FunctionLib::getOption($this->arrStatus, $search['shop_status']);
+        $optionIsShop = FunctionLib::getOption($this->arrIsShop, $search['is_shop']);
         $this->layout->content = View::make('admin.UserShop.view')
             ->with('paging', $paging)
             ->with('stt', ($pageNo-1)*$limit)
@@ -70,6 +72,7 @@ class UserShopController extends BaseAdminController
             ->with('data', $dataSearch)
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
+            ->with('optionIsShop', $optionIsShop)
             ->with('arrStatus', $this->arrStatus)
             ->with('arrIsShop', $this->arrIsShop)
 

@@ -30,6 +30,12 @@
                                 {{$optionStatus}}
                             </select>
                         </div>
+                        <div class="form-group col-lg-3">
+                            <label for="shop_status">Loại shop</label>
+                            <select name="is_shop" id="is_shop" class="form-control input-sm">
+                                {{$optionIsShop}}
+                            </select>
+                        </div>
                     </div>
                     <div class="panel-footer text-right">
                         @if($is_root || $permission_full ==1 || $permission_create == 1)
