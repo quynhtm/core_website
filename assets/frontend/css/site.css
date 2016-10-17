@@ -1977,3 +1977,7 @@ form#txtFormPaymentCart .form-group label {
     display: inline-block;
     width: 100%;
 }
+.content-news img {
+    max-width: 100% !important;
+    width: auto !important;
+}

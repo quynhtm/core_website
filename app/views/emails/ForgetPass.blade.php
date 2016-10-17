@@ -14,7 +14,13 @@
     			<div style="display:inline-block;float:right;color:#fff; line-height:50px;padding-right:20px; font-style: italic;">{{CGlobal::phoneSupport}}</div>
 	    	</div>
 	    	<div style="background: #fff;margin: 0 auto;min-height: 200px;padding: 3% 2%;width: 88%;">
-				
+				<b>Thay đổi mật khẩu tại {{$data['web_name']}}</b><br/>
+				Chào: {{$data['user_shop']}}<br/>
+				Dưới đây là thông tin đăng nhập<br/><br/>
+				<b>Tên đăng nhập:</b> {{$data['user_shop']}}<br/>
+				<b>Mật khẩu:</b> {{$data['user_password']}}<br/><br/>
+				<a href="{{URL::route('site.shopLogin')}}">Bấm vào để đăng nhập</a><br/><br/>
+				Ghi chú: Bạn hay đăng nhập và thay đổi mật khẩu cho bảo mật lần đăng nhập sau.
 	    	</div>
 	  		<div style="max-height: 34px; height:34px; width: 100%;">
 		        <div style="margin: 0 auto;width: 100%;">
