@@ -456,31 +456,55 @@ class ShopVipController extends BaseShopController
             ->with('arrStatus', $this->arrStatus);
     }
     //ajax
-    public function getInforCustomerBuyProduct(){
-        $customer_phone = (int)Request::get('customer_phone','');
-        $inforCustomer = array();
-        if($this->shop_id > 0 && $customer_phone != ''){
-            $inforCustomer = CustomerShop::getCustomerByPhone(trim($customer_phone));
+    public function orderBuyShopCart(){
+        $customer_shop_phone = Request::get('customer_shop_phone','');
+        $customer_shop_full_name = Request::get('customer_shop_full_name','');
+        $customer_shop_email = Request::get('customer_shop_email','');
+        $customer_shop_address = Request::get('customer_shop_phone','');
+
+        //get gio hang cua shop
+        $shopCart = Session::has('shop_cart') ?Session::get('shop_cart') : array();
+        if(empty($shopCart)){
+            $arrAjax = array('isIntOk' => 0, 'msg' => 'Đơn hàng không tồn tại');
+            return Response::json($arrAjax);
         }
-        $html = View::make('admin.ShopVip.OrderCustomerShopBuy')->with('inforCustomer', $inforCustomer)->render();
-        $arrAjax = array('isIntOk' => 1, 'info' => $html);
-        return Response::json($arrAjax);
+        //lấy thông tin sản phẩm add vào order
+        else{
+            foreach($shopCart as $pro_id =>$number_buy){
+                ///
+            }
+        }
     }
     //ajax
-    public function getInforProductBuy(){
+    public function getInforShopCart(){
         $str_product_id = Request::get('product_id','');
+        $customer_phone = (int)Request::get('customer_phone','');
         $data = array('isIntOk' => 0);
-        if($this->shop_id > 0 && $str_product_id != ''){
+
+        if($this->shop_id > 0 && $str_product_id != '' && $customer_phone != ''){
+            /*
+             * ***************************************************************
+             * Thông tin khách mua hàng
+             * ***************************************************************
+             * */
+            $inforCustomer = array();
+            if($this->shop_id > 0 && $customer_phone != ''){
+                $customer = CustomerShop::getCustomerByPhone(trim($customer_phone));
+                if(sizeof($customer) > 0){
+                    $inforCustomer['customer_shop_full_name'] = isset($customer->customer_shop_full_name)?$customer->customer_shop_full_name:'';
+                    $inforCustomer['customer_shop_email'] = isset($customer->customer_shop_email)?$customer->customer_shop_email:'';
+                    $inforCustomer['customer_shop_address'] = isset($customer->customer_shop_address)?$customer->customer_shop_address:'';
+                }
+                $inforCustomer['customer_shop_phone'] = $customer_phone;
+            }
+
             /*
              * ***************************************************************
              * Add sản phẩm vào shop cart
              * ***************************************************************
              * */
             //get gio hang cua shop
-            $dataShopCart = array();
-            if(Session::has('shop_cart')){
-                $dataShopCart = Session::get('shop_cart');
-            }
+            $shopCart = Session::has('shop_cart') ?Session::get('shop_cart') : array();
 
             //lấy mang id sản phẩm đặt mua
             $array_product_id = explode(',',$str_product_id);
@@ -489,7 +513,7 @@ class ShopVipController extends BaseShopController
                 foreach($array_product_id as $k =>$val_pro){
                     $pro_id = (int)trim($val_pro);
                     //check sản phẩm ko có trong giỏ hàng shop thì lấy
-                    if($pro_id > 0 && !in_array($pro_id,array_keys($dataShopCart))){
+                    if($pro_id > 0 && !in_array($pro_id,array_keys($shopCart))){
                         $product = Product::getProductByShopId($this->shop_id,$pro_id);
                         if(sizeof($product) > 0){
                             $arrProIdAddToBuy[$product->product_id] = isset($product->product_id)? $product->product_id : 0;
@@ -500,14 +524,14 @@ class ShopVipController extends BaseShopController
             //add san phâm vào gio hang cua shop
             if(!empty($arrProIdAddToBuy)){
                 foreach($arrProIdAddToBuy as $k_pro => $va){
-                    if(!isset($dataShopCart[$k_pro])){
-                        $dataShopCart[$k_pro] = 1;
+                    if(!isset($shopCart[$k_pro])){
+                        $shopCart[$k_pro] = 1;
                     }
                 }
             }
             //lưu vào gio hàng shop
-            if(!empty($dataShopCart)){
-                Session::put('shop_cart', $dataShopCart, 60*24);
+            if(!empty($shopCart)){
+                Session::put('shop_cart', $shopCart, 60*24);
             }
 
             /*
@@ -516,15 +540,35 @@ class ShopVipController extends BaseShopController
              * ***************************************************************
              * */
             $inforShopCart = array();
-            if(!empty($inforShopCart)){
-                foreach($inforShopCart as $k_pro_id =>$number_buy){
 
+            if(!empty($shopCart)){
+                foreach($shopCart as $k_pro_id =>$number_buy){
+                    $inforProduct = Product::getProductByShopId($this->shop_id,$k_pro_id);
+                    if(sizeof($inforProduct) > 0){
+                        $inforShopCart[] = array(
+                            'number_buy'=>$number_buy,
+
+                            'product_id'=>$inforProduct->product_id,
+                            'product_name'=>$inforProduct->product_name,
+                            'category_name'=>$inforProduct->category_name,
+                            'product_status'=>$inforProduct->product_status,
+                            'is_block'=>$inforProduct->is_block,
+                            'is_sale'=>$inforProduct->is_sale,//0 hết hàng, 1 con hàng
+
+                            'product_image'=>$inforProduct->product_image,
+                            'product_price_sell'=>$inforProduct->product_price_sell,
+                            'product_type_price'=>$inforProduct->product_type_price,
+                        );
+                    }
                 }
             }
-            $html = View::make('admin.ShopVip.OrderCustomerShopBuy')->with('inforShopCart', $inforShopCart)->render();
-            $arrAjax = array('isIntOk' => 1, 'info' => $html);
+            $html = View::make('site.ShopVip.OrderProductShopBuy')
+                ->with('inforShopCart', $inforShopCart)
+                ->with('inforCustomer', $inforCustomer)
+                ->render();
+            $arrAjax = array('isIntOk' => 1, 'infor' => $html);
             return Response::json($arrAjax);
-            FunctionLib::debug($dataShopCart);
+            //FunctionLib::debug($dataShopCart);
             //684,683,682,680
         }
         return Response::json($data);

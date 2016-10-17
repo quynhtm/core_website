@@ -23,42 +23,55 @@ orderShop = {
 			return true;	
 		});	
 	},
-	getInforCustomerBuyProduct:function(){
+	getInforShopCart:function(){
+		var product_id = jQuery("#product_id").val();
 		var customer_phone = jQuery("#customer_phone").val();
-		if(customer_phone != ''){
+		if(product_id != '' && customer_phone != ''){
 			$('#img_loading').show();
 			jQuery.ajax({
 				type: "POST",
-				url: WEB_ROOT+'/shop/getInforCustomerBuyProduct',
-				data: {customer_phone : customer_phone},
+				url: WEB_ROOT+'/shop/getInforShopCart',
+				data: {product_id : product_id,customer_phone : customer_phone},
 				success: function(data) {
 					$('#img_loading').hide();
-					if(data.intIsOK === 1){
-						alert('xxxx');
-					}else{
-						jQuery('#sys_msg_return').html(data.msg);
+					if(data.isIntOk === 1){
+						jQuery('#block_show_infor_shop_cart').html(data.infor);
 					}
 				}
 			});
+		}else{
+			alert('Bạn chưa nhập đầy đủ thông tin để tạo đơn hàng shop');
 		}
 	},
-	getInforProductBuy:function(){
-		var product_id = jQuery("#product_id").val();
-		if(product_id != ''){
-			$('#img_loading').show();
-			jQuery.ajax({
-				type: "POST",
-				url: WEB_ROOT+'/shop/getInforProductBuy',
-				data: {product_id : product_id},
-				success: function(data) {
-					$('#img_loading').hide();
-					if(data.intIsOK === 1){
-						alert('yyyy');
-					}else{
-						jQuery('#sys_msg_return').html(data.msg);
+	orderBuyShopCart:function(){
+		var customer_shop_phone = jQuery("#customer_shop_phone").val();
+		var customer_shop_full_name = jQuery("#customer_shop_full_name").val();
+		var customer_shop_email = jQuery("#customer_shop_email").val();
+		var customer_shop_address = jQuery("#customer_shop_address").val();
+
+		if(customer_shop_phone != '' && customer_shop_full_name != '' && customer_shop_email != '' && customer_shop_address != ''){
+			var result = confirm("Bạn chắc chắn muốn bán những mặt hàng trên?");
+			if(result){
+				$('#img_loading').show();
+				jQuery.ajax({
+					type: "POST",
+					url: WEB_ROOT+'/shop/orderBuyShopCart',
+					data: {customer_shop_phone : customer_shop_phone,customer_shop_full_name : customer_shop_full_name,customer_shop_email : customer_shop_email,customer_shop_address : customer_shop_address},
+					success: function(data) {
+						$('#img_loading').hide();
+						if(data.isIntOk === 1){
+							alert('Bán hàng thành công');
+							jQuery("#product_id").val('');
+							jQuery("#customer_phone").val('');
+							window.location.reload();
+						}else{
+							alert('Chưa đủ thông tin để bán hàng');
+						}
 					}
-				}
-			});
+				});
+			}
+		}else{
+			alert('Bạn chưa nhập đầy đủ thông tin để đặt hàng cho khách');
 		}
 	}
 
