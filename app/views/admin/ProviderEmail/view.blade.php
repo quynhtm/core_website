@@ -56,6 +56,7 @@
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
                             <th width="30%">Tên nhà cung cấp</th>
                             <th width="20%">Thông tin khác</th>
+                            <th width="10%">Ngày tạo</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
@@ -69,6 +70,9 @@
                                 <td>
                                 	<b>Email:</b> {{$item->supplier_email}}<br/>
                                 	<b>ĐT:</b> {{$item->supplier_phone}}<br/>
+                                </td>
+                                <td>
+                                	 {{date('d-m-Y h:i',$item->supplier_created)}}<br/>
                                 </td>
                                 <td class="text-center text-middle">
                                     @if($is_root || $permission_full ==1 || $permission_delete == 2)

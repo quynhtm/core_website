@@ -7,14 +7,16 @@
 class CronjobsController extends BaseSiteController
 {
     private  $sizeImageShowUpload = CGlobal::sizeImage_100;
+	//cronjobs/runJobs?action=0
     function runJobs() {
         $action = Request::get('action', 0);//kiểu chạy joib
         switch( $action ){
             case 1://cập nhật link ảnh trong sản phẩm
+			case 2://cập nhật link ảnh trong tin tức
                 $this->updateLinkInContent($action);
                 break;
-            case 2://cập nhật link ảnh trong tin tức
-                $this->updateLinkInContent($action);
+			case 3://cập nhật email NCC
+                $this->convertEmailProvider();
                 break;
             default:
                 break;
@@ -67,5 +69,27 @@ class CronjobsController extends BaseSiteController
         	}
             echo 'đã cập nhật xong';
         }
+
+	public function convertEmailProvider(){
+		die('dã chạy thêm dữ liệu');
+		$total = 0;
+		$dataSearch['field_get'] = 'provider_id,provider_name,provider_phone,provider_email';
+		$dataProvider = ProviderEmail::searchByCondition($dataSearch,1000,0,$total);
+		$total_insert = 0;
+		if($dataProvider){
+			foreach($dataProvider as $k=>$valu){
+				if($valu->provider_email != ''){
+					$insert = array('supplier_created'=>time(),
+						'supplier_name'=>$valu->provider_name,
+						'supplier_phone'=>$valu->provider_phone,
+						'supplier_email'=>trim(str_replace(' ','',$valu->provider_email)));
+					Supplier::addData($insert);
+					$total_insert ++;
+				}
+			}
+		}
+		echo 'Tong ban dau: '.$total.'--- Tong them: '.$total_insert;
+		//FunctionLib::debug($provider);
+	}
 
 }
