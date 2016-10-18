@@ -344,6 +344,7 @@ return array(
     'SiteShopController' => $baseDir . '/app/controllers/site/SiteShopController.php',
     'Style' => $vendorDir . '/dompdf/dompdf/include/style.cls.php',
     'Stylesheet' => $vendorDir . '/dompdf/dompdf/include/stylesheet.cls.php',
+    'Supplier' => $baseDir . '/app/models/Supplier.php',
     'TCPDF' => $baseDir . '/app/library/PDF/tcpdf.php',
     'TCPDF2DBarcode' => $baseDir . '/app/library/PDF/2dbarcodes.php',
     'TCPDFBarcode' => $baseDir . '/app/library/PDF/barcodes.php',

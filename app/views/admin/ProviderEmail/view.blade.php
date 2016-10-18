@@ -18,11 +18,15 @@
                     <div class="panel-body">
                         <div class="form-group col-lg-3">
                             <label for="category_name">Tên</label>
-                            <input type="text" class="form-control input-sm" id="provider_name" name="provider_name" placeholder="Tên khách hàng" @if(isset($search['provider_name']) && $search['provider_name'] != '')value="{{$search['provider_name']}}"@endif>
+                            <input type="text" class="form-control input-sm" id="supplier_name" name="supplier_name" placeholder="Tên khách hàng" @if(isset($search['supplier_name']) && $search['supplier_name'] != '')value="{{$search['supplier_name']}}"@endif>
                         </div>
                         <div class="form-group col-lg-3">
                             <label for="category_name">Email</label>
-                            <input type="text" class="form-control input-sm" id="provider_email" name="provider_email" placeholder="Tên hiển thị của shop" @if(isset($search['provider_email']) && $search['provider_email'] != '')value="{{$search['provider_email']}}"@endif>
+                            <input type="text" class="form-control input-sm" id="supplier_email" name="supplier_email" placeholder="Tên hiển thị của shop" @if(isset($search['supplier_email']) && $search['supplier_email'] != '')value="{{$search['supplier_email']}}"@endif>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="category_name">Phone</label>
+                            <input type="text" class="form-control input-sm" id="supplier_phone" name="supplier_phone" placeholder="Tên hiển thị của shop" @if(isset($search['supplier_phone']) && $search['supplier_phone'] != '')value="{{$search['supplier_phone']}}"@endif>
                         </div>
                     </div>
                     <div class="panel-footer text-right">
@@ -30,14 +34,6 @@
 	                    <span class="img_loading" id="img_loading_delete_all"></span>
 	                    <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.sendEmailInviteToSupplier();"><i class="fa fa-envelope-o"></i> Gửi Email</a>
 	                    @endif
-                        @if($is_root || $permission_full ==1 || $permission_create == 1)
-                        <span class="">
-                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.provideremail_edit')}}">
-                                <i class="ace-icon fa fa-plus-circle"></i>
-                                Thêm mới
-                            </a>
-                        </span>
-                        @endif
                         @if($is_root)
 	                    <a class="btn btn-warning btn-sm" href="javascript:void(0);" onclick="Admin.removeAllItems(6);"><i class="fa fa-trash"></i> Xóa nhiều</a>
 	                    @endif
@@ -58,7 +54,7 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT <input type="checkbox" class="check" id="checkAll"></th>
-                            <th width="30%">Tên Khách hàng</th>
+                            <th width="30%">Tên nhà cung cấp</th>
                             <th width="20%">Thông tin khác</th>
                             <th width="10%" class="text-center">Thao tác</th>
                         </tr>
@@ -67,23 +63,18 @@
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}<br/>
-                                	<input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->provider_id}}">
+                                	<input class="check" type="checkbox" name="checkItems[]" id="sys_checkItems" value="{{$item->supplier_id}}">
                                 </td>
-                                <td>{{ $item->provider_name}}</td>
+                                <td>{{ $item->supplier_name}}</td>
                                 <td>
-                                	<b>Email:</b> {{$item->provider_email}}<br/>
-                                	<b>ĐT:</b> {{$item->provider_phone}}<br/>
-                                	<b>Địa chỉ:</b> {{$item->provider_address}}
-                                	
+                                	<b>Email:</b> {{$item->supplier_email}}<br/>
+                                	<b>ĐT:</b> {{$item->supplier_phone}}<br/>
                                 </td>
                                 <td class="text-center text-middle">
-                                    @if($is_root || $permission_full ==1|| $permission_edit ==1  )
-                                        <a href="{{URL::route('admin.provideremail_edit',array('id' => $item->provider_id))}}" title="Sửa item"><i class="fa fa-edit fa-2x"></i></a>
-                                    @endif
                                     @if($is_root || $permission_full ==1 || $permission_delete == 2)
-                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->provider_id}},6)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                       <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->supplier_id}},6)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
                                     @endif
-                                    <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->provider_id}}">
+                                    <img src="{{Config::get('config.WEB_ROOT')}}assets/admin/img/ajax-loader.gif" width="20" style="display: none" id="img_loading_{{$item->supplier_id}}">
                                 </td>
                             </tr>
                         @endforeach

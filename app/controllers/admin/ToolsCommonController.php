@@ -249,7 +249,7 @@ class ToolsCommonController extends BaseAdminController
     			$emailExt = array('shoponlinecuatui@gmail.com');
 				Mail::send('emails.SendProductToCustomer', array('data'=>$data), function($message) use ($emailExt, $subjects){
 	    					$message->to($emailExt, 'SendMailToOwner')
-	    							->subject($subjects.' - '.date('d/m/Y h:i',time()));
+	    							->subject($subjects.' - '.date('d/m/Y h:i:s',time()));
 	    			});
     		}
     	}
@@ -261,12 +261,12 @@ class ToolsCommonController extends BaseAdminController
     		//Get List Email
     		$offset = $total = 0;
     		$limit = count($dataId);
-    		$dataSearch['provider_id'] = $dataId;
-    		$listEmail = ProviderEmail::searchByCondition($dataSearch, $limit, $offset, $total);
+    		$dataSearch['supplier_id'] = $dataId;
+    		$listEmail = Supplier::searchByCondition($dataSearch, $limit, $offset, $total);
     		if(sizeof($listEmail) > 0){
     			$emails = array();
     			foreach($listEmail as $email){
-    				$emails[] = $email->provider_email;
+    				$emails[] = trim($email->supplier_email);
     			}
     			
     			$data = array();
@@ -282,7 +282,7 @@ class ToolsCommonController extends BaseAdminController
     			$emailExt = array('shoponlinecuatui@gmail.com');
     			Mail::send('emails.SendInviteToSupplier', array('data'=>$data), function($message) use ($emailExt, $subjects){
     				$message->to($emailExt, 'SendMailToOwner')
-    						->subject($subjects.' - '.date('d/m/Y h:i',time()));
+    						->subject($subjects.' - '.date('d/m/Y h:i:s',time()));
     			});
     		}
     	}
