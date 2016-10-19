@@ -15,8 +15,12 @@
             <input type="text" class="form-control input-sm" id="customer_shop_email" name="customer_shop_email" placeholder="Email khách mua hàng" value="@if(isset($inforCustomer['customer_shop_email'])){{$inforCustomer['customer_shop_email']}}@endif">
         </div>
         <div class="form-group">
-            <label for="category_name">Địa chỉ khách hàng <span class="red"> (*) </span></label>
-            <textarea rows="4" cols="8" name="customer_shop_address" class="form-control input-sm">@if(isset($inforCustomer['customer_shop_address'])){{$inforCustomer['customer_shop_address']}}@endif</textarea>
+            <label for="category_name">Địa chỉ khách hàng</label>
+            <textarea rows="2" cols="8" name="customer_shop_address"id="customer_shop_address" class="form-control input-sm">@if(isset($inforCustomer['customer_shop_address'])){{$inforCustomer['customer_shop_address']}}@endif</textarea>
+        </div>
+        <div class="form-group">
+            <label for="category_name">Ghi chú</label>
+            <textarea rows="2" cols="8" name="customer_shop_note"id="customer_shop_note" class="form-control input-sm"></textarea>
         </div>
     </div>
     <div class="form-group col-lg-9">
@@ -50,7 +54,7 @@
                                 [<b>{{ $item['product_id']}}</b>] {{ $item['product_name']}}
                             @endif
                         </td>
-                        <td>
+                        <td class="text-right">
                             @if($item['product_type_price'] == CGlobal::TYPE_PRICE_CONTACT)
                                 Giá bán: <b class="red"> Liên hệ </b>
                             @else
@@ -58,7 +62,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <select name="listCart[{{$item['product_id']}}]">
+                            <select name="listCart[{{$item['product_id']}}]" id="number_buy_id_{{$item['product_id']}}" onchange="orderShop.changeNumberBuyShopCart({{$item['product_id']}})">
                                 @for($i=1; $i<=CGlobal::max_num_buy_item_product; $i++)
                                     <option value="{{$i}}" @if($item['number_buy'] == $i)selected="selected"@endif>{{$i}}</option>
                                 @endfor
@@ -71,7 +75,7 @@
                             <b class="red">{{ FunctionLib::numberFormat($item['product_price_sell']*$item['number_buy']) }} đ</b>
                         </td>
                         <td class="text-center">
-                            <a data-id="{{$item['product_id']}}" class="delOneItemCart" href="javascript:void(0)"><i class="fa fa-trash fa-2x"></i></a>
+                            <a class="delOneItemShopCart" href="javascript:void(0)" onclick="orderShop.delOneShopCart({{$item['product_id']}})"><i class="fa fa-trash fa-2x"></i></a>
                         </td>
                     </tr>
                 @endforeach

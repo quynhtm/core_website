@@ -29,7 +29,7 @@ class ProviderEmailController extends BaseAdminController
         $search = $data = array();
         $total = 0;
         
-        $search['supplier_email'] = (int)Request::get('supplier_email', '');
+        $search['supplier_email'] = Request::get('supplier_email', '');
         $search['supplier_name'] = addslashes(Request::get('supplier_name',''));
         $search['supplier_phone'] = addslashes(Request::get('supplier_phone',''));
         $search['field_get'] = '';

@@ -451,8 +451,61 @@ class ShopVipController extends BaseShopController
         ));
         CGlobal::$pageShopTitle = "Bán hàng tại Shop | ".CGlobal::web_name;
 
+        $inforCustomer = $inforShopCart = array();
+        $str_product_id = Request::get('product_id','');
+        $customer_phone = Request::get('customer_phone','');
+        /*
+         * ***************************************************************
+         * Thông tin khách mua hàng
+         * ***************************************************************
+         * */
+        if($this->shop_id > 0 && $customer_phone != ''){
+            $customer = CustomerShop::getCustomerByPhone(trim($customer_phone));
+
+            if(sizeof($customer) > 0){
+                $inforCustomer['customer_shop_full_name'] = isset($customer->customer_shop_full_name)?$customer->customer_shop_full_name:'';
+                $inforCustomer['customer_shop_email'] = isset($customer->customer_shop_email)?$customer->customer_shop_email:'';
+                $inforCustomer['customer_shop_address'] = isset($customer->customer_shop_address)?$customer->customer_shop_address:'';
+            }
+            $inforCustomer['customer_shop_phone'] = $customer_phone;
+        }
+
+        /*
+         * ***************************************************************
+         * Add sản phẩm vào shop cart
+         * ***************************************************************
+         * */
+        //get gio hang cua shop
+        $shopCart = Session::has('shop_cart') ?Session::get('shop_cart') : array();
+
+        if(!empty($shopCart)){
+            foreach($shopCart as $k_pro_id =>$number_buy){
+                $inforProduct = Product::getProductByShopId($this->shop_id,$k_pro_id);
+                if(sizeof($inforProduct) > 0){
+                    $inforShopCart[] = array(
+                        'number_buy'=>$number_buy,
+
+                        'product_id'=>$inforProduct->product_id,
+                        'product_name'=>$inforProduct->product_name,
+                        'category_name'=>$inforProduct->category_name,
+                        'product_status'=>$inforProduct->product_status,
+                        'is_block'=>$inforProduct->is_block,
+                        'is_sale'=>$inforProduct->is_sale,//0 hết hàng, 1 con hàng
+
+                        'product_image'=>$inforProduct->product_image,
+                        'product_price_sell'=>$inforProduct->product_price_sell,
+                        'product_type_price'=>$inforProduct->product_type_price,
+                    );
+                }
+            }
+        }
+
         $this->layout->content = View::make('site.ShopVip.OrderShopOffline')
             ->with('error', $this->error)
+            ->with('str_product_id', $str_product_id)
+            ->with('customer_phone', $customer_phone)
+            ->with('inforCustomer', $inforCustomer)
+            ->with('inforShopCart', $inforShopCart)
             ->with('arrStatus', $this->arrStatus);
     }
     //ajax
@@ -460,7 +513,8 @@ class ShopVipController extends BaseShopController
         $customer_shop_phone = Request::get('customer_shop_phone','');
         $customer_shop_full_name = Request::get('customer_shop_full_name','');
         $customer_shop_email = Request::get('customer_shop_email','');
-        $customer_shop_address = Request::get('customer_shop_phone','');
+        $customer_shop_address = Request::get('customer_shop_address','');
+        $customer_shop_note = Request::get('customer_shop_note','');
 
         //get gio hang cua shop
         $shopCart = Session::has('shop_cart') ?Session::get('shop_cart') : array();
@@ -470,10 +524,99 @@ class ShopVipController extends BaseShopController
         }
         //lấy thông tin sản phẩm add vào order
         else{
-            foreach($shopCart as $pro_id =>$number_buy){
-                ///
+            $dataOrderInput = array(
+                'order_customer_name'=>$customer_shop_full_name,
+                'order_customer_phone'=>$customer_shop_phone,
+                'order_customer_email'=>$customer_shop_email,
+                'order_customer_address'=>$customer_shop_address,
+                'order_customer_note'=>$customer_shop_note,
+                'order_time'=>time(),
+                'order_status'=>CGlobal::ORDER_STATUS_SUCCESS,
+            );
+            $dataOrder = array();
+            $orde_id = 0;
+            foreach($shopCart as $k_pro_id =>$number_buy){
+                $inforProduct = Product::getProductByShopId($this->shop_id,$k_pro_id);
+                if(sizeof($inforProduct) > 0){
+                    if(isset($inforProduct->product_id) && $inforProduct->product_id == $k_pro_id){
+                        $dataOrderInput['order_product_id'] = $inforProduct->product_id;
+                        $dataOrderInput['order_product_name'] = $inforProduct->product_name;
+                        $dataOrderInput['order_product_price_sell'] = $inforProduct->product_price_sell;
+                        $dataOrderInput['order_product_image'] = $inforProduct->product_image;
+                        $dataOrderInput['order_product_type_price'] = $inforProduct->product_type_price;
+                        $dataOrderInput['order_category_id'] = $inforProduct->category_id;
+                        $dataOrderInput['order_category_name'] = $inforProduct->category_name;
+
+                        $dataOrderInput['order_quality_buy'] = $number_buy;
+                        $dataOrderInput['order_user_shop_id'] = $inforProduct->user_shop_id;
+                        $dataOrderInput['order_user_shop_name'] = $inforProduct->user_shop_name;
+                        $dataOrderInput['order_product_province'] = $inforProduct->shop_province;
+
+                        $dataOrder[] = $dataOrderInput;
+                        $orde_id = Order::addData($dataOrderInput);
+                    }
+                }
+            }
+            if(Session::has('shop_cart')){
+                Session::forget('shop_cart');
+                //guui mail cho quản trị
+                $dataCustomer = array(
+                    'txtName'=>$customer_shop_full_name,
+                    'txtMobile'=>$customer_shop_phone,
+                    'txtEmail'=>$customer_shop_email,
+                    'txtAddress'=>$customer_shop_address,
+                    'txtMessage'=>$customer_shop_note,
+                    'dataItem'=>$dataOrder,
+                );
+                $emailsQuantri = ['shoponlinecuatui@gmail.com'];
+                Mail::send('emails.SendOrderToMailCustomer', array('data'=>$dataCustomer), function($message) use ($emailsQuantri){
+                    $message->to($emailsQuantri, 'OrderToCustomer')
+                        ->subject(CGlobal::web_name.'-'.$this->shop_name.' đã bán hàng tại shop ngày'.date('d/m/Y h:i',  time()));
+                });
+            }
+
+            $arrAjax = array('isIntOk' => ($orde_id >0)? 1:0,);
+            return Response::json($arrAjax);
+        }
+    }
+    //ajax xóa 1 item trong giỏ hàng
+    public function deleteOneItemShopCart(){
+        $id = (int)Request::get('product_id', 0);
+        if($id > 0){
+            if(Session::has('shop_cart')){
+                $shop_cart = Session::get('shop_cart');
+                if(isset($shop_cart[$id])){
+                    unset($shop_cart[$id]);
+                }
+                Session::put('shop_cart', $shop_cart, 60*24);
+                Session::save();
+
+                $arrAjax = array('isIntOk' => 1);
+                return Response::json($arrAjax);
             }
         }
+        $arrAjax = array('isIntOk' => 0);
+        return Response::json($arrAjax);
+    }
+    //ajax thay doi SL mua
+    public function changeNumberBuyShopCart(){
+        $id = (int)Request::get('product_id', 0);
+        $number_buy = (int)Request::get('number_buy', 0);
+        if($id > 0){
+            if(Session::has('shop_cart')){
+                $shop_cart = Session::get('shop_cart');
+                if(isset($shop_cart[$id])){
+                    $shop_cart[$id] = $number_buy;
+                }
+                Session::put('shop_cart', $shop_cart, 60*24);
+                Session::save();
+
+                $arrAjax = array('isIntOk' => 1);
+                return Response::json($arrAjax);
+            }
+        }
+        $arrAjax = array('isIntOk' => 0);
+        return Response::json($arrAjax);
     }
     //ajax
     public function getInforShopCart(){

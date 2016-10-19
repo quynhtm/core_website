@@ -102,3 +102,5 @@ Route::post('shop/deleteProvider',array('as' => 'shop.deleteProvider','uses' =>'
 Route::get('ban-hang-online.html',array('as' => 'shop.orderShopOffline','uses' =>'ShopVipController@orderShopOffline'));
 Route::post('shop/getInforShopCart',array('as' => 'shop.getInforShopCart','uses' =>'ShopVipController@getInforShopCart'));//ajax
 Route::post('shop/orderBuyShopCart',array('as' => 'shop.orderBuyShopCart','uses' =>'ShopVipController@orderBuyShopCart'));//ajax
+Route::post('shop/deleteOneItemShopCart',array('as' => 'shop.deleteOneItemShopCart','uses' =>'ShopVipController@deleteOneItemShopCart'));//ajax
+Route::post('shop/changeNumberBuyShopCart',array('as' => 'shop.changeNumberBuyShopCart','uses' =>'ShopVipController@changeNumberBuyShopCart'));//ajax

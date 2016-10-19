@@ -553,36 +553,36 @@ class FunctionLib {
          return $result;
      }
 
-    static function sortBySubValue($array, $value, $asc = true, $preserveKeys = false)
-    {
-        if ($preserveKeys) {
-            $c = array();
-            if (is_object(reset($array))) {
-                foreach ($array as $k => $v) {
-                    $b[$k] = strtolower($v->$value);
+    static function sortBySubValue($array, $value, $asc = true, $preserveKeys = false){
+        if(!empty($array)){
+            if ($preserveKeys) {
+                $c = array();
+                if (is_object(reset($array))) {
+                    foreach ($array as $k => $v) {
+                        $b[$k] = strtolower($v->$value);
+                    }
+                } else {
+                    foreach ($array as $k => $v) {
+                        $b[$k] = strtolower($v[$value]);
+                    }
                 }
-            } else {
-                foreach ($array as $k => $v) {
-                    $b[$k] = strtolower($v[$value]);
+                $asc ? asort($b) : arsort($b);
+                foreach ($b as $k => $v) {
+                    $c[$k] = $array[$k];
                 }
-            }
-            $asc ? asort($b) : arsort($b);
-            foreach ($b as $k => $v) {
-                $c[$k] = $array[$k];
-            }
-            $array = $c;
-        } else {
-            if (is_object(reset($array))) {
-                usort($array, function ($a, $b) use ($value, $asc) {
-                    return $a->{$value} == $b->{$value} ? 0 : ($a->{$value} - $b->{$value}) * ($asc ? 1 : -1);
-                });
+                $array = $c;
             } else {
-                usort($array, function ($a, $b) use ($value, $asc) {
-                    return $a[$value] == $b[$value] ? 0 : ($a[$value] - $b[$value]) * ($asc ? 1 : -1);
-                });
+                if (is_object(reset($array))) {
+                    usort($array, function ($a, $b) use ($value, $asc) {
+                        return $a->{$value} == $b->{$value} ? 0 : ($a->{$value} - $b->{$value}) * ($asc ? 1 : -1);
+                    });
+                } else {
+                    usort($array, function ($a, $b) use ($value, $asc) {
+                        return $a[$value] == $b[$value] ? 0 : ($a[$value] - $b[$value]) * ($asc ? 1 : -1);
+                    });
+                }
             }
         }
-
         return $array;
     }
      //Get OS

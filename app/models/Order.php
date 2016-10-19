@@ -115,7 +115,7 @@ class Order extends Eloquent
             }
             if ($data->save()) {
                 DB::connection()->getPdo()->commit();
-                return $data->category_id;
+                return $data->order_id;
             }
             DB::connection()->getPdo()->commit();
             return false;
@@ -141,7 +141,7 @@ class Order extends Eloquent
                 $dataSave->update($dataInput);
             }
             DB::connection()->getPdo()->commit();
-            return true;
+            return $dataSave->order_id;
         } catch (PDOException $e) {
             DB::connection()->getPdo()->rollBack();
             throw new PDOException();
