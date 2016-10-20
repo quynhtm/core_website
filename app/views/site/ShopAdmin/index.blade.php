@@ -222,6 +222,13 @@
                 </a>
                 <b class="arrow"></b>
                 <ul class="submenu">
+                    <li class="@if(Route::currentRouteName() == 'shop.orderShopOffline')active @endif">
+                        <a href="{{URL::route('shop.orderShopOffline')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Bán hàng tại shop
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
                     <li class="@if(Route::currentRouteName() == 'shop.listOrder')active @endif">
                         <a href="{{URL::route('shop.listOrder')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
