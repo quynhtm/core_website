@@ -22,6 +22,8 @@ var Admin = {
                 url_ajax = 'deleteProviderEmail';
             }else if(type == 7){
                 url_ajax = 'deleteContentSendEmail';
+            }else if(type == 8){
+                url_ajax = 'deleteOrderShop';
             }
             if(url_ajax != ''){
                 $.ajax({

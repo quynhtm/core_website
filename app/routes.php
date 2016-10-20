@@ -149,9 +149,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
 
     /*Quan Ly Don Hang*/
     Route::get('order/view',array('as' => 'admin.order_list','uses' => 'OrderController@view'));
-    Route::get('order/getOrder/{id}', array('as' => 'admin.order_edit','uses' => 'OrderController@getOrder'))->where('id', '[0-9]+');
-    Route::post('order/postOrder/{id}', array('as' => 'admin.order_edit_post','uses' => 'OrderController@postOrder'))->where('id', '[0-9]+');
-    Route::post('order/deleteItem', array('as' => 'admin.deltete_order_post','uses' => 'OrderController@deleteItem'));
+    Route::post('order/deleteOrderShop', array('as' => 'admin.deleteOrderShop','uses' => 'OrderController@deleteOrderShop'));
     
     /*Quan Ly danh sach khach hang va gui mail*/
     Route::get('customeremail/view',array('as' => 'admin.customeremail_list','uses' => 'CustomerEmailController@view'));

@@ -46,7 +46,15 @@
                                 <input type="text" class="form-control" id="time_end_time" name="time_end_time"  data-date-format="dd-mm-yyyy" value="@if(isset($data['time_end_time'])){{date('d-m-Y',$data['time_end_time'])}}@endif">
                             </div>
                         </div>
-
+                        <div class="form-group col-lg-3">
+                            <label for="order_user_shop_id">ĐH của Shop</label>
+                            <select name="order_user_shop_id" id="order_user_shop_id" class="form-control input-sm chosen-select-deselect" tabindex="12" data-placeholder="Chọn tên shop">
+                                <option value=""></option>
+                                @foreach($arrShop as $shop_id => $shopName)
+                                    <option value="{{$shop_id}}" @if($search['order_user_shop_id'] == $shop_id) selected="selected" @endif>{{$shopName}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group col-lg-3">
                             <label for="order_status">Trạng thái</label>
                             <select name="order_status" id="order_status" class="form-control input-sm">
@@ -55,14 +63,6 @@
                         </div>
                     </div>
                     <div class="panel-footer text-right">
-                        @if($is_root || $permission_full ==1 || $permission_create == 1)
-                        <span class="">
-                            <a class="btn btn-danger btn-sm" href="{{URL::route('admin.category_edit')}}">
-                                <i class="ace-icon fa fa-plus-circle"></i>
-                                Thêm mới
-                            </a>
-                        </span>
-                        @endif
                         <span class="">
                             <button class="btn btn-primary btn-sm" type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>
                         </span>
@@ -76,23 +76,27 @@
                         <thead class="thin-border-bottom">
                         <tr class="">
                             <th width="5%" class="text-center">STT</th>
-                            <th width="25%">Thông tin sản phẩm</th>
-                            <th width="30%" class="text-left">Thông tin khách hàng</th>
+                            <th width="20%">Thông tin sản phẩm</th>
+                            <th width="15%">ĐH của Shop</th>
+                            <th width="20%" class="text-left">Thông tin khách hàng</th>
                             <th width="20%" class="text-left">Ghi chú của khách</th>
-                            <th width="10%" class="text-center">Ngày đặt</th>
-                            <th width="10%" class="text-center">Tình trạng ĐH</th>
+                            <th width="8%" class="text-center">Ngày đặt</th>
+                            <th width="12%" class="text-center">Tình trạng ĐH</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($data as $key => $item)
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
-                                <td>
+                                <td>[<b>{{ $item->order_product_id }}</b>]
                                     <a href="{{FunctionLib::buildLinkDetailProduct($item->order_product_id, $item->order_product_name, 'danh mục sản phẩm')}}" target="_blank" title="Chi tiết sản phẩm">
-                                        [<b>{{ $item->order_id }}</b>] {{ $item->order_product_name }}
+                                         {{ $item->order_product_name }}
                                     </a>
                                     <br/>Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->order_product_price_sell) }} đ</b>
                                     <br/>SL: <b>{{ $item->order_quality_buy }}</b> sản phẩm
+                                </td>
+                                <td>
+                                    [<b>{{$item->order_user_shop_id}}</b>] {{$item->order_user_shop_name}}
                                 </td>
                                 <td>
                                     @if($item->order_customer_name != '')Tên KH: <b>{{ $item->order_customer_name }}</b><br/>@endif
@@ -106,8 +110,10 @@
                                 <td class="text-center text-middle">{{ date ('d-m-Y H:i:s',$item->order_time) }}</td>
                                 <td class="text-center text-middle">
                                     @if(isset($arrStatus[$item->order_status])){{$arrStatus[$item->order_status]}}@else --- @endif
-                                            <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
-                                    <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>-->
+                                    @if($is_root)
+                                         <br/><a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},8)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                     @endif
+                                    <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>
                                 </td>
                             </tr>
                         @endforeach
@@ -134,4 +140,15 @@
         var checkin = $('#time_start_time').datepicker({ });
         var checkout = $('#time_end_time').datepicker({ });
     });
+    //tim kiem cho shop
+    var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Không có kết quả'}
+        //      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
 </script>

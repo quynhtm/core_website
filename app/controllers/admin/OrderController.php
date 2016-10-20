@@ -13,23 +13,18 @@ class OrderController extends BaseAdminController
     private $permission_create = 'order_create';
     private $permission_edit = 'order_edit';
     private $arrStatus = array(-1 => 'Chọn trạng thái', CGlobal::status_hide => 'Ẩn', CGlobal::status_show => 'Hiện');
+    private $arrShop = array();
 
     public function __construct()
     {
         parent::__construct();
-
-        //Include style.
-        FunctionLib::link_css(array(
-            'lib/cssUpload.css',
-        ));
+        $this->arrShop = UserShop::getShopAll();
 
         //Include javascript.
         FunctionLib::link_js(array(
-            //'lib/upload/jquery.uploadfile.js',
             'lib/ckeditor/ckeditor.js',
             'lib/ckeditor/config.js',
-            //'frontend/js/site.js',
-            //'js/common.js',
+            'admin/js/admin.js',
         ));
     }
 
@@ -52,6 +47,7 @@ class OrderController extends BaseAdminController
         $search['time_start_time'] = addslashes(Request::get('time_start_time',''));
         $search['time_end_time'] = addslashes(Request::get('time_end_time',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
+        $search['order_user_shop_id'] = (int)Request::get('order_user_shop_id',-1);
         ///$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
         $data = Order::searchByCondition($search, $limit, $offset,$total);
@@ -71,6 +67,7 @@ class OrderController extends BaseAdminController
             ->with('sizeShow', count($data))
             ->with('data', $data)
             ->with('search', $search)
+            ->with('arrShop', $this->arrShop)
             ->with('optionStatus', $optionStatus)
             ->with('arrStatus', $arrStatusOrder)
 
@@ -81,57 +78,9 @@ class OrderController extends BaseAdminController
             ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0);//dùng common
     }
 
-    public function getOrder($id=0) {
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard',array('error'=>1));
-        }
-        $data = array();
-        if($id > 0) {
-            $data = Order::find($id);
-        }
-
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($data['order_status'])? $data['order_status'] : -1);
-        $this->layout->content = View::make('admin.Order.add')
-            ->with('id', $id)
-            ->with('data', $data)
-            ->with('optionStatus', $optionStatus)
-            ->with('arrStatus', $this->arrStatus);
-    }
-
-    public function postProduct($id=0) {
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_edit,$this->permission) && !in_array($this->permission_create,$this->permission)){
-            return Redirect::route('admin.dashboard',array('error'=>1));
-        }
-
-        $dataSave['order_product_name'] = addslashes(Request::get('order_product_name'));
-        $dataSave['order_status'] = (int)Request::get('order_status', 0);
-        
-
-        if($this->valid($dataSave) && empty($this->error)) {
-            if($id > 0) {
-                //cap nhat
-                if(Order::updateData($id, $dataSave)) {
-                    return Redirect::route('admin.order_list');
-                }
-            } else {
-                //them moi
-                if(Order::addData($dataSave)) {
-                    return Redirect::route('admin.order_list');
-                }
-            }
-        }
-        $optionStatus = FunctionLib::getOption($this->arrStatus, isset($dataSave['order_status'])? $dataSave['order_status'] : -1);
-        $this->layout->content =  View::make('admin.Order.add')
-            ->with('id', $id)
-            ->with('data', $dataSave)
-            ->with('optionStatus', $optionStatus)
-            ->with('error', $this->error)
-            ->with('arrStatus', $this->arrStatus);
-    }
-
-    public function deleteItem(){
+    public function deleteOrderShop(){
         $data = array('isIntOk' => 0);
-        if(!$this->is_root && !in_array($this->permission_full,$this->permission) && !in_array($this->permission_delete,$this->permission)){
+        if(!$this->is_root){
             return Response::json($data);
         }
         $id = (int)Request::get('id', 0);

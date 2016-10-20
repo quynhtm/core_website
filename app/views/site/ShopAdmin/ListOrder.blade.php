@@ -80,8 +80,9 @@
                             <tr>
                                 <td class="text-center text-middle">{{ $stt + $key+1 }}</td>
                                 <td>
+                                    [<b>{{ $item->order_product_id }}</b>]
                                     <a href="{{FunctionLib::buildLinkDetailProduct($item->order_product_id, $item->order_product_name, 'danh mục sản phẩm')}}" target="_blank" title="Chi tiết sản phẩm">
-                                    [<b>{{ $item->order_id }}</b>] {{ $item->order_product_name }}
+                                        {{ $item->order_product_name }}
                                     </a>
                                     <br/>Giá bán: <b class="red">{{ FunctionLib::numberFormat($item->order_product_price_sell) }} đ</b>
                                     <br/>SL: <b>{{ $item->order_quality_buy }}</b> sản phẩm
