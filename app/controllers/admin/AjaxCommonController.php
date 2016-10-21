@@ -53,23 +53,31 @@ class AjaxCommonController extends BaseSiteController
                     case 2://img Product
                         $user_shop = UserShop::user_login();
                         if(sizeof($user_shop) > 0){
-                            $new_row['time_created'] = time();
-                            $new_row['product_status'] = CGlobal::status_hide;
-                            $new_row['user_shop_id'] = $user_shop->shop_id;
-                            $new_row['user_shop_name'] = $user_shop->shop_name;
-                            $new_row['is_shop'] = $user_shop->is_shop;
-                            $new_row['shop_province'] = $user_shop->shop_province;
-                            $item_id = Product::addData($new_row);
+                            //check xem shop có đủ điều kiện nhập thêm sản phẩm không
+                            //check shop con lươt up hay không
+                            $number_limit_product = $user_shop->number_limit_product;//lượt up
+                            $shop_up_product = $user_shop->shop_up_product;// total da up
+                            if($shop_up_product >= $number_limit_product){
+                                $item_id = 0;
+                            }else{
+                                $new_row['time_created'] = time();
+                                $new_row['product_status'] = CGlobal::status_hide;
+                                $new_row['user_shop_id'] = $user_shop->shop_id;
+                                $new_row['user_shop_name'] = $user_shop->shop_name;
+                                $new_row['is_shop'] = $user_shop->is_shop;
+                                $new_row['shop_province'] = $user_shop->shop_province;
+                                $item_id = Product::addData($new_row);
 
-                            //cap nhat lai so l??t up san ph?m cho shop
-                            $inforShop = UserShop::getByID($user_shop->shop_id);//lay du lieu moi nhat, ko lay session vi ko cap nhat dung
-                            if(sizeof($inforShop) > 0){
-                                $userShopUpdate['shop_up_product'] = $inforShop->shop_up_product + 1;
-                                UserShop::updateData($inforShop->shop_id, $userShopUpdate);
-                                $userShop2 = UserShop::getByID($inforShop->shop_id);
-                                if($userShop2){
-                                    Session::forget('user_shop');//xóa session
-                                    Session::put('user_shop', $userShop2, 60*24);
+                                //cap nhat lai so l??t up san ph?m cho shop
+                                $inforShop = UserShop::getByID($user_shop->shop_id);//lay du lieu moi nhat, ko lay session vi ko cap nhat dung
+                                if(sizeof($inforShop) > 0){
+                                    $userShopUpdate['shop_up_product'] = $inforShop->shop_up_product + 1;
+                                    UserShop::updateData($inforShop->shop_id, $userShopUpdate);
+                                    $userShop2 = UserShop::getByID($inforShop->shop_id);
+                                    if($userShop2){
+                                        Session::forget('user_shop');//xóa session
+                                        Session::put('user_shop', $userShop2, 60*24);
+                                    }
                                 }
                             }
                         }
@@ -78,7 +86,6 @@ class AjaxCommonController extends BaseSiteController
                         $new_row['banner_create_time'] = time();
                         $new_row['banner_status'] = CGlobal::IMAGE_ERROR;
                         $item_id = Banner::addData($new_row);
-                        $sizeImageShowUpload = CGlobal::sizeImage_300;
                         break;
                     default:
                         break;
@@ -86,7 +93,6 @@ class AjaxCommonController extends BaseSiteController
             }elseif($id_hiden > 0){
                 $item_id = $id_hiden;
             }
-
             if($item_id > 0){
                 $aryError = $tmpImg = array();
                 $file_name = Upload::uploadFile('multipleFile',
@@ -162,6 +168,10 @@ class AjaxCommonController extends BaseSiteController
                 $aryData['intIsOK'] = 1;
                 $aryData['id_item'] = $item_id;
                 $aryData['info'] = $tmpImg;
+            }elseif($item_id==0){
+                $aryData['intIsOK'] = -1;
+                $aryData['id_item'] = $item_id;
+                $aryData['msg'] = "Shop đã hết lượt đăng sản phẩm";
             }
         }
         echo json_encode($aryData);

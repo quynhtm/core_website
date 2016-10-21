@@ -131,6 +131,9 @@ SITE = {
 					setTimeout( "jQuery('.ajax-file-upload-statusbar').hide();",1000 );
 					setTimeout( "jQuery('#status').hide();",1000 );
 					setTimeout( "jQuery('#sys_PopupUploadImg').modal('hide');",1000 );
+				}else{
+					//upanh không thanh cong
+					jQuery("#status").html("<font color='red'>"+dataResult.msg+"</font>");
 				}
 			},
 			onError: function(files,status,errMsg){
