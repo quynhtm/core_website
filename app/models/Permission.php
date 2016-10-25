@@ -177,4 +177,17 @@ class Permission extends Eloquent{
             return Permission::where('permission_code', '=', $name)->where('permission_id', '!=', $id)->first();
         }
     }
+
+    public static function deleteData($id){
+        try {
+            DB::connection()->getPdo()->beginTransaction();
+            $dataSave = Permission::find($id);
+            $dataSave->delete();
+            DB::connection()->getPdo()->commit();
+            return true;
+        } catch (PDOException $e) {
+            DB::connection()->getPdo()->rollBack();
+            throw new PDOException();
+        }
+    }
 }

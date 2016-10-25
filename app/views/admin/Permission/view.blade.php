@@ -10,14 +10,6 @@
     </div>
 
     <div class="page-content">
-        {{--<div class="page-header">--}}
-        {{--<h1>--}}
-        {{--<small>--}}
-        {{--Danh sách khách hàng--}}
-        {{--</small>--}}
-        {{--</h1>--}}
-        {{--</div><!-- /.page-header -->--}}
-
         <div class="row">
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
@@ -83,9 +75,15 @@
                                     {{ $item['permission_group_name'] }}
                                 </td>
                                 <td class="text-center">
-                                    @if($permission_edit)
-                                        <a href="{{URL::route('admin.permission_edit',array('id' => $item['permission_id']))}}" title="Sửa quyền"><i class="fa fa-edit"></i></a>
+                                    @if($is_root || $permission_full)
+                                        <a href="{{URL::route('admin.permission_edit',array('id' => $item['permission_id']))}}" title="Sửa quyền"><i class="fa fa-edit fa-2x"></i></a>
                                     @endif
+
+                                    @if($is_root || $permission_full ==1 )
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="javascript:void(0);" onclick="Admin.deleteItem({{$item['permission_id']}},9)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>
+                                    @endif
+                                    <span class="img_loading" id="img_loading_{{$item['permission_id']}}"></span>
                                 </td>
                             </tr>
                         @endforeach
@@ -99,10 +97,7 @@
                         Không có dữ liệu
                     </div>
                 @endif
-                            <!-- PAGE CONTENT ENDS -->
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
     </div><!-- /.page-content -->
 </div>

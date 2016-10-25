@@ -9,7 +9,7 @@
 class PermissionController extends BaseAdminController
 {
 
-    private $permission_view = 'permission_view';
+    private $permission_full = 'permission_full';
     private $permission_create = 'permission_create';
     private $permission_edit = 'permission_edit';
     private $arrStatus = array(-1 => 'Xóa', 0 => 'Tất cả', 1 => 'Hoạt động');
@@ -20,9 +20,12 @@ class PermissionController extends BaseAdminController
     }
 
     public function view(){
-//        if (!in_array($this->permission_view, $this->permission)) {
-//            return Redirect::route('admin.dashboard',array('error'=>1));
-//        }
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)){
+            return Redirect::route('admin.dashboard',array('error'=>1));
+        }
+        /*echo strtotime('17-10-2016 14:30:41');
+        echo '<br/>'.strtotime('17-10-2016 14:32:41');
+        die;*/
 
         $dataSearch = $dataResponse = $data = array();
         $page_no = Request::get('page_no', 1);//phan trang
@@ -40,25 +43,6 @@ class PermissionController extends BaseAdminController
             foreach ($aryPermission as $val) {
                 $aryPermissionId[] = $val->permission_id;
             }
-//            if(!empty($aryPermissionId)) {
-//                $aryGroupUser = GroupUserPermission::getListGroupByPermissionId($aryPermissionId);
-//                if(!empty($aryGroupUser)) {
-//                    foreach($aryPermission as $k => $v) {
-//                        $items = $v;
-//                        foreach($aryGroupUser as $val) {
-//                            if($v->permission_id == $val->permission_id) {
-//                                $item = isset($v->groups) ? $v->groups : array();
-//                                $count = isset($v->countGroup) ? $v->countGroup : 0;
-//                                $item[] = $val;
-//                                $count++;
-//                                $items->groups = $item;
-//                                $items->countGroup = $count;
-//                            }
-//                        }
-//                        $aryPermission[$k] = $items;
-//                    }
-//                }
-//            }
         }
 
         $paging = $total > 0 ? Pagging::getNewPager(3,$page_no,$total,$limit,$dataSearch) : '';
@@ -67,8 +51,10 @@ class PermissionController extends BaseAdminController
             ->with('dataSearch', $dataSearch)
             ->with('total', $total)
             ->with('paging', $paging)
+            ->with('is_root', $this->is_root)//dùng common
             ->with('permission_edit', in_array($this->permission_edit, $this->permission) ? 1 : 0)
             ->with('permission_create', in_array($this->permission_create, $this->permission) ? 1 : 0)
+            ->with('permission_full', in_array($this->permission_full, $this->permission) ? 1 : 0)
             ->with('start', ($page_no - 1) * $limit)
             ->with('arrStatus', $this->arrStatus);
     }
@@ -205,5 +191,18 @@ class PermissionController extends BaseAdminController
                     ->with('arrStatus', $this->arrStatus);
             }
         }
+    }
+
+    public function deletePermission()
+    {
+        $data = array('isIntOk' => 0);
+        if(!$this->is_root && !in_array($this->permission_full,$this->permission)){
+            return Response::json($data);
+        }
+        $id = (int)Request::get('id', 0);
+        if ($id > 0 && Permission::deleteData($id)) {
+            $data['isIntOk'] = 1;
+        }
+        return Response::json($data);
     }
 }

@@ -80,6 +80,7 @@ Route::group(array('prefix' => 'admin', 'before' => ''), function()
     Route::post('permission/create',array('as' => 'admin.permission_create','uses' => 'PermissionController@create'));
     Route::get('permission/edit/{id}',array('as' => 'admin.permission_edit','uses' => 'PermissionController@editInfo'))->where('id', '[0-9]+');
     Route::post('permission/edit/{id}',array('as' => 'admin.permission_edit','uses' => 'PermissionController@edit'))->where('id', '[0-9]+');
+    Route::post('permission/deletePermission', array('as' => 'admin.deletePermission','uses' => 'PermissionController@deletePermission'));//ajax
 
     /*thông tin nhóm quyền*/
     Route::get('groupUser/view',array('as' => 'admin.groupUser_view','uses' => 'GroupUserController@view'));
