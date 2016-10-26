@@ -588,5 +588,33 @@ class ShopController extends BaseShopController
         }
         return Response::json($data);
     }
-}
+    //xuat don hang
+    public function exportOrder(){
+        $order_id = (int)Request::get('order_id',3);
+        $type = (int)Request::get('type',1);
+        $dataOrder = array();
+        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $order_id > 0){
+            $dataOrder = Order::getOrderByShopId($this->user_shop->shop_id,$order_id);
+        }
+        if(!empty($dataOrder)){
+            $template = 'site.ShopAdmin.exportOrder';
+            if($type == 1){
+                $output = View::make($template)->with('data',$dataOrder);
+                $filepath = "Don-hang-".$order_id.".doc";
+                @header("Cache-Control: ");// leave blank to avoid IE errors
+                @header("Pragma: ");// leave blank to avoid IE errors
+                @header("Content-type: application/octet-stream");
+                @header("Content-Disposition: attachment; filename=\"{$filepath}\"");
+                echo $output;die;
+            }elseif($type == 2){
+                $html = View::make($template)->with('data',$dataOrder)->render();
+                $signature = false;
+                $filepath = "Don-hang-".$order_id.".pdf";
+                FunctionLib::pdfOutput($html, $filepath, 'I', $signature);
+            }
+        }else{
+            die('Đơn hàng này không tồn tại trong shop');
+        }
+    }
+ }
 

@@ -720,4 +720,53 @@ class FunctionLib {
         }
         return $str;
     }
+
+    /**
+     * Ham xuat PDF hay word
+     * @param $html
+     * @param $filename
+     * @param string $outputType
+     * @param bool|false $signature
+     */
+    public static function pdfOutput($html, $filename, $outputType = 'I', $signature = false){
+        $pdf = new MYPDF(PDF_PAGE_ORIENTATION, 'px', PDF_PAGE_FORMAT, true, 'UTF-8', false, false, $signature);
+
+        // set document information
+        $pdf->SetCreator('VCCorp System');
+        $pdf->SetAuthor('VCCorp');
+        $pdf->SetTitle('');
+        $pdf->SetSubject('');
+        $pdf->SetKeywords('VCCorp, contract');
+        $pdf->setPrintFooter(false);
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        $pdf->setFontSubsetting(false);
+
+        //set margins
+        // $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetMargins(30, 15, 30);
+        $pdf->SetHeaderMargin(0);
+        $pdf->SetFooterMargin(0);
+
+        $pdf->SetCellPaddings(0);
+
+        //set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->setFormDefaultProp(array('lineWidth'=>0, 'borderStyle'=>'solid', 'fillColor'=>array(255, 255, 255), 'strokeColor'=>array(255, 255, 255)));
+
+        // set font
+        $pdf->SetFont('freeserif', '', 10);
+
+        // add a page
+        $pdf->AddPage();
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // reset pointer to the last page
+        $pdf->lastPage();
+
+        //Close and output PDF document
+        $pdf->Output($filename, $outputType);
+    }
 }

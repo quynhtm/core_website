@@ -73,6 +73,7 @@
                             <th width="20%" class="text-left">Ghi chú của khách</th>
                             <th width="10%" class="text-center">Ngày đặt</th>
                             <th width="15%" class="text-center">Tình trạng ĐH</th>
+                            <th width="8%" class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -104,8 +105,11 @@
                                         @endforeach
                                     </select>
                                     @if(isset($arrStatus[$item->order_status]))<br/>{{$arrStatus[$item->order_status]}}@else --- @endif
+                                </td>
+                                <td class="text-center text-middle">
+                                    <!--- export du lieu-->
+                                    <br/><a href="{{URL::route('shop.exportOrder',array('order_id' => $item->order_id,'type' => 2))}}" target="_blank" title="Export kiểu PDF" ><i class="fa fa-file-pdf-o fa-2x"></i></a>
                                     <span class="img_loading" id="img_loading_{{$item->order_id}}"></span>
-                                    <!--<a href="javascript:void(0);" onclick="Admin.deleteItem({{$item->order_id}},3)" title="Xóa Item"><i class="fa fa-trash fa-2x"></i></a>-->
                                 </td>
                             </tr>
                         @endforeach
