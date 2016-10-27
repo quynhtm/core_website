@@ -595,7 +595,9 @@ class ShopController extends BaseShopController
         $dataOrder = array();
         if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $order_id > 0){
             $dataOrder = Order::getOrderByShopId($this->user_shop->shop_id,$order_id);
+            $dataOrder['user_shop'] = $this->user_shop;
         }
+        
         if(!empty($dataOrder)){
             $template = 'site.ShopAdmin.exportOrder';
             if($type == 1){
