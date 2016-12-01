@@ -70,7 +70,7 @@ class ShopController extends BaseShopController
         $search['category_id'] = (int)Request::get('category_id',-1);
         $search['provider_id'] = (int)Request::get('provider_id',-1);
         $search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
-        $search['inforUserShop_id'] = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0)?(int)$this->inforUserShop->shop_id: 0;//tìm theo shop
+        $search['user_shop_id'] = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0)?(int)$this->inforUserShop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
         $dataSearch = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0) ? Product::searchByCondition($search, $limit, $offset,$total): array();
