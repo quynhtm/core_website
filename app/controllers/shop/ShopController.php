@@ -7,9 +7,12 @@ class ShopController extends BaseShopController
     private $arrTypeProduct = array(-1 => '--Chọn loại sản phẩm--', CGlobal::PRODUCT_NOMAL => 'Sản phẩm bình thường', CGlobal::PRODUCT_HOT => 'Sản phẩm nổi bật', CGlobal::PRODUCT_SELLOFF => 'Sản phẩm giảm giá');
     private $arrIsSale = array(CGlobal::PRODUCT_IS_SALE => 'Còn hàng', CGlobal::PRODUCT_NOT_IS_SALE => 'Hết hàng');
     private $error = array();
+    private $inforUserShop = array();
     public function __construct()
     {
         parent::__construct();
+        $shop_id = $this->user_shop->shop_id;
+        $this->inforUserShop = UserShop::getByID($shop_id);//lay lại du liei moi nhat cua shop
     }
     /*
      * Trang shopAdmin
@@ -20,17 +23,17 @@ class ShopController extends BaseShopController
         if($error == 1){
             $this->error[] = 'Shop Vip mới có chức năng này.';
         }
-        if(isset($this->user_shop->shop_status) && ($this->user_shop->shop_status == CGlobal::status_hide || $this->user_shop->shop_status == CGlobal::status_block)){
+        if(isset($this->inforUserShop->shop_status) && ($this->inforUserShop->shop_status == CGlobal::status_hide || $this->inforUserShop->shop_status == CGlobal::status_block)){
             return Redirect::route('site.shopLogout');
         }
-        $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->user_shop->shop_id,
-            'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
-            'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));
+        $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->inforUserShop->shop_id,
+            'shop_name'=>FunctionLib::safe_title($this->inforUserShop->shop_name),
+            'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->inforUserShop->shop_id.'_'.CGlobal::code_shop_share)));
         //echo $urlShopShare; die;
         $this->layout->content = View::make('site.ShopAdmin.ShopHome')
             ->with('error',$this->error)
             ->with('urlShopShare',$urlShopShare)
-            ->with('user', $this->user_shop);
+            ->with('user', $this->inforUserShop);
     }
 
     /**************************************************************************************************************************
@@ -43,16 +46,16 @@ class ShopController extends BaseShopController
             'frontend/js/site.js',
         ));
         //check shop con lươt up hay không
-        $number_limit_product = $this->user_shop->number_limit_product;//lượt up
-        $shop_up_product = $this->user_shop->shop_up_product;// total da up
+        $number_limit_product = $this->inforUserShop->number_limit_product;//lượt up
+        $shop_up_product = $this->inforUserShop->shop_up_product;// total da up
         $checkAddProduct = 1;
         if($shop_up_product >= $number_limit_product){
             $checkAddProduct = 0;//het lượt up
             $this->error[] = 'Shop của bạn đã hết lượt up sản phẩm.';
             $this->error[] = 'Hãy chia sẻ, giới thiệu link sau để được thêm lượt up:';
-            $this->error[] = $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->user_shop->shop_id,
-                'shop_name'=>FunctionLib::safe_title($this->user_shop->shop_name),
-                'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->user_shop->shop_id.'_'.CGlobal::code_shop_share)));
+            $this->error[] = $urlShopShare = URL::route('shop.home',array('shop_id'=>$this->inforUserShop->shop_id,
+                'shop_name'=>FunctionLib::safe_title($this->inforUserShop->shop_name),
+                'shop_share'=>base64_encode(CGlobal::code_shop_share.'_'.$this->inforUserShop->shop_id.'_'.CGlobal::code_shop_share)));
         }
 
         CGlobal::$pageShopTitle = "Quản lý sản phẩm | ".CGlobal::web_name;
@@ -67,17 +70,17 @@ class ShopController extends BaseShopController
         $search['category_id'] = (int)Request::get('category_id',-1);
         $search['provider_id'] = (int)Request::get('provider_id',-1);
         $search['product_is_hot'] = (int)Request::get('product_is_hot',-1);
-        $search['user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
+        $search['inforUserShop_id'] = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0)?(int)$this->inforUserShop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
-        $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Product::searchByCondition($search, $limit, $offset,$total): array();
+        $dataSearch = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0) ? Product::searchByCondition($search, $limit, $offset,$total): array();
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($search);
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
+        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, $search['category_id']);
         //danh sach NCC cua shop
-        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $search['provider_id']);
 
         $optionStatus = FunctionLib::getOption($this->arrStatusProduct, $search['product_status']);
@@ -98,7 +101,7 @@ class ShopController extends BaseShopController
             ->with('arrIsSale', $this->arrIsSale)
             ->with('arrTypeProduct', $this->arrTypeProduct)
             ->with('optionCategory', $optionCategory)
-            ->with('user', $this->user_shop);
+            ->with('user', $this->inforUserShop);
     }
     public function getAddProduct($product_id = 0){
         //Include style.
@@ -118,27 +121,23 @@ class ShopController extends BaseShopController
         ));
 
         //check shop con lươt up hay không
-        //lay lai du lieu moi nhat
-        $shop_id = $this->user_shop->shop_id;
-        $user_shop = UserShop::getByID($shop_id);
-        $number_limit_product = isset($user_shop->number_limit_product)?$user_shop->number_limit_product:0;//lượt up
-        $shop_up_product = isset($user_shop->shop_up_product)?$user_shop->shop_up_product:0;// total da up
+        $number_limit_product = $this->inforUserShop->number_limit_product;//lượt up
+        $shop_up_product = $this->inforUserShop->shop_up_product;// total da up
         $checkAddProduct = 1;
         if($shop_up_product >= $number_limit_product){
             return Redirect::route('shop.listProduct');
         }
-
         CGlobal::$pageShopTitle = "Thêm sản phẩm | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
+        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
 
         //danh sach NCC cua shop
-        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
         //FunctionLib::debug($arrNCC);
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, -1);
 
@@ -150,7 +149,7 @@ class ShopController extends BaseShopController
         $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
-            ->with('user_shop', $this->user_shop)
+            ->with('user_shop', $this->inforUserShop)
             ->with('data', $product)
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
@@ -183,8 +182,8 @@ class ShopController extends BaseShopController
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id,$product_id);
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->inforUserShop->shop_id,$product_id);
         }
         if(empty($product)){
             return Redirect::route('shop.listProduct');
@@ -231,11 +230,11 @@ class ShopController extends BaseShopController
 
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
+        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
         $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
 
         //danh sach NCC cua shop
-        $arrNCC = ($this->user_shop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, isset($product->provider_id)? $product->provider_id:-1);
 
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
@@ -246,7 +245,7 @@ class ShopController extends BaseShopController
         $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
-            ->with('user_shop', $this->user_shop)
+            ->with('user_shop', $this->inforUserShop)
             ->with('data', $dataShow)
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
@@ -276,7 +275,7 @@ class ShopController extends BaseShopController
         ));
 
         CGlobal::$pageShopTitle = "Sửa sản phẩm | ".CGlobal::web_name;
-        $shopVip = ( isset($this->user_shop->is_shop) && $this->user_shop->is_shop == CGlobal::SHOP_VIP)? 1: 0;
+        $shopVip = ( isset($this->inforUserShop->is_shop) && $this->inforUserShop->is_shop == CGlobal::SHOP_VIP)? 1: 0;
         $product = array();
         $arrViewImgOther = array();
         $imagePrimary = $imageHover = '';
@@ -310,10 +309,10 @@ class ShopController extends BaseShopController
         $product_id = ($product_id >0)? $product_id: $id_hiden;
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->user_shop->shop_id);
+        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
 
         //danh sach NCC cua shop
-        $arrNCC = ($shopVip == 1)?Provider::getListProviderByShopId($this->user_shop->shop_id): array();
+        $arrNCC = ($shopVip == 1)?Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
 
         //lay lai vi tri sap xep cua anh khac
         $arrInputImgOther = array();
@@ -346,8 +345,8 @@ class ShopController extends BaseShopController
         $this->validInforProduct($dataSave);
         if(empty($this->error)){
             if($product_id > 0){
-                if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-                    $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+                if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $product_id > 0){
+                    $product = Product::getProductByShopId($this->inforUserShop->shop_id, $product_id);
                 }
                 if(!empty($product)){
                     if($product_id > 0){//cap nhat
@@ -359,10 +358,10 @@ class ShopController extends BaseShopController
                         }
                         //lay tên danh mục
                         $dataSave['category_name'] = isset($arrCateShop[$dataSave['category_id']])?$arrCateShop[$dataSave['category_id']]: '';
-                        $dataSave['user_shop_id'] = $this->user_shop->shop_id;
-                        $dataSave['user_shop_name'] = $this->user_shop->shop_name;
-                        $dataSave['is_shop'] = $this->user_shop->is_shop;
-                        $dataSave['shop_province'] = $this->user_shop->shop_province;
+                        $dataSave['user_shop_id'] = $this->inforUserShop->shop_id;
+                        $dataSave['user_shop_name'] = $this->inforUserShop->shop_name;
+                        $dataSave['is_shop'] = $this->inforUserShop->is_shop;
+                        $dataSave['shop_province'] = $this->inforUserShop->shop_province;
                         $dataSave['is_block'] = CGlobal::PRODUCT_NOT_BLOCK;
 
                         if(Product::updateData($product_id,$dataSave)){
@@ -388,7 +387,7 @@ class ShopController extends BaseShopController
         $this->layout->content = View::make('site.ShopAdmin.EditProduct')
             ->with('error', $this->error)
             ->with('product_id', $product_id)
-            ->with('user_shop', $this->user_shop)
+            ->with('user_shop', $this->inforUserShop)
             ->with('data', $dataSave)
             ->with('arrViewImgOther', $arrViewImgOther)
             ->with('imagePrimary', $imagePrimary)
@@ -426,8 +425,8 @@ class ShopController extends BaseShopController
         $is_shop = (int)Request::get('is_shop',1);
         $product_id = (int)Request::get('product_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0 && $is_shop == CGlobal::SHOP_VIP){
-            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $product_id > 0 && $is_shop == CGlobal::SHOP_VIP){
+            $product = Product::getProductByShopId($this->inforUserShop->shop_id, $product_id);
             if(sizeof($product) > 0){
                 $dataSave['time_update'] = time();
                 if(Product::updateData($product_id,$dataSave)){
@@ -443,8 +442,8 @@ class ShopController extends BaseShopController
     public function getImageProductOther(){
         $product_id = (int)Request::get('product_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->inforUserShop->shop_id, $product_id);
             if(sizeof($product) > 0){
                 if($product->product_image_other != ''){
                     $arrViewImgOther = array();
@@ -471,8 +470,8 @@ class ShopController extends BaseShopController
     public function deleteProduct(){
         $product_id = (int)Request::get('product_id',0);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $product_id > 0){
-            $product = Product::getProductByShopId($this->user_shop->shop_id, $product_id);
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $product_id > 0){
+            $product = Product::getProductByShopId($this->inforUserShop->shop_id, $product_id);
             if(sizeof($product) > 0){
                 if(Product::deleteData($product_id)){
                     $data['isIntOk'] = 1;
@@ -493,7 +492,7 @@ class ShopController extends BaseShopController
         $aryData['nameImage'] = $name_img;
         if($item_id > 0 && $name_img != ''){
             //get mang anh other
-            $shop_id = $this->user_shop->shop_id;
+            $shop_id = $this->inforUserShop->shop_id;
             $inforPro = Product::getProductByShopId($shop_id,$item_id);
             if($inforPro) {
                 $arrImagOther = unserialize($inforPro->product_image_other);
@@ -547,10 +546,10 @@ class ShopController extends BaseShopController
         $search['time_start_time'] = addslashes(Request::get('time_start_time',''));
         $search['time_end_time'] = addslashes(Request::get('time_end_time',''));
         $search['order_status'] = (int)Request::get('order_status',-1);
-        $search['order_user_shop_id'] = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0)?(int)$this->user_shop->shop_id: 0;//tìm theo shop
+        $search['order_user_shop_id'] = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0)?(int)$this->inforUserShop->shop_id: 0;//tìm theo shop
         //$search['field_get'] = 'order_id,order_product_name,order_status';//cac truong can lay
 
-        $dataSearch = (isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0) ? Order::searchByCondition($search, $limit, $offset,$total): array();
+        $dataSearch = (isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0) ? Order::searchByCondition($search, $limit, $offset,$total): array();
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($dataSearch);
 
@@ -570,7 +569,7 @@ class ShopController extends BaseShopController
             ->with('search', $search)
             ->with('optionStatus', $optionStatus)
             ->with('arrStatus', $arrStatusOrder)
-            ->with('user_shop', $this->user_shop);
+            ->with('user_shop', $this->inforUserShop);
     }
     //Ajax
     public function changeStatusOrder(){
@@ -578,8 +577,8 @@ class ShopController extends BaseShopController
         $order_id = (int)Request::get('order_id',0);
         $statusOrder = (int)Request::get('statusOrder',1);
         $data = array('isIntOk' => 0);
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $order_id > 0 && $is_shop == CGlobal::SHOP_VIP){
-            $order = Order::getOrderByShopId($this->user_shop->shop_id, $order_id);
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $order_id > 0 && $is_shop == CGlobal::SHOP_VIP){
+            $order = Order::getOrderByShopId($this->inforUserShop->shop_id, $order_id);
             if(sizeof($order) > 0){
                 $dataSave['order_status'] = $statusOrder;
                 if(Order::updateData($order_id,$dataSave)){
@@ -597,9 +596,9 @@ class ShopController extends BaseShopController
         $order_id = (int)Request::get('order_id',3);
         $type = (int)Request::get('type',1);
         $dataOrder = array();
-        if(isset($this->user_shop->shop_id) && $this->user_shop->shop_id > 0 && $order_id > 0){
+        if(isset($this->inforUserShop->shop_id) && $this->inforUserShop->shop_id > 0 && $order_id > 0){
             $dataOrder = Order::getOrderByShopId($this->user_shop->shop_id,$order_id);
-            $dataOrder['user_shop'] = $this->user_shop;
+            $dataOrder['user_shop'] = $this->inforUserShop;
         }
         
         if(!empty($dataOrder)){
