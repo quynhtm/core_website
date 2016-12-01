@@ -135,55 +135,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="center-content-view">
-				<div class="title-center-content-view">Sản phẩm bạn có thể quan tâm</div>
-				<div class="content-center-content-view">
-					<ul>
-					@if(!empty($dataProVip))
-					@foreach($dataProVip as $item)
-						<li class="item">
-								@if($item->product_type_price == 1)
-									@if((float)$item->product_price_market > (float)$item->product_price_sell)
-									<span class="sale-off">
-										-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
-									</span>
-									@endif
-								@endif
-								<div class="post-thumb">
-									<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
-										<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
-											data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
-									</a>
-								</div>
-								<div class="item-content">
-									<div class="title-info">
-										<h4 class="post-title">
-											<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
-										</h4>
-										<div class="item-price">
-											@if($item->product_price_sell > 0)
-											<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
-											@endif
-											@if($item->product_price_market > 0)
-											<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
-											@endif
-											@if($item->product_price_sell == 0 && $item->product_price_market == 0)
-												<span class="amount-1">Liên hệ</span>
-											@endif
-										</div>
-									</div>
-									@if($item->user_shop_id > 0 && $item->user_shop_name != '' && $item->is_shop == CGlobal::SHOP_VIP)
-									<div class="mgt5 amount-call">
-					                	<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
-					            	</div>
-					            	@endif
-								</div>
-							</li>
-						@endforeach
-						@endif
-					</ul>
-				</div>
-			</div>
+
 			<div class="bottom-content-view">
 				<div class="left-bottom-content-view">
 					<ul class="tab">
@@ -206,13 +158,63 @@
 										  js.src = "//connect.facebook.net/vi_VN/all.js#xfbml=1&appId=342626259177944";
 										  fjs.parentNode.insertBefore(js, fjs);
 										}(document, 'script', 'facebook-jssdk'));</script>
-										<div class="fb-comments" data-href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}" data-width="800px" data-num-posts="10"></div>
+										<div class="fb-comments" data-href="{{FunctionLib::buildLinkDetailProduct($product->product_id, $product->product_name, $product->category_name)}}" data-width="800px" data-num-posts="10"></div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="show-tab show-tab-3">@if($user_shop->shop_transfer != '') {{FunctionLib::setNofollow(stripslashes($user_shop->shop_transfer))}} @else Đang cập nhật... @endif</div>
 						<div class="show-tab show-tab-4">@if($user_shop->shop_about != '') {{FunctionLib::setNofollow(stripslashes($user_shop->shop_about))}} @else Đang cập nhật... @endif</div>
+					</div>
+					<!---sản phẩm nổi bật-->
+					<div class="content-bottom-content-view">
+						<div class="title-center-content-view">Sản phẩm bạn có thể quan tâm</div>
+						<div class="content-center-content-view">
+							<ul>
+								@if(!empty($dataProVip))
+									@foreach($dataProVip as $item)
+										<li class="item" style="width: 22.42%!important;">
+											@if($item->product_type_price == 1)
+												@if((float)$item->product_price_market > (float)$item->product_price_sell)
+													<span class="sale-off">
+										-{{ number_format(100 - ((float)$item->product_price_sell/(float)$item->product_price_market)*100, 1) }}%
+									</span>
+												@endif
+											@endif
+											<div class="post-thumb">
+												<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">
+													<img alt="{{$item->product_name}}" src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image'], CGlobal::sizeImage_300)}}"
+														 data-other-src="{{ThumbImg::getImageThumb(CGlobal::FOLDER_PRODUCT, $item['product_id'], $item['product_image_hover'], CGlobal::sizeImage_300)}}">
+												</a>
+											</div>
+											<div class="item-content">
+												<div class="title-info">
+													<h4 class="post-title">
+														<a title="{{$item->product_name}}" href="{{FunctionLib::buildLinkDetailProduct($item->product_id, $item->product_name, $item->category_name)}}">{{$item->product_name}}</a>
+													</h4>
+													<div class="item-price">
+														@if($item->product_price_sell > 0)
+															<span class="amount-1">{{FunctionLib::numberFormat($item->product_price_sell)}}đ</span>
+														@endif
+														@if($item->product_price_market > 0)
+															<span class="amount-2">{{FunctionLib::numberFormat($item->product_price_market)}}đ</span>
+														@endif
+														@if($item->product_price_sell == 0 && $item->product_price_market == 0)
+															<span class="amount-1">Liên hệ</span>
+														@endif
+													</div>
+												</div>
+												@if($item->user_shop_id > 0 && $item->user_shop_name != '' && $item->is_shop == CGlobal::SHOP_VIP)
+													<div class="mgt5 amount-call">
+														<a title="{{$item->user_shop_name}}" class="link-shop" href="{{Config::get('config.WEB_ROOT')}}shop-{{$item->user_shop_id}}/{{$item->user_shop_name}}.html">{{$item->user_shop_name}}</a>
+													</div>
+												@endif
+											</div>
+										</li>
+									@endforeach
+								@endif
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="right-bottom-content-view">

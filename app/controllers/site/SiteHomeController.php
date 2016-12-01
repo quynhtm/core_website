@@ -251,7 +251,7 @@ class SiteHomeController extends BaseSiteController
             }
         }
         //san pham bạn quan tâm
-      	$limit = (isset($user_shop->is_shop) &&  $user_shop->is_shop = CGlobal::SHOP_VIP) ? CGlobal::number_show_15 : CGlobal::number_show_5;
+      	$limit = CGlobal::number_show_8;
     	$total = $offset = 0;
     	$search['field_get'] = $this->str_field_product_get;
     	$dataProVip = Product::getProductForSite($search, $limit, $offset,$total);
