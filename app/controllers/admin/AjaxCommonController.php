@@ -53,6 +53,10 @@ class AjaxCommonController extends BaseSiteController
                     case 2://img Product
                         $user_shop = UserShop::user_login();
                         if(sizeof($user_shop) > 0){
+                            //lay lai du lieu moi nhat
+                            $shop_id = $user_shop->shop_id;
+                            $user_shop = array();
+                            $user_shop = UserShop::getByID($shop_id);
                             //check xem shop có đủ điều kiện nhập thêm sản phẩm không
                             //check shop con lươt up hay không
                             $number_limit_product = $user_shop->number_limit_product;//lượt up

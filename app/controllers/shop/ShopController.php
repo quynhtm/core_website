@@ -118,12 +118,16 @@ class ShopController extends BaseShopController
         ));
 
         //check shop con lươt up hay không
-        $number_limit_product = $this->user_shop->number_limit_product;//lượt up
-        $shop_up_product = $this->user_shop->shop_up_product;// total da up
+        //lay lai du lieu moi nhat
+        $shop_id = $this->user_shop->shop_id;
+        $user_shop = UserShop::getByID($shop_id);
+        $number_limit_product = isset($user_shop->number_limit_product)?$user_shop->number_limit_product:0;//lượt up
+        $shop_up_product = isset($user_shop->shop_up_product)?$user_shop->shop_up_product:0;// total da up
         $checkAddProduct = 1;
         if($shop_up_product >= $number_limit_product){
             return Redirect::route('shop.listProduct');
         }
+
         CGlobal::$pageShopTitle = "Thêm sản phẩm | ".CGlobal::web_name;
         $product = array();
         $arrViewImgOther = array();
