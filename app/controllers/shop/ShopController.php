@@ -214,6 +214,7 @@ class ShopController extends BaseShopController
             'product_price_sell'=>$product->product_price_sell,
             'product_price_market'=>$product->product_price_market,
             'product_price_input'=>$product->product_price_input,
+            'product_price_provider_sell'=>$product->product_price_provider_sell,
             'product_type_price'=>$product->product_type_price,
             'product_selloff'=>$product->product_selloff,
             'product_is_hot'=>$product->product_is_hot,
@@ -237,7 +238,7 @@ class ShopController extends BaseShopController
         $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, isset($product->provider_id)? $product->provider_id:-1);
 
-        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_hide);
+        $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,isset($product->product_status)? $product->product_status:CGlobal::status_show);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,isset($product->product_type_price)? $product->product_type_price:CGlobal::TYPE_PRICE_NUMBER);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,isset($product->product_is_hot)? $product->product_is_hot:CGlobal::PRODUCT_NOMAL);
         $optionIsSale = FunctionLib::getOption($this->arrIsSale,isset($product->is_sale)? $product->is_sale:CGlobal::PRODUCT_IS_SALE);
@@ -294,6 +295,7 @@ class ShopController extends BaseShopController
         $dataSave['product_price_sell'] = (int)str_replace('.','',Request::get('product_price_sell'));
         $dataSave['product_price_market'] = (int)str_replace('.','',Request::get('product_price_market'));
         $dataSave['product_price_input'] = (int)str_replace('.','',Request::get('product_price_input'));
+        $dataSave['product_price_provider_sell'] = (int)str_replace('.','',Request::get('product_price_provider_sell'));
 
         $dataSave['product_image'] = $imagePrimary = addslashes(Request::get('image_primary'));
         $dataSave['product_image_hover'] = $imageHover = addslashes(Request::get('product_image_hover'));

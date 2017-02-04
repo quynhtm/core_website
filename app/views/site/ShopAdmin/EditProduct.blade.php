@@ -83,6 +83,12 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
+                                <label for="name" class="control-label">Giá NCC bán</label>
+                                <input type="text" placeholder="Giá NCC bán" id="product_price_provider_sell" name="product_price_provider_sell" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_provider_sell'])){{$data['product_price_provider_sell']}}@endif">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
                                 <label for="name" class="control-label">Giá thị trường</label>
                                 <input type="text" placeholder="Giá thị trường" id="product_price_market" name="product_price_market" class="formatMoney text-left form-control" data-v-max="999999999999999" data-v-min="0" data-a-sep="." data-a-dec="," data-a-sign=" đ" data-p-sign="s" value="@if(isset($data['product_price_market'])){{$data['product_price_market']}}@endif">
                             </div>
