@@ -84,8 +84,8 @@
 						</div>
 						@endif
 					</div>
-					
 				</div>
+
 				<div class="right-des-product">
 					<div class="content-right-product">
 						<div id="fb-root"></div>
@@ -134,7 +134,12 @@
 						</div>
 					</div>
 				</div>
+				<!---- banner rao vặt ---->
+				<div style="text-align: center!important;">
+					<a href="http://raovat30s.vn?url_source=Q2hpdGlldFNob3BjdWF0dWk=" target="_blank" title="Trang chủ Raovat30s.vn"><img src="{{Config::get('config.WEB_ROOT')}}assets/frontend/img/raovat30s.png" alt="Raovat30s.vn" /></a>
+				</div>
 			</div>
+
 
 			<div class="bottom-content-view">
 				<div class="left-bottom-content-view">
