@@ -92,4 +92,33 @@ class CronjobsController extends BaseSiteController
 		//FunctionLib::debug($provider);
 	}
 
+	//get sản phẩm cho rao private
+	//cronjobs/apiGetProductShop
+	public function apiGetProductShop(){
+		//$search['str_product_id'] = addslashes(Request::get('str_product_id','702,701'));
+		$search['product_status'] = (int)Request::get('product_status',1);
+		$search['user_shop_id'] = Request::get('user_shop_id',array(55));
+		$search['field_get'] = 'product_id,product_name,product_price_sell,product_type_price,product_content,product_image,product_image_other,product_status';//cac truong can lay
+		$total = 0;
+		$dataSearch = Product::searchByCondition($search, 1000, 0,$total);
+		$result = array();
+
+		if($dataSearch){
+			foreach($dataSearch as $item){
+				$result[$item->product_id] = array(
+					'product_id'=>$item->product_id,
+					'product_name'=>$item->product_name,
+					'product_type_price'=>$item->product_type_price,//1:hiển thị giá số, 2: hiển thị giá liên hệ
+					'product_price_sell'=>$item->product_price_sell,
+					'product_content'=>$item->product_content,
+					'product_image'=>$item->product_image,
+					'product_image_other'=>$item->product_image_other,
+					'product_status'=>$item->product_status,
+					);
+			}
+		}
+		//FunctionLib::debug($result);
+		return Response::json($result);
+	}
+
 }

@@ -155,6 +155,14 @@ class Product extends Eloquent
                 $query->where('user_shop_id', $dataSearch['user_shop_id']);
             }
             
+            if (isset($dataSearch['user_shop_id'])) {
+            	if (is_array($dataSearch['user_shop_id'])) {
+            		$query->whereIn('user_shop_id', $dataSearch['user_shop_id']);
+            	}
+            	elseif ((int)$dataSearch['user_shop_id'] > 0) {
+            		$query->where('user_shop_id','=', (int)$dataSearch['user_shop_id']);
+            	}
+            }
             if (isset($dataSearch['product_id'])) {
             	if (is_array($dataSearch['product_id'])) {
             		$query->whereIn('product_id', $dataSearch['product_id']);
