@@ -18,7 +18,7 @@ return array(
 	'port' => 25,
 	'from' => array('address' => 'no-reply@shopcuatui.com.vn', 'name' => CGlobal::web_name),
 	'username' => 'no-reply@shopcuatui.com.vn',
-	'password' => 'fo7Ve9$5',
+	'password' => 'Izz8x4?4',
 	'sendmail' => '/usr/sbin/sendmail -bs',
 	'pretend' => false,
 );
