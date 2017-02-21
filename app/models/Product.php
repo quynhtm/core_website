@@ -184,7 +184,7 @@ class Product extends Eloquent
 
             }else{
                 $orderBy = 'desc';
-                if($dataSearch['orderBy']){
+                if(isset($dataSearch['orderBy']) && $dataSearch['orderBy'] !=''){
                     $orderBy = $dataSearch['orderBy'];
                 }
                 $query->orderBy('product_id', $orderBy);
