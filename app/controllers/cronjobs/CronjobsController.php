@@ -96,12 +96,14 @@ class CronjobsController extends BaseSiteController
 	//cronjobs/apiGetProductShop
 	public function apiGetProductShop(){
 		//$search['str_product_id'] = addslashes(Request::get('str_product_id','702,701'));
+		$limit = (int)Request::get('limit',1000);
+		$order_by = (int)Request::get('order_by','desc');
 		$search['product_status'] = (int)Request::get('product_status',1);
 		$search['user_shop_id'] = Request::get('user_shop_id',array(55));
-		$search['orderBy'] = 'asc';
+		$search['orderBy'] = $order_by;
 		$search['field_get'] = 'product_id,product_name,product_price_sell,product_type_price,product_content,product_image,product_image_other,product_status';//cac truong can lay
 		$total = 0;
-		$dataSearch = Product::searchByCondition($search, 1000, 0,$total);
+		$dataSearch = Product::searchByCondition($search, $limit, 0,$total);
 		$result = array();
 
 		if($dataSearch){
