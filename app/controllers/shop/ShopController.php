@@ -8,11 +8,19 @@ class ShopController extends BaseShopController
     private $arrIsSale = array(CGlobal::PRODUCT_IS_SALE => 'Còn hàng', CGlobal::PRODUCT_NOT_IS_SALE => 'Hết hàng');
     private $error = array();
     private $inforUserShop = array();
+    private $arrCateShop = array();
     public function __construct()
     {
         parent::__construct();
         $shop_id = $this->user_shop->shop_id;
         $this->inforUserShop = UserShop::getByID($shop_id);//lay lại du liei moi nhat cua shop
+        //cay danh mục all
+        $category = Category::buildTreeCategory();
+        if(!empty($category)){
+            foreach($category as $k=>$cate){
+                $this->arrCateShop[$cate['category_id']] = $cate['padding_left'].$cate['category_name'];
+            }
+        }
     }
     /*
      * Trang shopAdmin
@@ -77,8 +85,8 @@ class ShopController extends BaseShopController
         $paging = $total > 0 ? Pagging::getNewPager(3, $pageNo, $total, $limit, $search) : '';
         //FunctionLib::debug($search);
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, $search['category_id']);
+        //$arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $this->arrCateShop, $search['category_id']);
         //danh sach NCC cua shop
         $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $search['provider_id']);
@@ -133,8 +141,8 @@ class ShopController extends BaseShopController
         $imagePrimary = $imageHover = '';
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop, -1);
+        //$arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $this->arrCateShop, -1);
 
         //danh sach NCC cua shop
         $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)? Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
@@ -231,8 +239,8 @@ class ShopController extends BaseShopController
 
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,isset($product->category_id)? $product->category_id: -1);
+        //$arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $this->arrCateShop,isset($product->category_id)? $product->category_id: -1);
 
         //danh sach NCC cua shop
         $arrNCC = ($this->inforUserShop->is_shop == CGlobal::SHOP_VIP)?Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
@@ -311,7 +319,7 @@ class ShopController extends BaseShopController
         $product_id = ($product_id >0)? $product_id: $id_hiden;
 
         //danh muc san pham cua shop
-        $arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
+        //$arrCateShop = UserShop::getCategoryShopById($this->inforUserShop->shop_id);
 
         //danh sach NCC cua shop
         $arrNCC = ($shopVip == 1)?Provider::getListProviderByShopId($this->inforUserShop->shop_id): array();
@@ -359,7 +367,7 @@ class ShopController extends BaseShopController
                             $dataSave['time_update'] = time();
                         }
                         //lay tên danh mục
-                        $dataSave['category_name'] = isset($arrCateShop[$dataSave['category_id']])?$arrCateShop[$dataSave['category_id']]: '';
+                        $dataSave['category_name'] = isset($this->arrCateShop[$dataSave['category_id']])?$this->arrCateShop[$dataSave['category_id']]: '';
                         $dataSave['user_shop_id'] = $this->inforUserShop->shop_id;
                         $dataSave['user_shop_name'] = $this->inforUserShop->shop_name;
                         $dataSave['is_shop'] = $this->inforUserShop->is_shop;
@@ -380,7 +388,7 @@ class ShopController extends BaseShopController
         }
         //FunctionLib::debug($dataSave);
         $optionNCC = FunctionLib::getOption(array(-1=>'---Chọn nhà cung cấp ----') + $arrNCC, $dataSave['provider_id']);
-        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $arrCateShop,$dataSave['category_id']);
+        $optionCategory = FunctionLib::getOption(array(-1=>'---Chọn danh mục----') + $this->arrCateShop,$dataSave['category_id']);
         $optionStatusProduct = FunctionLib::getOption($this->arrStatusProduct,$dataSave['product_status']);
         $optionTypePrice = FunctionLib::getOption($this->arrTypePrice,$dataSave['product_type_price']);
         $optionTypeProduct = FunctionLib::getOption($this->arrTypeProduct,$dataSave['product_is_hot']);

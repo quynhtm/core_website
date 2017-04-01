@@ -183,7 +183,11 @@ class Product extends Eloquent
                 $query->orderByRaw(DB::raw("FIELD(product_id, ".trim($dataSearch['str_product_id'])." )"));
 
             }else{
-                $query->orderBy('product_id', 'desc');
+                $orderBy = 'desc';
+                if(isset($dataSearch['orderBy']) && $dataSearch['orderBy'] !=''){
+                    $orderBy = $dataSearch['orderBy'];
+                }
+                $query->orderBy('product_id', $orderBy);
             }
 
             $total = $query->count();
