@@ -52,17 +52,18 @@ return array(
 			'prefix'   => '',
 		),
 
-//in server
-//		'mysql' => array(
-//			'driver'    => 'mysql',
-//			'host'      => '103.56.157.141',
-//			'database'  => 'database_server',
-//			'username'  => 'username',
-//			'password'  => '123456789',
-//			'charset'   => 'utf8',
-//			'collation' => 'utf8_unicode_ci',
-//			'prefix'    => '',
-//		),
+/*in server
+		'mysql' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'shopcuat_db',
+			'username'  => 'shopcuat_db',
+			'password'  => '#Gfss623',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
+*/
 
 //localhost:
         'mysql' => array(
