@@ -52,7 +52,8 @@ class SiteHomeController extends BaseSiteController
         //Menu category
         $dataCategory = Category::getCategoriessAll();
         $arrCategory = $this->getTreeCategory($dataCategory);
-        
+
+
         //Slider
         $arrSlider = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_BIG, CGlobal::BANNER_PAGE_HOME, 0, 0);
         $arrSliderRight1 = FunctionLib::getBannerAdvanced(CGlobal::BANNER_TYPE_HOME_RIGHT_1, CGlobal::BANNER_PAGE_HOME, 0, 0);
